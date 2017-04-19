@@ -1,0 +1,489 @@
+# git plugins {{{1
+# idanarye/vim-merginal {{{2
+[[plugins]]
+repo = 'idanarye/vim-merginal'
+
+# tpope/vim-fugitive {{{2
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# cohama/agit.vim {{{2
+[[plugins]]
+repo = 'cohama/agit.vim'
+# airblade/vim-gitgutter {{{2
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+	let g:gitgutter_sign_added = '+'
+	let g:gitgutter_sign_modified = '~'
+	let g:gitgutter_sign_removed = '-'
+	let g:gitgutter_sign_modified_removed = '~-'
+  let g:gitgutter_map_keys = 0
+	let g:gitgutter_enabled = 1
+	let g:gitgutter_signs = 1
+	let g:gitgutter_highlight_lines = 0
+	let g:gitgutter_realtime = 0
+	let g:gitgutter_eager = 0
+	let g:gitgutter_async = 1
+'''
+
+
+# rhysd/committia.vim {{{2
+[[plugins]]
+repo = 'rhysd/committia.vim'
+hook_add = '''
+let g:committia_open_only_vim_starting = 1
+let g:committia_hooks = {}
+function! g:committia_hooks.edit_open(info)
+	nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
+	nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
+endfunction
+'''
+
+#}}}1
+
+# operator plugins {{{1
+# kana/vim-operator-user {{{2
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+# kana/vim-operator-replace {{{2
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+hook_add = '''
+	map R <Plug>(operator-replace)
+'''
+
+# rhysd/vim-operator-surround {{{2
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+hook_add = '''
+	map s <Nop>
+	map <silent>sa <Plug>(operator-surround-append)
+	map <silent>sd <Plug>(operator-surround-delete)
+	map <silent>sr <Plug>(operator-surround-replace)
+	" saiws
+	" sda'
+	" sra'"
+
+
+	let g:operator#surround#blocks = {
+	\   '-' : [
+	\       { 'block' : ['(', ')'], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['b'] },
+	\       { 'block' : ['{', '}'], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
+	\       { 'block' : ["'", "'"], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['s'] },
+	\       { 'block' : ['"', '"'], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['d'] },
+	\   ]
+	\ }
+'''
+
+# t9md/vim-textmanip {{{2
+[[plugins]]
+repo = 't9md/vim-textmanip'
+hook_add = '''
+	xmap <Space>d <Plug>(textmanip-duplicate-down)
+	nmap <Space>d <Plug>(textmanip-duplicate-down)
+	xmap <Space>D <Plug>(textmanip-duplicate-up)
+	nmap <Space>D <Plug>(textmanip-duplicate-up)
+
+	vmap <C-j> <Plug>(textmanip-move-down)
+	vmap <C-k> <Plug>(textmanip-move-up)
+	" toggle insert/replace with <F10>
+	nmap <F10> <Plug>(textmanip-toggle-mode)
+	xmap <F10> <Plug>(textmanip-toggle-mode)
+'''
+
+# terryma/vim-multiple-cursors {{{2
+[[plugins]]
+repo = 'terryma/vim-multiple-cursors'
+hook_add = '''
+	let g:multi_cursor_next_key='<C-j>'
+	let g:multi_cursor_prev_key='<C-k>'
+	let g:multi_cursor_skip_key='<C-x>'
+	let g:multi_cursor_quit_key='<ESC>'
+  let g:multi_cursor_start_key='<C-s>'
+	let g:multi_cursor_exit_from_insert_mode = 0
+	let g:multi_cursor_exit_from_visual_mode = 0
+'''
+
+[[plugins]]
+repo = 'paradigm/vim-multicursor'
+
+
+# }}}1
+
+# plugins {{{1
+# Shougo/dein.vim {{{2
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# w0ng/vim-hybrid {{{2
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+# kana/vim-submode {{{2
+[[plugins]]
+repo = 'kana/vim-submode'
+
+# tyru/open-browser.vim {{{2
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+# cocopon/vaffle.vim {{{2
+[[plugins]]
+repo = 'cocopon/vaffle.vim'
+
+# bronson/vim-visual-star-search {{{2
+[[plugins]]
+repo = 'bronson/vim-visual-star-search'
+
+# majutsushi/tagbar {{{2
+[[plugins]]
+repo = 'majutsushi/tagbar'
+hook_add = '''
+  let g:tagbar_previewwin_pos = "rightbelow"
+  let g:tagbar_autopreview = 1
+  let g:tagbar_iconchars = ['▸', '▾']
+'''
+
+# tomtom/tcomment_vim {{{2
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+
+# djoshea/vim-autoread {{{2
+[[plugins]]
+repo = 'djoshea/vim-autoread'
+
+# Yggdroot/indentLine {{{2
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+hook_add = '''
+	let g:indentLine_faster = 1
+'''
+
+# thinca/vim-qfreplace {{{2
+[[plugins]]
+repo = 'thinca/vim-qfreplace'
+
+# vim-scripts/MultipleSearch {{{2
+[[plugins]]
+repo = 'vim-scripts/MultipleSearch'
+
+# osyo-manga/vim-over {{{2
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+
+# itchyny/vim-cursorword {{{2
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
+# vim-scripts/L9 {{{2
+[[plugins]]
+repo = 'vim-scripts/L9'
+
+# easymotion/vim-easymotion {{{2
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+let g:EasyMotion_do_mapping = 0
+map f <Plug>(easymotion-bd-fl)
+map t <Plug>(easymotion-bd-tl)
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_space_jump_first = 1
+nmap <SPACE>jj <Plug>(easymotion-s2)
+nmap <SPACE>jg <Plug>(easymotion-sn)
+omap <SPACE>jg <Plug>(easymotion-tn)
+'''
+
+# scrooloose/nerdtree {{{2
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeMapActivateNode = 'l'
+let g:NERDTreeMapOpenRecursively = 'L'
+let g:NERDTreeMapUpdir = 'h'
+let g:NERDTreeMapUpdirKeepOpen = 'H'
+let g:NERDTreeMapOpenSplit = 's'
+let g:NERDTreeMapOpenVSplit = 'v'
+let g:NERDTreeMapToggleHideen = '.'
+'''
+
+# mhinz/vim-startify {{{2
+[[plugins]]
+repo = 'mhinz/vim-startify'
+hook_add = '''
+let g:startify_files_number = 5
+let g:startify_custom_indices = ['a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's']
+let g:startify_list_order = [
+	\ ['Sessions:'],
+	\ 'sessions',
+	\ ['Bookmarks:'],
+	\ 'bookmarks',
+	\ ['Recentry open files:'],
+	\ 'files',
+	\ ['Recentry open files in dir:'],
+	\ 'dir',
+	\ ]
+
+
+let g:startify_session_sort = 0
+
+let g:startify_session_before_save = [
+	\ 'echo "Cleaning up before saving..."',
+	\ 'silent! NERDTreeClose'
+	\ ]
+
+function! s:filter_header(lines) abort
+    let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
+    let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+    return centered_lines
+endfunction
+
+let g:startify_custom_header = [
+\"::Y　　　　　　　 ／　　　　　　 　　 　 　. : : : rﾌ\'ｺ　　　　　　　. : : : ＼ 　 ,r:^>:\'＾::.::.::.::.::ノ",
+\"::.::ヽi^:ヽ 　　／　　　　　　　 　. . : : : : : : : ＿　＿ 　 　 　 　 　 . : : : :ヽ _ｧ\'::.::.::.::.::.::／",
+\"::.::.::.::. ^く､_/　　　　　　　. : : : :_,｡-‐\' ﾞﾌ 1　　　　　\'i^ヾ‐=､　　 　 . . : : :ﾍ::.::.::.;｡‐\'^",
+\"｀丶､::.::.::.::.::.:7　　　　 . : : :,．\'ﾞ　j1　 ./　 l　　　　　 1　ヽ.　 l丶、　　 . : : :Y\'^´",
+\"　　　￣/\'ー\'’ 　 　 . : :／　　 _,ﾚ{‐ /　　１　　　　　1　´\'､ヽﾄ　 ＼ 　 . : : :ﾍ",
+\"　　 　 /　　 　 　 . : :r\'　　　　./　I /　　　 、　　　　.|　　 ヽ.}　、　;ﾍ、　 : : :1",
+\"　　　 .\'　　　　　. : :/　　　 j\' /　　V　　　　:､　 .∧　}　　　 ﾞ!　ﾍ .ﾉ　ヽ. 　. : :l",
+\".　　　i　 　 　 . : .:/　　 　 .{/　　　　　　　　 \'、/　ヽj　　 ＿　　∨ヽ　 i、　.: :l",
+\"　　　.!　　　　. : :j7　　　　1　,.ｒｆF三ミk　　　 \'ﾞ　　 　 rシ=ヾ三k:、 \'、 ﾘ 　 : :!",
+\"　 　.j!　　　 . : : :{j　　　　 |ｨｼﾟ\'＾´　､ ､　　　　　\'　　　　　 ､ ､ 、｀ 　 i　{　　. :|",
+\"　 　.l　 　　 : : : :ﾘ　　　　 | ヽヽヽヽヽヽ　　　　　　 　 　 ヽヽヽヽ｀　 }　!　 . : !　　　ぬへへ～Vimmmm...",
+\".　 　!　 　 . : : : :｜　　　　i　　　　　　　　　 　 　 　 　 　 　 　 　 　 .\'　1　. : :|",
+\"　　 j!　　. : : : : : :l　　　　｜　　　　　　r\'\'\'　ー--‐ \'\'\'^｀l　　　　　　 /　 .!　. : :1",
+\"　　 j　　　. : : : : :1　 　 　 !　 　 　 　　i、　　　　　　 ./　　 　 　 ノ\'　　.}　. : : !",
+\"　　 |　 　 . : : : : :ﾊ　 　 　 ト.、　　　　　｀\'ー-　　　 \'’　　 　 ．\'^} 　 　 l　. : : :、",
+\"　　 }　　 . : : : : : : ﾍ　　 　 {:　｀\' ‐. ､.,＿　　 　 　 　 _,.。　\'´ . : :j　　,ｨ7　 . : : \'、",
+\"　　 !　　. . : : : : : : :ヽ{\':、　 1: : .　　 　 . : :￣＞‐¨\'^　　　　 . : :7　./.:ﾘ　　. : : :1",
+\". 　 j　　　　. : : : : : : :ヽ:ヽ,　1: : .　 　 . : : /´ : r\'^\'ヽ::-..､　. . : :/ノﾞ　　 　 . . : : :}",
+\ ]
+let g:startify_change_to_dir = 1
+'''
+
+# LeafCage/yankround.vim {{{2
+[[plugins]]
+repo = 'LeafCage/yankround.vim'
+hook_add = '''
+	nmap p <Plug>(yankround-p)
+	nmap P <Plug>(yankround-P)
+	nmap <C-k> <Plug>(yankround-prev)
+	nmap <C-j> <Plug>(yankround-next)
+	let g:yankround_max_history = 10
+	let g:yankround_use_region_hl = 1
+'''
+
+# kana/vim-smartinput {{{2
+[[plugins]]
+repo = 'kana/vim-smartinput'
+hook_add = '''
+call smartinput#define_rule({
+\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
+\   'char'     : '(',
+\   'input'    : '():<Left><Left>',
+\   'filetype' : ['python'],
+\   })
+" が、すでに:がある場合は重複させない. (smartinputでは、atの定義が長いほど適用の優先度が高くなる)
+call smartinput#define_rule({
+\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#.*:',
+\   'char'     : '(',
+\   'input'    : '()<Left>',
+\   'filetype' : ['python'],
+\   })
+'''
+
+# LeafCage/foldCC.vim {{{2
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+hook_add = '''
+	let g:foldCCtext_maxchars = 79
+	let g:foldCCtext_head = 'v:folddashes . " "'
+	let g:foldCCtext_tail = 'printf("   %s [ %4d lines ]",
+	\ v:folddashes, v:foldend-v:foldstart+1)'
+	let g:foldCCnavi_maxchars = 60
+	" let g:foldCCtext_enable_autofdc_adjuster = 1
+'''
+
+# vim-scripts/FuzzyFinder {{{2
+[[plugins]]
+repo = 'vim-scripts/FuzzyFinder'
+hook_add = '''
+	let g:fuf_modesDisable = []
+	let g:fuf_keyNextMode = '<Nop>'
+	let g:fuf_keyPrevMode = '<Nop>'
+	let g:fuf_keySwitchMatching = '<Nop>'
+	let g:fuf_keyOpenTabpage = '<C-t>'
+  let g:fuf_keyPrevPattern = '<Nop>'
+	let g:fuf_keyOpenSplit = '<C-s>'
+	let g:fuf_keyOpenVsplit = '<C-v>'
+	let g:fuf_buffer_keyDelete = '<C-]>'
+	let g:fuf_bookmarkfile_keyDelete = '<C-]>'
+	let g:fuf_bookmarkdir_keyDelete = '<C-]>'
+'''
+
+# itchyny/lightline.vim {{{2
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+	let g:lightline = {
+		\'colorscheme': 'wombat'
+		\}
+
+let g:lightline.tabline = {
+	\ 'left': [ [ 'tabs' ] ],
+	\ 'right': [ [ 'close' ] ] }
+
+let g:lightline.component_expand = {
+      \ 'tabs': 'lightline#tabs'}
+let g:lightline.component_type = {
+      \ 'tabs': 'tabsel'}
+
+let g:lightline = {
+	\ 'colorscheme': 'wombat',
+	\ 'mode_map': {'c': 'NORMAL'},
+	\ 'active': {
+	\   'left': [
+	\     ['mode', 'paste'],
+	\     ['fugitive', 'gitgutter'],
+	\     ['readonly', 'filename'],
+	\   ],
+	\   'right': [
+	\			['percent'],
+	\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+	\			['ale'],
+	\   ]
+	\ },
+	\ 'component_function': {
+	\   'modified': 'MyModified',
+	\   'fugitive': 'MyFugitive',
+	\   'filename': 'MyFilename',
+	\   'lineinfo': 'MyLineInfo',
+	\   'percent': 'MyPercent',
+	\   'fileformat': 'MyFileformat',
+	\   'filetype': 'MyFiletype',
+	\   'fileencoding': 'MyFileencoding',
+	\   'mode': 'MyMode',
+	\   'gitgutter': 'MyGitGutter',
+	\		'ale': 'AleStatus',
+	\ },
+	\ 'component_expand': {
+	\		'readonly': 'MyReadonly',
+	\ },
+	\ 'component_type': {
+	\		'readonly': 'error',
+	\ },
+\ }
+
+function! AleStatus()
+	if has('nvim')
+		return ale#statusline#Status()
+	endif
+	return ''
+endfunction
+
+function! MyLineInfo()
+  return line('.') . ':' . virtcol('.')
+endfunction
+
+function! MyPercent()
+	return 'L' . line('$') . ':R' . virtcol('$')
+endfunction
+
+function! MyModified()
+  return &ft =~ 'help\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|gundo' && &ro ? 'Readonly' : ''
+endfunction
+
+function! MyFilename()
+  return (&ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
+        \ '' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : winwidth(0) > 50 ? expand('%:t') : '' : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
+      return ' ' . fugitive#head()
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyGitGutter()
+  if ! exists('*GitGutterGetHunkSummary')
+        \ || ! get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth(0) <= 110
+    return ''
+  endif
+  let symbols = [
+        \ '+',
+        \ '~',
+        \ '-'
+        \ ]
+  let hunks = GitGutterGetHunkSummary()
+  let ret = []
+  for i in [0, 1, 2]
+    if hunks[i] > 0
+      call add(ret, symbols[i] . hunks[i])
+    endif
+  endfor
+  return join(ret, ' ')
+endfunction
+
+function! MyFileformat()
+  return winwidth('.') > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth('.') > 30 ? lightline#mode() : ''
+endfunction
+'''
+
+# scrooloose/nerdcommenter {{{2
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+hook_add = '''
+	let g:NERDCommentEmptyLines = 1
+	let g:NERDTrimTrailingWhitespace = 1
+	let g:NERDSpaceDelims = 1
+	let g:NERDCompactSexyComs = 1
+	let g:NERDDefaultAlign = 'left'
+'''
+
+# junegunn/vim-easy-align {{{2
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_add = '''
+	xmap ga <Plug>(EasyAlign)
+'''
+
+# haya14busa/vim-migemo # {{{2
+# yaourt cmigemo
+[[plugins]]
+repo = 'haya14busa/vim-migemo'
+
+# schickling/vim-bufonly # {{{2
+[[plugins]]
+repo = 'schickling/vim-bufonly'
+
+# terryma/vim-expand-region # {{{2
+[[plugins]]
+repo = 'terryma/vim-expand-region'
+#}}}1
