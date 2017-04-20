@@ -487,3 +487,6 @@ repo = 'schickling/vim-bufonly'
 [[plugins]]
 repo = 'terryma/vim-expand-region'
 #}}}1
+
+[[plugins]]
+repo = 'fuenor/qfixhowm'
