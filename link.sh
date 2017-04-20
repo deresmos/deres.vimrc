@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-script_dir=$(dirname $(readlink -f $0))
+script_dir=$(pwd $(cd $(readlink $0)))
 
 # vim/deinディレクトリ作成
 if [ ! -d $HOME/.config/vim/dein ]; then
