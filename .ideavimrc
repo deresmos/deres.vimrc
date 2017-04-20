@@ -1,0 +1,62 @@
+" settings {{{1
+set ignorecase
+
+set incsearch
+set hlsearch
+set showmatch
+set ignorecase
+set smartcase
+
+noremap x "_x
+
+set clipboard^=unnamedplus
+
+set splitbelow
+set splitright
+
+
+" keybind {{{1
+inoremap fd <ESC>
+vnoremap fd <ESC>
+
+nnoremap <silent> <tab> >>
+nnoremap <silent> <S-tab> <<
+vnoremap <silent> <tab> >gv
+vnoremap <silent> <S-tab> <gv
+
+nnoremap <silent> <SPACE>th gT
+nnoremap <silent> <SPACE>tl gt
+
+nnoremap <silent> <SPACE>ws :split<CR>
+nnoremap <silent> <SPACE>wv :vsplit<CR>
+nnoremap <silent> <SPACE>wd :close<CR>
+nnoremap <silent> <SPACE>wD <c-w>j:close<CR>
+
+nmap <SPACE>wl <c-w>l
+nmap <SPACE>wh <c-w>h
+nmap <SPACE>wj <c-w>j
+nmap <SPACE>wk <c-w>k
+
+nnoremap <SPACE>vo zo
+nnoremap <SPACE>vO zO
+nnoremap <SPACE>vc zc
+nnoremap <SPACE>vC zC
+
+" action list {{{1
+
+nnoremap <SPACE>mrn :action RenameElement<CR>
+nnoremap <SPACE>mgd :action GotoDeclaration<CR>
+nnoremap <SPACE>mgg :action GotoImplementation<CR>
+nnoremap <SPACE>mu :action ShowUsages<CR>
+ 
+nnoremap <SPACE>ff :action GotoFile<CR>
+nnoremap <SPACE>gc :action GotoClass<CR>
+nnoremap <SPACE>qi :action QuickImplementations<CR>
+nnoremap <SPACE>m= :action ReformatCode<CR>
+nnoremap <SPACE><SPACE> :action GotoAction<CR>
+
+" idea keymap {{{1
+" Enter C-m
+" Backspace C-h
+" Down C-j
+" Up C-k
