@@ -487,6 +487,7 @@ repo = 'schickling/vim-bufonly'
 [[plugins]]
 repo = 'terryma/vim-expand-region'
 
+# qpkorr/vim-renamer {{{2
 [[plugins]]
 repo = 'qpkorr/vim-renamer'
 
