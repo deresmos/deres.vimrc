@@ -431,6 +431,8 @@ nnoremap <silent> <SPACE>re :noh<CR>:SearchBuffersReset<CR>
 " nnoremap <silent> <SPACE>rp :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap <SPACE>rp :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> <SPACE>rv :silent! loadview<CR>
+nnoremap <silent> <SPACE>rn :Renamer<CR>
+nnoremap <silent> <SPACE>rs :Ren<CR>
 
 "j keybind {{{2
 nnoremap <silent> <Space>jv :Vaffle<CR>
