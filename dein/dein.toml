@@ -490,3 +490,12 @@ repo = 'terryma/vim-expand-region'
 
 [[plugins]]
 repo = 'fuenor/qfixhowm'
+hook_add = '''
+	let g:howm_fileencoding = 'utf-8'
+	let g:howm_fileformat = 'unix'
+	let g:QFixHowm_CalendarWinCmd = 'rightbelow'
+	let g:QFixHowm_RootDir = '~/.howm'
+	let g:howm_dir = g:QFixHowm_RootDir . '/main'
+	command! -nargs=1 HowmDir let g:howm_dir = QFixHowm_RootDir.'/'.<q-args>|ech
+	let g:QFixHowm_RecentMode = 2
+'''
