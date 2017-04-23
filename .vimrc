@@ -429,11 +429,22 @@ nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo.txt')<CR>
 nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule.txt')<CR>
 nnoremap <silent> <SPACE>hid :call qfixmemo#InsertDate("date")<CR>
 nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate("time")<CR>
-nnoremap <silent> <SPACE>hrr :call qfixmemo#ListMru()<CR>
-nnoremap <silent> <SPACE>hrt :call qfixmemo#ListReminder("todo")<CR>
-nnoremap <silent> <SPACE>hrs :call qfixmemo#ListReminder("schedule")<CR>
+nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
+nnoremap <silent> <SPACE>hlt :call qfixmemo#ListReminder('todo')<CR>
+nnoremap <silent> <SPACE>hls :call qfixmemo#ListReminder('schedule')<CR>
 nnoremap <SPACE>hpw :HowmDir work<CR>
 nnoremap <SPACE>hpm :HowmDir main<CR>
+nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
+nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
+
+function s:pullHowm() " {{{
+	execute '!cd ~/.howm && git pull'
+endfunction
+" }}}
+function s:pushHowm() " {{{
+	execute '!cd ~/.howm && git add . && git commit -m "commit" && git push'
+endfunction
+" }}}
 
 "r keybind {{{2
 nnoremap <silent> <SPACE>re :noh<CR>:SearchBuffersReset<CR>

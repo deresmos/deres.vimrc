@@ -148,9 +148,20 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC s C      | 現在のセッションを閉じて終了 | SClose and q |
 
 ### h
-| キーバインド | 説明   | 実行コマンド |
-| :--          | :--    | :--          |
-| SPC h p      | ヘルプ | help         |
+| キーバインド | 説明                   | 実行コマンド                            |
+| :--          | :--                    | :--                                     |
+| SPC h c      | カレンダー表示         | call qficmemo#Calendar()                |
+| SPC h m      | メモファイルを開く     | call qfixmemo#EditDiary('memo.txt')     |
+| SPC h s      | 予定ファイルを開く     | call qfixmemo#EditDiary('schedule.txt') |
+| SPC h i d    | 日付を挿入             | call qfixmemo#InsertDate('date')        |
+| SPC h i t    | 日時を挿入             | call qfixmemo#InsertDate('time')        |
+| SPC h l r    | 最近開いたファイル表示 | call qfixmemo#ListMru()                 |
+| SPC h l t    | TODOを表示             | call qfixmemo#ListReminder('todo')      |
+| SPC h l t    | 予定を表示             | call qfixmemo#ListReminder('schedule')  |
+| SPC h p w    | howm仕事モードに変更   | HowmDir work                            |
+| SPC h p m    | howmメインモードに変更 | HowmDir main                            |
+| SPC h p d    | howm git pull実行      | call pullHowm()                         |
+| SPC h p u    | howm git push実行      | call pushHowm()                         |
 
 ### r 
 | キーバインド | 説明                       | 実行コマンド       |
@@ -183,10 +194,10 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC o b      | 指定単語をブラウザで検索する | openbrowser-smart-search |
 
 ### u
-| キーバインド | 説明                   | 実行コマンド        |
-| :--          | :--                    | :--                 |
-| SPC u p      | アップデートなんちゃら | UpdateRemotePlugins |
-| SPC U p      | パッケージのアップデート | call dein#update() |
+| キーバインド | 説明                     | 実行コマンド        |
+| :--          | :--                      | :--                 |
+| SPC u p      | アップデートなんちゃら   | UpdateRemotePlugins |
+| SPC U p      | パッケージのアップデート | call dein#update()  |
 
 ### Neovim
 | キーバインド | 説明                                     | 実行コマンド    |
