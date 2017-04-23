@@ -43,6 +43,24 @@ hook_source = '''
 	 \ '<C-e>',
 	 \ '<denite:move_caret_to_tail>',
 	 \ 'noremap')
+
+	call denite#custom#map(
+	 \ 'insert',
+	 \ '<C-t>',
+	 \ '<denite:do_action:tabopen>',
+	 \ 'noremap')
+
+	call denite#custom#map(
+	 \ 'insert',
+	 \ '<C-s>',
+	 \ '<denite:do_action:split>',
+	 \ 'noremap')
+
+	call denite#custom#map(
+	 \ 'insert',
+	 \ '<C-v>',
+	 \ '<denite:do_action:vsplit>',
+	 \ 'noremap')
 " }}}
 
 " custom color {{{
