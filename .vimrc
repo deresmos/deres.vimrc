@@ -282,6 +282,7 @@ nnoremap <silent> <SPACE>bq :qa<CR>
 nnoremap <silent> <SPACE>bo :BufOnly<CR>
 nnoremap <silent> <SPACE>bn :bn<CR>
 nnoremap <silent> <SPACE>bN :bp<CR>
+nnoremap <silent> <SPACE><tab> :b #<CR>
 
 "p keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
