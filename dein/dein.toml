@@ -62,10 +62,6 @@ hook_add = '''
 	map <silent>sa <Plug>(operator-surround-append)
 	map <silent>sd <Plug>(operator-surround-delete)
 	map <silent>sr <Plug>(operator-surround-replace)
-	" saiws
-	" sda'
-	" sra'"
-
 
 	let g:operator#surround#blocks = {
 	\   '-' : [
@@ -491,8 +487,7 @@ repo = 'terryma/vim-expand-region'
 [[plugins]]
 repo = 'qpkorr/vim-renamer'
 
-#}}}1
-
+# fuenor/qfixhowm
 [[plugins]]
 repo = 'fuenor/qfixhowm'
 hook_add = '''
@@ -504,3 +499,5 @@ hook_add = '''
 	command! -nargs=1 HowmDir let g:howm_dir = QFixHowm_RootDir.'/'.<q-args>|ech
 	let g:QFixHowm_RecentMode = 2
 '''
+
+#}}}1
