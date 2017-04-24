@@ -251,6 +251,7 @@ nnoremap <silent> <tab> >>
 nnoremap <silent> <S-tab> <<
 vnoremap <silent> <tab> >gv
 vnoremap <silent> <S-tab> <gv
+nnoremap <C-i> <C-i>
 
 "f keybind {{{2
 nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>
