@@ -1,3 +1,4 @@
+" manual {{{1
 " Linux
 " install python3, lua
 " vim:
@@ -22,6 +23,7 @@
 
 " Common
 " If first startup, you must <SPACE>up
+" }}}
 
 if !1 | finish | endif
 
@@ -241,7 +243,8 @@ if has('nvim')
 endif
 "}}}1
 
-"space vim setting{{{1
+"space vim setting {{{1
+"normal keybind {{{2
 inoremap fd <ESC>
 vnoremap fd <ESC>
 inoremap <C-j> <C-n>
@@ -252,6 +255,16 @@ nnoremap <silent> <S-tab> <<
 vnoremap <silent> <tab> >gv
 vnoremap <silent> <S-tab> <gv
 nnoremap <C-i> <C-i>
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+noremap m %
+noremap <S-h> ^
+noremap <S-l> $
+noremap <S-j> }
+noremap <S-k> {
+nnoremap Q <Nop>
 
 "f keybind {{{2
 nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>
@@ -418,11 +431,6 @@ nnoremap <SPACE>sl :SLoad<Space>
 nnoremap <SPACE>sd :SDelete<Space>
 nnoremap <silent> <SPACE>sc :SClose<CR>
 nnoremap <silent> <SPACE>sC :SClose<CR>:q<CR>
-
-" saiw'
-" sda'
-" sra'"
-
 nmap <SPACE>sw :SearchBuffers<SPACE>
 
 "h keybind{{{2
