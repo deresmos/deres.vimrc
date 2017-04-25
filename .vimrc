@@ -481,6 +481,7 @@ map <SPACE>cx <plug>NERDCommenterAltDelims
 "o keybind {{{2
 map <SPACE>os <Plug>(openbrowser-smart-search)
 map <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
+map <silent> <SPACE>om :MarkdownPreview<CR>
 
 "u keybind {{{2
 map <silent> <SPACE>up :UpdateRemotePlugins<CR>
