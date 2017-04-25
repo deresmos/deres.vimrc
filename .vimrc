@@ -485,7 +485,7 @@ map <silent> <SPACE>om :MarkdownPreview<CR>
 
 "u keybind {{{2
 map <silent> <SPACE>up :UpdateRemotePlugins<CR>
-map <silent> <SPACE>Up :call dein#update()<CR>
+map <silent> <SPACE>uP :call dein#update()<CR>
 
 "nvim only keybind{{{2
 " nvim only key bind
