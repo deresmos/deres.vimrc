@@ -1,21 +1,44 @@
-# DereS vimrc
-## 概要
-日々進歩のvimrcです。
-まだベータ版です（書いてないこと多い
-自分の使いやすさ優先で設定してます。
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+		<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-まだまだ、使い切れていない機能とかありますが、徐々に埋めていきたい。
-「この設定のほうが良いよ」とか、「このプラグイン良いよ」とかあれば、
-是非是非教えてください。
+# DereS vimrc
+**目次**
+
+- [概要](#概要)
+- [使い方](#使い方)
+- [よく使うコマンド](#よく使うコマンド)
+- [ショートカットキー一覧](#ショートカットキー一覧)
+	- [F keybind](#f-keybind)
+	- [Q keybind](#q-keybind)
+	- [B keybind](#b-keybind)
+	- [P keybind](#p-keybind)
+	- [Y keybind](#y-keybind)
+	- [T keybind](#t-keybind)
+	- [W keybind](#w-keybind)
+	- [G keybind](#g-keybind)
+	- [S keybind](#s-keybind)
+	- [H keybind](#h-keybind)
+	- [R keybind](#r-keybind)
+	- [J keybind](#j-keybind)
+	- [C keybind](#c-keybind)
+	- [O keybind](#o-keybind)
+	- [U keybind](#u-keybind)
+	- [Neovim keybind](#neovim-keybind)
+- [プラグインショートカット](#プラグインショートカット)
+	- [NERDTree](#nerdtree)
+
+## 概要
+日々進歩のvim設定たちです。
+
+まだ、使い切れていない機能とかありますが、徐々に埋めていきたい。
 
 ## 使い方
 Linux, Macの方なら、link.sh実行させれば、使えるようになります。
-Vim, Neovimに対応しており、
-VimだとLuaや、
-Neovimだと、pythonなど必要なものが有りますが、
-後日記述します。(init.vimの最初の行にちょろっと書いてます)
+Vim, Neovimに対応してます。
+詳しい方法は、後日追記
 
-## よく使うショートカットキー一覧 
+## よく使うコマンド
 | キーバインド               | 説明                               |
 | :--                        | :--                                |
 | f d                        | i,vモード中にノーマルモードへ移行  |
@@ -40,8 +63,9 @@ Neovimだと、pythonなど必要なものが有りますが、
 | s a [s/d/b/B]              | 選択した部分を[''/""/()/{}]で囲む  |
 | s r a ' "                  | ''で囲まれた部分を"aaa"に変更      |
 
-## ショートカットキー一覧 
-### f 
+## ショートカットキー一覧
+
+### F keybind
 | キーバインド | 説明                                  | 実行コマンド                                 |
 | :--          | :--                                   | :--                                          |
 | SPC f f      | 現在階層でファインダー表示            | FufFileWithCurrentBufferDir                  |
@@ -59,13 +83,13 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC f b f    | ブックマークされたファイルを表示      | FufBookmarkFile                              |
 | SPC f b d    | ブックマークされたディレクトリを表示  | FufBookmarkDir                               |
 
-### q
+### Q keybind
 | キーバインド | 説明           | 実行コマンド |
 | :--          | ---            | :--          |
 | SPC q q      | 閉じる         | q            |
 | SPC q Q      | 強制的に閉じる | q!           |
 
-### b
+### B keybind
 | キーバインド | 説明                       | 実行コマンド       |
 | :--          | :--                        | :--                |
 | SPC b b      | バッファリストを表示       | Denite buffer      |
@@ -77,19 +101,19 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC b N      | 前のバッファに移動         | bp                 |
 | SPC TAB      | １つ前のバッファと切り替え | b #                |
 
-### p
+### P keybind
 | キーバインド | 説明                                                | 実行コマンド                                  |
 | :--          | :--                                                 | :--                                           |
 | SPC p f      | 検知されたルートディレクトリのファイルリストを表示  | DeniteProjectDir file_rec                     |
 | SPC p g      | 検知されたルートディレクトリに対してgrep            | DeniteProjectDir grep                         |
 | SPC p G      | 検知されたルートディレクトリに対してgrep (tab open) | DeniteProjectDir grep -default-action=tabopen |
 
-### y
+### Y keybind
 | キーバインド | 説明               | 実行コマンド   |
 | :--          | :--                | :--            |
 | SPC y l      | ヤンクリストを表示 | Denite neoyank |
 
-### t
+### T keybind
 | キーバインド | 説明                         | 実行コマンド       |
 | :--          | :--                          | :--                |
 | SPC t c      | 新規にタブを作成             | tabnew             |
@@ -107,7 +131,7 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC t f      | ファイルツリーを表示         | NERDTreeToggle     |
 | SPC t n      | 行番号の表示トグル           | LineNumberToggle() |
 
-### w
+### W keybind
 | キーバインド | 説明                              | 実行コマンド       |
 | :--          | :--                               | :--                |
 | SPC w s      | 下に画面分割                      | split              |
@@ -127,7 +151,7 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC w c c    | l,h,j,kで画面の大きさ変更         | submodeで設定      |
 | SPC w =      | 全ウィンドウを同一に              | &lt;C-w&gt;=       |
 
-### g
+### G keybind
 | キーバインド | 説明                           | 実行コマンド                  |
 | :--          | :--                            | :--                           |
 | SPC g s      | Git status実行                 | Gstatus                       |
@@ -145,7 +169,7 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC g t t    | 左の差分表示トグル             | GitGutterToggle               |
 | SPC g t l    | 差分箇所の行をハイライト       | GitGutterLineHighlightsToggle |
 
-### s
+### S keybind
 | キーバインド | 説明                         | 実行コマンド |
 | :--          | :--                          | :--          |
 | SPC s s      | 現在のセッションを保存       | SSave        |
@@ -154,7 +178,7 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC s c      | 現在のセッションを閉じる     | SClose       |
 | SPC s C      | 現在のセッションを閉じて終了 | SClose and q |
 
-### h
+### H keybind
 | キーバインド | 説明                   | 実行コマンド                            |
 | :--          | :--                    | :--                                     |
 | SPC h c      | カレンダー表示         | call qficmemo#Calendar()                |
@@ -170,20 +194,20 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC h p d    | howm git pull実行      | call pullHowm()                         |
 | SPC h p u    | howm git push実行      | call pushHowm()                         |
 
-### r 
+### R keybind
 | キーバインド | 説明                       | 実行コマンド       |
 | :--          | :--                        | :--                |
 | SPC r e      | 検索のハイライトをリセット | SearchBuffersReset |
 | SPC r p      | 文字列インタラクティブ置換 | OverCommandLine    |
 | SPC r v      | loadview                   | loadview           |
 
-### j
+### J keybind
 | キーバインド | 説明                   | 実行コマンド |
 | :--          | :--                    | :--          |
 | SPC j v      | ディレクトリツリー表示 | Vaffle       |
 | SPC j s      | スタート画面表示       | Startify     |
 
-### c
+### C keybind
 | キーバインド | 説明                               | 実行コマンド           |
 | :--          | :--                                | :--                    |
 | SPC c n      |                                    | NERDCommenterNested    |
@@ -195,19 +219,19 @@ Neovimだと、pythonなど必要なものが有りますが、
 | SPC c A      | 末尾にコメントアウト追加           | NERDCommenterAppend    |
 | SPC c x      | ディレクトリツリー表示             | NERDCommenterAltDelims |
 
-### o
+### O keybind
 | キーバインド | 説明                         | 実行コマンド                            |
 | :--          | :--                          | :--                                     |
 | SPC o s      | 指定単語をブラウザで検索する | openbrowser-smart-search                |
 | SPC o b      | ブラウザで開く               | execute "OpenBrowser" expand("%:p")<CR> |
 
-### u
+### U keybind
 | キーバインド | 説明                     | 実行コマンド        |
 | :--          | :--                      | :--                 |
 | SPC u p      | アップデートなんちゃら   | UpdateRemotePlugins |
 | SPC U p      | パッケージのアップデート | call dein#update()  |
 
-### Neovim
+### Neovim keybind
 | キーバインド | 説明                                     | 実行コマンド    |
 | :--          | :--                                      | :--             |
 | SPC m =      | 自動でフォーマットを整える               | Autoformat      |
