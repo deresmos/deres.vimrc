@@ -250,10 +250,11 @@ vnoremap fd <ESC>
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
-nnoremap <silent> <tab> >>
-nnoremap <silent> <S-tab> <<
-vnoremap <silent> <tab> >gv
-vnoremap <silent> <S-tab> <gv
+" not work tab??
+nnoremap <TAB> >>
+nnoremap <S-TAB> <<
+vnoremap <TAB> >gv
+vnoremap <S-TAB> <gv
 nnoremap <C-i> <C-i>
 nnoremap j gj
 nnoremap k gk
@@ -264,7 +265,13 @@ noremap <S-h> ^
 noremap <S-l> $
 noremap <S-j> }
 noremap <S-k> {
+noremap } <S-j>
+noremap { <S-k>
 nnoremap Q <Nop>
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
 
 "f keybind {{{2
 nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>

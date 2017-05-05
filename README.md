@@ -195,11 +195,13 @@ Vim, Neovimに対応してます。
 | SPC h p u    | howm git push実行      | call pushHowm()                         |
 
 ### R keybind
-| キーバインド | 説明                       | 実行コマンド       |
-| :--          | :--                        | :--                |
-| SPC r e      | 検索のハイライトをリセット | SearchBuffersReset |
-| SPC r p      | 文字列インタラクティブ置換 | OverCommandLine    |
-| SPC r v      | loadview                   | loadview           |
+| キーバインド | 説明                                  | 実行コマンド       |
+| :--          | :--                                   | :--                |
+| SPC r e      | 検索のハイライトをリセット            | SearchBuffersReset |
+| SPC r p      | 文字列インタラクティブ置換            | OverCommandLine    |
+| SPC r v      | loadview                              | loadview           |
+| SPC r n      | ファイル名をvim操作で編集             | Renamer            |
+| SPC r s      | Renamerで編集したファイル名に変更する | Ren                |
 
 ### J keybind
 | キーバインド | 説明                   | 実行コマンド |
