@@ -112,6 +112,7 @@ set softtabstop=2
 set autoindent
 " set smartindent
 set cursorline
+set colorcolumn=80
 
 noremap x "_x
 set showcmd
@@ -391,8 +392,8 @@ nnoremap <SPACE>gl :Agit<CR>
 nnoremap <SPACE>gf :AgitFile<CR>
 
 " gitgutter keybind
-nmap <SPACE>gk <Plug>GitGutterPrevHunk
-nmap <silent> <SPACE>gj <Plug>GitGutterNextHunk
+nmap <SPACE>gk <Plug>GitGutterPrevHunkzz
+nmap <silent> <SPACE>gj <Plug>GitGutterNextHunkzz
 nmap <silent> <SPACE>gp <Plug>GitGutterPreviewHunk
 nnoremap <silent> <SPACE>gtt :GitGutterToggle<CR>
 nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
