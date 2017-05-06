@@ -83,13 +83,14 @@ endif
 let s:menus = {}
 let s:menus.zsh = { 'description': 'zsh configuration' }
 let s:menus.zsh.file_candidates = [
-\ ['zshrc', '~/.zshrc'], ['zplug', '~/.init.zplug']]
+\ ['zshrc', '~/.zshrc']]
 let s:menus.my_commands = { 'description': 'my commands' }
 let s:menus.my_commands.command_candidates = [
 \ ['Split the window', 'vnew'], ['Open zsh menu', 'Denite menu:zsh']]
 call denite#custom#var('menu', 'menus', s:menus)
 '''
-# }}}1
+
+# }}}1 END common plugins
 
 # neovim plugins {{{1
 # Shougo/deoplete.nvim {{{2
@@ -103,6 +104,7 @@ hook_source = '''
 	let g:deoplete#enable_ignore_case = 1
 	let g:deoplete#enable_smart_case = 1
 '''
+
 # szw/vim-tags {{{2
 [[plugins]]
 repo = 'szw/vim-tags'
@@ -111,12 +113,7 @@ hook_source = '''
 	set tags=./tags;
 '''
 
-
-# npm install csslint jshint
-# pip instal flake8
 # w0rp/ale {{{2
-# npm install -g eslint
-# pip install flake8
 [[plugins]]
 repo = 'w0rp/ale'
 if ='''has('nvim')'''
@@ -142,7 +139,6 @@ hook_source = '''
 	highlight link ALEWarningSign SpellCap
 '''
 
-# pip install jedi
 # zchee/deoplete-jedi {{{2
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
@@ -153,6 +149,7 @@ hook_source = '''
 	let g:deoplete#sources#jedi#enable_cache = 1
 	let g:deoplete#sources#jedi#show_docstring = 0
 '''
+
 # davidhalter/jedi-vim {{{2
 [[plugins]]
 repo = 'davidhalter/jedi-vim'
@@ -173,6 +170,7 @@ hook_source = '''
 	let g:jedi#rename_command = "<SPACE>mr" 
 	let g:jedi#usages_command = "<SPACE>mu" 
 '''
+
 # mattn/emmet-vim {{{2
 [[plugins]]
 repo = 'mattn/emmet-vim'
@@ -183,7 +181,6 @@ hook_source = '''
 	let g:user_emmet_leader_key='<C-y>'
 '''
 
-# pip install isort autopep8 yapf
 # Chiel92/vim-autoformat {{{2
 [[plugins]]
 repo = 'Chiel92/vim-autoformat'
@@ -276,7 +273,7 @@ on_ft = 'css'
 repo = 'othree/html5.vim'
 if = '''has('nvim')'''
 on_ft = 'html'
-# }}}1
+# }}}1 END neovim plugins
 
 # vim plugins {{{1
 # Shougo/neocomplete.vim {{{2
@@ -357,4 +354,4 @@ hook_source = '''
 	" https://github.com/c9s/perlomni.vim
 	"let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 '''
-# }}}1
+# }}}1 END vim plugins
