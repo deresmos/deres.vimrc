@@ -29,10 +29,23 @@
 
 まだ、使い切れていない機能とかありますが、徐々に埋めていきたい。
 
+## 必要なもの(オプション含む)
+動かない機能がある場合は、どれかが入ってない可能性
+* Lua
+* python3
+* Neovim
+* Python client to Neovim *(pip install neovim)*
+* yapf *(pip install yapf)*
+* flake8 *(pip install flake8)*
+* isort *(pip install isort)*
+* autopep8 *(pip install autopep8)*
+* jedi *(pip install jedi)*
+* csslint *(npm install -g csslint)*
+* jshint *(npm install -g jshint)*
+
 ## 使い方
 Linux, Macの方なら、link.sh実行させれば、使えるようになります。
 Vim, Neovimに対応してます。
-詳しい方法は、後日追記
 
 ## よく使うコマンド
 | キーバインド               | 説明                               |
