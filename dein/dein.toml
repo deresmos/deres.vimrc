@@ -10,6 +10,7 @@ repo = 'tpope/vim-fugitive'
 # cohama/agit.vim {{{2
 [[plugins]]
 repo = 'cohama/agit.vim'
+
 # airblade/vim-gitgutter {{{2
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
@@ -27,7 +28,6 @@ hook_add = '''
 	let g:gitgutter_async = 1
 '''
 
-
 # rhysd/committia.vim {{{2
 [[plugins]]
 repo = 'rhysd/committia.vim'
@@ -40,7 +40,7 @@ function! g:committia_hooks.edit_open(info)
 endfunction
 '''
 
-#}}}1
+#}}}1 END git plugins
 
 # operator plugins {{{1
 # kana/vim-operator-user {{{2
@@ -102,11 +102,11 @@ hook_add = '''
 	let g:multi_cursor_exit_from_visual_mode = 0
 '''
 
+# paradigm/vim-multicursor {{{2
 [[plugins]]
 repo = 'paradigm/vim-multicursor'
 
-
-# }}}1
+# }}}1 END oparator plugins
 
 # plugins {{{1
 # Shougo/dein.vim {{{2
@@ -226,7 +226,6 @@ let g:startify_list_order = [
 	\ 'dir',
 	\ ]
 
-
 let g:startify_session_sort = 0
 
 let g:startify_session_before_save = [
@@ -234,32 +233,12 @@ let g:startify_session_before_save = [
 	\ 'silent! NERDTreeClose'
 	\ ]
 
-function! s:filter_header(lines) abort
-    let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
-    let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-    return centered_lines
-endfunction
-
 let g:startify_custom_header = [
-\"::Y　　　　　　　 ／　　　　　　 　　 　 　. : : : rﾌ\'ｺ　　　　　　　. : : : ＼ 　 ,r:^>:\'＾::.::.::.::.::ノ",
-\"::.::ヽi^:ヽ 　　／　　　　　　　 　. . : : : : : : : ＿　＿ 　 　 　 　 　 . : : : :ヽ _ｧ\'::.::.::.::.::.::／",
-\"::.::.::.::. ^く､_/　　　　　　　. : : : :_,｡-‐\' ﾞﾌ 1　　　　　\'i^ヾ‐=､　　 　 . . : : :ﾍ::.::.::.;｡‐\'^",
-\"｀丶､::.::.::.::.::.:7　　　　 . : : :,．\'ﾞ　j1　 ./　 l　　　　　 1　ヽ.　 l丶、　　 . : : :Y\'^´",
-\"　　　￣/\'ー\'’ 　 　 . : :／　　 _,ﾚ{‐ /　　１　　　　　1　´\'､ヽﾄ　 ＼ 　 . : : :ﾍ",
-\"　　 　 /　　 　 　 . : :r\'　　　　./　I /　　　 、　　　　.|　　 ヽ.}　、　;ﾍ、　 : : :1",
-\"　　　 .\'　　　　　. : :/　　　 j\' /　　V　　　　:､　 .∧　}　　　 ﾞ!　ﾍ .ﾉ　ヽ. 　. : :l",
-\".　　　i　 　 　 . : .:/　　 　 .{/　　　　　　　　 \'、/　ヽj　　 ＿　　∨ヽ　 i、　.: :l",
-\"　　　.!　　　　. : :j7　　　　1　,.ｒｆF三ミk　　　 \'ﾞ　　 　 rシ=ヾ三k:、 \'、 ﾘ 　 : :!",
-\"　 　.j!　　　 . : : :{j　　　　 |ｨｼﾟ\'＾´　､ ､　　　　　\'　　　　　 ､ ､ 、｀ 　 i　{　　. :|",
-\"　 　.l　 　　 : : : :ﾘ　　　　 | ヽヽヽヽヽヽ　　　　　　 　 　 ヽヽヽヽ｀　 }　!　 . : !　　　ぬへへ～Vimmmm...",
-\".　 　!　 　 . : : : :｜　　　　i　　　　　　　　　 　 　 　 　 　 　 　 　 　 .\'　1　. : :|",
-\"　　 j!　　. : : : : : :l　　　　｜　　　　　　r\'\'\'　ー--‐ \'\'\'^｀l　　　　　　 /　 .!　. : :1",
-\"　　 j　　　. : : : : :1　 　 　 !　 　 　 　　i、　　　　　　 ./　　 　 　 ノ\'　　.}　. : : !",
-\"　　 |　 　 . : : : : :ﾊ　 　 　 ト.、　　　　　｀\'ー-　　　 \'’　　 　 ．\'^} 　 　 l　. : : :、",
-\"　　 }　　 . : : : : : : ﾍ　　 　 {:　｀\' ‐. ､.,＿　　 　 　 　 _,.。　\'´ . : :j　　,ｨ7　 . : : \'、",
-\"　　 !　　. . : : : : : : :ヽ{\':、　 1: : .　　 　 . : :￣＞‐¨\'^　　　　 . : :7　./.:ﾘ　　. : : :1",
-\". 　 j　　　　. : : : : : : :ヽ:ヽ,　1: : .　 　 . : : /´ : r\'^\'ヽ::-..､　. . : :/ノﾞ　　 　 . . : : :}",
+\"        _                                   _            ",
+\"     __| |  ___  _ __   ___  ___    __   __(_) _ __ ___  ",
+\"    / _` | / _ \\| '__| / _ \\/ __|   \\ \\ / /| || '_ ` _ \\ ",
+\"   | (_| ||  __/| |   |  __/\\__ \\ _  \\ V / | || | | | | |",
+\"    \\__,_| \\___||_|    \\___||___/(_)  \\_/  |_||_| |_| |_|",
 \ ]
 let g:startify_change_to_dir = 1
 '''
@@ -489,7 +468,7 @@ repo = 'terryma/vim-expand-region'
 [[plugins]]
 repo = 'qpkorr/vim-renamer'
 
-# fuenor/qfixhowm
+# fuenor/qfixhowm {{{2
 [[plugins]]
 repo = 'fuenor/qfixhowm'
 hook_add = '''
@@ -502,4 +481,4 @@ hook_add = '''
 	let g:QFixHowm_RecentMode = 2
 '''
 
-#}}}1
+#}}}1 END plugins
