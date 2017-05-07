@@ -273,6 +273,14 @@ on_ft = 'css'
 repo = 'othree/html5.vim'
 if = '''has('nvim')'''
 on_ft = 'html'
+
+# deresmos/nvim-term # {{{2
+[[plugins]]
+repo = 'deresmos/nvim-term'
+if = '''has('nvim')'''
+hook_source = '''
+	let g:nvimterm#enter_insert = 0
+'''
 # }}}1 END neovim plugins
 
 # vim plugins {{{1
