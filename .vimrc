@@ -335,7 +335,12 @@ nnoremap <silent> <SPACE>tb :Tagbar<CR>
 nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
 nnoremap <silent> <SPACE>tn :number!<CR>
-nnoremap <silent> <SPACE>to :terminal<CR>
+nnoremap <silent> <SPACE>toe :NTerm<CR>
+nnoremap <silent> <SPACE>tov :NTermV<CR>
+nnoremap <silent> <SPACE>tos :NTermS<CR>
+nnoremap <silent> <SPACE>tot :NTermT<CR>
+nnoremap <silent> <SPACE>tod :NTermDeletes<CR>
+nnoremap <silent> <SPACE>toD :NTermDeleteAll<CR>
 
 "w keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>

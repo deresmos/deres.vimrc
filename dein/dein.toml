@@ -155,7 +155,6 @@ repo = 'djoshea/vim-autoread'
 repo = 'Yggdroot/indentLine'
 hook_add = '''
 	let g:indentLine_faster = 1
-	let g:indentLine_char = '|'
 	let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'tagbar', 'denite', 'startify']
 '''
 
@@ -230,7 +229,8 @@ let g:startify_session_sort = 0
 
 let g:startify_session_before_save = [
 	\ 'echo "Cleaning up before saving..."',
-	\ 'silent! NERDTreeClose'
+	\ 'silent! NERDTreeClose',
+	\ 'silent! TDeleteAll',
 	\ ]
 
 let g:startify_custom_header = [
