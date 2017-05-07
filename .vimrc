@@ -136,15 +136,6 @@ autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
 colorscheme hybrid
 set background=dark
 
-function s:LineNumberToggle() "{{{
-  if &number
-    setlocal nonumber
-  else
-    setlocal number
-  endif
-endfunction
-"}}}
-
 "fold setting{{{2
 set foldenable
 set foldmethod=marker
@@ -295,6 +286,9 @@ nnoremap <silent> <SPACE>fbd :FufBookmarkDir<CR>
 nnoremap <silent> <SPACE>qq :q<CR>
 nnoremap <silent> <SPACE>qQ :q!<CR>
 
+"D keybind{{{2
+nnoremap <silent> <SPACE>dl :Denite -resume<CR>
+
 "b keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
 nnoremap <silent> <SPACE>bf :FufBookmarkFileAdd<CR>
@@ -340,7 +334,7 @@ nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
-nnoremap <silent> <SPACE>tn :call <SID>LineNumberToggle()<CR>
+nnoremap <silent> <SPACE>tn :number!<CR>
 nnoremap <silent> <SPACE>to :terminal<CR>
 
 "w keybind{{{2
