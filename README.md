@@ -39,6 +39,7 @@
 * flake8 *(pip install flake8)*
 * isort *(pip install isort)*
 * autopep8 *(pip install autopep8)*
+* neovim-remote *(pip install neovim-remote)*
 * jedi *(pip install jedi)*
 * csslint *(npm install -g csslint)*
 * jshint *(npm install -g jshint)*
@@ -116,11 +117,13 @@ Vim, Neovimに対応してます。
 | SPC d l      | Deniteで前実行した状態を呼び出す | Denite --resume |
 
 ### P keybind
-| キーバインド | 説明                                                | 実行コマンド                                  |
-| :--          | :--                                                 | :--                                           |
-| SPC p f      | 検知されたルートディレクトリのファイルリストを表示  | DeniteProjectDir file_rec                     |
-| SPC p g      | 検知されたルートディレクトリに対してgrep            | DeniteProjectDir grep                         |
-| SPC p G      | 検知されたルートディレクトリに対してgrep (tab open) | DeniteProjectDir grep -default-action=tabopen |
+| キーバインド  | 説明                                                | 実行コマンド                                  |
+| :--           | :--                                                 | :--                                           |
+| SPC p f       | 検知されたルートディレクトリのファイルリストを表示  | DeniteProjectDir file_rec                     |
+| SPC p g       | 検知されたルートディレクトリに対してgrep            | DeniteProjectDir grep                         |
+| SPC p G       | 検知されたルートディレクトリに対してgrep (tab open) | DeniteProjectDir grep -default-action=tabopen |
+| p &lt;C-p&gt; | ペースト履歴を後ろに遡る                            | neoyank                                       |
+| p &lt;C-P&gt; | ペースト履歴を前に遡る                              | neoyank                                       |
 
 ### Y keybind
 | キーバインド | 説明               | 実行コマンド   |
@@ -166,22 +169,28 @@ Vim, Neovimに対応してます。
 | SPC w =      | 全ウィンドウを同一に              | &lt;C-w&gt;=       |
 
 ### G keybind
-| キーバインド | 説明                           | 実行コマンド                  |
-| :--          | :--                            | :--                           |
-| SPC g s      | Git status実行                 | Gstatus                       |
-| SPC g c      | Git commit実行                 | Gcommit                       |
-| SPC g d      | Git diff実行                   | Gcommit                       |
-| SPC g b      | Git blame実行                  | Gblame                        |
-| SPC g p      | Git push実行                   | Gpush                         |
-| SPC g m      | Merginal実行                   | Merginal                      |
-| SPC g m      | Merginal実行                   | Merginal                      |
-| SPC g l      | Git 履歴表示                   | Agit                          |
-| SPC g l      | Git ファイル履歴表示           | AgitFile                      |
-| SPC g k      | 現在行より前での変更場所に移動 | GitGutterPrevHunk             |
-| SPC g j      | 現在行より後での変更場所に移動 | GitGutterNextHunk             |
-| SPC g p      | 現在行での変更差分を表示       | GitGutterPreviewHunk          |
-| SPC g t t    | 左の差分表示トグル             | GitGutterToggle               |
-| SPC g t l    | 差分箇所の行をハイライト       | GitGutterLineHighlightsToggle |
+| キーバインド | 説明                                   | 実行コマンド                  |
+| :--          | :--                                    | :--                           |
+| SPC g s      | Git status実行                         | Gstatus                       |
+| SPC g c      | Git commit実行                         | Gcommit                       |
+| SPC g d      | Git diff実行                           | Gcommit                       |
+| SPC g b      | Git blame実行                          | Gblame                        |
+| SPC g p      | Git push実行                           | Gpush                         |
+| SPC g m      | Merginal実行                           | Merginal                      |
+| SPC g m      | Merginal実行                           | Merginal                      |
+| SPC g l      | Git 履歴表示                           | Agit                          |
+| SPC g l      | Git ファイル履歴表示                   | AgitFile                      |
+| SPC g k      | 現在行より前での変更場所に移動         | GitGutterPrevHunk             |
+| SPC g j      | 現在行より後での変更場所に移動         | GitGutterNextHunk             |
+| SPC g p      | 現在行での変更差分を表示               | GitGutterPreviewHunk          |
+| SPC g t t    | 左の差分表示トグル                     | GitGutterToggle               |
+| SPC g t l    | 差分箇所の行をハイライト               | GitGutterLineHighlightsToggle |
+| g f          | カーソル下のファイルを開く             | gf                            |
+| g F          | カーソル下のファイルをタブで開く       | g&lt;C-w&gt; gf               |
+| g s          | カーソル下のファイルをsplitで開く      | wincmd f                      |
+| g v          | カーソル下のファイルをvsplitで開く     | vertical wincmd f             |
+| g /          | その場から飛ばずにインクリメンタル検索 | -                             |
+| g a          | 決めた文字で整形                       | EasyAlign                     |
 
 ### S keybind
 | キーバインド | 説明                         | 実行コマンド |
@@ -218,10 +227,12 @@ Vim, Neovimに対応してます。
 | SPC r s      | Renamerで編集したファイル名に変更する | Ren                |
 
 ### J keybind
-| キーバインド | 説明                   | 実行コマンド |
-| :--          | :--                    | :--          |
-| SPC j v      | ディレクトリツリー表示 | Vaffle       |
-| SPC j s      | スタート画面表示       | Startify     |
+| キーバインド | 説明                         | 実行コマンド |
+| :--          | :--                          | :--          |
+| SPC j v      | ディレクトリツリー表示       | Vaffle       |
+| SPC j s      | スタート画面表示             | Startify     |
+| SPC j j      | 2つ文字選択して画面内に飛ぶ  | Easymotion   |
+| SPC j g      | 複数文字選択して画面内に飛ぶ | Easymotion   |
 
 ### C keybind
 | キーバインド | 説明                               | 実行コマンド           |
@@ -240,12 +251,13 @@ Vim, Neovimに対応してます。
 | :--          | :--                          | :--                                     |
 | SPC o s      | 指定単語をブラウザで検索する | openbrowser-smart-search                |
 | SPC o b      | ブラウザで開く               | execute "OpenBrowser" expand("%:p")<CR> |
+| SPC o m      | マークダウンプレビュー       | MarkdownPreview                         |
 
 ### U keybind
 | キーバインド | 説明                     | 実行コマンド        |
 | :--          | :--                      | :--                 |
 | SPC u p      | アップデートなんちゃら   | UpdateRemotePlugins |
-| SPC U p      | パッケージのアップデート | call dein#update()  |
+| SPC u P      | パッケージのアップデート | call dein#update()  |
 
 ### Neovim keybind
 | キーバインド | 説明                                     | 実行コマンド    |
@@ -264,6 +276,14 @@ Vim, Neovimに対応してます。
 | SPC m e d    | 指定タグ全体を選択                       | &lt;C-y&gt;d    |
 | SPC m e n    | 次入力するべきところに移動               | &lt;C-y&gt;n    |
 | SPC m e N    | 前で入力するべきところに移動             | &lt;C-y&gt;N    |
+| SPC t o e | ターミナルを開く               | NTerm          |
+| SPC t o v | vsplitでターミナルを開く       | NTermV         |
+| SPC t o s | splitでターミナルを開く        | NTermS         |
+| SPC t o t | タブでターミナルを開く         | NTermT         |
+| SPC t o 2 | ターミナルを開く(2画面)        | NTerm          |
+| SPC t o 3 | ターミナルを開く(3画面)        | NTerm          |
+| SPC t o d | 現在開いてるターミナル以外削除 | NTermDeletes   |
+| SPC t o D | 全てのターミナル削除           | NTermDeleteAll |
 
 ## プラグインショートカット
 ### NERDTree

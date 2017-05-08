@@ -55,7 +55,6 @@ if dein#load_state(s:dein_dir)
 	call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#load_toml(s:toml,      {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
-	call dein#add('deresmos/nvim-term', {'merged': 0, 'if': has('nvim')})
 
   call dein#end()
   call dein#save_state()
@@ -336,12 +335,6 @@ nnoremap <silent> <SPACE>tb :Tagbar<CR>
 nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
 nnoremap <silent> <SPACE>tn :number!<CR>
-nnoremap <silent> <SPACE>toe :NTerm<CR>
-nnoremap <silent> <SPACE>tov :NTermV<CR>
-nnoremap <silent> <SPACE>tos :NTermS<CR>
-nnoremap <silent> <SPACE>tot :NTermT<CR>
-nnoremap <silent> <SPACE>tod :NTermDeletes<CR>
-nnoremap <silent> <SPACE>toD :NTermDeleteAll<CR>
 
 "w keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>
@@ -399,6 +392,10 @@ nnoremap <silent> <SPACE>gtt :GitGutterToggle<CR>
 nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
 nnoremap <silent> <SPACE>gtl :GitGutterLineHighlightsToggle<CR>
 
+nnoremap gF :<C-w>gf
+nnoremap <silent> gs :wincmd f<CR>
+nnoremap <silent> gv :vertical wincmd f<CR>
+
 "v keybind{{{2
 " vim fold keybind
 noremap  <SPACE>vf :call <SID>print_foldmarker(0, 0)<CR>
@@ -450,8 +447,8 @@ nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate("time")<CR>
 nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
 nnoremap <silent> <SPACE>hlt :call qfixmemo#ListReminder('todo')<CR>
 nnoremap <silent> <SPACE>hls :call qfixmemo#ListReminder('schedule')<CR>
-nnoremap <SPACE>hpw :HowmDir work<CR>
-nnoremap <SPACE>hpm :HowmDir main<CR>
+nnoremap <SPACE>hpw :HowmDir work<CR>:echomsg 'Switched work'<CR>
+nnoremap <SPACE>hpm :HowmDir main<CR>:echomsg 'Switched main'<CR>
 nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
 nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
 
@@ -496,33 +493,29 @@ map <silent> <SPACE>up :UpdateRemotePlugins<CR>
 map <silent> <SPACE>uP :call dein#update()<CR>
 
 "nvim only keybind{{{2
-" nvim only key bind
 if has('nvim')
 	nnoremap <silent> <SPACE>m= :Autoformat<CR>
 
-	" program keybind
+	" program keybind {{{
 	nnoremap <silent> <SPACE>mcc :QuickRun<CR>
-	" vim window vertical botright
 	nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
 	nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
 	nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
-	" show syntatics errors
 	nnoremap <silent> <SPACE>mcl :lwindow<CR>
+	" }}}
 
-	augroup formatter
+	augroup formatter " {{{
 		autocmd!
 
 		"python formatter
 		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfy :silent !yapf -i --style "pep8" %<CR>:e!<CR>
 		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfi :silent !isort %<CR>:e!<CR>
 		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mf= :silent !autopep8 -i % && yapf -i --style "pep8" % && isort %<CR>:e!<CR>
-	augroup END
+	augroup END "}}}
 
-
-	" emmet keybind
-	augroup emmet
+	augroup emmet " {{{
 		autocmd!
-		" emmet
+
 		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mee <C-y>,
 		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>met <C-y>;
 		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meu <C-y>u
@@ -538,7 +531,30 @@ if has('nvim')
 		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mea <C-y>a
 		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meA <C-y>A
 		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mec <C-y>c
-	augroup END
+
+	augroup END " }}}
+
+	" terminal keybind {{{
+	function! s:term2()
+		exe 'NTermT'
+		exe 'NTermV'
+		exe 'stopinsert'
+	endfunction
+	function! s:term3()
+		exe 'NTermT'
+		exe 'NTermV'
+		exe 'NTermS'
+		exe 'stopinsert'
+	endfunction
+	nnoremap <silent> <SPACE>toe :NTerm<CR>
+	nnoremap <silent> <SPACE>tov :NTermV<CR>
+	nnoremap <silent> <SPACE>tos :NTermS<CR>
+	nnoremap <silent> <SPACE>tot :NTermT<CR>
+	nnoremap <silent> <SPACE>to2 :call <SID>term2()<CR>
+	nnoremap <silent> <SPACE>to3 :call <SID>term3()<CR>
+	nnoremap <silent> <SPACE>tod :NTermDeletes<CR>
+	nnoremap <silent> <SPACE>toD :NTermDeleteAll<CR>
+	" }}}
 endif
 "}}}1
 
