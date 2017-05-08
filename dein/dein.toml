@@ -78,9 +78,7 @@ hook_add = '''
 repo = 't9md/vim-textmanip'
 hook_add = '''
 	xmap <Space>d <Plug>(textmanip-duplicate-down)
-	nmap <Space>d <Plug>(textmanip-duplicate-down)
 	xmap <Space>D <Plug>(textmanip-duplicate-up)
-	nmap <Space>D <Plug>(textmanip-duplicate-up)
 
 	vmap <C-j> <Plug>(textmanip-move-down)
 	vmap <C-k> <Plug>(textmanip-move-up)
@@ -108,6 +106,40 @@ repo = 'paradigm/vim-multicursor'
 
 # }}}1 END oparator plugins
 
+# neovim plugins {{{1
+# szw/vim-tags {{{2
+[[plugins]]
+repo = 'szw/vim-tags'
+if ='''has('nvim')'''
+hook_add = '''
+	set tags=./tags;
+'''
+
+# deresmos/nvim-term # {{{2
+[[plugins]]
+repo = 'deresmos/nvim-term'
+if = '''has('nvim')'''
+hook_add = '''
+	let g:nvimterm#enter_insert = 0
+'''
+
+# majutsushi/tagbar {{{2
+[[plugins]]
+repo = 'majutsushi/tagbar'
+if = '''has('nvim')'''
+hook_add = '''
+  let g:tagbar_previewwin_pos = "rightbelow"
+  let g:tagbar_autopreview = 1
+  let g:tagbar_iconchars = ['▸', '▾']
+'''
+
+# honza/vim-snippets {{{2
+[[plugins]]
+repo = 'honza/vim-snippets'
+if = '''has('nvim')'''
+
+# }}}1 END neovim plugins
+
 # plugins {{{1
 # Shougo/dein.vim {{{2
 [[plugins]]
@@ -132,15 +164,6 @@ repo = 'cocopon/vaffle.vim'
 # bronson/vim-visual-star-search {{{2
 [[plugins]]
 repo = 'bronson/vim-visual-star-search'
-
-# majutsushi/tagbar {{{2
-[[plugins]]
-repo = 'majutsushi/tagbar'
-hook_add = '''
-  let g:tagbar_previewwin_pos = "rightbelow"
-  let g:tagbar_autopreview = 1
-  let g:tagbar_iconchars = ['▸', '▾']
-'''
 
 # tomtom/tcomment_vim {{{2
 [[plugins]]
@@ -182,30 +205,31 @@ repo = 'vim-scripts/L9'
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 hook_add = '''
-let g:EasyMotion_do_mapping = 0
-map f <Plug>(easymotion-bd-fl)
-map t <Plug>(easymotion-bd-tl)
-let g:EasyMotion_enter_jump_first = 1
-let g:EasyMotion_space_jump_first = 1
-nmap <SPACE>jj <Plug>(easymotion-s2)
-nmap <SPACE>jg <Plug>(easymotion-sn)
-omap <SPACE>jg <Plug>(easymotion-tn)
+	let g:EasyMotion_do_mapping = 0
+	map f <Plug>(easymotion-bd-fl)
+	map t <Plug>(easymotion-bd-tl)
+	let g:EasyMotion_enter_jump_first = 1
+	let g:EasyMotion_space_jump_first = 1
+	nmap <SPACE>jj <Plug>(easymotion-s2)
+	xmap <SPACE>jj <Plug>(easymotion-s2)
+	nmap <SPACE>jg <Plug>(easymotion-sn)
+	omap <SPACE>jg <Plug>(easymotion-tn)
 '''
 
 # scrooloose/nerdtree {{{2
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 hook_add = '''
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeMapActivateNode = 'l'
-let g:NERDTreeMapOpenRecursively = 'L'
-let g:NERDTreeMapUpdir = 'h'
-let g:NERDTreeMapUpdirKeepOpen = 'H'
-let g:NERDTreeMapOpenSplit = 's'
-let g:NERDTreeMapOpenVSplit = 'v'
-let g:NERDTreeMapToggleHideen = '.'
+	let g:NERDTreeShowHidden = 1
+	let g:NERDTreeMinimalUI = 1
+	let g:NERDTreeAutoDeleteBuffer = 1
+	let g:NERDTreeMapActivateNode = 'l'
+	let g:NERDTreeMapOpenRecursively = 'L'
+	let g:NERDTreeMapUpdir = 'h'
+	let g:NERDTreeMapUpdirKeepOpen = 'H'
+	let g:NERDTreeMapOpenSplit = 's'
+	let g:NERDTreeMapOpenVSplit = 'v'
+	let g:NERDTreeMapToggleHideen = '.'
 '''
 
 # mhinz/vim-startify {{{2
@@ -249,8 +273,8 @@ repo = 'LeafCage/yankround.vim'
 hook_add = '''
 	nmap p <Plug>(yankround-p)
 	nmap P <Plug>(yankround-P)
-	nmap <C-k> <Plug>(yankround-prev)
-	nmap <C-j> <Plug>(yankround-next)
+	omap <C-p> <Plug>(yankround-prev)
+	nmap <C-P> <Plug>(yankround-next)
 	let g:yankround_max_history = 10
 	let g:yankround_use_region_hl = 1
 '''
@@ -259,19 +283,19 @@ hook_add = '''
 [[plugins]]
 repo = 'kana/vim-smartinput'
 hook_add = '''
-call smartinput#define_rule({
-\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
-\   'char'     : '(',
-\   'input'    : '():<Left><Left>',
-\   'filetype' : ['python'],
-\   })
-" が、すでに:がある場合は重複させない. (smartinputでは、atの定義が長いほど適用の優先度が高くなる)
-call smartinput#define_rule({
-\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#.*:',
-\   'char'     : '(',
-\   'input'    : '()<Left>',
-\   'filetype' : ['python'],
-\   })
+	call smartinput#define_rule({
+	\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
+	\   'char'     : '(',
+	\   'input'    : '():<Left><Left>',
+	\   'filetype' : ['python'],
+	\   })
+	" が、すでに:がある場合は重複させない. (smartinputでは、atの定義が長いほど適用の優先度が高くなる)
+	call smartinput#define_rule({
+	\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#.*:',
+	\   'char'     : '(',
+	\   'input'    : '()<Left>',
+	\   'filetype' : ['python'],
+	\   })
 '''
 
 # LeafCage/foldCC.vim {{{2
@@ -311,126 +335,126 @@ hook_add = '''
 		\'colorscheme': 'wombat'
 		\}
 
-let g:lightline.tabline = {
-	\ 'left': [ [ 'tabs' ] ],
-	\ 'right': [ [ 'close' ] ] }
+	let g:lightline.tabline = {
+		\ 'left': [ [ 'tabs' ] ],
+		\ 'right': [ [ 'close' ] ] }
 
-let g:lightline.component_expand = {
-      \ 'tabs': 'lightline#tabs'}
-let g:lightline.component_type = {
-      \ 'tabs': 'tabsel'}
+	let g:lightline.component_expand = {
+				\ 'tabs': 'lightline#tabs'}
+	let g:lightline.component_type = {
+				\ 'tabs': 'tabsel'}
 
-let g:lightline = {
-	\ 'colorscheme': 'wombat',
-	\ 'mode_map': {'c': 'NORMAL'},
-	\ 'active': {
-	\   'left': [
-	\     ['mode', 'paste'],
-	\     ['fugitive', 'gitgutter'],
-	\     ['readonly', 'filename'],
-	\   ],
-	\   'right': [
-	\			['percent'],
-	\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
-	\			['ale'],
-	\   ]
-	\ },
-	\ 'component_function': {
-	\   'modified': 'MyModified',
-	\   'fugitive': 'MyFugitive',
-	\   'filename': 'MyFilename',
-	\   'lineinfo': 'MyLineInfo',
-	\   'percent': 'MyPercent',
-	\   'fileformat': 'MyFileformat',
-	\   'filetype': 'MyFiletype',
-	\   'fileencoding': 'MyFileencoding',
-	\   'mode': 'MyMode',
-	\   'gitgutter': 'MyGitGutter',
-	\		'ale': 'AleStatus',
-	\ },
-	\ 'component_expand': {
-	\		'readonly': 'MyReadonly',
-	\ },
-	\ 'component_type': {
-	\		'readonly': 'error',
-	\ },
-\ }
+	let g:lightline = {
+		\ 'colorscheme': 'wombat',
+		\ 'mode_map': {'c': 'NORMAL'},
+		\ 'active': {
+		\   'left': [
+		\     ['mode', 'paste'],
+		\     ['fugitive', 'gitgutter'],
+		\     ['readonly', 'filename'],
+		\   ],
+		\   'right': [
+		\			['percent'],
+		\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+		\			['ale'],
+		\   ]
+		\ },
+		\ 'component_function': {
+		\   'modified': 'MyModified',
+		\   'fugitive': 'MyFugitive',
+		\   'filename': 'MyFilename',
+		\   'lineinfo': 'MyLineInfo',
+		\   'percent': 'MyPercent',
+		\   'fileformat': 'MyFileformat',
+		\   'filetype': 'MyFiletype',
+		\   'fileencoding': 'MyFileencoding',
+		\   'mode': 'MyMode',
+		\   'gitgutter': 'MyGitGutter',
+		\		'ale': 'AleStatus',
+		\ },
+		\ 'component_expand': {
+		\		'readonly': 'MyReadonly',
+		\ },
+		\ 'component_type': {
+		\		'readonly': 'error',
+		\ },
+	\ }
 
-function! AleStatus()
-	if has('nvim')
-		return ale#statusline#Status()
-	endif
-	return ''
-endfunction
+	function! AleStatus()
+		if has('nvim')
+			return ale#statusline#Status()
+		endif
+		return ''
+	endfunction
 
-function! MyLineInfo()
-  return line('.') . ':' . virtcol('.')
-endfunction
+	function! MyLineInfo()
+		return line('.') . ':' . virtcol('.')
+	endfunction
 
-function! MyPercent()
-	return 'L' . line('$') . ':R' . virtcol('$')
-endfunction
+	function! MyPercent()
+		return 'L' . line('$') . ':R' . virtcol('$')
+	endfunction
 
-function! MyModified()
-  return &ft =~ 'help\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
+	function! MyModified()
+		return &ft =~ 'help\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+	endfunction
 
-function! MyReadonly()
-  return &ft !~? 'help\|gundo' && &ro ? 'Readonly' : ''
-endfunction
+	function! MyReadonly()
+		return &ft !~? 'help\|gundo' && &ro ? 'Readonly' : ''
+	endfunction
 
-function! MyFilename()
-  return (&ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
-        \ '' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : winwidth(0) > 50 ? expand('%:t') : '' : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
+	function! MyFilename()
+		return (&ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
+					\ '' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : winwidth(0) > 50 ? expand('%:t') : '' : '[No Name]') .
+					\ ('' != MyModified() ? ' ' . MyModified() : '')
+	endfunction
 
-function! MyFugitive()
-  try
-    if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
-      return ' ' . fugitive#head()
-    endif
-  catch
-  endtry
-  return ''
-endfunction
+	function! MyFugitive()
+		try
+			if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
+				return ' ' . fugitive#head()
+			endif
+		catch
+		endtry
+		return ''
+	endfunction
 
-function! MyGitGutter()
-  if ! exists('*GitGutterGetHunkSummary')
-        \ || ! get(g:, 'gitgutter_enabled', 0)
-        \ || winwidth(0) <= 110
-    return ''
-  endif
-  let symbols = [
-        \ '+',
-        \ '~',
-        \ '-'
-        \ ]
-  let hunks = GitGutterGetHunkSummary()
-  let ret = []
-  for i in [0, 1, 2]
-    if hunks[i] > 0
-      call add(ret, symbols[i] . hunks[i])
-    endif
-  endfor
-  return join(ret, ' ')
-endfunction
+	function! MyGitGutter()
+		if ! exists('*GitGutterGetHunkSummary')
+					\ || ! get(g:, 'gitgutter_enabled', 0)
+					\ || winwidth(0) <= 110
+			return ''
+		endif
+		let symbols = [
+					\ '+',
+					\ '~',
+					\ '-'
+					\ ]
+		let hunks = GitGutterGetHunkSummary()
+		let ret = []
+		for i in [0, 1, 2]
+			if hunks[i] > 0
+				call add(ret, symbols[i] . hunks[i])
+			endif
+		endfor
+		return join(ret, ' ')
+	endfunction
 
-function! MyFileformat()
-  return winwidth('.') > 70 ? &fileformat : ''
-endfunction
+	function! MyFileformat()
+		return winwidth('.') > 70 ? &fileformat : ''
+	endfunction
 
-function! MyFiletype()
-  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
+	function! MyFiletype()
+		return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+	endfunction
 
-function! MyFileencoding()
-  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
+	function! MyFileencoding()
+		return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+	endfunction
 
-function! MyMode()
-  return winwidth('.') > 30 ? lightline#mode() : ''
-endfunction
+	function! MyMode()
+		return winwidth('.') > 30 ? lightline#mode() : ''
+	endfunction
 '''
 
 # scrooloose/nerdcommenter {{{2
@@ -481,4 +505,18 @@ hook_add = '''
 	let g:QFixHowm_RecentMode = 2
 '''
 
+# haya14busa/incsearch.vim {{{2
+[[plugins]]
+repo = 'haya14busa/incsearch.vim'
+hook_add = '''
+	map /  <Plug>(incsearch-forward)\v
+	map ?  <Plug>(incsearch-backward)\v
+	map g/ <Plug>(incsearch-stay)\v
+'''
+
+# mhinz/neovim-remote {{{2
+[[plugins]]
+repo = 'mhinz/neovim-remote'
+
 #}}}1 END plugins
+
