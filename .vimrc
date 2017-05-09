@@ -442,6 +442,7 @@ nmap <SPACE>sw :SearchBuffers<SPACE>
 nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
 nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo.txt')<CR>
 nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule.txt')<CR>
+nnoremap <silent> <SPACE>ht :call qfixmemo#EditDiary('%Y/%m/%Y-%m-%d-000000.howm')<CR>
 nnoremap <silent> <SPACE>hid :call qfixmemo#InsertDate("date")<CR>
 nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate("time")<CR>
 nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
@@ -550,6 +551,8 @@ if has('nvim')
 	nnoremap <silent> <SPACE>tov :NTermV<CR>
 	nnoremap <silent> <SPACE>tos :NTermS<CR>
 	nnoremap <silent> <SPACE>tot :NTermT<CR>
+	nnoremap <silent> <SPACE>too :NTermToggle<CR>
+	nnoremap <silent> <SPACE>toO :30NTermToggle<CR>
 	nnoremap <silent> <SPACE>to2 :call <SID>term2()<CR>
 	nnoremap <silent> <SPACE>to3 :call <SID>term3()<CR>
 	nnoremap <silent> <SPACE>tod :NTermDeletes<CR>

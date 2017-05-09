@@ -202,20 +202,21 @@ Vim, Neovimに対応してます。
 | SPC s C      | 現在のセッションを閉じて終了 | SClose and q |
 
 ### H keybind
-| キーバインド | 説明                   | 実行コマンド                            |
-| :--          | :--                    | :--                                     |
-| SPC h c      | カレンダー表示         | call qficmemo#Calendar()                |
-| SPC h m      | メモファイルを開く     | call qfixmemo#EditDiary('memo.txt')     |
-| SPC h s      | 予定ファイルを開く     | call qfixmemo#EditDiary('schedule.txt') |
-| SPC h i d    | 日付を挿入             | call qfixmemo#InsertDate('date')        |
-| SPC h i t    | 日時を挿入             | call qfixmemo#InsertDate('time')        |
-| SPC h l r    | 最近開いたファイル表示 | call qfixmemo#ListMru()                 |
-| SPC h l t    | TODOを表示             | call qfixmemo#ListReminder('todo')      |
-| SPC h l t    | 予定を表示             | call qfixmemo#ListReminder('schedule')  |
-| SPC h p w    | howm仕事モードに変更   | HowmDir work                            |
-| SPC h p m    | howmメインモードに変更 | HowmDir main                            |
-| SPC h p d    | howm git pull実行      | call pullHowm()                         |
-| SPC h p u    | howm git push実行      | call pushHowm()                         |
+| キーバインド | 説明                     | 実行コマンド                                          |
+| :--          | :--                      | :--                                                   |
+| SPC h c      | カレンダー表示           | call qficmemo#Calendar()                              |
+| SPC h m      | メモファイルを開く       | call qfixmemo#EditDiary('memo.txt')                   |
+| SPC h s      | 予定ファイルを開く       | call qfixmemo#EditDiary('schedule.txt')               |
+| SPC h t      | 本日の日記ファイルを開く | call qfixmemo#EditDiary('%Y/%m/%Y-%m-%d-000000.howm') |
+| SPC h i d    | 日付を挿入               | call qfixmemo#InsertDate('date')                      |
+| SPC h i t    | 日時を挿入               | call qfixmemo#InsertDate('time')                      |
+| SPC h l r    | 最近開いたファイル表示   | call qfixmemo#ListMru()                               |
+| SPC h l t    | TODOを表示               | call qfixmemo#ListReminder('todo')                    |
+| SPC h l t    | 予定を表示               | call qfixmemo#ListReminder('schedule')                |
+| SPC h p w    | howm仕事モードに変更     | HowmDir work                                          |
+| SPC h p m    | howmメインモードに変更   | HowmDir main                                          |
+| SPC h p d    | howm git pull実行        | call pullHowm()                                       |
+| SPC h p u    | howm git push実行        | call pushHowm()                                       |
 
 ### R keybind
 | キーバインド | 説明                                  | 実行コマンド       |
@@ -280,6 +281,8 @@ Vim, Neovimに対応してます。
 | SPC t o v | vsplitでターミナルを開く       | NTermV         |
 | SPC t o s | splitでターミナルを開く        | NTermS         |
 | SPC t o t | タブでターミナルを開く         | NTermT         |
+| SPC t o o | トグルターミナルを開く         | NTermToggle    |
+| SPC t o O | トグルターミナルを開く         | 30NTermToggle  |
 | SPC t o 2 | ターミナルを開く(2画面)        | NTerm          |
 | SPC t o 3 | ターミナルを開く(3画面)        | NTerm          |
 | SPC t o d | 現在開いてるターミナル以外削除 | NTermDeletes   |
