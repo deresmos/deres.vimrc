@@ -178,7 +178,8 @@ repo = 'djoshea/vim-autoread'
 repo = 'Yggdroot/indentLine'
 hook_add = '''
 	let g:indentLine_faster = 1
-	let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'tagbar', 'denite', 'startify']
+	let g:indentLine_fileTypeExclude = ['help']
+	let g:indentLine_bufNameExclude = ['nerdtree', 'tagbar', 'denite', 'startify']
 '''
 
 # thinca/vim-qfreplace {{{2

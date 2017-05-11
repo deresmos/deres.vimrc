@@ -129,12 +129,21 @@ set noswapfile
 set title
 set hidden
 
-autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
-autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
-autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
-autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
+augroup color
+	autocmd!
+	autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
+	autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
+	autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
+	autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
+augroup END
 colorscheme hybrid
 set background=dark
+
+augroup buffers
+	autocmd!
+	autocmd FileType qf,help nnoremap <silent><buffer>q :quit<CR>
+	autocmd FileType agit_diff,diff setlocal nofoldenable
+augroup END
 
 "fold setting{{{2
 set foldenable
@@ -214,7 +223,10 @@ endfunction
 
 
 " for lightline
-autocmd QuickFixCmdPost *grep* cwindow
+augroup qfcmd
+	autocmd!
+	autocmd QuickFixCmdPost *grep* cwindow
+augroup END
 
 " nnoremap <C-h> :vsp<CR> :exe("tjump ".expand('<cword>'))<CR>
 " nnoremap <C-k> :split<CR> :exe("tjump ".expand('<cword>'))<CR>
@@ -304,7 +316,6 @@ nnoremap <silent> <SPACE><tab> :b #<CR>
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir grep<CR>
 nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -default-action=tabopen<CR>
-autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
 
 
 "y keybind{{{2
@@ -334,7 +345,7 @@ nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
-nnoremap <silent> <SPACE>tn :number!<CR>
+nnoremap <silent> <SPACE>tn :setlocal number!<CR>
 
 "w keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>
@@ -392,7 +403,7 @@ nnoremap <silent> <SPACE>gtt :GitGutterToggle<CR>
 nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
 nnoremap <silent> <SPACE>gtl :GitGutterLineHighlightsToggle<CR>
 
-nnoremap gF :<C-w>gf
+nnoremap gF <C-w>gf
 nnoremap <silent> gs :wincmd f<CR>
 nnoremap <silent> gv :vertical wincmd f<CR>
 
@@ -562,4 +573,4 @@ if has('nvim')
 endif
 "}}}1
 
-autocmd FileType php setlocal dictionary=~/.vim/dict/php.dict
+autocmd! FileType php setlocal dictionary=~/.vim/dict/php.dict
