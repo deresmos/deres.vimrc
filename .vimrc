@@ -443,6 +443,7 @@ nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
 nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo.txt')<CR>
 nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule.txt')<CR>
 nnoremap <silent> <SPACE>ht :call qfixmemo#EditDiary('%Y/%m/%Y-%m-%d-000000.howm')<CR>
+nnoremap <silent> <SPACE>hg :call qfixmemo#FGrep()<CR>
 nnoremap <silent> <SPACE>hid :call qfixmemo#InsertDate("date")<CR>
 nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate("time")<CR>
 nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
