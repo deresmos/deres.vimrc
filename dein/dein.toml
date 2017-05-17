@@ -115,13 +115,18 @@ hook_add = '''
 	set tags=./tags;
 '''
 
-# deresmos/nvim-term # {{{2
+# deresmos/nvim-term {{{2
 [[plugins]]
 repo = 'deresmos/nvim-term'
 if = '''has('nvim')'''
 hook_add = '''
 	let g:nvimterm#enter_insert = 0
 '''
+
+# Shougo/deol {{{2
+[[plugins]]
+repo = 'Shougo/deol.nvim'
+if = '''has('nvim')'''
 
 # majutsushi/tagbar {{{2
 [[plugins]]
