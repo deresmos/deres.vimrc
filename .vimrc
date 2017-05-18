@@ -276,6 +276,7 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
+nnoremap <leader> <Nop>
 
 "f keybind {{{2
 nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>
@@ -295,8 +296,8 @@ nnoremap <silent> <SPACE>fbf :FufBookmarkFile<CR>
 nnoremap <silent> <SPACE>fbd :FufBookmarkDir<CR>
 
 "q keybind{{{2
-nnoremap <silent> <SPACE>qq :q<CR>
-nnoremap <silent> <SPACE>qQ :q!<CR>
+nnoremap <silent> <SPACE>qq :qa<CR>
+nnoremap <silent> <SPACE>qQ :qa!<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
@@ -304,9 +305,9 @@ nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 "b keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
 nnoremap <silent> <SPACE>bf :FufBookmarkFileAdd<CR>
-nnoremap <silent> <SPACE>bd :FufBookmarkDirAdd<CR>
+nnoremap <silent> <SPACE>bd :bdelete<CR>
+nnoremap <silent> <SPACE>bD :bdelete!<CR>
 nnoremap <silent> <SPACE>bs :wa<CR>
-nnoremap <silent> <SPACE>bq :qa<CR>
 nnoremap <silent> <SPACE>bo :BufOnly<CR>
 nnoremap <silent> <SPACE>bn :bn<CR>
 nnoremap <silent> <SPACE>bN :bp<CR>
@@ -355,14 +356,14 @@ nnoremap <silent> <SPACE>wO :only<CR>
 nnoremap <silent> <SPACE>wD <c-w>j:close<CR>
 nnoremap <silent> <SPACE>w= <c-w>=<CR>
 
-nmap <SPACE>wl <c-w>l
-nmap <SPACE>wh <c-w>h
-nmap <SPACE>wj <c-w>j
-nmap <SPACE>wk <c-w>k
-nmap <silent> <SPACE>wL <c-w>L
-nmap <silent> <SPACE>wH <c-w>H
-nmap <silent> <SPACE>wJ <c-w>J
-nmap <silent> <SPACE>wK <c-w>K
+nnoremap <SPACE>wl <c-w>l
+nnoremap <SPACE>wh <c-w>h
+nnoremap <SPACE>wj <c-w>j
+nnoremap <SPACE>wk <c-w>k
+nnoremap <silent> <SPACE>wL <c-w>L
+nnoremap <silent> <SPACE>wH <c-w>H
+nnoremap <silent> <SPACE>wJ <c-w>J
+nnoremap <silent> <SPACE>wK <c-w>K
 call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
 call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
 call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
@@ -443,11 +444,12 @@ noremap <SPACE>vi :echo FoldCCnavi()<CR>
 "s keybind{{{2
 " session keybind
 nnoremap <SPACE>ss :SSave<Space>
+nnoremap <silent> <SPACE>sS :silent! SSave tmp<CR>y
 nnoremap <SPACE>sl :SLoad<Space>
 nnoremap <SPACE>sd :SDelete<Space>
 nnoremap <silent> <SPACE>sc :SClose<CR>
-nnoremap <silent> <SPACE>sC :SClose<CR>:q<CR>
-nmap <SPACE>sw :SearchBuffers<SPACE>
+nnoremap <silent> <SPACE>sC :SClose<CR>:qa!<CR>
+nnoremap <SPACE>sw :SearchBuffers<SPACE>
 
 "h keybind{{{2
 nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
@@ -501,9 +503,17 @@ map <SPACE>os <Plug>(openbrowser-smart-search)
 map <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
 map <silent> <SPACE>om :MarkdownPreview<CR>
 
+"m keybind {{{2
+nnoremap <silent> <SPACE>ma `a<CR>
+nnoremap <silent> <SPACE>ms `s<CR>
+nnoremap <silent> <SPACE>md `d<CR>
+nnoremap <silent> <SPACE>mA :mark a<CR>
+nnoremap <silent> <SPACE>mS :mark s<CR>
+nnoremap <silent> <SPACE>mD :mark d<CR>
+
 "u keybind {{{2
-map <silent> <SPACE>up :UpdateRemotePlugins<CR>
-map <silent> <SPACE>uP :call dein#update()<CR>
+nnoremap <silent> <SPACE>up :UpdateRemotePlugins<CR>
+nnoremap <silent> <SPACE>uP :call dein#update()<CR>
 
 "nvim only keybind{{{2
 if has('nvim')
@@ -573,4 +583,3 @@ if has('nvim')
 endif
 "}}}1
 
-autocmd! FileType php setlocal dictionary=~/.vim/dict/php.dict

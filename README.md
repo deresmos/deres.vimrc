@@ -89,23 +89,23 @@ Vim, Neovimに対応してます。
 | SPC f q      | ファイル名を変更してから編集          | f&lt;space&gt;                               |
 | SPC f c      | 最近実行したコマンド一覧表示          | FufMruCmd                                    |
 | SPC f q      | ジャンプリストを表示                  | FufJumpList                                  |
-| SPC f q      | チェンジリストを表示                  | FufChangeList                                |
+| SPC f h      | チェンジリストを表示                  | FufChangeList                                |
 | SPC f b f    | ブックマークされたファイルを表示      | FufBookmarkFile                              |
 | SPC f b d    | ブックマークされたディレクトリを表示  | FufBookmarkDir                               |
 
 ### Q keybind
-| キーバインド | 説明           | 実行コマンド |
-| :--          | ---            | :--          |
-| SPC q q      | 閉じる         | q            |
-| SPC q Q      | 強制的に閉じる | q!           |
+| キーバインド | 説明               | 実行コマンド |
+| :--          | ---                | :--          |
+| SPC q q      | 全て閉じる         | qa           |
+| SPC q Q      | 強制的に全て閉じる | qa!          |
 
 ### B keybind
 | キーバインド | 説明                       | 実行コマンド       |
 | :--          | :--                        | :--                |
 | SPC b b      | バッファリストを表示       | Denite buffer      |
 | SPC b f      | ファイルをブックマーク     | FufBookmarkFileAdd |
-| SPC b d      | ディレクトリをブックマーク | FufBookmarkDirAdd  |
-| SPC b d      | ディレクトリをブックマーク | FufBookmarkDirAdd  |
+| SPC b d      | バッファを削除する         | bdelete            |
+| SPC b D      | バッファを削除する（強制） | bdelete!           |
 | SPC b s      | 開いているバッファ全て保存 | wa                 |
 | SPC b n      | 次のバッファに移動         | bn                 |
 | SPC b N      | 前のバッファに移動         | bp                 |
@@ -131,22 +131,22 @@ Vim, Neovimに対応してます。
 | SPC y l      | ヤンクリストを表示 | Denite neoyank |
 
 ### T keybind
-| キーバインド | 説明                         | 実行コマンド       |
-| :--          | :--                          | :--                |
-| SPC t c      | 新規にタブを作成             | tabnew             |
-| SPC t C      | 同じファイルを新規タブで作成 | tab split          |
-| SPC t d      | タブを閉じる                 | tabclose           |
-| SPC t O      | 現在のタブ以外閉じる         | tabonly            |
-| SPC t l      | 右のタブへ移動               | tabnext            |
-| SPC t h      | 左のタブへ移動               | tabprevious        |
-| SPC t L      | 現在タブを右に移動           | +tabmove           |
-| SPC t H      | 現在タブを左に移動           | -tabmove           |
-| SPC t t      | l,h,L,Hでタブ移動系の操作    | submodeで設定      |
-| SPC t 1...9  | 1~9のタブ番号いずれかに移動  | tabnext 1...9      |
-| SPC t g      | ctagsを作成                  | TagsGenerate       |
-| SPC t b      | ctagsの情報を表示            | Tabbar             |
-| SPC t f      | ファイルツリーを表示         | NERDTreeToggle     |
-| SPC t n      | 行番号の表示トグル           | LineNumberToggle() |
+| キーバインド | 説明                         | 実行コマンド     |
+| :--          | :--                          | :--              |
+| SPC t c      | 新規にタブを作成             | tabnew           |
+| SPC t C      | 同じファイルを新規タブで作成 | tab split        |
+| SPC t d      | タブを閉じる                 | tabclose         |
+| SPC t O      | 現在のタブ以外閉じる         | tabonly          |
+| SPC t l      | 右のタブへ移動               | tabnext          |
+| SPC t h      | 左のタブへ移動               | tabprevious      |
+| SPC t L      | 現在タブを右に移動           | +tabmove         |
+| SPC t H      | 現在タブを左に移動           | -tabmove         |
+| SPC t t      | l,h,L,Hでタブ移動系の操作    | submodeで設定    |
+| SPC t 1...9  | 1~9のタブ番号いずれかに移動  | tabnext 1...9    |
+| SPC t g      | ctagsを作成                  | TagsGenerate     |
+| SPC t b      | ctagsの情報を表示            | Tabbar           |
+| SPC t f      | ファイルツリーを表示         | NERDTreeToggle   |
+| SPC t n      | 行番号の表示トグル           | setlocal number! |
 
 ### W keybind
 | キーバインド | 説明                              | 実行コマンド       |
@@ -193,13 +193,15 @@ Vim, Neovimに対応してます。
 | g a          | 決めた文字で整形                       | EasyAlign                     |
 
 ### S keybind
-| キーバインド | 説明                         | 実行コマンド |
-| :--          | :--                          | :--          |
-| SPC s s      | 現在のセッションを保存       | SSave        |
-| SPC s l      | 保存済みセッションを読み込み | SLoad        |
-| SPC s d      | セッションを削除             | SDelete      |
-| SPC s c      | 現在のセッションを閉じる     | SClose       |
-| SPC s C      | 現在のセッションを閉じて終了 | SClose and q |
+| キーバインド | 説明                            | 実行コマンド   |
+| :--          | :--                             | :--            |
+| SPC s s      | 現在のセッションを保存          | SSave          |
+| SPC s S      | 現在のセッションをtmp名前で保存 | SSave tmp      |
+| SPC s l      | 保存済みセッションを読み込み    | SLoad          |
+| SPC s d      | セッションを削除                | SDelete        |
+| SPC s c      | 現在のセッションを閉じる        | SClose         |
+| SPC s C      | 現在のセッションを閉じて終了    | SClose and qa! |
+| SPC s w      | 複数検索する                    | SearchBuffers  |
 
 ### H keybind
 | キーバインド | 説明                     | 実行コマンド                                          |
