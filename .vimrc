@@ -504,9 +504,9 @@ map <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
 map <silent> <SPACE>om :MarkdownPreview<CR>
 
 "m keybind {{{2
-nnoremap <silent> <SPACE>ma `a<CR>
-nnoremap <silent> <SPACE>ms `s<CR>
-nnoremap <silent> <SPACE>md `d<CR>
+nnoremap <silent> <SPACE>ma `a
+nnoremap <silent> <SPACE>ms `s
+nnoremap <silent> <SPACE>md `d
 nnoremap <silent> <SPACE>mA :mark a<CR>
 nnoremap <silent> <SPACE>mS :mark s<CR>
 nnoremap <silent> <SPACE>mD :mark d<CR>

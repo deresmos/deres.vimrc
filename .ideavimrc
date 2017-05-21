@@ -33,6 +33,12 @@ noremap <S-h> ^
 noremap <S-l> $
 noremap <S-j> }
 noremap <S-k> {
+noremap } <S-j>
+noremap { <S-k>
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
 
 nnoremap <silent> <SPACE>th gT
 nnoremap <silent> <SPACE>tl gt
@@ -41,6 +47,13 @@ nnoremap <silent> <SPACE>ws :split<CR>
 nnoremap <silent> <SPACE>wv :vsplit<CR>
 nnoremap <silent> <SPACE>wd :close<CR>
 nnoremap <silent> <SPACE>wD <c-w>j:close<CR>
+
+nnoremap <silent> <SPACE>ma `a
+nnoremap <silent> <SPACE>ms `s
+nnoremap <silent> <SPACE>md `d
+nnoremap <silent> <SPACE>mA :mark a<CR>
+nnoremap <silent> <SPACE>mS :mark s<CR>
+nnoremap <silent> <SPACE>mD :mark d<CR>
 
 nmap <SPACE>wl <c-w>l
 nmap <SPACE>wh <c-w>h
@@ -64,6 +77,7 @@ nnoremap <SPACE>gc :action GotoClass<CR>
 nnoremap <SPACE>qi :action QuickImplementations<CR>
 nnoremap <SPACE>m= :action ReformatCode<CR>
 nnoremap <SPACE><SPACE> :action GotoAction<CR>
+nnoremap <SPACE>fr :action RecentFiles<CR>
 
 " idea keymap {{{1
 " Enter C-m
