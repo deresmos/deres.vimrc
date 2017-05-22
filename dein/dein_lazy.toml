@@ -161,6 +161,7 @@ hook_source = '''
 	let g:jedi#documentation_command = "<SPACE>mgd" 
 	let g:jedi#rename_command = "<SPACE>mr" 
 	let g:jedi#usages_command = "<SPACE>mu" 
+	autocmd FileType python setlocal completeopt-=preview
 '''
 
 # mattn/emmet-vim {{{2
