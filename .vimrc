@@ -288,6 +288,9 @@ nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -default-action=tabopen<CR>
 nnoremap <silent> <SPACE>fs :w<CR>
 nnoremap <silent> <SPACE>fq :wq<CR>
 nnoremap <silent> <SPACE>fc :f<space>
+nnoremap <silent> <SPACE>ft :NERDTreeToggle<CR>
+nnoremap <silent> <SPACE>fT :NERDTreeFocus<CR>
+nnoremap <silent> <SPACE>fF :NERDTreeFind<CR>
 
 nnoremap <silent> <SPACE>fc :FufMruCmd<CR>
 nnoremap <silent> <SPACE>fj :FufJumpList<CR>

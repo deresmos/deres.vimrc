@@ -92,6 +92,9 @@ Vim, Neovimに対応してます。
 | SPC f h      | チェンジリストを表示                  | FufChangeList                                |
 | SPC f b f    | ブックマークされたファイルを表示      | FufBookmarkFile                              |
 | SPC f b d    | ブックマークされたディレクトリを表示  | FufBookmarkDir                               |
+| SPC f t      | NERDTreeトグル                        | NERDTreeToggle                               |
+| SPC f T      | NERDTreeフォーカス                    | NERDTreeForcus                               |
+| SPC f F      | 現在のファイルの位置でNERDTree        | NERDTreeFind                                 |
 
 ### Q keybind
 | キーバインド | 説明               | 実行コマンド |
@@ -292,13 +295,16 @@ Vim, Neovimに対応してます。
 
 ## プラグインショートカット
 ### NERDTree
-| キーバインド | 説明                       |
-| :--          | :--                        |
-| SPC t f      | NERDTree開くトグル         |
-| l            | 階層進む                   |
-| L            | 再帰的に階層               |
-| C            | 選択したディレクトリに移動 |
-| p            | ルートに飛ぶ               |
-| P            | 現在のルートに飛ぶ         |
-| I            | 隠しファイル表示トグル     |
+| キーバインド | 説明                           |
+| :--          | :--                            |
+| SPC f t      | NERDTree開くトグル             |
+| SPC f T      | NERDTreeフォーカス             |
+| SPC f F      | 現在のファイルの位置でNERDTree |
+| l            | 階層進む                       |
+| L            | 選択したディレクトリに移動     |
+| h            | １つ前の階層戻る               |
+| m            | ディレクトリ操作メニュー表示   |
+| p            | ルートに飛ぶ                   |
+| P            | 現在のルートに飛ぶ             |
+| I            | 隠しファイル表示トグル         |
 
