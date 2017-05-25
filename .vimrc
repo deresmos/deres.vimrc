@@ -31,11 +31,13 @@ set shellslash
 set encoding=utf8
 "dein setting {{{1
 if has('unix') || has('mac')
-	let s:dein_dir = expand('~/.cache/vim-dein')
-	let g:rc_dir = expand('~/.config/vim/dein')
+	let s:dein_dir = expand('~/.cache/nvim-dein')
+	let g:rc_dir   = expand('~/.config/nvim/dein')
+	let s:nvim_dir = expand('~/.config/nvim')
 elseif has('win64') || has('win32')
 	let s:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
-	let g:rc_dir = expand($LOCALAPPDATA. '/nvim/dein')
+	let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
+	let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
 endif
 let s:dein_repo_dir = s:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
@@ -141,7 +143,7 @@ set background=dark
 
 augroup buffers
 	autocmd!
-	autocmd FileType qf,help nnoremap <silent><buffer>q :quit<CR>
+	autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
 	autocmd FileType agit_diff,diff setlocal nofoldenable
 augroup END
 
@@ -258,6 +260,8 @@ nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
 nnoremap <TAB> >>
 nnoremap <S-TAB> <<
 vnoremap <TAB> >gv
+autocmd! VimEnter * nnoremap <TAB> >>
+autocmd! VimEnter * vnoremap <TAB> >gv
 vnoremap <S-TAB> <gv
 nnoremap <C-i> <C-i>
 nnoremap j gj
@@ -278,7 +282,7 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap <leader> <Nop>
 
-"f keybind {{{2
+"F keybind {{{2
 nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>
 nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
@@ -298,14 +302,15 @@ nnoremap <silent> <SPACE>fh :FufChangeList<CR>
 nnoremap <silent> <SPACE>fbf :FufBookmarkFile<CR>
 nnoremap <silent> <SPACE>fbd :FufBookmarkDir<CR>
 
-"q keybind{{{2
+"Q keybind{{{2
 nnoremap <silent> <SPACE>qq :qa<CR>
 nnoremap <silent> <SPACE>qQ :qa!<CR>
+nnoremap <silent> <SPACE>qr :Qfreplace<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 
-"b keybind{{{2
+"B keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
 nnoremap <silent> <SPACE>bf :FufBookmarkFileAdd<CR>
 nnoremap <silent> <SPACE>bd :bdelete<CR>
@@ -316,16 +321,16 @@ nnoremap <silent> <SPACE>bn :bn<CR>
 nnoremap <silent> <SPACE>bN :bp<CR>
 nnoremap <silent> <SPACE><tab> :b #<CR>
 
-"p keybind{{{2
+"P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir grep<CR>
 nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -default-action=tabopen<CR>
 
 
-"y keybind{{{2
+"Y keybind{{{2
 nnoremap <silent> <SPACE>yl :<C-u>Denite neoyank<CR>
 
-"t keybind{{{2
+"T keybind{{{2
 nnoremap <silent> <SPACE>tc :tabnew<CR>
 nnoremap <silent> <SPACE>tC :tab split<CR>
 nnoremap <silent> <SPACE>td :tabclose<CR>
@@ -351,7 +356,7 @@ nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
 nnoremap <silent> <SPACE>tn :setlocal number!<CR>
 
-"w keybind{{{2
+"W keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>
 nnoremap <silent> <SPACE>wv :vsplit<CR>
 nnoremap <silent> <SPACE>wd :close<CR>
@@ -383,14 +388,13 @@ call submode#map('bufmove', 'n', '', 'h', '<C-w><')
 call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
 call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
 
-"g keybind{{{2
+"G keybind{{{2
 " fugitive keybind
 nnoremap <silent> <SPACE>gs :Gstatus<CR>
 nnoremap <silent> <SPACE>gc :Gcommit<CR>
 nnoremap <silent> <SPACE>gd :Gdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
 nnoremap <silent> <SPACE>gp :Gpush<CR>
-nnoremap <SPACE>gg :Gmygrep<SPACE>
 
 " merginal keybind
 nnoremap <SPACE>gm :Merginal<CR>
@@ -408,10 +412,10 @@ nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
 nnoremap <silent> <SPACE>gtl :GitGutterLineHighlightsToggle<CR>
 
 nnoremap gF <C-w>gf
-nnoremap <silent> gs :wincmd f<CR>
-nnoremap <silent> gv :vertical wincmd f<CR>
+nnoremap <silent> gS :wincmd f<CR>
+nnoremap <silent> gV :vertical wincmd f<CR>
 
-"v keybind{{{2
+"V keybind{{{2
 " vim fold keybind
 noremap  <SPACE>vf :call <SID>print_foldmarker(0, 0)<CR>
 noremap  <SPACE>vF :call <SID>print_foldmarker(1, 0)<CR>
@@ -444,7 +448,7 @@ noremap <SPACE>v- ggVGzO
 noremap <SPACE>vi :echo FoldCCnavi()<CR>
 
 
-"s keybind{{{2
+"S keybind{{{2
 " session keybind
 nnoremap <SPACE>ss :SSave<Space>
 nnoremap <silent> <SPACE>sS :silent! SSave tmp<CR>y
@@ -454,7 +458,7 @@ nnoremap <silent> <SPACE>sc :SClose<CR>
 nnoremap <silent> <SPACE>sC :SClose<CR>:qa!<CR>
 nnoremap <SPACE>sw :SearchBuffers<SPACE>
 
-"h keybind{{{2
+"H keybind{{{2
 nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
 nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo.txt')<CR>
 nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule.txt')<CR>
@@ -479,19 +483,19 @@ function s:pushHowm() " {{{
 endfunction
 " }}}
 
-"r keybind {{{2
-nnoremap <silent> <SPACE>re :noh<CR>:SearchBuffersReset<CR>
+"R keybind {{{2
+nnoremap <silent> <SPACE>re :noh<CR>:silent! SearchBuffersReset<CR>
 " nnoremap <silent> <SPACE>rp :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap <SPACE>rp :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> <SPACE>rv :silent! loadview<CR>
 nnoremap <silent> <SPACE>rn :Renamer<CR>
 nnoremap <silent> <SPACE>rs :Ren<CR>
 
-"j keybind {{{2
+"J keybind {{{2
 nnoremap <silent> <Space>jv :Vaffle<CR>
 nnoremap <silent> <Space>js :Startify<CR>
 
-"c keybind {{{2
+"C keybind {{{2
 map <SPACE>cn <plug>NERDCommenterNested
 map <SPACE>cy <plug>NERDCommenterYank
 map <SPACE>cm <plug>NERDCommenterMinimal
@@ -501,22 +505,25 @@ map <SPACE>ci <plug>NERDCommenterToEOL
 map <SPACE>cA <plug>NERDCommenterAppend
 map <SPACE>cx <plug>NERDCommenterAltDelims
 
-"o keybind {{{2
+"O keybind {{{2
 map <SPACE>os <Plug>(openbrowser-smart-search)
 map <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
 map <silent> <SPACE>om :MarkdownPreview<CR>
 
-"m keybind {{{2
-nnoremap <silent> <SPACE>ma `a
-nnoremap <silent> <SPACE>ms `s
-nnoremap <silent> <SPACE>md `d
+"M keybind {{{2
+nnoremap <silent> <SPACE>ma `azz
+nnoremap <silent> <SPACE>ms `szz
+nnoremap <silent> <SPACE>md `dzz
 nnoremap <silent> <SPACE>mA :mark a<CR>
 nnoremap <silent> <SPACE>mS :mark s<CR>
 nnoremap <silent> <SPACE>mD :mark d<CR>
 
-"u keybind {{{2
+"U keybind {{{2
 nnoremap <silent> <SPACE>up :UpdateRemotePlugins<CR>
 nnoremap <silent> <SPACE>uP :call dein#update()<CR>
+
+"V keybind {{{2
+nnoremap <SPACE>vg :vimgrep /\v/ %<Left><Left><Left>
 
 "nvim only keybind{{{2
 if has('nvim')
@@ -586,3 +593,6 @@ if has('nvim')
 endif
 "}}}1
 
+if filereadable(s:nvim_dir . '/my.vim')
+  execute 'source' s:nvim_dir . '/my.vim'
+endif
