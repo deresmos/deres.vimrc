@@ -316,6 +316,8 @@ Neovimに対応してます。(Vimでも動きますが、いくつか使えな�
 | :--          | :--                      | :--                 |
 | SPC u p      | アップデートなんちゃら   | UpdateRemotePlugins |
 | SPC u P      | パッケージのアップデート | call dein#update()  |
+| SPC u t      | undoツリーを表示         | UndotreeToggle      |
+| SPC u T      | undoツリーにフォーカス   | UndotreeFocus       |
 
 ### V keybind
 | キーバインド | 説明        | 実行コマンド |

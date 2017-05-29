@@ -521,6 +521,8 @@ nnoremap <silent> <SPACE>mD :mark d<CR>
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :UpdateRemotePlugins<CR>
 nnoremap <silent> <SPACE>uP :call dein#update()<CR>
+nnoremap <silent> <SPACE>ut :UndotreeToggle<CR>
+nnoremap <silent> <SPACE>uT :UndotreeFocus<CR>
 
 "V keybind {{{2
 nnoremap <SPACE>vg :vimgrep /\v/ %<Left><Left><Left>

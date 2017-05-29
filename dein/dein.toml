@@ -528,5 +528,9 @@ hook_add = '''
 [[plugins]]
 repo = 'mhinz/neovim-remote'
 
+# mbbill/undotree {{{2
+[[plugins]]
+repo = 'mbbill/undotree'
+
 #}}}1 END plugins
 
