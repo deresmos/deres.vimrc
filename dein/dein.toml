@@ -506,6 +506,7 @@ repo = 'qpkorr/vim-renamer'
 [[plugins]]
 repo = 'fuenor/qfixhowm'
 hook_add = '''
+	let g:QFixHowm_Key = '<Nop>'
 	let g:howm_fileencoding = 'utf-8'
 	let g:howm_fileformat = 'unix'
 	let g:QFixHowm_CalendarWinCmd = 'rightbelow'

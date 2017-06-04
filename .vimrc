@@ -296,9 +296,12 @@ nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -default-action=tabopen<CR>
 nnoremap <silent> <SPACE>fs :w<CR>
 nnoremap <silent> <SPACE>fq :wq<CR>
 nnoremap <silent> <SPACE>fc :f<space>
-nnoremap <silent> <SPACE>ft :NERDTreeToggle<CR>
-nnoremap <silent> <SPACE>fT :NERDTreeFocus<CR>
-nnoremap <silent> <SPACE>fF :NERDTreeFind<CR>
+
+nnoremap [NERDTree] <Nop>
+nmap <SPACE>ft [NERDTree]
+nnoremap <silent> [NERDTree]t :NERDTreeToggle<CR>
+nnoremap <silent> [NERDTree]f :NERDTreeFocus<CR>
+nnoremap <silent> [NERDTree]F :NERDTreeFind<CR>
 
 nnoremap <silent> <SPACE>fc :FufMruCmd<CR>
 nnoremap <silent> <SPACE>fj :FufJumpList<CR>
@@ -356,7 +359,6 @@ endfor
 
 nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
-nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
 function! s:set_number() "{{{
 	if &relativenumber
@@ -373,8 +375,10 @@ function! s:set_relative_number() "{{{
 endfunction
 " }}}
 
-nnoremap <silent> <SPACE>tn :call <SID>set_number()<CR>
-nnoremap <silent> <SPACE>tN :call <SID>set_relative_number()<CR>
+nnoremap [TNumber] <Nop>
+nmap <SPACE>tn [TNumber]
+nnoremap <silent> [TNumber]n :call <SID>set_number()<CR>
+nnoremap <silent> [TNumber]r  :call <SID>set_relative_number()<CR>
 
 nnoremap <silent> <SPACE>tsl :setlocal list!<CR>
 
@@ -405,7 +409,7 @@ call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
 call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
 call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
 
-call submode#enter_with('bufmove', 'n', '', '<SPACE>wcc', '<Nop>')
+call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
 call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
 call submode#map('bufmove', 'n', '', 'h', '<C-w><')
 call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
@@ -514,6 +518,9 @@ nnoremap <silent> <SPACE>rv :silent! loadview<CR>
 nnoremap <silent> <SPACE>rn :Renamer<CR>
 nnoremap <silent> <SPACE>rs :Ren<CR>
 
+nnoremap q <Nop>
+nnoremap <silent> <SPACE>rc q
+
 "J keybind {{{2
 nnoremap <silent> <Space>jv :Vaffle<CR>
 nnoremap <silent> <Space>js :Startify<CR>
@@ -544,8 +551,8 @@ nnoremap <silent> <SPACE>mD :mark d<CR>
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :UpdateRemotePlugins<CR>
 nnoremap <silent> <SPACE>uP :call dein#update()<CR>
-nnoremap <silent> <SPACE>ut :UndotreeToggle<CR>
-nnoremap <silent> <SPACE>uT :UndotreeFocus<CR>
+nnoremap <silent> <SPACE>utt :UndotreeToggle<CR>
+nnoremap <silent> <SPACE>utf :UndotreeFocus<CR>
 
 "V keybind {{{2
 nnoremap <SPACE>vg :vimgrep /\v/ %<Left><Left><Left>

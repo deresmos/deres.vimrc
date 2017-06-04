@@ -109,9 +109,9 @@ Neovimに対応してます。(Vimでも動きますが、いくつか使えな�
 | SPC f h      | チェンジリストを表示                  | FufChangeList                                |
 | SPC f b f    | ブックマークされたファイルを表示      | FufBookmarkFile                              |
 | SPC f b d    | ブックマークされたディレクトリを表示  | FufBookmarkDir                               |
-| SPC f t      | NERDTreeトグル                        | NERDTreeToggle                               |
-| SPC f T      | NERDTreeフォーカス                    | NERDTreeForcus                               |
-| SPC f F      | 現在のファイルの位置でNERDTreeを開く  | NERDTreeFind                                 |
+| SPC f t t    | NERDTreeトグル                        | NERDTreeToggle                               |
+| SPC f t f    | NERDTreeフォーカス                    | NERDTreeForcus                               |
+| SPC f t F    | 現在のファイルの位置でNERDTreeを開く  | NERDTreeFind                                 |
 
 ### Q keybind
 | キーバインド | 説明               | 実行コマンド |
@@ -152,32 +152,33 @@ Neovimに対応してます。(Vimでも動きますが、いくつか使えな�
 | SPC y l      | ヤンクリストを表示 | Denite neoyank |
 
 ### T keybind
-| キーバインド | 説明                           | 実行コマンド     |
-| :--          | :--                            | :--              |
-| SPC t c      | 新規にタブを作成               | tabnew           |
-| SPC t C      | 同じファイルを新規タブで作成   | tab split        |
-| SPC t d      | タブを閉じる                   | tabclose         |
-| SPC t O      | 現在のタブ以外閉じる           | tabonly          |
-| SPC t l      | 右のタブへ移動                 | tabnext          |
-| SPC t h      | 左のタブへ移動                 | tabprevious      |
-| SPC t L      | 現在タブを右に移動             | +tabmove         |
-| SPC t H      | 現在タブを左に移動             | -tabmove         |
-| SPC t t      | l,h,L,Hでタブ移動系の操作      | submodeで設定    |
-| SPC t 1...9  | 1~9のタブ番号いずれかに移動    | tabnext 1...9    |
-| SPC t g      | ctagsを作成                    | TagsGenerate     |
-| SPC t b      | ctagsの情報を表示              | Tabbar           |
-| SPC t f      | ファイルツリーを表示           | NERDTreeToggle   |
-| SPC t n      | 行番号の表示トグル             | setlocal number! |
-| SPC t o e    | ターミナルを開く               | NTerm            |
-| SPC t o v    | vsplitでターミナルを開く       | NTermV           |
-| SPC t o s    | splitでターミナルを開く        | NTermS           |
-| SPC t o t    | タブでターミナルを開く         | NTermT           |
-| SPC t o o    | トグルターミナルを開く         | NTermToggle      |
-| SPC t o O    | トグルターミナルを開く         | 30NTermToggle    |
-| SPC t o 2    | ターミナルを開く(2画面)        | NTerm            |
-| SPC t o 3    | ターミナルを開く(3画面)        | NTerm            |
-| SPC t o d    | 現在開いてるターミナル以外削除 | NTermDeletes     |
-| SPC t o D    | 全てのターミナル削除           | NTermDeleteAll   |
+| キーバインド | 説明                           | 実行コマンド             |
+| :--          | :--                            | :--                      |
+| SPC t c      | 新規にタブを作成               | tabnew                   |
+| SPC t C      | 同じファイルを新規タブで作成   | tab split                |
+| SPC t d      | タブを閉じる                   | tabclose                 |
+| SPC t O      | 現在のタブ以外閉じる           | tabonly                  |
+| SPC t l      | 右のタブへ移動                 | tabnext                  |
+| SPC t h      | 左のタブへ移動                 | tabprevious              |
+| SPC t L      | 現在タブを右に移動             | +tabmove                 |
+| SPC t H      | 現在タブを左に移動             | -tabmove                 |
+| SPC t t      | l,h,L,Hでタブ移動系の操作      | submodeで設定            |
+| SPC t 1...9  | 1~9のタブ番号いずれかに移動    | tabnext 1...9            |
+| SPC t g      | ctagsを作成                    | TagsGenerate             |
+| SPC t b      | ctagsの情報を表示              | Tabbar                   |
+| SPC t n n    | 行番号の表示トグル             | setlocal number!         |
+| SPC t n r    | 相対行番号の表示トグル         | setlocal relativenumber! |
+| SPC t s l    | 不可視文字の表示               | setlocal list!           |
+| SPC t o e    | ターミナルを開く               | NTerm                    |
+| SPC t o v    | vsplitでターミナルを開く       | NTermV                   |
+| SPC t o s    | splitでターミナルを開く        | NTermS                   |
+| SPC t o t    | タブでターミナルを開く         | NTermT                   |
+| SPC t o o    | トグルターミナルを開く         | NTermToggle              |
+| SPC t o O    | トグルターミナルを開く         | 30NTermToggle            |
+| SPC t o 2    | ターミナルを開く(2画面)        | NTerm                    |
+| SPC t o 3    | ターミナルを開く(3画面)        | NTerm                    |
+| SPC t o d    | 現在開いてるターミナル以外削除 | NTermDeletes             |
+| SPC t o D    | 全てのターミナル削除           | NTermDeleteAll           |
 
 ### W keybind
 | キーバインド | 説明                              | 実行コマンド       |
@@ -196,7 +197,7 @@ Neovimに対応してます。(Vimでも動きますが、いくつか使えな�
 | SPC w J      | 現在の画面を下に移動              | &lt;C-w&gt;J       |
 | SPC w K      | 現在の画面を上に移動              | &lt;C-w&gt;K       |
 | SPC w w      | l,h,j,k,L,H,J,Kで画面移動系の操作 | submodeで設定      |
-| SPC w c c    | l,h,j,kで画面の大きさ変更         | submodeで設定      |
+| SPC w r      | l,h,j,kで画面の大きさ変更         | submodeで設定      |
 | SPC w =      | 全ウィンドウを同一に              | &lt;C-w&gt;=       |
 
 ### G keybind
@@ -259,6 +260,8 @@ Neovimに対応してます。(Vimでも動きますが、いくつか使えな�
 | SPC r v      | loadview                              | loadview                   |
 | SPC r n      | ファイル名をvim操作で編集             | Renamer                    |
 | SPC r s      | Renamerで編集したファイル名に変更する | Ren                        |
+| SPC r c      | マクロ記録                            | q                          |
+
 
 ### J keybind
 | キーバインド | 説明                         | 実行コマンド |
@@ -316,8 +319,8 @@ Neovimに対応してます。(Vimでも動きますが、いくつか使えな�
 | :--          | :--                      | :--                 |
 | SPC u p      | アップデートなんちゃら   | UpdateRemotePlugins |
 | SPC u P      | パッケージのアップデート | call dein#update()  |
-| SPC u t      | undoツリーを表示         | UndotreeToggle      |
-| SPC u T      | undoツリーにフォーカス   | UndotreeFocus       |
+| SPC u t t    | undoツリーを表示         | UndotreeToggle      |
+| SPC u t f    | undoツリーにフォーカス   | UndotreeFocus       |
 
 ### V keybind
 | キーバインド | 説明        | 実行コマンド |
