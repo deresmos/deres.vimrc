@@ -541,5 +541,9 @@ repo = 'thinca/vim-zenspace'
 [[plugins]]
 repo = 'cocopon/colorswatch.vim'
 
+# rickhowe/diffchar.vim {{{2
+[[plugins]]
+repo = 'rickhowe/diffchar.vim'
+
 #}}}1 END plugins
 
