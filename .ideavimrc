@@ -65,13 +65,19 @@ nnoremap <SPACE>vO zO
 nnoremap <SPACE>vc zc
 nnoremap <SPACE>vC zC
 
+nnoremap <silent> <SPACE>qq :qa<CR>
+nnoremap <silent> <SPACE>re :noh<CR>
+
+nnoremap <silent> <SPACE>tn :set norelativenumber<CR> :set number!<CR>
+nnoremap <silent> <SPACE>tN :set nonumber<CR> :set relativenumber!<CR>
+
 " action list {{{1
 
 nnoremap <SPACE>mrn :action RenameElement<CR>
 nnoremap <SPACE>mgd :action GotoDeclaration<CR>
 nnoremap <SPACE>mgg :action GotoImplementation<CR>
 nnoremap <SPACE>mu :action ShowUsages<CR>
- 
+
 nnoremap <SPACE>ff :action GotoFile<CR>
 nnoremap <SPACE>gc :action GotoClass<CR>
 nnoremap <SPACE>qi :action QuickImplementations<CR>

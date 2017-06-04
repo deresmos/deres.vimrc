@@ -42,28 +42,28 @@ endif
 let s:dein_repo_dir = s:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
+	if !isdirectory(s:dein_repo_dir)
 		execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
+	endif
+	execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
 endif
 
 if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
+	call dein#begin(s:dein_dir)
 
-  let s:toml      = g:rc_dir. '/dein.toml'
+	let s:toml      = g:rc_dir. '/dein.toml'
 	let s:lazy_toml = g:rc_dir. '/dein_lazy.toml'
 
 	call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+	call dein#load_toml(s:toml,      {'lazy': 0})
+	call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-  call dein#end()
-  call dein#save_state()
+	call dein#end()
+	call dein#save_state()
 endif
 
 if dein#check_install()
-  call dein#install()
+	call dein#install()
 endif
 
 filetype plugin indent on
@@ -97,7 +97,7 @@ filetype plugin on
 set ambiwidth=double
 
 if exists('&ambw')
-    set ambw=double
+	set ambw=double
 endif
 
 set wildmenu
@@ -130,6 +130,7 @@ set laststatus=2
 set noswapfile
 set title
 set hidden
+set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 
 augroup color
 	autocmd!
@@ -137,7 +138,7 @@ augroup color
 	autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
 	autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
 	autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
-augroup END
+augroup END　
 colorscheme hybrid
 set background=dark
 
@@ -177,20 +178,20 @@ endfunction
 "}}}
 function! s:put_foldmarker(foldclose_p, lnum, mode) " {{{
 	let crrstr = getline(a:lnum)
-  let padding = crrstr=='' ? '' : crrstr=~'\s$' ? '' : ' '
+	let padding = crrstr=='' ? '' : crrstr=~'\s$' ? '' : ' '
 
-  let [cms_start, cms_end] = ['', '']
-  let outside_a_comment_p = synIDattr(synID(line(a:lnum), col('$')-1, 1), 'name') !~? 'comment'
-  if outside_a_comment_p
+	let [cms_start, cms_end] = ['', '']
+	let outside_a_comment_p = synIDattr(synID(line(a:lnum), col('$')-1, 1), 'name') !~? 'comment'
+	if outside_a_comment_p
 		let cms_start = matchstr(&cms,'\V\s\*\zs\.\+\ze%s')
 		let cms_end   = matchstr(&cms,'\V%s\zs\.\+')
-  endif
+	endif
 
-  let fmr = split(&fmr, ',')[a:foldclose_p]. (v:count ? v:count : '')
+	let fmr = split(&fmr, ',')[a:foldclose_p]. (v:count ? v:count : '')
 	if a:mode != 0
 		let fmr = fmr. foldlevel(a:lnum)
 	endif
-  exe a:lnum. 'normal! A'. padding. cms_start. fmr. cms_end
+	exe a:lnum. 'normal! A'. padding. cms_start. fmr. cms_end
 endfunction
 "}}}
 
@@ -216,11 +217,11 @@ augroup END
 
 command -nargs=0 ClearUndo call <sid>ClearUndo()
 function! s:ClearUndo()
-  let old_undolevels = &l:undolevels
-  set undolevels=-1
-  exe "normal! a \<BS>\<Esc>"
-  let &l:undolevels = old_undolevels
-  unlet old_undolevels
+	let old_undolevels = &l:undolevels
+	set undolevels=-1
+	exe "normal! a \<BS>\<Esc>"
+	let &l:undolevels = old_undolevels
+	unlet old_undolevels
 endfunction
 
 
@@ -347,14 +348,33 @@ call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
 call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
 
 for n in range(1, 9)
-  execute 'nnoremap <silent> <SPACE>t'.n  ':<C-u>tabnext'.n.'<CR>'
+	execute 'nnoremap <silent> <SPACE>t'.n  ':<C-u>tabnext'.n.'<CR>'
 endfor
 
 nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
 
-nnoremap <silent> <SPACE>tn :setlocal number!<CR>
+function! s:set_number() "{{{
+	if &relativenumber
+		setlocal relativenumber!
+	endif
+	setlocal number!
+endfunction
+" }}}
+function! s:set_relative_number() "{{{
+	if &number
+		setlocal number!
+	endif
+	setlocal relativenumber!
+endfunction
+" }}}
+
+nnoremap <silent> <SPACE>tn :call <SID>set_number()<CR>
+nnoremap <silent> <SPACE>tN :call <SID>set_relative_number()<CR>
+
+nnoremap <silent> <SPACE>tsl :setlocal list!<CR>
+
 
 "W keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>
@@ -596,5 +616,5 @@ endif
 "}}}1
 
 if filereadable(s:nvim_dir . '/my.vim')
-  execute 'source' s:nvim_dir . '/my.vim'
+	execute 'source' s:nvim_dir . '/my.vim'
 endif
