@@ -532,5 +532,13 @@ repo = 'mhinz/neovim-remote'
 [[plugins]]
 repo = 'mbbill/undotree'
 
+# thinca/vim-zenspace {{{2
+[[plugins]]
+repo = 'thinca/vim-zenspace'
+
+# cocopon/colorswatch.vim {{{2
+[[plugins]]
+repo = 'cocopon/colorswatch.vim'
+
 #}}}1 END plugins
 

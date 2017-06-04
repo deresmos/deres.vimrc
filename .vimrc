@@ -138,7 +138,8 @@ augroup color
 	autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
 	autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
 	autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
-augroup END　
+	autocmd ColorScheme * highlight ZenSpace ctermbg=203 guibg=203
+augroup END
 colorscheme hybrid
 set background=dark
 
