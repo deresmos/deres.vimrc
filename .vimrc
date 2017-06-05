@@ -329,6 +329,7 @@ nnoremap <silent> [Space]bo :BufOnly<CR>
 nnoremap <silent> [Space]bn :bn<CR>
 nnoremap <silent> [Space]bN :bp<CR>
 nnoremap <silent> [Space]<tab> :b #<CR>
+nnoremap <silent> [Space]bl :BuffergatorToggle<CR>
 
 "P keybind{{{2
 nnoremap <silent> [Space]pf :DeniteProjectDir file_rec<CR>

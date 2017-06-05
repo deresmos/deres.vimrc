@@ -545,5 +545,9 @@ repo = 'cocopon/colorswatch.vim'
 [[plugins]]
 repo = 'rickhowe/diffchar.vim'
 
+# jeetsukumaran/vim-buffergator {{{2
+[[plugins]]
+repo = 'jeetsukumaran/vim-buffergator'
+
 #}}}1 END plugins
 
