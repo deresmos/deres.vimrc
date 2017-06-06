@@ -412,7 +412,7 @@ call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
 call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
 call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
 
-call submode#enter_with('bufmove', 'n', '', '<SPACE>wcc', '<Nop>')
+call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
 call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
 call submode#map('bufmove', 'n', '', 'h', '<C-w><')
 call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
