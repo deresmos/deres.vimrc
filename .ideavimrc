@@ -65,7 +65,6 @@ nnoremap <SPACE>vO zO
 nnoremap <SPACE>vc zc
 nnoremap <SPACE>vC zC
 
-nnoremap <silent> <SPACE>qq :qa<CR>
 nnoremap <silent> <SPACE>re :noh<CR>
 
 nnoremap <silent> <SPACE>tn :set norelativenumber<CR> :set number!<CR>
@@ -73,17 +72,29 @@ nnoremap <silent> <SPACE>tN :set nonumber<CR> :set relativenumber!<CR>
 
 " action list {{{1
 
-nnoremap <SPACE>mrn :action RenameElement<CR>
 nnoremap <SPACE>mgd :action GotoDeclaration<CR>
 nnoremap <SPACE>mgg :action GotoImplementation<CR>
+nnoremap <SPACE>mgc :action GotoClass<CR>
+nnoremap <SPACE>mqi :action QuickImplementations<CR>
+nnoremap <SPACE>mr :action RenameElement<CR>
 nnoremap <SPACE>mu :action ShowUsages<CR>
 
+nnoremap <SPACE>cs :action EditorCompleteStatement<CR>
+
+nnoremap <SPACE>fm :action Move<CR>
 nnoremap <SPACE>ff :action GotoFile<CR>
-nnoremap <SPACE>gc :action GotoClass<CR>
-nnoremap <SPACE>qi :action QuickImplementations<CR>
+
+nnoremap <SPACE>gb :action Annotate<CR>
+nnoremap <SPACE>gm :action Git.Branches<CR>
+nnoremap <SPACE>gd :action Compare.SameVersion<CR>
+nnoremap <SPACE>gD :action Compare.Selected<CR>
+
 nnoremap <SPACE>m= :action ReformatCode<CR>
 nnoremap <SPACE><SPACE> :action GotoAction<CR>
 nnoremap <SPACE>fr :action RecentFiles<CR>
+
+nnoremap <silent> <SPACE>bo :action CloseAllEditorsButActive<CR>
+nnoremap <silent> <SPACE>qq :action CloseProject<CR>
 
 " idea keymap {{{1
 " Enter C-m
