@@ -100,8 +100,6 @@ if exists('&ambw')
 	set ambw=double
 endif
 
-set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
-
 set wildmenu
 set wildmode=list:longest
 set incsearch
