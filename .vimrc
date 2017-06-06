@@ -421,13 +421,14 @@ call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
 "G keybind{{{2
 " fugitive keybind
 nnoremap <silent> [Space]gs :Gstatus<CR>
-nnoremap <silent> [Space]gc :Gcommit<CR>
 nnoremap <silent> [Space]gd :Gdiff<CR>
 nnoremap <silent> [Space]gb :Gblame<CR>
-nnoremap <silent> [Space]gp :Gpush<CR>
 
 " merginal keybind
-nnoremap [Space]gm :Merginal<CR>
+nnoremap [Space]gc :MerginalToggle<CR>
+
+" vimagit keybind
+nnoremap [Space]gm :Magit<CR>
 
 " agit keybind
 nnoremap [Space]gl :Agit<CR>

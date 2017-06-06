@@ -40,6 +40,15 @@ function! g:committia_hooks.edit_open(info)
 endfunction
 '''
 
+# jreybert/vimagit {{{2
+[[plugins]]
+repo = 'jreybert/vimagit'
+hook_add = '''
+	let g:magit_default_show_all_files = 2
+	let g:magit_default_fold_level = 0
+	let g:magit_default_sections = ['info', 'commit', 'staged', 'unstaged', 'stash']
+'''
+
 #}}}1 END git plugins
 
 # operator plugins {{{1
