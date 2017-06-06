@@ -10,6 +10,14 @@ repo = 'tpope/vim-fugitive'
 # cohama/agit.vim {{{2
 [[plugins]]
 repo = 'cohama/agit.vim'
+hook_add = '''
+augroup agit
+	autocmd!
+	autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
+	autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
+augroup END
+
+'''
 
 # airblade/vim-gitgutter {{{2
 [[plugins]]
