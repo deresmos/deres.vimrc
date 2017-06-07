@@ -433,9 +433,14 @@ nnoremap [Space]gl :Agit<CR>
 nnoremap [Space]gf :AgitFile<CR>
 
 " gitgutter keybind
-nmap [Space]gk <Plug>GitGutterPrevHunkzz
+nmap <silent> [Space]gk <Plug>GitGutterPrevHunkzz
 nmap <silent> [Space]gj <Plug>GitGutterNextHunkzz
 nmap <silent> [Space]gp <Plug>GitGutterPreviewHunk
+nnoremap <silent> [Space]gu <Nop>
+nmap <silent> [Space]gU <Plug>GitGutterUndoHunk
+nnoremap <silent> [Space]ga <Nop>
+nmap <silent> [Space]gA <Plug>GitGutterStageHunk
+nnoremap <silent> [Space]gg :GitGutter<CR>
 nnoremap <silent> [Space]gtt :GitGutterToggle<CR>
 nnoremap <silent> [Space]gts :GitGutterSignsToggle<CR>
 nnoremap <silent> [Space]gtl :GitGutterLineHighlightsToggle<CR>

@@ -11,12 +11,27 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'cohama/agit.vim'
 hook_add = '''
-augroup agit
-	autocmd!
-	autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
-	autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
-augroup END
+	augroup agit
+		autocmd!
+		autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
+		autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
+	augroup END
 
+	let g:agit_preset_views = {
+	\ 'default': [
+	\   {'name': 'log'},
+	\   {'name': 'stat',
+	\    'layout': 'botright vnew'},
+	\   {'name': 'diff',
+	\    'layout': 'belowright {winheight(".") * 3 / 4}new'}
+	\ ],
+	\ 'file': [
+	\   {'name': 'filelog'},
+	\   {'name': 'catfile',
+	\    'layout': 'botright vnew'},
+	\   {'name': 'diff',
+	\    'layout': 'belowright {winheight(".") * 3 / 4}new'}
+	\ ]}
 '''
 
 # airblade/vim-gitgutter {{{2
