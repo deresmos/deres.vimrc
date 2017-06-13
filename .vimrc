@@ -101,7 +101,7 @@ if exists('&ambw')
 endif
 
 set wildmenu
-set wildmode=list:longest
+set wildmode=list:longest,full
 set incsearch
 set hlsearch
 set showmatch
