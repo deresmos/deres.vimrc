@@ -333,10 +333,11 @@ nnoremap <silent> [Space]bl :BuffergatorToggle<CR>
 nnoremap <silent> [Space]pf :DeniteProjectDir file_rec<CR>
 nnoremap <silent> [Space]pg :DeniteProjectDir grep<CR>
 nnoremap <silent> [Space]pG :DeniteProjectDir grep -default-action=tabopen<CR>
-
+noremap <silent> [Space]pa "ap
 
 "Y keybind{{{2
 nnoremap <silent> [Space]yl :<C-u>Denite neoyank<CR>
+noremap <silent> [Space]ya "ay
 
 "T keybind{{{2
 nnoremap <silent> [Space]tc :tabnew<CR>
