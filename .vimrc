@@ -565,6 +565,13 @@ nnoremap <silent> [Space]utf :UndotreeFocus<CR>
 "V keybind {{{2
 nnoremap [Space]vg :vimgrep /\v/ %<Left><Left><Left>
 
+"A keybind {{{2
+nnoremap [Space]al= vis:EasyAlign*=<CR>
+xnoremap [Space]al= :EasyAlign*=<CR>
+nnoremap [Space]al\| vis:EasyAlign*\|<CR>
+xnoremap [Space]al\| :EasyAlign*\|<CR>
+
+
 "nvim only keybind{{{2
 if has('nvim')
 	nnoremap <silent> [Space]m= :Autoformat<CR>
