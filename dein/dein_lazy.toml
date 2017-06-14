@@ -281,6 +281,17 @@ hook_source = '''
 	autocmd! FileType php setlocal completeopt-=preview
 '''
 
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+if = '''has('nvim')'''
+on_i = 1
+on_ft = 'javascript'
+hook_add = '''
+	let g:tern_request_timeout = 1
+	let g:tern_show_signature_in_pum = '0'
+	autocmd! FileType javascript setlocal completeopt-=preview
+'''
+
 # }}}1 END neovim plugins
 
 # vim plugins {{{1
