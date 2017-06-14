@@ -557,8 +557,8 @@ nnoremap <silent> [Space]mS :mark s<CR>
 nnoremap <silent> [Space]mD :mark d<CR>
 
 "U keybind {{{2
-nnoremap <silent> [Space]up :UpdateRemotePlugins<CR>
-nnoremap <silent> [Space]uP :call dein#update()<CR>
+nnoremap <silent> [Space]up :call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
+nnoremap <silent> [Space]uP :call dein#update()<CR>:UpdateRemotePlugins<CR>
 nnoremap <silent> [Space]utt :UndotreeToggle<CR>
 nnoremap <silent> [Space]utf :UndotreeFocus<CR>
 
