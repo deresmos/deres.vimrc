@@ -271,6 +271,16 @@ repo = 'othree/html5.vim'
 if = '''has('nvim')'''
 on_ft = 'html'
 
+# padawan-php/deoplete-padawan # {{{2
+[[plugins]]
+repo = 'padawan-php/deoplete-padawan'
+if = '''has('nvim')'''
+on_i = 1
+on_ft = 'php'
+hook_source = '''
+	autocmd! FileType php setlocal completeopt-=preview
+'''
+
 # }}}1 END neovim plugins
 
 # vim plugins {{{1
