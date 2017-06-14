@@ -582,6 +582,8 @@ if has('nvim')
 	nnoremap <silent> [Space]mcs :QuickRun -outputter/buffer/split ':botright'<CR>
 	nnoremap <silent> [Space]mco :QuickRun -outputter file:
 	nnoremap <silent> [Space]mcl :lwindow<CR>
+
+	nnoremap <silent> [Space]mpi :call deoplete#sources#padawan#InstallServer()<CR>
 	" }}}
 
 	augroup formatter " {{{
