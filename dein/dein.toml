@@ -382,21 +382,10 @@ hook_add = '''
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
-	let g:lightline = {
-		\'colorscheme': 'wombat'
-		\}
-
-	let g:lightline.tabline = {
-		\ 'left': [ [ 'tabs' ] ],
-		\ 'right': [ [ 'close' ] ] }
-
-	let g:lightline.component_expand = {
-				\ 'tabs': 'lightline#tabs'}
-	let g:lightline.component_type = {
-				\ 'tabs': 'tabsel'}
-
+	let g:lightline = {}
 	let g:lightline = {
 		\ 'colorscheme': 'wombat',
+		\ 'subseparator': {'left': '\\', 'right': '/'},
 		\ 'mode_map': {'c': 'NORMAL'},
 		\ 'active': {
 		\   'left': [
@@ -405,17 +394,36 @@ hook_add = '''
 		\     ['readonly', 'filename'],
 		\   ],
 		\   'right': [
-		\			['percent'],
+		\			['lineinfo'],
 		\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
 		\			['ale'],
+		\   ]
+		\ },
+		\ 'inactive': {
+		\   'left': [
+		\     ['filenamefull'],
+		\   ],
+		\   'right': [
+		\			['lineinfo'],
+		\     ['number', 'filetype'],
+		\   ]
+		\ },
+		\ 'tabline': {
+		\   'left': [
+		\     ['tabs'],
+		\   ],
+		\   'right': [
+		\			['filenamefull'],
+		\			['number', 'maxline'],
 		\   ]
 		\ },
 		\ 'component_function': {
 		\   'modified': 'MyModified',
 		\   'fugitive': 'MyFugitive',
 		\   'filename': 'MyFilename',
+		\   'filenamefull': 'MyFilenameFull',
 		\   'lineinfo': 'MyLineInfo',
-		\   'percent': 'MyPercent',
+		\   'maxline': 'MaxLine',
 		\   'fileformat': 'MyFileformat',
 		\   'filetype': 'MyFiletype',
 		\   'fileencoding': 'MyFileencoding',
@@ -425,9 +433,13 @@ hook_add = '''
 		\ },
 		\ 'component_expand': {
 		\		'readonly': 'MyReadonly',
+		\		'tabs': 'lightline#tabs',
 		\ },
 		\ 'component_type': {
 		\		'readonly': 'error',
+		\ },
+		\ 'component': {
+		\		'number': 'w%{winnr()}:b%n',
 		\ },
 	\ }
 
@@ -435,52 +447,55 @@ hook_add = '''
 		if has('nvim')
 			return ale#statusline#Status()
 		endif
+
 		return ''
 	endfunction
 
-	function! MyLineInfo()
-		return line('.') . ':' . virtcol('.')
+	function! MaxLine()
+		return 'L' . line('$')
 	endfunction
 
-	function! MyPercent()
-		return 'L' . line('$') . ':R' . virtcol('$')
+	function! MyLineInfo()
+		return 'L' . line('.') . ':R' . virtcol('$')
 	endfunction
 
 	function! MyModified()
-		return &ft =~ 'help\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+		return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 	endfunction
 
 	function! MyReadonly()
-		return &ft !~? 'help\|gundo' && &ro ? 'Readonly' : ''
+		return &ft !~? 'help' && &readonly ? 'Readonly' : ''
 	endfunction
 
 	function! MyFilename()
-		return (&ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
-					\ '' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : winwidth(0) > 50 ? expand('%:t') : '' : '[No Name]') .
-					\ ('' != MyModified() ? ' ' . MyModified() : '')
+		return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : 
+		\ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]') 
+		\ . ('' != MyModified() ? ' ' . MyModified() : '')
+	endfunction
+
+	function! MyFilenameFull()
+		return '' != expand('%:p') ? expand('%:p') : '[No Name]'
 	endfunction
 
 	function! MyFugitive()
 		try
 			if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
-				return ' ' . fugitive#head()
+				return fugitive#head()
 			endif
 		catch
 		endtry
+
 		return ''
 	endfunction
 
 	function! MyGitGutter()
 		if ! exists('*GitGutterGetHunkSummary')
-					\ || ! get(g:, 'gitgutter_enabled', 0)
-					\ || winwidth(0) <= 110
+				\ || ! get(g:, 'gitgutter_enabled', 0)
+				\ || winwidth(0) <= 70
 			return ''
 		endif
-		let symbols = [
-					\ '+',
-					\ '~',
-					\ '-'
-					\ ]
+
+		let symbols = ['+','~', '-']
 		let hunks = GitGutterGetHunkSummary()
 		let ret = []
 		for i in [0, 1, 2]
@@ -488,6 +503,7 @@ hook_add = '''
 				call add(ret, symbols[i] . hunks[i])
 			endif
 		endfor
+
 		return join(ret, ' ')
 	endfunction
 
@@ -500,7 +516,7 @@ hook_add = '''
 	endfunction
 
 	function! MyFileencoding()
-		return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+		return winwidth('.') > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
 	endfunction
 
 	function! MyMode()
