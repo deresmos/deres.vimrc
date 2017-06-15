@@ -96,6 +96,7 @@ let &undodir = s:undo_dir
 filetype plugin on
 set ambiwidth=double
 
+set noshowmode
 if exists('&ambw')
 	set ambw=double
 endif
@@ -266,10 +267,10 @@ autocmd! VimEnter * nnoremap <TAB> >>
 autocmd! VimEnter * vnoremap <TAB> >gv
 vnoremap <S-TAB> <gv
 nnoremap <C-i> <C-i>
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
 noremap m %
 noremap <S-h> ^
 noremap <S-l> $

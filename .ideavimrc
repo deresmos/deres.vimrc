@@ -24,10 +24,10 @@ nnoremap <silent> <S-tab> <<
 vnoremap <silent> <tab> >gv
 vnoremap <silent> <S-tab> <gv
 
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
 noremap m %
 noremap <S-h> ^
 noremap <S-l> $
