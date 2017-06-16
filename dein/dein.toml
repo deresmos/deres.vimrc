@@ -598,8 +598,8 @@ repo = 'haya14busa/incsearch-fuzzy.vim'
 hook_add = '''
 	map z/ <Plug>(incsearch-fuzzy-/)
 	map zg/ <Plug>(incsearch-fuzzy-stay)
-	map zz/ <Plug>(incsearch-fuzzyspell-/)
-	map zzg/ <Plug>(incsearch-fuzzyspell-stay)
+	map zs/ <Plug>(incsearch-fuzzyspell-/)
+	map zsg/ <Plug>(incsearch-fuzzyspell-stay)
 '''
 
 [[plugins]]
