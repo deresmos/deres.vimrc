@@ -544,6 +544,28 @@ map [Space]ci <plug>NERDCommenterToEOL
 map [Space]cA <plug>NERDCommenterAppend
 map [Space]cx <plug>NERDCommenterAltDelims
 
+" Capture command {{{
+command! -nargs=1 -complete=command CaptureC call <SID>CaptureC(<f-args>)
+
+function! s:CaptureC(cmd)
+	redir => l:result
+	silent execute a:cmd
+	redir END
+
+	let l:bufname = 'Capture: ' . a:cmd
+	tabnew
+	setlocal bufhidden=unload
+	setlocal nobuflisted
+	setlocal readonly
+	setlocal buftype=nofile
+	nnoremap <buffer><silent>q :quit<CR>
+	silent keepalt file `=bufname`
+	silent put =result
+	1,2delete _
+endfunction
+" }}}
+nnoremap [Space]cp :CaptureC<space>
+
 "O keybind {{{2
 map [Space]os <Plug>(openbrowser-smart-search)
 map <silent> [Space]ob :execute "OpenBrowser" expand("%:p")<CR>
