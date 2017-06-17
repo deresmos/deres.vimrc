@@ -133,7 +133,8 @@ hook_source = '''
 	nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 	let g:ale_linters = {
 		\ 'python': ['flake8'],
-		\ 'javascript': ['jshint'],
+		\ 'javascript': ['eslint', 'jshint'],
+		\ 'css': ['stylelint', 'csslint'],
 		\ }
 	"let g:ale_python_pylint_args="--disable=C0111"
 	highlight link ALEWarningSign SpellCap
