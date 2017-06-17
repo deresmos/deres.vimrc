@@ -1,11 +1,13 @@
 #!/bin/bash
 
 set -x
-script_dir=$(pwd $(cd $(readlink $0)))
+dir=$(pwd)
+nvim_dir=$HOME'/.config/nvim'
+nvim_dein_dir=$nvim_dir'/dein'
 
 # vim/deinディレクトリ作成
-if [ ! -d $HOME/.config/nvim/dein ]; then
-	mkdir -p ~/.config/nvim/dein
+if [ ! -d $nvim_dein_dir ]; then
+	mkdir -p $nvim_dein_dir
 fi
 
 # オリジナルのvimrcを退避
@@ -16,8 +18,8 @@ if [ -f $HOME/.vimrc ]; then
 fi
 
 # シンボリックリンク貼り貼り
-ln -sf ${script_dir}/.ideavimrc $HOME/
-ln -sf ${script_dir}/.vimrc $HOME/.config/nvim/init.vim
-ln -sf ${script_dir}/my.vim $HOME/.config/nvim/my.vim
-ln -sf ${script_dir}/dein/dein.toml $HOME/.config/nvim/dein/
-ln -sf ${script_dir}/dein/dein_lazy.toml $HOME/.config/nvim/dein/
+ln -sf ${dir}/.ideavimrc $HOME/
+ln -sf ${dir}/.vimrc $nvim_dir'/init.vim'
+ln -sf ${dir}/my.vim $nvim_dir'/my.vim'
+ln -sf ${dir}/dein/dein.toml $nvim_dein_dir'/'
+ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir'/'
