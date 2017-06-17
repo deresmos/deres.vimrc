@@ -595,6 +595,12 @@ nnoremap [Space]al\| vis:EasyAlign*\|<CR>
 xnoremap [Space]al\| :EasyAlign*\|<CR>
 
 
+"E keybind {{{2
+nmap [Space]ej <Plug>(ale_next)zz
+nmap [Space]ek <Plug>(ale_wrap)zz
+nmap [Space]et <Plug>(ale_toggle)
+
+
 "nvim only keybind{{{2
 if has('nvim')
 	nnoremap <silent> [Space]m= :Autoformat<CR>
