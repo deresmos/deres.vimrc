@@ -190,6 +190,8 @@ if = '''has('nvim')'''
 on_ft = ['python', 'c', 'cpp', 'css', 'html', 'php', 'javascript']
 hook_source = '''
 	let g:formatter_yapf_style = 'pep8'
+	let g:formatdef_csscomb = '"csscomb"'
+	let g:formatters_css = ['csscomb', 'cssbeautify']
 '''
 
 # thinca/vim-quickrun {{{2
