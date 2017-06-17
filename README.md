@@ -26,7 +26,7 @@
 * jshint *(npm install -g jshint)*
 
 ## インストール方法
-Linux, Macの方なら、link.sh実行させれば、使えるようになります。
+Linux, Macの方なら、create-symlinks.sh実行させれば、使えるようになります。
 Neovimに対応してます。(Vimでも動きますが、いくつか使えないコマンドがあります)
 
 ## 使い方

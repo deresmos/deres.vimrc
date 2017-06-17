@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-dir=$(pwd)
+dir=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 nvim_dir=$HOME'/.config/nvim'
 nvim_dein_dir=$nvim_dir'/dein'
 
