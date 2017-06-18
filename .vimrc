@@ -263,10 +263,8 @@ nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
 " not work tab??
 nnoremap <TAB> >>
 nnoremap <S-TAB> <<
-vnoremap <TAB> >gv
-autocmd! VimEnter * nnoremap <TAB> >>
-autocmd! VimEnter * vnoremap <TAB> >gv
-vnoremap <S-TAB> <gv
+xnoremap <TAB> >gv
+xnoremap <S-TAB> <gv
 nnoremap <C-i> <C-i>
 noremap j gj
 noremap k gk
