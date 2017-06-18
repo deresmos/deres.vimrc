@@ -173,6 +173,24 @@ hook_source = '''
 	autocmd FileType python setlocal completeopt-=preview
 '''
 
+# fatih/vim-go # {{{2
+[[plugins]]
+repo = 'fatih/vim-go'
+if = '''has('nvim')'''
+on_ft = 'go'
+hook_source = '''
+	augroup vim-go-keymap
+		autocmd!
+		autocmd FileType go setlocal completeopt-=preview
+	augroup END
+'''
+
+# zchee/deoplete-go # {{{2
+[[plugins]]
+repo = 'zchee/deoplete-go'
+if = '''has('nvim')'''
+on_ft = 'go'
+
 # mattn/emmet-vim {{{2
 [[plugins]]
 repo = 'mattn/emmet-vim'
