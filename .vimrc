@@ -507,7 +507,9 @@ endfunction
 "R keybind {{{2
 nnoremap <silent> [Space]re :noh<CR>:silent! SearchBuffersReset<CR>
 " nnoremap <silent> [Space]rp :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-nnoremap [Space]rp :%s/<C-r><C-w>//g<Left><Left>
+nnoremap <Space>rp :%s///g<Left><Left>
+xnoremap <Space>rp :s///g<Left><Left>
+nnoremap <Space>rP :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> [Space]rv :silent! loadview<CR>
 nnoremap <silent> [Space]rn :Renamer<CR>
 nnoremap <silent> [Space]rs :Ren<CR>
