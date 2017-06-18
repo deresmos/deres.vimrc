@@ -406,6 +406,7 @@ nnoremap <silent> [Space]wL <c-w>L
 nnoremap <silent> [Space]wH <c-w>H
 nnoremap <silent> [Space]wJ <c-w>J
 nnoremap <silent> [Space]wK <c-w>K
+nnoremap <silent> [Space]wP <c-w>\|<c-w>_
 call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
 call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
 call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
