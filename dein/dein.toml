@@ -124,11 +124,8 @@ hook_add = '''
 	xmap <Space>d <Plug>(textmanip-duplicate-down)
 	xmap <Space>D <Plug>(textmanip-duplicate-up)
 
-	vmap <C-j> <Plug>(textmanip-move-down)
-	vmap <C-k> <Plug>(textmanip-move-up)
-	" toggle insert/replace with <F10>
-	nmap <F10> <Plug>(textmanip-toggle-mode)
-	xmap <F10> <Plug>(textmanip-toggle-mode)
+	xmap <C-j> <Plug>(textmanip-move-down)
+	xmap <C-k> <Plug>(textmanip-move-up)
 '''
 
 # terryma/vim-multiple-cursors {{{2
