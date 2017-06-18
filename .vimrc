@@ -563,6 +563,8 @@ function! s:CaptureC(cmd)
 	silent keepalt file `=bufname`
 	silent put =result
 	1,2delete _
+	" For readonly show status
+	call lightline#update()
 endfunction
 " }}}
 nnoremap [Space]cp :CaptureC<space>

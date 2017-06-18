@@ -476,7 +476,7 @@ hook_add = '''
 	endfunction
 
 	function! MyReadonly()
-		return &ft !~? 'help' && &readonly ? 'Readonly' : ''
+		return &readonly ? 'Readonly' : ''
 	endfunction
 
 	function! MyFilename()
