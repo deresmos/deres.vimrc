@@ -333,6 +333,12 @@ hook_add = '''
 	autocmd! FileType javascript setlocal completeopt-=preview
 '''
 
+# tpope/vim-endwise # {{{2
+[[plugins]]
+repo = 'tpope/vim-endwise'
+if = '''has('nvim')'''
+on_i = 1
+
 # }}}1 END neovim plugins
 
 # vim plugins {{{1
