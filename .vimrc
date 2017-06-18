@@ -354,11 +354,6 @@ nnoremap <silent> [Space]tl :tabnext<CR>
 nnoremap <silent> [Space]th :tabprevious<CR>
 nnoremap <silent> [Space]tL :+tabmove<CR>
 nnoremap <silent> [Space]tH :-tabmove<CR>
-call submode#enter_with('tabmove', 'n', '', '<SPACE>tt', '<Nop>')
-call submode#map('tabmove', 'n', '', 'l', ':tabnext<CR>')
-call submode#map('tabmove', 'n', '', 'h', ':tabprevious<CR>')
-call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
-call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
 
 for n in range(1, 9)
 	execute 'nnoremap <silent> [Space]t'.n  ':<C-u>tabnext'.n.'<CR>'
@@ -407,21 +402,6 @@ nnoremap <silent> [Space]wH <c-w>H
 nnoremap <silent> [Space]wJ <c-w>J
 nnoremap <silent> [Space]wK <c-w>K
 nnoremap <silent> [Space]wP <c-w>\|<c-w>_
-call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
-call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
-call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
-call submode#map('windowmove', 'n', '', 'l', '<C-w>l')
-call submode#map('windowmove', 'n', '', 'h', '<C-w>h')
-call submode#map('windowmove', 'n', '', 'J', '<C-w>J')
-call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
-call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
-call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
-
-call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
-call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
-call submode#map('bufmove', 'n', '', 'h', '<C-w><')
-call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
-call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
 
 "G keybind{{{2
 " fugitive keybind
