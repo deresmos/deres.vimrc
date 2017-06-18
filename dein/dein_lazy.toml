@@ -227,7 +227,6 @@ on_ft = ['css', 'html']
 hook_source = '''
 	let g:colorizer_auto_filetype = 'css,html'
 	let g:colorizer_skip_comments = 1
-	let g:colorizer_auto_filetype = 'css,html'
 	let g:colorizer_auto_color    = 1
 '''
 
