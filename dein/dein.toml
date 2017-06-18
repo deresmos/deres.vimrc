@@ -90,22 +90,18 @@ hook_add = '''
 # kana/vim-operator-user {{{2
 [[plugins]]
 repo = 'kana/vim-operator-user'
-
-# kana/vim-operator-replace {{{2
-[[plugins]]
-repo = 'kana/vim-operator-replace'
 hook_add = '''
-	map R <Plug>(operator-replace)
-'''
-
-# rhysd/vim-operator-surround {{{2
-[[plugins]]
-repo = 'rhysd/vim-operator-surround'
-hook_add = '''
-	map s <Nop>
-	map <silent>sa <Plug>(operator-surround-append)
-	map <silent>sd <Plug>(operator-surround-delete)
-	map <silent>sr <Plug>(operator-surround-replace)
+	nmap R <Nop>
+	nmap R <Plug>(operator-replace)
+	xmap R <Nop>
+	xmap R <Plug>(operator-replace)
+	xmap <silent><SPACE>oa <Plug>(operator-surround-append)
+	xmap <silent><SPACE>od <Plug>(operator-surround-delete)
+	xmap <silent><SPACE>or <Plug>(operator-surround-replace)
+	xmap <silent><SPACE>oc <Plug>(operator-camelize)gv
+	xmap <silent><SPACE>oC <Plug>(operator-decamelize)gv
+	xmap <silent><SPACE>oe <Plug>(operator-html-escape)
+	xmap <silent><SPACE>oE <Plug>(operator-html-unescape)
 
 	let g:operator#surround#blocks = {
 	\   '-' : [
@@ -116,6 +112,22 @@ hook_add = '''
 	\   ]
 	\ }
 '''
+
+# kana/vim-operator-replace {{{2
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+
+# rhysd/vim-operator-surround {{{2
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+
+# tyru/operator-camelize.vim {{{2
+[[plugins]]
+repo = 'tyru/operator-camelize.vim'
+
+# tyru/operator-html-escape.vim {{{2
+[[plugins]]
+repo = 'tyru/operator-html-escape.vim'
 
 # t9md/vim-textmanip {{{2
 [[plugins]]
