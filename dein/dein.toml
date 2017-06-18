@@ -145,6 +145,22 @@ hook_add = '''
 [[plugins]]
 repo = 'paradigm/vim-multicursor'
 
+# kana/vim-textobj-user {{{2
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+hook_add = '''
+	omap al <Plug>(textobj-indent-a)
+	xmap al <Plug>(textobj-indent-a)
+	omap il <Plug>(textobj-indent-i)
+	xmap il <Plug>(textobj-indent-i)
+'''
+
+[[plugins]]
+repo = 'kana/vim-textobj-indent'
+
+[[plugins]]
+repo = 'thinca/vim-textobj-between'
+
 # }}}1 END oparator plugins
 
 # neovim plugins {{{1
