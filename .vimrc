@@ -117,7 +117,11 @@ set autoindent
 set cursorline
 set colorcolumn=80
 
-noremap x "_x
+nnoremap x "_x
+vnoremap x "_x
+nnoremap s "_s
+vnoremap s "_s
+
 set showcmd
 syntax on
 " install gvim
