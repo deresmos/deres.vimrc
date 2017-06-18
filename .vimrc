@@ -286,6 +286,11 @@ nnoremap <leader> <Nop>
 nnoremap [Space] <Nop>
 nmap <SPACE> [Space]
 
+omap iq i'
+omap iQ i"
+omap aq a'
+omap aQ a"
+
 "F keybind {{{2
 nnoremap <silent> [Space]ff :FufFileWithCurrentBufferDir<CR>
 nnoremap <silent> [Space]fr :Denite file_mru<CR>
