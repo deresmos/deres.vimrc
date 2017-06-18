@@ -642,5 +642,9 @@ hook_add = '''
 	let g:buffergator_sort_regime = 'mru'
 '''
 
+# AndrewRadev/switch.vim {{{2
+[[plugins]]
+repo = 'AndrewRadev/switch.vim'
+
 #}}}1 END plugins
 

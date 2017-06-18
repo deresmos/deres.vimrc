@@ -616,6 +616,9 @@ if has('nvim')
 	nnoremap <silent> [Space]mcl :lwindow<CR>
 
 	nnoremap <silent> [Space]mpi :call deoplete#sources#padawan#InstallServer()<CR>
+
+	nnoremap <silent> [Space]msw :Switch<CR>
+	nnoremap <silent> [Space]msW :SwitchReverse<CR>
 	" }}}
 
 	augroup formatter " {{{
