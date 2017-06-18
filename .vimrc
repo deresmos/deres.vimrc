@@ -355,8 +355,8 @@ nnoremap <silent> [Space]th :tabprevious<CR>
 nnoremap <silent> [Space]tL :+tabmove<CR>
 nnoremap <silent> [Space]tH :-tabmove<CR>
 
-for n in range(1, 9)
-	execute 'nnoremap <silent> [Space]t'.n  ':<C-u>tabnext'.n.'<CR>'
+for s:n in range(1, 9)
+	execute 'nnoremap <silent> [Space]t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
 nnoremap <silent> [Space]tg :TagsGenerate<CR>
