@@ -445,13 +445,13 @@ hook_add = '''
 	let g:lightline = {}
 	let g:lightline = {
 		\ 'colorscheme': 'wombat',
-		\ 'subseparator': {'left': '\\', 'right': '/'},
+		\ 'subseparator': {'left': '|', 'right': '|'},
 		\ 'mode_map': {'c': 'NORMAL'},
 		\ 'active': {
 		\   'left': [
-		\     ['mode', 'paste'],
+		\     ['mode', 'paste', 'readonly'],
 		\     ['fugitive', 'gitgutter'],
-		\     ['readonly', 'filename'],
+		\     ['currenttag'],
 		\   ],
 		\   'right': [
 		\			['lineinfo'],
@@ -461,6 +461,7 @@ hook_add = '''
 		\ },
 		\ 'inactive': {
 		\   'left': [
+		\			[''],
 		\     ['filenamefull'],
 		\   ],
 		\   'right': [
@@ -490,6 +491,7 @@ hook_add = '''
 		\   'mode': 'MyMode',
 		\   'gitgutter': 'MyGitGutter',
 		\		'ale': 'AleStatus',
+		\		'currenttag': 'MyCurrentTag',
 		\ },
 		\ 'component_expand': {
 		\		'readonly': 'MyReadonly',
@@ -497,11 +499,18 @@ hook_add = '''
 		\ },
 		\ 'component_type': {
 		\		'readonly': 'error',
+		\		'tabs': 'tabsel',
 		\ },
 		\ 'component': {
 		\		'number': 'w%{winnr()}:b%n',
 		\ },
 	\ }
+	let s:p = g:lightline#colorscheme#wombat#palette
+	let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
+	let s:p.insert.right = [['#444444 ', '#95e454', 238, 119], ['#d0d0d0', '#585858', 252, 240]]
+	let s:p.visual.right = [['#444444 ', '#f2c68a', 238, 216], ['#d0d0d0', '#585858', 252, 240]]
+	let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
+	let g:lightline#colorscheme#wombat#palette = s:p
 
 	function! AleStatus()
 		if has('nvim')
@@ -548,11 +557,14 @@ hook_add = '''
 		return ''
 	endfunction
 
+	function! MyCurrentTag()
+		return winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
+	endfunction
+
 	function! MyGitGutter()
 		if ! exists('*GitGutterGetHunkSummary')
 				\ || ! get(g:, 'gitgutter_enabled', 0)
 				\ || winwidth(0) <= 70
-			return ''
 		endif
 
 		let symbols = ['+','~', '-']
@@ -568,19 +580,19 @@ hook_add = '''
 	endfunction
 
 	function! MyFileformat()
-		return winwidth('.') > 70 ? &fileformat : ''
+		return winwidth(0) > 80 ? &fileformat : ''
 	endfunction
 
 	function! MyFiletype()
-		return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+		return winwidth(0) > 80 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 	endfunction
 
 	function! MyFileencoding()
-		return winwidth('.') > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
+		return winwidth(0) > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
 	endfunction
 
 	function! MyMode()
-		return winwidth('.') > 30 ? lightline#mode() : ''
+		return winwidth(0) > 30 ? lightline#mode() : ''
 	endfunction
 '''
 
