@@ -694,5 +694,18 @@ hook_add = '''
 [[plugins]]
 repo = 'AndrewRadev/switch.vim'
 
+# t9md/vim-quickhl {{{2
+[[plugins]]
+repo = 't9md/vim-quickhl'
+hook_add = '''
+	nnoremap <Space>mp :QuickhlManualAdd<space>
+	nmap <Space>mt <Plug>(quickhl-manual-this)
+	xmap <Space>mt <Plug>(quickhl-manual-this)
+	nmap <Space>mT <Plug>(quickhl-manual-reset)
+	xmap <Space>mT <Plug>(quickhl-manual-reset)
+	nmap <Space>mc <Plug>(quickhl-cword-toggle)
+	map H <Plug>(operator-quickhl-manual-this-motion)
+'''
+
 #}}}1 END plugins
 
