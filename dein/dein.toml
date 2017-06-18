@@ -625,6 +625,10 @@ repo = 'thinca/vim-zenspace'
 [[plugins]]
 repo = 'cocopon/colorswatch.vim'
 
+# guns/xterm-color-table.vim {{{2
+[[plugins]]
+repo = 'guns/xterm-color-table.vim'
+
 # rickhowe/diffchar.vim {{{2
 [[plugins]]
 repo = 'rickhowe/diffchar.vim'
