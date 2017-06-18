@@ -297,6 +297,15 @@ repo = 'hail2u/vim-css3-syntax'
 if = '''has('nvim')'''
 on_ft = 'css'
 
+# pangloss/vim-javascript # {{{2
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+if = '''has('nvim')'''
+on_ft = 'javascript'
+hook_source = '''
+	let g:javascript_plugin_jsdoc = 1
+'''
+
 # othree/html5.vim # {{{2
 [[plugins]]
 repo = 'othree/html5.vim'
