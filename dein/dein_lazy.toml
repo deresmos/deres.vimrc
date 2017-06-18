@@ -183,6 +183,12 @@ hook_source = '''
 	let g:user_emmet_leader_key='<C-y>'
 '''
 
+# gregsexton/MatchTag {{{2
+[[plugins]]
+repo = 'gregsexton/MatchTag'
+if = '''has('nvim')'''
+on_ft = ['html']
+
 # Chiel92/vim-autoformat {{{2
 [[plugins]]
 repo = 'Chiel92/vim-autoformat'
