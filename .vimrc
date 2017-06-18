@@ -600,7 +600,7 @@ xnoremap [Space]al\| :EasyAlign*\|<CR>
 
 "E keybind {{{2
 nmap [Space]ej <Plug>(ale_next)zz
-nmap [Space]ek <Plug>(ale_wrap)zz
+nmap [Space]ek <Plug>(ale_previous)zz
 nmap [Space]et <Plug>(ale_toggle)
 
 
