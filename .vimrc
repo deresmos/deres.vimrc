@@ -292,6 +292,12 @@ omap iq i'
 omap iQ i"
 omap aq a'
 omap aQ a"
+omap fq f'
+omap fQ f"
+omap tq t'
+omap tQ t"
+
+nnoremap <Space><Space> :
 
 "F keybind {{{2
 nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>

@@ -40,6 +40,15 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 
+omap iq i'
+omap iQ i"
+omap aq a'
+omap aQ a"
+omap fq f'
+omap fQ f"
+omap tq t'
+omap tQ t"
+
 nnoremap <silent> <SPACE>th gT
 nnoremap <silent> <SPACE>tl gt
 
