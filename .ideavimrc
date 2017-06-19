@@ -75,6 +75,9 @@ nnoremap <SPACE>vc zc
 nnoremap <SPACE>vC zC
 
 nnoremap <silent> <SPACE>re :noh<CR>
+nnoremap <Space>rp :%s///g<Left><Left>
+xnoremap <Space>rp :s///g<Left><Left>
+nnoremap <Space>rP :%s/<C-r><C-w>//g<Left><Left>
 
 nnoremap <silent> <SPACE>tn :set norelativenumber<CR> :set number!<CR>
 nnoremap <silent> <SPACE>tN :set nonumber<CR> :set relativenumber!<CR>
