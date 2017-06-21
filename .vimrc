@@ -338,19 +338,22 @@ nnoremap <silent> <SPACE>bD :bdelete!<CR>
 nnoremap <silent> <SPACE>bs :wa<CR>
 nnoremap <silent> <SPACE>bo :BufOnly<CR>
 nnoremap <silent> <SPACE>bn :bn<CR>
-nnoremap <silent> <SPACE>bN :bp<CR>
-nnoremap <silent> <SPACE><tab> :b #<CR>
+nnoremap <silent> <SPACE>bp :bp<CR>
+nnoremap <silent> <SPACE><Tab> :b#<CR>
 nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
 
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir grep<CR>
 nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -default-action=tabopen<CR>
-noremap <silent> <SPACE>pa "ap
+
+nnoremap <silent> <SPACE>pa "ap
+xnoremap <silent> <SPACE>pa "ap
 
 "Y keybind{{{2
 nnoremap <silent> <SPACE>yl :<C-u>Denite neoyank<CR>
-noremap <silent> <SPACE>ya "ay
+nnoremap <silent> <SPACE>ya "ay
+xnoremap <silent> <SPACE>ya "ay
 
 "T keybind{{{2
 nnoremap <silent> <SPACE>tc :tabnew<CR>
@@ -485,6 +488,7 @@ nnoremap <SPACE>sl :SLoad<Space>
 nnoremap <SPACE>sd :SDelete<Space>
 nnoremap <silent> <SPACE>sc :SClose<CR>
 nnoremap <silent> <SPACE>sC :SClose<CR>:qa!<CR>
+
 nnoremap <SPACE>sw :SearchBuffers<Space>
 
 "H keybind{{{2
@@ -530,14 +534,25 @@ nnoremap <silent> <Space>jv :Vaffle<CR>
 nnoremap <silent> <Space>js :Startify<CR>
 
 "C keybind {{{2
-map <SPACE>cn <plug>NERDCommenterNested
-map <SPACE>cy <plug>NERDCommenterYank
-map <SPACE>cm <plug>NERDCommenterMinimal
-map <SPACE>cc <plug>NERDCommenterToggle
-map <SPACE>cs <plug>NERDCommenterSexy
-map <SPACE>ci <plug>NERDCommenterToEOL
-map <SPACE>cA <plug>NERDCommenterAppend
-map <SPACE>cx <plug>NERDCommenterAltDelims
+nmap <SPACE>cn <plug>NERDCommenterNested
+nmap <SPACE>cy <plug>NERDCommenterYank
+nmap <SPACE>cm <plug>NERDCommenterMinimal
+nmap <SPACE>cc <plug>NERDCommenterToggle
+nmap <SPACE>cs <plug>NERDCommenterSexy
+nmap <SPACE>ci <plug>NERDCommenterToEOL
+nmap <SPACE>cA <plug>NERDCommenterAppend
+nmap <SPACE>cx <plug>NERDCommenterAltDelims
+
+xmap <SPACE>cn <plug>NERDCommenterNested
+xmap <SPACE>cy <plug>NERDCommenterYank
+xmap <SPACE>cm <plug>NERDCommenterMinimal
+xmap <SPACE>cc <plug>NERDCommenterToggle
+xmap <SPACE>cs <plug>NERDCommenterSexy
+xmap <SPACE>ci <plug>NERDCommenterToEOL
+xmap <SPACE>cA <plug>NERDCommenterAppend
+xmap <SPACE>cx <plug>NERDCommenterAltDelims
+
+nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 
 " Capture command {{{
 command! -nargs=1 -complete=command CaptureC call <SID>CaptureC(<f-args>)
@@ -564,9 +579,13 @@ endfunction
 nnoremap <SPACE>cp :CaptureC<space>
 
 "O keybind {{{2
-map <SPACE>os <Plug>(openbrowser-smart-search)
-map <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
-map <silent> <SPACE>om :MarkdownPreview<CR>
+nmap <SPACE>os <Plug>(openbrowser-smart-search)
+nnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
+nnoremap <silent> <SPACE>om :MarkdownPreview<CR>
+
+xmap <SPACE>os <Plug>(openbrowser-smart-search)
+xnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
+xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
 
 "M keybind {{{2
 nnoremap <silent> <SPACE>ma `azz
@@ -579,11 +598,13 @@ nnoremap <silent> <SPACE>mD :mark d<CR>
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
 nnoremap <silent> <SPACE>uP :call dein#update()<CR>:UpdateRemotePlugins<CR>
+
 nnoremap <silent> <SPACE>utt :UndotreeToggle<CR>
 nnoremap <silent> <SPACE>utf :UndotreeFocus<CR>
 
 "V keybind {{{2
 nnoremap <SPACE>vg :vimgrep /\v/ %<Left><Left><Left>
+xnoremap <SPACE>vg :vimgrep /\v<c-r><c-w>/ %
 
 "A keybind {{{2
 nnoremap <SPACE>al= vis:EasyAlign*=<CR>
@@ -627,22 +648,40 @@ if has('nvim')
 	augroup emmet " {{{
 		autocmd!
 
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mee <C-y>,
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>met <C-y>;
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meu <C-y>u
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>med <C-y>d
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meD <C-y>D
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>men <C-y>n
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meN <C-y>N
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mei <C-y>i
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mem <C-y>m
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mek <C-y>k
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mej <C-y>j
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>me/ <C-y>/
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mea <C-y>a
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meA <C-y>A
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mec <C-y>c
-
+		" nmap keybind {{{
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mee <C-y>,
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>met <C-y>;
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meu <C-y>u
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>med <C-y>d
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meD <C-y>D
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>men <C-y>n
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meN <C-y>N
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mei <C-y>i
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mem <C-y>m
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mek <C-y>k
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mej <C-y>j
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>me/ <C-y>/
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mea <C-y>a
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meA <C-y>A
+		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mec <C-y>c
+		" }}}
+		" xmap  keybind {{{
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mee <C-y>,
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>met <C-y>;
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meu <C-y>u
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>med <C-y>d
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meD <C-y>D
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>men <C-y>n
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meN <C-y>N
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mei <C-y>i
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mem <C-y>m
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mek <C-y>k
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mej <C-y>j
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>me/ <C-y>/
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mea <C-y>a
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meA <C-y>A
+		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mec <C-y>c
+		" }}}
 	augroup END " }}}
 
 	" terminal keybind {{{
@@ -651,6 +690,7 @@ if has('nvim')
 		exe 'NTermV'
 		exe 'stopinsert'
 	endfunction
+
 	function! s:term3()
 		exe 'NTermT'
 		exe 'NTermV'

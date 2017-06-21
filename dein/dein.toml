@@ -9,8 +9,8 @@ repo = 'tpope/vim-fugitive'
 hook_add = '''
 	augroup fugitive-keymap
 		autocmd!
-		autocmd FileType gitcommit map <buffer> <SPACE>gj <C-n>
-		autocmd FileType gitcommit map <buffer> <SPACE>gk <C-p>
+		autocmd FileType gitcommit nmap <buffer> <SPACE>gj <C-n>
+		autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
 	augroup END
 '''
 
@@ -79,8 +79,8 @@ hook_add = '''
 	let g:magit_default_sections = ['info', 'commit', 'staged', 'unstaged', 'stash']
 	augroup magit-keymap
 		autocmd!
-		autocmd FileType magit map <buffer> <C-j> <C-n>
-		autocmd FileType magit map <buffer> <C-k> <C-p>
+		autocmd FileType magit nmap <buffer> <SPACE>gj <C-n>
+		autocmd FileType magit nmap <buffer> <SPACE>gk <C-p>
 	augroup END
 '''
 
@@ -312,7 +312,7 @@ hook_add = '''
 	let g:EasyMotion_enter_jump_first = 1
 	let g:EasyMotion_space_jump_first = 1
 	nmap <SPACE>jj <Plug>(easymotion-s2)
-	xmap <SPACE>jj <Plug>(easymotion-s2)
+	omap <SPACE>jj <Plug>(easymotion-s2)
 	nmap <SPACE>jg <Plug>(easymotion-sn)
 	omap <SPACE>jg <Plug>(easymotion-tn)
 '''
@@ -649,24 +649,24 @@ hook_add = '''
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 hook_add = '''
-	map /  <Plug>(incsearch-forward)
-	map g/ <Plug>(incsearch-stay)
+	nmap /  <Plug>(incsearch-forward)
+	nmap g/ <Plug>(incsearch-stay)
 '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-fuzzy.vim'
 hook_add = '''
-	map z/ <Plug>(incsearch-fuzzy-/)
-	map zg/ <Plug>(incsearch-fuzzy-stay)
-	map zs/ <Plug>(incsearch-fuzzyspell-/)
-	map zsg/ <Plug>(incsearch-fuzzyspell-stay)
+	nmap z/ <Plug>(incsearch-fuzzy-/)
+	nmap zg/ <Plug>(incsearch-fuzzy-stay)
+	nmap zs/ <Plug>(incsearch-fuzzyspell-/)
+	nmap zsg/ <Plug>(incsearch-fuzzyspell-stay)
 '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-migemo.vim'
 hook_add = '''
-	map m/ <Plug>(incsearch-migemo-/)
-	map mg/ <Plug>(incsearch-migemo-stay)
+	nmap m/ <Plug>(incsearch-migemo-/)
+	nmap mg/ <Plug>(incsearch-migemo-stay)
 '''
 
 # mhinz/neovim-remote {{{2
@@ -716,7 +716,6 @@ hook_add = '''
 	nmap <Space>mT <Plug>(quickhl-manual-reset)
 	xmap <Space>mT <Plug>(quickhl-manual-reset)
 	nmap <Space>mc <Plug>(quickhl-cword-toggle)
-	map H <Plug>(operator-quickhl-manual-this-motion)
 '''
 
 # hecal3/vim-leader-guide {{{2
