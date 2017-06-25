@@ -110,8 +110,8 @@ set ignorecase
 set smartcase
 
 set tabstop=2
+set softtabstop=0
 set shiftwidth=2
-set softtabstop=2
 set autoindent
 " set smartindent
 set cursorline
@@ -597,7 +597,7 @@ nnoremap <silent> <SPACE>mD :mark d<CR>
 
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
-nnoremap <silent> <SPACE>uP :call dein#update()<CR>:UpdateRemotePlugins<CR>
+nnoremap <silent> <SPACE>uP :call dein#update()<CR>
 
 nnoremap <silent> <SPACE>utt :UndotreeToggle<CR>
 nnoremap <silent> <SPACE>utf :UndotreeFocus<CR>

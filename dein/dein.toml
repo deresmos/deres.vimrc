@@ -7,82 +7,89 @@ repo = 'idanarye/vim-merginal'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 hook_add = '''
-	augroup fugitive-keymap
-		autocmd!
-		autocmd FileType gitcommit nmap <buffer> <SPACE>gj <C-n>
-		autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
-	augroup END
+  augroup fugitive-keymap
+    autocmd!
+    autocmd FileType gitcommit nmap <buffer> <SPACE>gj <C-n>
+    autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
+  augroup END
 '''
 
 # cohama/agit.vim {{{2
 [[plugins]]
 repo = 'cohama/agit.vim'
 hook_add = '''
-	augroup agit-keymap
-		autocmd!
-		autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
-		autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
-	augroup END
+  augroup agit-keymap
+    autocmd!
+    autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
+    autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
+  augroup END
 
-	let g:agit_preset_views = {
-	\ 'default': [
-	\   {'name': 'log'},
-	\   {'name': 'stat',
-	\    'layout': 'botright vnew'},
-	\   {'name': 'diff',
-	\    'layout': 'belowright {winheight(".") * 3 / 4}new'}
-	\ ],
-	\ 'file': [
-	\   {'name': 'filelog'},
-	\   {'name': 'catfile',
-	\    'layout': 'botright vnew'},
-	\   {'name': 'diff',
-	\    'layout': 'belowright {winheight(".") * 3 / 4}new'}
-	\ ]}
+  let g:agit_preset_views = {
+    \ 'default': [
+    \   {'name': 'log'},
+    \   {'name': 'stat',
+    \    'layout': 'botright vnew'},
+    \   {'name': 'diff',
+    \    'layout': 'belowright {winheight(".") * 3 / 4}new'}
+    \ ],
+    \ 'file': [
+    \   {'name': 'filelog'},
+    \   {'name': 'catfile',
+    \    'layout': 'botright vnew'},
+    \   {'name': 'diff',
+    \    'layout': 'belowright {winheight(".") * 3 / 4}new'}
+    \ ]}
 '''
 
 # airblade/vim-gitgutter {{{2
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
-	let g:gitgutter_sign_added = '+'
-	let g:gitgutter_sign_modified = '~'
-	let g:gitgutter_sign_removed = '-'
-	let g:gitgutter_sign_modified_removed = '~-'
-  let g:gitgutter_map_keys = 0
-	let g:gitgutter_enabled = 1
-	let g:gitgutter_signs = 1
-	let g:gitgutter_highlight_lines = 0
-	let g:gitgutter_realtime = 0
-	let g:gitgutter_eager = 0
-	let g:gitgutter_async = 1
+  let g:gitgutter_sign_added            = '+'
+  let g:gitgutter_sign_modified         = '~'
+  let g:gitgutter_sign_removed          = '-'
+  let g:gitgutter_sign_modified_removed = '~-'
+  let g:gitgutter_map_keys              = 0
+  let g:gitgutter_enabled               = 1
+  let g:gitgutter_signs                 = 1
+  let g:gitgutter_highlight_lines       = 0
+  let g:gitgutter_realtime              = 0
+  let g:gitgutter_eager                 = 0
+  let g:gitgutter_async                 = 1
 '''
 
 # rhysd/committia.vim {{{2
 [[plugins]]
 repo = 'rhysd/committia.vim'
 hook_add = '''
-let g:committia_open_only_vim_starting = 1
-let g:committia_hooks = {}
-function! g:committia_hooks.edit_open(info)
-	nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
-	nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
-endfunction
+  let g:committia_open_only_vim_starting = 1
+  let g:committia_hooks = {}
+  function! g:committia_hooks.edit_open(info)
+    nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
+    nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
+  endfunction
 '''
 
 # jreybert/vimagit {{{2
 [[plugins]]
 repo = 'jreybert/vimagit'
 hook_add = '''
-	let g:magit_default_show_all_files = 2
-	let g:magit_default_fold_level = 0
-	let g:magit_default_sections = ['info', 'commit', 'staged', 'unstaged', 'stash']
-	augroup magit-keymap
-		autocmd!
-		autocmd FileType magit nmap <buffer> <SPACE>gj <C-n>
-		autocmd FileType magit nmap <buffer> <SPACE>gk <C-p>
-	augroup END
+  let g:magit_default_show_all_files = 2
+  let g:magit_default_fold_level     = 0
+  let g:magit_default_sections       = [
+    \ 'info', 'commit',
+    \ 'staged', 'unstaged', 'stash']
+
+  augroup magit-keymap
+    autocmd!
+    autocmd FileType magit nmap <buffer> <SPACE>gj <C-n>
+    autocmd FileType magit nmap <buffer> <SPACE>gk <C-p>
+  augroup END
 '''
+
+# rickhowe/diffchar.vim {{{2
+[[plugins]]
+repo = 'rickhowe/diffchar.vim'
 
 #}}}1 END git plugins
 
@@ -91,26 +98,40 @@ hook_add = '''
 [[plugins]]
 repo = 'kana/vim-operator-user'
 hook_add = '''
-	nmap R <Nop>
-	nmap R <Plug>(operator-replace)
-	xmap R <Nop>
-	xmap R <Plug>(operator-replace)
-	xmap <silent><SPACE>oa <Plug>(operator-surround-append)
-	xmap <silent><SPACE>od <Plug>(operator-surround-delete)
-	xmap <silent><SPACE>or <Plug>(operator-surround-replace)
-	xmap <silent><SPACE>oc <Plug>(operator-camelize)gv
-	xmap <silent><SPACE>oC <Plug>(operator-decamelize)gv
-	xmap <silent><SPACE>oe <Plug>(operator-html-escape)
-	xmap <silent><SPACE>oE <Plug>(operator-html-unescape)
+  nmap R <Nop>
+  nmap R <Plug>(operator-replace)
+  xmap R <Nop>
+  xmap R <Plug>(operator-replace)
+  nmap s <Nop>
+  xmap s <Nop>
 
-	let g:operator#surround#blocks = {
-	\   '-' : [
-	\       { 'block' : ['(', ')'], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['b'] },
-	\       { 'block' : ['{', '}'], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
-	\       { 'block' : ["'", "'"], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['s'] },
-	\       { 'block' : ['"', '"'], 'motionwise' : ['char', 'line', 'block'], 'keys' : ['d'] },
-	\   ]
-	\ }
+  nmap <silent>sa <Plug>(operator-surround-append)
+  nmap <silent>sd <Plug>(operator-surround-delete)
+  nmap <silent>sr <Plug>(operator-surround-replace)
+  nmap <silent>sc <Plug>(operator-camelize)gv
+  nmap <silent>sC <Plug>(operator-decamelize)gv
+  nmap <silent>se <Plug>(operator-html-escape)
+  nmap <silent>sE <Plug>(operator-html-unescape)
+
+  xmap <silent>sa <Plug>(operator-surround-append)
+  xmap <silent>sd <Plug>(operator-surround-delete)
+  xmap <silent>sr <Plug>(operator-surround-replace)
+  xmap <silent>sc <Plug>(operator-camelize)gv
+  xmap <silent>sC <Plug>(operator-decamelize)gv
+  xmap <silent>se <Plug>(operator-html-escape)
+  xmap <silent>sE <Plug>(operator-html-unescape)
+
+  let g:operator#surround#blocks = {
+    \ '-' : [ 
+    \ {'block' : ['(', ')'], 
+    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['b'] },
+    \ {'block' : ['{', '}'], 
+    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
+    \ {'block' : ["'", "'"], 
+    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['s'] },
+    \ {'block' : ['"', '"'], 
+    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['d'] }
+    \ ]}
 '''
 
 # kana/vim-operator-replace {{{2
@@ -133,38 +154,21 @@ repo = 'tyru/operator-html-escape.vim'
 [[plugins]]
 repo = 't9md/vim-textmanip'
 hook_add = '''
-	xmap <Space>d <Plug>(textmanip-duplicate-down)
-	xmap <Space>D <Plug>(textmanip-duplicate-up)
+  xmap <Space>d <Plug>(textmanip-duplicate-down)
+  xmap <Space>D <Plug>(textmanip-duplicate-up)
 
-	xmap <C-j> <Plug>(textmanip-move-down)
-	xmap <C-k> <Plug>(textmanip-move-up)
+  xmap <C-j> <Plug>(textmanip-move-down)
+  xmap <C-k> <Plug>(textmanip-move-up)
 '''
-
-# terryma/vim-multiple-cursors {{{2
-[[plugins]]
-repo = 'terryma/vim-multiple-cursors'
-hook_add = '''
-	let g:multi_cursor_next_key='<C-j>'
-	let g:multi_cursor_prev_key='<C-k>'
-	let g:multi_cursor_skip_key='<C-x>'
-	let g:multi_cursor_quit_key='<ESC>'
-  let g:multi_cursor_start_key='<C-s>'
-	let g:multi_cursor_exit_from_insert_mode = 0
-	let g:multi_cursor_exit_from_visual_mode = 0
-'''
-
-# paradigm/vim-multicursor {{{2
-[[plugins]]
-repo = 'paradigm/vim-multicursor'
 
 # kana/vim-textobj-user {{{2
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 hook_add = '''
-	omap al <Plug>(textobj-indent-a)
-	xmap al <Plug>(textobj-indent-a)
-	omap il <Plug>(textobj-indent-i)
-	xmap il <Plug>(textobj-indent-i)
+  omap al <Plug>(textobj-indent-a)
+  xmap al <Plug>(textobj-indent-a)
+  omap il <Plug>(textobj-indent-i)
+  xmap il <Plug>(textobj-indent-i)
 '''
 
 [[plugins]]
@@ -173,54 +177,33 @@ repo = 'kana/vim-textobj-indent'
 [[plugins]]
 repo = 'thinca/vim-textobj-between'
 
+# bronson/vim-visual-star-search {{{2
+[[plugins]]
+repo = 'bronson/vim-visual-star-search'
+
+# itchyny/vim-cursorword {{{2
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
 # }}}1 END oparator plugins
 
-# neovim plugins {{{1
-# szw/vim-tags {{{2
+# plugins {{{1
+# Shougo/dein.vim {{{2
 [[plugins]]
-repo = 'szw/vim-tags'
-if ='''has('nvim')'''
-hook_add = '''
-	set tags=./tags;
-'''
+repo = 'Shougo/dein.vim'
 
 # deresmos/nvim-term {{{2
 [[plugins]]
 repo = 'deresmos/nvim-term'
 if = '''has('nvim')'''
 hook_add = '''
-	let g:nvimterm#enter_insert = 0
+  let g:nvimterm#enter_insert = 0
 '''
 
 # Shougo/deol {{{2
 [[plugins]]
 repo = 'Shougo/deol.nvim'
 if = '''has('nvim')'''
-
-# majutsushi/tagbar {{{2
-[[plugins]]
-repo = 'majutsushi/tagbar'
-if = '''has('nvim')'''
-hook_add = '''
-  let g:tagbar_previewwin_pos = "rightbelow"
-  let g:tagbar_iconchars = ['▸', '▾']
-	let g:tagbar_map_showproto = '<Nop>'
-	let g:tagbar_map_openallfolds = '-'
-	let g:tagbar_map_closeallfolds = '='
-	let g:tagbar_autofocus = 1
-'''
-
-# honza/vim-snippets {{{2
-[[plugins]]
-repo = 'honza/vim-snippets'
-if = '''has('nvim')'''
-
-# }}}1 END neovim plugins
-
-# plugins {{{1
-# Shougo/dein.vim {{{2
-[[plugins]]
-repo = 'Shougo/dein.vim'
 
 # w0ng/vim-hybrid {{{2
 [[plugins]]
@@ -230,44 +213,32 @@ repo = 'w0ng/vim-hybrid'
 [[plugins]]
 repo = 'kana/vim-submode'
 hook_add = '''
-	call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
-	call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
-	call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
-	call submode#map('windowmove', 'n', '', 'l', '<C-w>l')
-	call submode#map('windowmove', 'n', '', 'h', '<C-w>h')
-	call submode#map('windowmove', 'n', '', 'J', '<C-w>J')
-	call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
-	call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
-	call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
+  call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
+  call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
+  call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
+  call submode#map('windowmove', 'n', '', 'l', '<C-w>l')
+  call submode#map('windowmove', 'n', '', 'h', '<C-w>h')
+  call submode#map('windowmove', 'n', '', 'J', '<C-w>J')
+  call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
+  call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
+  call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
 
-	call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
-	call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
-	call submode#map('bufmove', 'n', '', 'h', '<C-w><')
-	call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
-	call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
+  call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
+  call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
+  call submode#map('bufmove', 'n', '', 'h', '<C-w><')
+  call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
+  call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
 
-	call submode#enter_with('tabmove', 'n', '', '<SPACE>tt', '<Nop>')
-	call submode#map('tabmove', 'n', '', 'l', ':tabnext<CR>')
-	call submode#map('tabmove', 'n', '', 'h', ':tabprevious<CR>')
-	call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
-	call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
+  call submode#enter_with('tabmove', 'n', '', '<SPACE>tt', '<Nop>')
+  call submode#map('tabmove', 'n', '', 'l', ':tabnext<CR>')
+  call submode#map('tabmove', 'n', '', 'h', ':tabprevious<CR>')
+  call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
+  call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
 '''
 
 # tyru/open-browser.vim {{{2
 [[plugins]]
 repo = 'tyru/open-browser.vim'
-
-# cocopon/vaffle.vim {{{2
-[[plugins]]
-repo = 'cocopon/vaffle.vim'
-
-# bronson/vim-visual-star-search {{{2
-[[plugins]]
-repo = 'bronson/vim-visual-star-search'
-
-# tomtom/tcomment_vim {{{2
-[[plugins]]
-repo = 'tomtom/tcomment_vim'
 
 # djoshea/vim-autoread {{{2
 [[plugins]]
@@ -277,26 +248,14 @@ repo = 'djoshea/vim-autoread'
 [[plugins]]
 repo = 'Yggdroot/indentLine'
 hook_add = '''
-	let g:indentLine_faster = 1
-	let g:indentLine_fileTypeExclude = ['help', 'nerdtree','tagbar', 'nvim-term', 'nvim-term-t']
-	let g:indentLine_bufNameExclude = ['denite', 'startify']
+  let g:indentLine_faster = 1
+  let g:indentLine_fileTypeExclude = ['help', 'nerdtree','tagbar', 'nvim-term', 'nvim-term-t']
+  let g:indentLine_bufNameExclude = ['denite', 'startify']
 '''
 
 # thinca/vim-qfreplace {{{2
 [[plugins]]
 repo = 'thinca/vim-qfreplace'
-
-# vim-scripts/MultipleSearch {{{2
-[[plugins]]
-repo = 'vim-scripts/MultipleSearch'
-
-# osyo-manga/vim-over {{{2
-[[plugins]]
-repo = 'osyo-manga/vim-over'
-
-# itchyny/vim-cursorword {{{2
-[[plugins]]
-repo = 'itchyny/vim-cursorword'
 
 # vim-scripts/L9 {{{2
 [[plugins]]
@@ -306,41 +265,41 @@ repo = 'vim-scripts/L9'
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 hook_add = '''
-	let g:EasyMotion_do_mapping = 0
-	map f <Plug>(easymotion-bd-fl)
-	map t <Plug>(easymotion-bd-tl)
-	let g:EasyMotion_enter_jump_first = 1
-	let g:EasyMotion_space_jump_first = 1
-	nmap <SPACE>jj <Plug>(easymotion-s2)
-	omap <SPACE>jj <Plug>(easymotion-s2)
-	nmap <SPACE>jg <Plug>(easymotion-sn)
-	omap <SPACE>jg <Plug>(easymotion-tn)
+  let g:EasyMotion_do_mapping = 0
+  map f <Plug>(easymotion-bd-fl)
+  map t <Plug>(easymotion-bd-tl)
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  nmap <SPACE>jj <Plug>(easymotion-s2)
+  omap <SPACE>jj <Plug>(easymotion-s2)
+  nmap <SPACE>jg <Plug>(easymotion-sn)
+  omap <SPACE>jg <Plug>(easymotion-tn)
 '''
 
 # scrooloose/nerdtree {{{2
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 hook_add = '''
-	let g:NERDTreeShowHidden = 1
-	let g:NERDTreeMinimalUI = 1
-	let g:NERDTreeAutoDeleteBuffer = 1
-	let g:NERDTreeMapActivateNode = 'l'
-	let g:NERDTreeMapChangeRoot = 'L'
-	let g:NERDTreeMapUpdir = 'h'
-	let g:NERDTreeMapUpdirKeepOpen = 'H'
-	let g:NERDTreeMapOpenSplit = 's'
-	let g:NERDTreeMapOpenVSplit = 'v'
-	let g:NERDTreeMapToggleHideen = '.'
-	let g:NERDTreeMapOpenExpl = '<Nop>'
-	augroup nerdtree-keymap
-		autocmd!
-		autocmd FileType nerdtree nmap <buffer> dd md
-		autocmd FileType nerdtree nmap <buffer> dD mdy
-		autocmd FileType nerdtree nmap <buffer> o ma
-		autocmd FileType nerdtree nmap <buffer> i ml
-		autocmd FileType nerdtree nmap <buffer> c mc
-		autocmd FileType nerdtree nmap <buffer> mv mm
-	augroup END
+  let g:NERDTreeShowHidden = 1
+  let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeAutoDeleteBuffer = 1
+  let g:NERDTreeMapActivateNode = 'l'
+  let g:NERDTreeMapChangeRoot = 'L'
+  let g:NERDTreeMapUpdir = 'h'
+  let g:NERDTreeMapUpdirKeepOpen = 'H'
+  let g:NERDTreeMapOpenSplit = 's'
+  let g:NERDTreeMapOpenVSplit = 'v'
+  let g:NERDTreeMapToggleHideen = '.'
+  let g:NERDTreeMapOpenExpl = '<Nop>'
+  augroup nerdtree-keymap
+    autocmd!
+    autocmd FileType nerdtree nmap <buffer> dd md
+    autocmd FileType nerdtree nmap <buffer> dD mdy
+    autocmd FileType nerdtree nmap <buffer> o ma
+    autocmd FileType nerdtree nmap <buffer> i ml
+    autocmd FileType nerdtree nmap <buffer> c mc
+    autocmd FileType nerdtree nmap <buffer> mv mm
+  augroup END
 '''
 
 # mhinz/vim-startify {{{2
@@ -350,23 +309,23 @@ hook_add = '''
 let g:startify_files_number = 5
 let g:startify_custom_indices = ['a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's']
 let g:startify_list_order = [
-	\ ['Sessions:'],
-	\ 'sessions',
-	\ ['Bookmarks:'],
-	\ 'bookmarks',
-	\ ['Recentry open files:'],
-	\ 'files',
-	\ ['Recentry open files in dir:'],
-	\ 'dir',
-	\ ]
+  \ ['Sessions:'],
+  \ 'sessions',
+  \ ['Bookmarks:'],
+  \ 'bookmarks',
+  \ ['Recentry open files:'],
+  \ 'files',
+  \ ['Recentry open files in dir:'],
+  \ 'dir',
+  \ ]
 
 let g:startify_session_sort = 0
 
 let g:startify_session_before_save = [
-	\ 'echo "Cleaning up before saving..."',
-	\ 'silent! NERDTreeClose',
-	\ 'silent! NTermDeleteAll',
-	\ ]
+  \ 'echo "Cleaning up before saving..."',
+  \ 'silent! NERDTreeClose',
+  \ 'silent! NTermDeleteAll',
+  \ ]
 
 let g:startify_custom_header = [
 \"        _                                   _            ",
@@ -382,236 +341,235 @@ let g:startify_change_to_dir = 1
 [[plugins]]
 repo = 'LeafCage/yankround.vim'
 hook_add = '''
-	nmap p <Plug>(yankround-p)
-	nmap P <Plug>(yankround-P)
-	omap <C-p> <Plug>(yankround-prev)
-	nmap <C-P> <Plug>(yankround-next)
-	let g:yankround_max_history = 10
-	let g:yankround_use_region_hl = 1
+  nmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+  let g:yankround_max_history = 10
+  let g:yankround_use_region_hl = 1
 '''
 
 # kana/vim-smartinput {{{2
 [[plugins]]
 repo = 'kana/vim-smartinput'
 hook_add = '''
-	call smartinput#define_rule({
-	\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
-	\   'char'     : '(',
-	\   'input'    : '():<Left><Left>',
-	\   'filetype' : ['python'],
-	\   })
-	" が、すでに:がある場合は重複させない. (smartinputでは、atの定義が長いほど適用の優先度が高くなる)
-	call smartinput#define_rule({
-	\   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#.*:',
-	\   'char'     : '(',
-	\   'input'    : '()<Left>',
-	\   'filetype' : ['python'],
-	\   })
+  call smartinput#define_rule({
+  \   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
+  \   'char'     : '(',
+  \   'input'    : '():<Left><Left>',
+  \   'filetype' : ['python'],
+  \   })
+  call smartinput#define_rule({
+  \   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#.*:',
+  \   'char'     : '(',
+  \   'input'    : '()<Left>',
+  \   'filetype' : ['python'],
+  \   })
 '''
 
 # LeafCage/foldCC.vim {{{2
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
 hook_add = '''
-	let g:foldCCtext_maxchars = 79
-	let g:foldCCtext_head = 'v:folddashes . " "'
-	let g:foldCCtext_tail = 'printf("   %s [ %4d lines ]",
-	\ v:folddashes, v:foldend-v:foldstart+1)'
-	let g:foldCCnavi_maxchars = 60
-	" let g:foldCCtext_enable_autofdc_adjuster = 1
+  let g:foldCCtext_maxchars = 79
+  let g:foldCCtext_head     = 'v:folddashes . " "'
+  let g:foldCCtext_tail     = 'printf(" %s [ %4d lines ]",
+    \ v:folddashes, v:foldend-v:foldstart+1)'
+  let g:foldCCnavi_maxchars = 60
 '''
 
 # vim-scripts/FuzzyFinder {{{2
 [[plugins]]
 repo = 'vim-scripts/FuzzyFinder'
 hook_add = '''
-	let g:fuf_modesDisable = []
-	let g:fuf_keyNextMode = '<Nop>'
-	let g:fuf_keyPrevMode = '<Nop>'
-	let g:fuf_keySwitchMatching = '<Nop>'
-	let g:fuf_keyOpenTabpage = '<C-t>'
-  let g:fuf_keyPrevPattern = '<Nop>'
-	let g:fuf_keyOpenSplit = '<C-s>'
-	let g:fuf_keyOpenVsplit = '<C-v>'
-	let g:fuf_buffer_keyDelete = '<C-]>'
-	let g:fuf_bookmarkfile_keyDelete = '<C-]>'
-	let g:fuf_bookmarkdir_keyDelete = '<C-]>'
+  let g:fuf_modesDisable           = []
+  let g:fuf_keyNextMode            = '<Nop>'
+  let g:fuf_keyPrevMode            = '<Nop>'
+  let g:fuf_keySwitchMatching      = '<Nop>'
+  let g:fuf_keyOpenTabpage         = '<C-t>'
+  let g:fuf_keyPrevPattern         = '<Nop>'
+  let g:fuf_keyOpenSplit           = '<C-s>'
+  let g:fuf_keyOpenVsplit          = '<C-v>'
+  let g:fuf_buffer_keyDelete       = '<C-]>'
+  let g:fuf_bookmarkfile_keyDelete = '<C-]>'
+  let g:fuf_bookmarkdir_keyDelete  = '<C-]>'
 '''
 
 # itchyny/lightline.vim {{{2
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
-	let g:lightline = {}
-	let g:lightline = {
-		\ 'colorscheme': 'wombat',
-		\ 'subseparator': {'left': '|', 'right': '|'},
-		\ 'mode_map': {'c': 'NORMAL'},
-		\ 'active': {
-		\   'left': [
-		\     ['mode', 'paste', 'readonly'],
-		\     ['fugitive', 'gitgutter'],
-		\     ['currenttag'],
-		\   ],
-		\   'right': [
-		\			['lineinfo'],
-		\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
-		\			['ale'],
-		\   ]
-		\ },
-		\ 'inactive': {
-		\   'left': [
-		\			[''],
-		\     ['filenamefull'],
-		\   ],
-		\   'right': [
-		\			['lineinfo'],
-		\     ['number', 'filetype'],
-		\   ]
-		\ },
-		\ 'tabline': {
-		\   'left': [
-		\     ['tabs'],
-		\   ],
-		\   'right': [
-		\			['filenamefull'],
-		\			['number', 'maxline'],
-		\   ]
-		\ },
-		\ 'component_function': {
-		\   'modified': 'MyModified',
-		\   'fugitive': 'MyFugitive',
-		\   'filename': 'MyFilename',
-		\   'filenamefull': 'MyFilenameFull',
-		\   'lineinfo': 'MyLineInfo',
-		\   'maxline': 'MaxLine',
-		\   'fileformat': 'MyFileformat',
-		\   'filetype': 'MyFiletype',
-		\   'fileencoding': 'MyFileencoding',
-		\   'mode': 'MyMode',
-		\   'gitgutter': 'MyGitGutter',
-		\		'ale': 'AleStatus',
-		\		'currenttag': 'MyCurrentTag',
-		\ },
-		\ 'component_expand': {
-		\		'readonly': 'MyReadonly',
-		\		'tabs': 'lightline#tabs',
-		\ },
-		\ 'component_type': {
-		\		'readonly': 'error',
-		\		'tabs': 'tabsel',
-		\ },
-		\ 'component': {
-		\		'number': 'w%{winnr()}:b%n',
-		\ },
-	\ }
-	let s:p = g:lightline#colorscheme#wombat#palette
-	let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
-	let s:p.insert.right = [['#444444 ', '#95e454', 238, 119], ['#d0d0d0', '#585858', 252, 240]]
-	let s:p.visual.right = [['#444444 ', '#f2c68a', 238, 216], ['#d0d0d0', '#585858', 252, 240]]
-	let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
-	let g:lightline#colorscheme#wombat#palette = s:p
+  let g:lightline = {}
+  let g:lightline = {
+    \ 'colorscheme': 'wombat',
+    \ 'subseparator': {'left': '|', 'right': '|'},
+    \ 'mode_map': {'c': 'NORMAL'},
+    \ 'active': {
+    \   'left': [
+    \     ['mode', 'paste', 'readonly'],
+    \     ['fugitive', 'gitgutter'],
+    \     ['currenttag'],
+    \   ],
+    \   'right': [
+    \     ['lineinfo'],
+    \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+    \     ['ale'],
+    \   ]
+    \ },
+    \ 'inactive': {
+    \   'left': [
+    \     [''],
+    \     ['filenamefull'],
+    \   ],
+    \   'right': [
+    \     ['lineinfo'],
+    \     ['number', 'filetype'],
+    \   ]
+    \ },
+    \ 'tabline': {
+    \   'left': [
+    \     ['tabs'],
+    \   ],
+    \   'right': [
+    \     ['filenamefull'],
+    \     ['number', 'maxline'],
+    \   ]
+    \ },
+    \ 'component_function': {
+    \   'modified': 'MyModified',
+    \   'fugitive': 'MyFugitive',
+    \   'filename': 'MyFilename',
+    \   'filenamefull': 'MyFilenameFull',
+    \   'lineinfo': 'MyLineInfo',
+    \   'maxline': 'MaxLine',
+    \   'fileformat': 'MyFileformat',
+    \   'filetype': 'MyFiletype',
+    \   'fileencoding': 'MyFileencoding',
+    \   'mode': 'MyMode',
+    \   'gitgutter': 'MyGitGutter',
+    \   'ale': 'AleStatus',
+    \   'currenttag': 'MyCurrentTag',
+    \ },
+    \ 'component_expand': {
+    \   'readonly': 'MyReadonly',
+    \   'tabs': 'lightline#tabs',
+    \ },
+    \ 'component_type': {
+    \   'readonly': 'error',
+    \   'tabs': 'tabsel',
+    \ },
+    \ 'component': {
+    \   'number': 'w%{winnr()}:b%n',
+    \ },
+  \ }
 
-	function! AleStatus()
-		if has('nvim')
-			return ale#statusline#Status()
-		endif
+  let s:p = g:lightline#colorscheme#wombat#palette
+  let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
+  let s:p.insert.right = [['#444444 ', '#95e454', 238, 119], ['#d0d0d0', '#585858', 252, 240]]
+  let s:p.visual.right = [['#444444 ', '#f2c68a', 238, 216], ['#d0d0d0', '#585858', 252, 240]]
+  let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
+  let g:lightline#colorscheme#wombat#palette = s:p
 
-		return ''
-	endfunction
+  function! AleStatus()
+    if has('nvim')
+      return ale#statusline#Status()
+    endif
 
-	function! MaxLine()
-		return 'L' . line('$')
-	endfunction
+    return ''
+  endfunction
 
-	function! MyLineInfo()
-		return 'L' . line('.') . ':R' . virtcol('$')
-	endfunction
+  function! MaxLine()
+    return 'L' . line('$')
+  endfunction
 
-	function! MyModified()
-		return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-	endfunction
+  function! MyLineInfo()
+    return 'L' . line('.') . ':R' . virtcol('$')
+  endfunction
 
-	function! MyReadonly()
-		return &readonly ? 'Readonly' : ''
-	endfunction
+  function! MyModified()
+    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
 
-	function! MyFilename()
-		return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : 
-		\ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]') 
-		\ . ('' != MyModified() ? ' ' . MyModified() : '')
-	endfunction
+  function! MyReadonly()
+    return &readonly ? 'Readonly' : ''
+  endfunction
 
-	function! MyFilenameFull()
-		return '' != expand('%:p') ? expand('%:p') : '[No Name]'
-	endfunction
+  function! MyFilename()
+    return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : 
+      \ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]') 
+      \ . ('' != MyModified() ? ' ' . MyModified() : '')
+  endfunction
 
-	function! MyFugitive()
-		try
-			if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
-				return fugitive#head()
-			endif
-		catch
-		endtry
+  function! MyFilenameFull()
+    return '' != expand('%:p') ? expand('%:p') : '[No Name]'
+  endfunction
 
-		return ''
-	endfunction
+  function! MyFugitive()
+    try
+      if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
+        return fugitive#head()
+      endif
+    catch
+    endtry
 
-	function! MyCurrentTag()
-		return winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
-	endfunction
+    return ''
+  endfunction
 
-	function! MyGitGutter()
-		if ! exists('*GitGutterGetHunkSummary')
-				\ || ! get(g:, 'gitgutter_enabled', 0)
-				\ || winwidth(0) <= 70
-		endif
+  function! MyCurrentTag()
+    return winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
+  endfunction
 
-		let symbols = ['+','~', '-']
-		let hunks = GitGutterGetHunkSummary()
-		let ret = []
-		for i in [0, 1, 2]
-			if hunks[i] > 0
-				call add(ret, symbols[i] . hunks[i])
-			endif
-		endfor
+  function! MyGitGutter()
+    if ! exists('*GitGutterGetHunkSummary')
+      \ || ! get(g:, 'gitgutter_enabled', 0)
+      \ || winwidth(0) <= 70
+    endif
 
-		return join(ret, ' ')
-	endfunction
+    let symbols = ['+','~', '-']
+    let hunks = GitGutterGetHunkSummary()
+    let ret = []
+    for i in [0, 1, 2]
+      if hunks[i] > 0
+        call add(ret, symbols[i] . hunks[i])
+      endif
+    endfor
 
-	function! MyFileformat()
-		return winwidth(0) > 80 ? &fileformat : ''
-	endfunction
+    return join(ret, ' ')
+  endfunction
 
-	function! MyFiletype()
-		return winwidth(0) > 80 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-	endfunction
+  function! MyFileformat()
+    return winwidth(0) > 80 ? &fileformat : ''
+  endfunction
 
-	function! MyFileencoding()
-		return winwidth(0) > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
-	endfunction
+  function! MyFiletype()
+    return winwidth(0) > 80 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  endfunction
 
-	function! MyMode()
-		return winwidth(0) > 30 ? lightline#mode() : ''
-	endfunction
+  function! MyFileencoding()
+    return winwidth(0) > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  endfunction
+
+  function! MyMode()
+    return winwidth(0) > 30 ? lightline#mode() : ''
+  endfunction
 '''
 
 # scrooloose/nerdcommenter {{{2
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
 hook_add = '''
-	let g:NERDCommentEmptyLines = 1
-	let g:NERDTrimTrailingWhitespace = 1
-	let g:NERDSpaceDelims = 1
-	let g:NERDCompactSexyComs = 1
-	let g:NERDDefaultAlign = 'left'
+  let g:NERDCommentEmptyLines      = 1
+  let g:NERDTrimTrailingWhitespace = 1
+  let g:NERDSpaceDelims            = 1
+  let g:NERDCompactSexyComs        = 1
+  let g:NERDDefaultAlign           = 'left'
 '''
 
 # junegunn/vim-easy-align {{{2
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 hook_add = '''
-	xmap ga <Plug>(EasyAlign)
+  xmap ga <Plug>(EasyAlign)
 '''
 
 # haya14busa/vim-migemo # {{{2
@@ -623,10 +581,6 @@ repo = 'haya14busa/vim-migemo'
 [[plugins]]
 repo = 'schickling/vim-bufonly'
 
-# terryma/vim-expand-region # {{{2
-[[plugins]]
-repo = 'terryma/vim-expand-region'
-
 # qpkorr/vim-renamer {{{2
 [[plugins]]
 repo = 'qpkorr/vim-renamer'
@@ -635,38 +589,41 @@ repo = 'qpkorr/vim-renamer'
 [[plugins]]
 repo = 'fuenor/qfixhowm'
 hook_add = '''
-	let g:QFixHowm_Key = '<Nop>'
-	let g:howm_fileencoding = 'utf-8'
-	let g:howm_fileformat = 'unix'
-	let g:QFixHowm_CalendarWinCmd = 'rightbelow'
-	let g:QFixHowm_RootDir = '~/.howm'
-	let g:howm_dir = g:QFixHowm_RootDir . '/main'
-	command! -nargs=1 HowmDir let g:howm_dir = QFixHowm_RootDir.'/'.<q-args>|ech
-	let g:QFixHowm_RecentMode = 2
+  let g:QFixHowm_Key            = '<Nop>'
+  let g:howm_fileencoding       = 'utf-8'
+  let g:howm_fileformat         = 'unix'
+  let g:QFixHowm_CalendarWinCmd = 'rightbelow'
+
+  let g:QFixHowm_RootDir         = '~/.howm'
+  let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
+  let g:QFixHowm_RecentMode      = 2
+  let g:qfixmemo_folding_pattern = '^=[^=]'
+
+  command! -nargs=1 HowmDir let g:howm_dir = QFixHowm_RootDir.'/'.<q-args>|ech
 '''
 
 # haya14busa/incsearch.vim {{{2
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 hook_add = '''
-	nmap /  <Plug>(incsearch-forward)
-	nmap g/ <Plug>(incsearch-stay)
+  nmap /  <Plug>(incsearch-forward)
+  nmap g/ <Plug>(incsearch-stay)
 '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-fuzzy.vim'
 hook_add = '''
-	nmap z/ <Plug>(incsearch-fuzzy-/)
-	nmap zg/ <Plug>(incsearch-fuzzy-stay)
-	nmap zs/ <Plug>(incsearch-fuzzyspell-/)
-	nmap zsg/ <Plug>(incsearch-fuzzyspell-stay)
+  nmap z/ <Plug>(incsearch-fuzzy-/)
+  nmap zg/ <Plug>(incsearch-fuzzy-stay)
+  nmap zs/ <Plug>(incsearch-fuzzyspell-/)
+  nmap zsg/ <Plug>(incsearch-fuzzyspell-stay)
 '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-migemo.vim'
 hook_add = '''
-	nmap m/ <Plug>(incsearch-migemo-/)
-	nmap mg/ <Plug>(incsearch-migemo-stay)
+  nmap m/ <Plug>(incsearch-migemo-/)
+  nmap mg/ <Plug>(incsearch-migemo-stay)
 '''
 
 # mhinz/neovim-remote {{{2
@@ -689,17 +646,13 @@ repo = 'cocopon/colorswatch.vim'
 [[plugins]]
 repo = 'guns/xterm-color-table.vim'
 
-# rickhowe/diffchar.vim {{{2
-[[plugins]]
-repo = 'rickhowe/diffchar.vim'
-
 # jeetsukumaran/vim-buffergator {{{2
 [[plugins]]
 repo = 'jeetsukumaran/vim-buffergator'
 hook_add = '''
-	let g:buffergator_viewport_split_policy = 'B'
-	let g:buffergator_split_size = 15
-	let g:buffergator_sort_regime = 'mru'
+  let g:buffergator_viewport_split_policy = 'B'
+  let g:buffergator_split_size            = 15
+  let g:buffergator_sort_regime           = 'mru'
 '''
 
 # AndrewRadev/switch.vim {{{2
@@ -710,87 +663,164 @@ repo = 'AndrewRadev/switch.vim'
 [[plugins]]
 repo = 't9md/vim-quickhl'
 hook_add = '''
-	nnoremap <Space>mp :QuickhlManualAdd<space>
-	nmap <Space>mt <Plug>(quickhl-manual-this)
-	xmap <Space>mt <Plug>(quickhl-manual-this)
-	nmap <Space>mT <Plug>(quickhl-manual-reset)
-	xmap <Space>mT <Plug>(quickhl-manual-reset)
-	nmap <Space>mc <Plug>(quickhl-cword-toggle)
+  nnoremap <Space>mp :QuickhlManualAdd<space>
+  nmap <Space>mt <Plug>(quickhl-manual-this)
+  xmap <Space>mt <Plug>(quickhl-manual-this)
+  nmap <Space>mT <Plug>(quickhl-manual-reset)
+  xmap <Space>mT <Plug>(quickhl-manual-reset)
+  nmap <Space>mc <Plug>(quickhl-cword-toggle)
 '''
 
 # hecal3/vim-leader-guide {{{2
 [[plugins]]
 repo = 'hecal3/vim-leader-guide'
 hook_add = '''
-	let g:lmap =  {} " {{{
-	let g:lmap = {
-	\		'f': {
-	\			'name': 'file',
-	\		},
-	\		'q': {
-	\			'name': 'quit and Qfreplace',
-	\		},
-	\		'd': {
-	\			'name': 'denite',
-	\		},
-	\		'b': {
-	\			'name': 'buffer',
-	\		},
-	\		'p': {
-	\			'name': 'project and paste',
-	\		},
-	\		'y': {
-	\			'name': 'yank',
-	\		},
-	\		't': {
-	\			'name': 'tab, tags, terminal and toggle',
-	\		},
-	\		'w': {
-	\			'name': 'window',
-	\		},
-	\		'g': {
-	\			'name': 'git',
-	\		},
-	\		'v': {
-	\			'name': 'fold',
-	\		},
-	\		's': {
-	\			'name': 'session and SeachBuffers',
-	\		},
-	\		'h': {
-	\			'name': 'howm',
-	\		},
-	\		'r': {
-	\			'name': 'reset, replace, rename and record',
-	\		},
-	\		'j': {
-	\			'name': 'etc',
-	\		},
-	\		'c': {
-	\			'name': 'commenter',
-	\		},
-	\		'o': {
-	\			'name': 'browser and markdown',
-	\		},
-	\		'm': {
-	\			'name': 'mark and program',
-	\		},
-	\		'u': {
-	\			'name': 'update and undo',
-	\		},
-	\		'a': {
-	\			'name': 'align',
-	\		},
-	\		'e': {
-	\			'name': 'linter',
-	\		},
-	\ }
-	" }}}
+  let g:lmap =  {} " {{{
+  let g:lmap = {
+  \   'f': {
+  \     'name': 'file',
+  \   },
+  \   'q': {
+  \     'name': 'quit and Qfreplace',
+  \   },
+  \   'd': {
+  \     'name': 'denite',
+  \   },
+  \   'b': {
+  \     'name': 'buffer',
+  \   },
+  \   'p': {
+  \     'name': 'project and paste',
+  \   },
+  \   'y': {
+  \     'name': 'yank',
+  \   },
+  \   't': {
+  \     'name': 'tab, tags, terminal and toggle',
+  \   },
+  \   'w': {
+  \     'name': 'window',
+  \   },
+  \   'g': {
+  \     'name': 'git',
+  \   },
+  \   'v': {
+  \     'name': 'fold',
+  \   },
+  \   's': {
+  \     'name': 'session and SeachBuffers',
+  \   },
+  \   'h': {
+  \     'name': 'howm',
+  \   },
+  \   'r': {
+  \     'name': 'reset, replace, rename and record',
+  \   },
+  \   'j': {
+  \     'name': 'etc',
+  \   },
+  \   'c': {
+  \     'name': 'commenter',
+  \   },
+  \   'o': {
+  \     'name': 'browser and markdown',
+  \   },
+  \   'm': {
+  \     'name': 'mark and program',
+  \   },
+  \   'u': {
+  \     'name': 'update and undo',
+  \   },
+  \   'a': {
+  \     'name': 'align',
+  \   },
+  \   'e': {
+  \     'name': 'linter',
+  \   },
+  \ }
+  " }}}
 
-	call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
-	nnoremap <silent> <Space>? :LeaderGuide '<Space>'<CR>
+  call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
+  nnoremap <silent> <Space>? :LeaderGuide '<Space>'<CR>
 '''
 
+# tpope/vim-repeat {{{2
+[[plugins]]
+repo = 'tpope/vim-repeat'
 
 #}}}1 END plugins
 
+# Programing plugins {{{1
+# w0rp/ale {{{2
+[[plugins]]
+repo = 'w0rp/ale'
+if ='''has('nvim')'''
+hook_add = '''
+  let g:ale_sign_column_always   = 1
+  let g:ale_lint_on_text_changed = 1
+  let g:ale_sign_column_always   = 1
+  let g:ale_set_loclist          = 1
+  let g:ale_set_quickfix         = 0
+
+  let g:ale_sign_error           = '!!'
+  let g:ale_sign_warning         = '??'
+  let g:ale_echo_msg_error_str   = 'E'
+  let g:ale_echo_msg_warning_str = 'W'
+
+  let g:ale_echo_msg_format   = '%s [%severity%] | %linter%'
+  let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
+
+  let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint', 'jshint'],
+    \ 'css': ['stylelint', 'csslint'],
+    \ }
+  let g:ale_python_pylint_args="--disable=C0111"
+
+  highlight link ALEWarningSign SpellCap
+'''
+
+# thinca/vim-quickrun {{{2
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+if = '''has('nvim')'''
+hook_add = '''
+  let g:quickrun_config={'_': {'split': ''}}
+  let g:quickrun_config._={
+    \ 'hook/time/enable': '1',
+    \ 'runner'    : 'vimproc',
+    \ 'runner/vimproc/updatetime' : 60,
+    \ 'outputter' : 'error',
+    \ 'outputter/error/success' : 'buffer',
+    \ 'outputter/error/error'   : 'quickfix',
+    \ 'outputter/buffer/split'  : ':botright 6sp',
+    \ 'outputter/buffer/close_on_empty' : 1,
+    \ 'outputter/buffer/running_mark': ''
+  \ }
+'''
+
+# Chiel92/vim-autoformat {{{2
+[[plugins]]
+repo = 'Chiel92/vim-autoformat'
+if = '''has('nvim')'''
+hook_add = '''
+  let g:formatter_yapf_style = 'pep8'
+  let g:formatdef_csscomb    = '"csscomb"'
+  let g:formatters_css       = ['csscomb', 'cssbeautify']
+'''
+
+# majutsushi/tagbar {{{2
+[[plugins]]
+repo = 'majutsushi/tagbar'
+if = '''has('nvim')'''
+hook_add = '''
+  let g:tagbar_previewwin_pos    = "rightbelow"
+  let g:tagbar_iconchars         = ['▸', '▾']
+  let g:tagbar_map_showproto     = '<Nop>'
+  let g:tagbar_map_openallfolds  = '-'
+  let g:tagbar_map_closeallfolds = '='
+  let g:tagbar_autofocus         = 1
+'''
+
+
+# }}}1
