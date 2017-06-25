@@ -19,7 +19,7 @@ fi
 
 # シンボリックリンク貼り貼り
 ln -sf ${dir}/.ideavimrc $HOME/
-ln -sf ${dir}/.vimrc $nvim_dir'/init.vim'
+ln -sf ${dir}/init.vim $nvim_dir'/'
 ln -sf ${dir}/my.vim $nvim_dir'/my.vim'
 ln -sf ${dir}/dein/dein.toml $nvim_dein_dir'/'
 ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir'/'
