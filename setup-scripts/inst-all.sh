@@ -5,13 +5,14 @@ dir=$(pwd)
 mkdir -p $dir/tmp/nvim
 cd $dir/tmp/nvim
 
-function install_soft () {
+function install_soft () { #{{{
 	if hash $1 2>/dev/null; then
 		echo 'Already installed '$1
 	else
 		bash $dir'/inst-'$1'.sh'
 	fi
 }
+#}}}
 
 install_soft nodebrew
 
