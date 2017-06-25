@@ -90,6 +90,10 @@ hook_add = '''
 # rickhowe/diffchar.vim {{{2
 [[plugins]]
 repo = 'rickhowe/diffchar.vim'
+hook_add = '''
+  let g:DiffUpdate      = 0
+  let g:DiffPairVisible = 0
+'''
 
 #}}}1 END git plugins
 
