@@ -40,14 +40,40 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 
-omap iq i'
-omap iQ i"
-omap aq a'
-omap aQ a"
-omap fq f'
-omap fQ f"
-omap tq t'
-omap tQ t"
+nnoremap iq i'
+nnoremap iQ i"
+nnoremap aq a'
+nnoremap aQ a"
+nnoremap fq f'
+nnoremap fQ f"
+nnoremap tq t'
+nnoremap tQ t"
+
+nnoremap <silent> <SPACE>ya "ay
+vnoremap <silent> <SPACE>ya "ay
+nnoremap <silent> <SPACE>pa "ap
+vnoremap <silent> <SPACE>pa "ap
+
+nnoremap R <Nop>
+nnoremap <silent> Riw "adiwhp
+nnoremap <silent> RaW "adawhp
+nnoremap <silent> Ri" "adi"hp
+nnoremap <silent> Ra" "ada"hp
+nnoremap <silent> RiQ "adi"hp
+nnoremap <silent> RaQ "ada"hp
+nnoremap <silent> Ri' "adi'hp
+nnoremap <silent> Ra' "ada'hp
+nnoremap <silent> Riq "adi'hp
+nnoremap <silent> Raq "ada'hp
+nnoremap <silent> Rib "adibhp
+nnoremap <silent> Rab "adabhp
+nnoremap <silent> RiB "adiBhp
+nnoremap <silent> RaB "adaBhp
+nnoremap <silent> Ri[ "adi[hp
+nnoremap <silent> Ra[ "ada[hp
+nnoremap <silent> Rit "adithp
+nnoremap <silent> Rat "adathp
+vnoremap <silent> R "adhp
 
 nnoremap <silent> <SPACE>th gT
 nnoremap <silent> <SPACE>tl gt
