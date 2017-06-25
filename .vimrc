@@ -2,24 +2,24 @@
 " Linux
 " install python3, lua
 " vim:
-"		none
-"	neovim:
-"		pip install neovim
-"		pacman -S neovim
+"   none
+" neovim:
+"   pip install neovim
+"   pacman -S neovim
 
 " Mac
 " vim:
-"		install python3, lua
-"		brew install vim --with-python3 --with-lua
-"	neovim:
-"		pip install neovim
-"		brew install neovim
+"   install python3, lua
+"   brew install vim --with-python3 --with-lua
+" neovim:
+"   pip install neovim
+"   brew install neovim
 
-"	Windows
-"	install python3
-"	pip install neovim
-"	neovim:
-"		donwload neovim binary
+" Windows
+" install python3
+" pip install neovim
+" neovim:
+"   donwload neovim binary
 
 " Common
 " If first startup, you must <SPACE>up
@@ -31,39 +31,39 @@ set shellslash
 set encoding=utf8
 "dein setting {{{1
 if has('unix') || has('mac')
-	let s:dein_dir = expand('~/.cache/nvim-dein')
-	let g:rc_dir   = expand('~/.config/nvim/dein')
-	let s:nvim_dir = expand('~/.config/nvim')
+  let s:dein_dir = expand('~/.cache/nvim-dein')
+  let g:rc_dir   = expand('~/.config/nvim/dein')
+  let s:nvim_dir = expand('~/.config/nvim')
 elseif has('win64') || has('win32')
-	let s:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
-	let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
-	let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
+  let s:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
+  let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
+  let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
 endif
 let s:dein_repo_dir = s:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
-	if !isdirectory(s:dein_repo_dir)
-		execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-	endif
-	execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
 endif
 
 if dein#load_state(s:dein_dir)
-	call dein#begin(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-	let s:toml      = g:rc_dir. '/dein.toml'
-	let s:lazy_toml = g:rc_dir. '/dein_lazy.toml'
+  let s:toml      = g:rc_dir. '/dein.toml'
+  let s:lazy_toml = g:rc_dir. '/dein_lazy.toml'
 
-	call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-	call dein#load_toml(s:toml,      {'lazy': 0})
-	call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-	call dein#end()
-	call dein#save_state()
+  call dein#end()
+  call dein#save_state()
 endif
 
 if dein#check_install()
-	call dein#install()
+  call dein#install()
 endif
 
 filetype plugin indent on
@@ -72,9 +72,9 @@ filetype plugin indent on
 "vim setting {{{1
 "script var{{{2
 if has('unix') || has('mac')
-	let s:cache_dir = expand('~/.cache/vim')
+  let s:cache_dir = expand('~/.cache/vim')
 elseif has('win64') || has('win32')
-	let s:cache_dir = expand($LOCALAPPDATA. '/.cache/vim')
+  let s:cache_dir = expand($LOCALAPPDATA. '/.cache/vim')
 endif
 
 let s:undo_dir = s:cache_dir. '/undo'
@@ -82,9 +82,9 @@ let s:view_dir = s:cache_dir. '/view'
 let g:startify_session_dir = s:cache_dir. '/session'
 
 function! CheckDirectory(dir_path) "{{{
-	if !isdirectory(a:dir_path)
-		call mkdir(a:dir_path, 'p')
-	endif
+  if !isdirectory(a:dir_path)
+    call mkdir(a:dir_path, 'p')
+  endif
 endfunction
 "}}}
 call CheckDirectory(s:undo_dir)
@@ -98,7 +98,7 @@ set ambiwidth=double
 
 set noshowmode
 if exists('&ambw')
-	set ambw=double
+  set ambiwidth=double
 endif
 
 set wildmenu
@@ -113,6 +113,7 @@ set tabstop=2
 set softtabstop=0
 set shiftwidth=2
 set autoindent
+set expandtab
 " set smartindent
 set cursorline
 set colorcolumn=80
@@ -138,21 +139,21 @@ set hidden
 set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 
 augroup color
-	autocmd!
-	autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
-	autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
-	autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
-	autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
-	autocmd ColorScheme * highlight ZenSpace ctermbg=203 guibg=203
+  autocmd!
+  autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
+  autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
+  autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
+  autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
+  autocmd ColorScheme * highlight ZenSpace ctermbg=203 guibg=203
 augroup END
 colorscheme hybrid
 set background=dark
 
 augroup buffers
-	autocmd!
-	autocmd FileType help setlocal nobuflisted
-	autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
-	autocmd FileType agit_diff,diff setlocal nofoldenable
+  autocmd!
+  autocmd FileType help setlocal nobuflisted
+  autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
+  autocmd FileType agit_diff,diff setlocal nofoldenable
 augroup END
 
 "fold setting{{{2
@@ -162,52 +163,51 @@ set foldtext=FoldCCtext()
 set foldcolumn=0
 
 augroup foldmethod
-	autocmd!
-	autocmd BufRead,BufNewFile *.toml,.zshrc setlocal commentstring=#%s
-	autocmd BufRead,BufNewFile *.vim setlocal commentstring=\"%s
-	autocmd BufRead,BufNewFile *.html setlocal commentstring=<!--%s-->
+  autocmd!
+  autocmd BufRead,BufNewFile *.toml,.zshrc setlocal commentstring=#%s
+  autocmd BufRead,BufNewFile *.vim setlocal commentstring=\"%s
+  autocmd BufRead,BufNewFile *.html setlocal commentstring=<!--%s-->
 augroup END
 
 nnoremap <expr>l foldclosed('.') != -1 ? 'zo' : 'l'
 " nnoremap <expr>h foldclosed('.') != -1 ? 'zc' : 'h'
 
 function! s:print_foldmarker(mode, last) range "{{{
-	if a:last == 1
-		call <SID>put_foldmarker(1, a:lastline, a:mode)
-		return
-	endif
+  if a:last == 1
+    call <SID>put_foldmarker(1, a:lastline, a:mode)
+    return
+  endif
 
-	call <SID>put_foldmarker(0, a:firstline, a:mode)
-	if a:firstline != a:lastline || a:last == 1
-		call <SID>put_foldmarker(1, a:lastline, a:mode)
-	endif
+  call <SID>put_foldmarker(0, a:firstline, a:mode)
+  if a:firstline != a:lastline || a:last == 1
+    call <SID>put_foldmarker(1, a:lastline, a:mode)
+  endif
 endfunction
 "}}}
 function! s:put_foldmarker(foldclose_p, lnum, mode) " {{{
-	let crrstr = getline(a:lnum)
-	let padding = crrstr=='' ? '' : crrstr=~'\s$' ? '' : ' '
+  let l:line_str = getline(a:lnum)
+  let l:padding = l:line_str ==# '' ? '' : l:line_str =~# '\s$' ? '' : ' '
 
-	let [cms_start, cms_end] = ['', '']
-	let outside_a_comment_p = synIDattr(synID(line(a:lnum), col('$')-1, 1), 'name') !~? 'comment'
-	if outside_a_comment_p
-		let cms_start = matchstr(&cms,'\V\s\*\zs\.\+\ze%s')
-		let cms_end   = matchstr(&cms,'\V%s\zs\.\+')
-	endif
+  let [l:cms_start, l:cms_end] = ['', '']
+  let l:outside_a_comment_p = synIDattr(synID(a:lnum, strlen(l:line_str)-1, 1), 'name') !~? 'comment'
+  if l:outside_a_comment_p
+    let l:cms_start = matchstr(&commentstring,'\V\s\*\zs\.\+\ze%s')
+    let l:cms_end   = matchstr(&commentstring,'\V%s\zs\.\+')
+  endif
 
-	let fmr = split(&fmr, ',')[a:foldclose_p]. (v:count ? v:count : '')
-	if a:mode != 0
-		let fmr = fmr. foldlevel(a:lnum)
-	endif
-	exe a:lnum. 'normal! A'. padding. cms_start. fmr. cms_end
+  let l:fmr = split(&foldmarker, ',')[a:foldclose_p]
+  if a:mode != 0
+    let l:fmr .= foldlevel(a:lnum)
+  endif
+  exe a:lnum. 'normal! A'. l:padding. l:cms_start. l:fmr. l:cms_end
 endfunction
 "}}}
 
-
 "nerdtree setting{{{2
 augroup nerdtree
-	autocmd!
-	autocmd VimLeavePre * NERDTreeClose
-	" autocmd User Startified NERDTree
+  autocmd!
+  autocmd VimLeavePre * NERDTreeClose
+  " autocmd User Startified NERDTree
 augroup END
 
 
@@ -217,25 +217,25 @@ augroup END
 let &viewdir = s:view_dir
 set viewoptions-=options
 augroup view
-	autocmd!
-	autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
-	autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
+  autocmd!
+  autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
+  autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
 augroup END
 
 command -nargs=0 ClearUndo call <sid>ClearUndo()
 function! s:ClearUndo()
-	let old_undolevels = &l:undolevels
-	set undolevels=-1
-	exe "normal! a \<BS>\<Esc>"
-	let &l:undolevels = old_undolevels
-	unlet old_undolevels
+  let l:old_undolevels = &l:undolevels
+  set undolevels=-1
+  exe "normal! a \<BS>\<Esc>"
+  let &l:undolevels = l:old_undolevels
+  unlet l:old_undolevels
 endfunction
 
 
 " for lightline
 augroup qfcmd
-	autocmd!
-	autocmd QuickFixCmdPost *grep* cwindow
+  autocmd!
+  autocmd QuickFixCmdPost *grep* cwindow
 augroup END
 
 " nnoremap <C-h> :vsp<CR> :exe("tjump ".expand('<cword>'))<CR>
@@ -244,16 +244,16 @@ set showtabline=2
 
 " vim or nvim
 if !has('nvim')
-	" urxvt
-	let &t_SI = "\<Esc>[6 q"
-	let &t_SR = "\<Esc>[4 q"
-	let &t_EI = "\<Esc>[2 q"
+  " urxvt
+  let &t_SI = "\<Esc>[6 q"
+  let &t_SR = "\<Esc>[4 q"
+  let &t_EI = "\<Esc>[2 q"
 endif
 
 if has('nvim')
-	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-	tnoremap <silent> <ESC> <C-\><C-n>
-	tnoremap <silent> fd <C-\><C-n>
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  tnoremap <silent> <ESC> <C-\><C-n>
+  tnoremap <silent> fd <C-\><C-n>
 endif
 "}}}1
 
@@ -367,24 +367,24 @@ nnoremap <silent> <SPACE>tL :+tabmove<CR>
 nnoremap <silent> <SPACE>tH :-tabmove<CR>
 
 for s:n in range(1, 9)
-	execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
+  execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
 nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 
 function! s:set_number() "{{{
-	if &relativenumber
-		setlocal relativenumber!
-	endif
-	setlocal number!
+  if &relativenumber
+    setlocal relativenumber!
+  endif
+  setlocal number!
 endfunction
 " }}}
 function! s:set_relative_number() "{{{
-	if &number
-		setlocal number!
-	endif
-	setlocal relativenumber!
+  if &number
+    setlocal number!
+  endif
+  setlocal relativenumber!
 endfunction
 " }}}
 
@@ -508,11 +508,11 @@ nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
 nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
 
 function s:pullHowm() " {{{
-	execute '!cd ~/.howm && git pull'
+  execute '!cd ~/.howm && git pull'
 endfunction
 " }}}
 function s:pushHowm() " {{{
-	execute '!cd ~/.howm && git add . && git commit -m "commit" && git push'
+  execute '!cd ~/.howm && git add . && git commit -m "commit" && git push'
 endfunction
 " }}}
 
@@ -558,22 +558,22 @@ nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 command! -nargs=1 -complete=command CaptureC call <SID>CaptureC(<f-args>)
 
 function! s:CaptureC(cmd)
-	redir => l:result
-	silent execute a:cmd
-	redir END
+  redir => l:result
+  silent execute a:cmd
+  redir END
 
-	let l:bufname = 'Capture: ' . a:cmd
-	tabnew
-	setlocal bufhidden=unload
-	setlocal nobuflisted
-	setlocal readonly
-	setlocal buftype=nofile
-	nnoremap <buffer><silent>q :quit<CR>
-	silent keepalt file `=bufname`
-	silent put =result
-	1,2delete _
-	" For readonly show status
-	call lightline#update()
+  let l:bufname = 'Capture: ' . a:cmd
+  tabnew
+  setlocal bufhidden=unload
+  setlocal nobuflisted
+  setlocal readonly
+  setlocal buftype=nofile
+  nnoremap <buffer><silent>q :quit<CR>
+  silent keepalt file `=bufname`
+  silent put =result
+  1,2delete _
+  " For readonly show status
+  call lightline#update()
 endfunction
 " }}}
 nnoremap <SPACE>cp :CaptureC<space>
@@ -621,99 +621,99 @@ nmap <SPACE>et <Plug>(ale_toggle)
 
 "nvim only keybind{{{2
 if has('nvim')
-	nnoremap <silent> <SPACE>m= :Autoformat<CR>
+  nnoremap <silent> <SPACE>m= :Autoformat<CR>
 
-	" program keybind {{{
-	nnoremap <silent> <SPACE>mcc :QuickRun<CR>
-	nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
-	nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
-	nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
-	nnoremap <silent> <SPACE>mcl :lwindow<CR>
+  " program keybind {{{
+  nnoremap <silent> <SPACE>mcc :QuickRun<CR>
+  nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
+  nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
+  nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
+  nnoremap <silent> <SPACE>mcl :lwindow<CR>
 
-	nnoremap <silent> <SPACE>mpi :call deoplete#sources#padawan#InstallServer()<CR>
+  nnoremap <silent> <SPACE>mpi :call deoplete#sources#padawan#InstallServer()<CR>
 
-	nnoremap <silent> <SPACE>msw :Switch<CR>
-	nnoremap <silent> <SPACE>msW :SwitchReverse<CR>
-	" }}}
+  nnoremap <silent> <SPACE>msw :Switch<CR>
+  nnoremap <silent> <SPACE>msW :SwitchReverse<CR>
+  " }}}
 
-	augroup formatter " {{{
-		autocmd!
+  augroup formatter " {{{
+    autocmd!
 
-		"python formatter
-		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfy :silent !yapf -i --style "pep8" %<CR>:e!<CR>
-		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfi :silent !isort %<CR>:e!<CR>
-		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mf= :silent !autopep8 -i % && yapf -i --style "pep8" % && isort %<CR>:e!<CR>
-	augroup END "}}}
+    "python formatter
+    autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfy :silent !yapf -i --style "pep8" %<CR>:e!<CR>
+    autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfi :silent !isort %<CR>:e!<CR>
+    autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mf= :silent !autopep8 -i % && yapf -i --style "pep8" % && isort %<CR>:e!<CR>
+  augroup END "}}}
 
-	augroup emmet " {{{
-		autocmd!
+  augroup emmet " {{{
+    autocmd!
 
-		" nmap keybind {{{
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mee <C-y>,
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>met <C-y>;
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meu <C-y>u
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>med <C-y>d
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meD <C-y>D
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>men <C-y>n
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meN <C-y>N
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mei <C-y>i
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mem <C-y>m
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mek <C-y>k
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mej <C-y>j
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>me/ <C-y>/
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mea <C-y>a
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meA <C-y>A
-		autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mec <C-y>c
-		" }}}
-		" xmap  keybind {{{
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mee <C-y>,
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>met <C-y>;
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meu <C-y>u
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>med <C-y>d
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meD <C-y>D
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>men <C-y>n
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meN <C-y>N
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mei <C-y>i
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mem <C-y>m
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mek <C-y>k
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mej <C-y>j
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>me/ <C-y>/
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mea <C-y>a
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meA <C-y>A
-		autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mec <C-y>c
-		" }}}
-	augroup END " }}}
+    " nmap keybind {{{
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mee <C-y>,
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>met <C-y>;
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meu <C-y>u
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>med <C-y>d
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meD <C-y>D
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>men <C-y>n
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meN <C-y>N
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mei <C-y>i
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mem <C-y>m
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mek <C-y>k
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mej <C-y>j
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>me/ <C-y>/
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mea <C-y>a
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meA <C-y>A
+    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mec <C-y>c
+    " }}}
+    " xmap  keybind {{{
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mee <C-y>,
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>met <C-y>;
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meu <C-y>u
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>med <C-y>d
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meD <C-y>D
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>men <C-y>n
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meN <C-y>N
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mei <C-y>i
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mem <C-y>m
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mek <C-y>k
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mej <C-y>j
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>me/ <C-y>/
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mea <C-y>a
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meA <C-y>A
+    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mec <C-y>c
+    " }}}
+  augroup END " }}}
 
-	" terminal keybind {{{
-	function! s:term2()
-		exe 'NTermT'
-		exe 'NTermV'
-		exe 'stopinsert'
-	endfunction
+  " terminal keybind {{{
+  function! s:term2()
+    exe 'NTermT'
+    exe 'NTermV'
+    exe 'stopinsert'
+  endfunction
 
-	function! s:term3()
-		exe 'NTermT'
-		exe 'NTermV'
-		exe 'NTermS'
-		exe 'stopinsert'
-	endfunction
+  function! s:term3()
+    exe 'NTermT'
+    exe 'NTermV'
+    exe 'NTermS'
+    exe 'stopinsert'
+  endfunction
 
-	nnoremap [Term] <Nop>
-	nmap <SPACE>to [Term]
-	nnoremap <silent> [Term]e :NTerm<CR>
-	nnoremap <silent> [Term]v :NTermV<CR>
-	nnoremap <silent> [Term]s :NTermS<CR>
-	nnoremap <silent> [Term]t :NTermT<CR>
-	nnoremap <silent> [Term]o :NTermToggle<CR>
-	nnoremap <silent> [Term]O :30NTermToggle<CR>
-	nnoremap <silent> [Term]2 :call <SID>term2()<CR>
-	nnoremap <silent> [Term]3 :call <SID>term3()<CR>
-	nnoremap <silent> [Term]d :NTermDeletes<CR>
-	nnoremap <silent> [Term]D :NTermDeleteAll<CR>
-	" }}}
+  nnoremap [Term] <Nop>
+  nmap <SPACE>to [Term]
+  nnoremap <silent> [Term]e :NTerm<CR>
+  nnoremap <silent> [Term]v :NTermV<CR>
+  nnoremap <silent> [Term]s :NTermS<CR>
+  nnoremap <silent> [Term]t :NTermT<CR>
+  nnoremap <silent> [Term]o :NTermToggle<CR>
+  nnoremap <silent> [Term]O :30NTermToggle<CR>
+  nnoremap <silent> [Term]2 :call <SID>term2()<CR>
+  nnoremap <silent> [Term]3 :call <SID>term3()<CR>
+  nnoremap <silent> [Term]d :NTermDeletes<CR>
+  nnoremap <silent> [Term]D :NTermDeleteAll<CR>
+  " }}}
 endif
 "}}}1
 
 if filereadable(s:nvim_dir . '/my.vim')
-	execute 'source' s:nvim_dir . '/my.vim'
+  execute 'source' s:nvim_dir . '/my.vim'
 endif
