@@ -170,21 +170,21 @@ augroup foldmethod
 augroup END
 
 nnoremap <expr>l foldclosed('.') != -1 ? 'zo' : 'l'
-" nnoremap <expr>h foldclosed('.') != -1 ? 'zc' : 'h'
 
-function! s:print_foldmarker(mode, last) range "{{{
+function! s:print_foldmarker(auto_mode, last, v_mode) range "{{{
+  let l:count = v:count
   if a:last == 1
-    call <SID>put_foldmarker(1, a:lastline, a:mode)
+    call <SID>put_foldmarker(1, a:firstline, a:auto_mode, l:count)
     return
   endif
 
-  call <SID>put_foldmarker(0, a:firstline, a:mode)
-  if a:firstline != a:lastline || a:last == 1
-    call <SID>put_foldmarker(1, a:lastline, a:mode)
+  call <SID>put_foldmarker(0, a:firstline, a:auto_mode, l:count)
+  if a:v_mode
+    call <SID>put_foldmarker(1, a:lastline, a:auto_mode, l:count)
   endif
 endfunction
 "}}}
-function! s:put_foldmarker(foldclose_p, lnum, mode) " {{{
+function! s:put_foldmarker(foldclose_p, lnum, mode, count) " {{{
   let l:line_str = getline(a:lnum)
   let l:padding = l:line_str ==# '' ? '' : l:line_str =~# '\s$' ? '' : ' '
 
@@ -196,10 +196,8 @@ function! s:put_foldmarker(foldclose_p, lnum, mode) " {{{
   endif
 
   let l:fmr = split(&foldmarker, ',')[a:foldclose_p]
-  if a:mode != 0
-    let l:fmr .= foldlevel(a:lnum)
-  endif
-  exe a:lnum. 'normal! A'. l:padding. l:cms_start. l:fmr. l:cms_end
+  let l:foldlevel = (a:count) ? a:count : ((a:mode) ? foldlevel(a:lnum) : '')
+  exe a:lnum. 'normal! A'. l:padding. l:cms_start. l:fmr. l:foldlevel. l:cms_end
 endfunction
 "}}}
 
@@ -449,35 +447,37 @@ nnoremap <silent> gV :vertical wincmd f<CR>
 
 "V keybind{{{2
 " vim fold keybind
-noremap  <SPACE>vf :call <SID>print_foldmarker(0, 0)<CR>
-noremap  <SPACE>vF :call <SID>print_foldmarker(1, 0)<CR>
-noremap  <SPACE>vl :call <SID>print_foldmarker(0, 1)<CR>
-noremap  <SPACE>vL :call <SID>print_foldmarker(1, 1)<CR>
-noremap <SPACE>vd zd
-noremap <SPACE>vD zD
-noremap <SPACE>vE zE
-noremap <SPACE>vo zo
-noremap <SPACE>vO zO
-noremap <SPACE>vc zc
-noremap <SPACE>vC zC
-noremap <SPACE>va za
-noremap <SPACE>vA zA
-noremap <SPACE>vv zv
-noremap <SPACE>vx zx
-noremap <SPACE>vX zX
-noremap <SPACE>vm zm
-noremap <SPACE>vM zM
-noremap <SPACE>vr zr
-noremap <SPACE>vR zR
-noremap <SPACE>vn zn
-noremap <SPACE>vN zN
-noremap <SPACE>vj zj
-noremap <SPACE>vk zk
-noremap <SPACE>vJ z]
-noremap <SPACE>vK z[
-noremap <SPACE>v= ggVGzC
-noremap <SPACE>v- ggVGzO
-noremap <SPACE>vi :echo FoldCCnavi()<CR>
+nnoremap <SPACE>vf :call <SID>print_foldmarker(0, 0, 0)<CR>
+xnoremap <SPACE>vf :call <SID>print_foldmarker(0, 0, 1)<CR>
+nnoremap <SPACE>vF :call <SID>print_foldmarker(1, 0, 0)<CR>
+xnoremap <SPACE>vF :call <SID>print_foldmarker(1, 0, 1)<CR>
+nnoremap <SPACE>vl :call <SID>print_foldmarker(0, 1, 0)<CR>
+nnoremap <SPACE>vL :call <SID>print_foldmarker(1, 1, 0)<CR>
+nnoremap <SPACE>vd zd
+nnoremap <SPACE>vD zD
+nnoremap <SPACE>vE zE
+nnoremap <SPACE>vo zo
+nnoremap <SPACE>vO zO
+nnoremap <SPACE>vc zc
+nnoremap <SPACE>vC zC
+nnoremap <SPACE>va za
+nnoremap <SPACE>vA zA
+nnoremap <SPACE>vv zv
+nnoremap <SPACE>vx zx
+nnoremap <SPACE>vX zX
+nnoremap <SPACE>vm zm
+nnoremap <SPACE>vM zM
+nnoremap <SPACE>vr zr
+nnoremap <SPACE>vR zR
+nnoremap <SPACE>vn zn
+nnoremap <SPACE>vN zN
+nnoremap <SPACE>vj zj
+nnoremap <SPACE>vk zk
+nnoremap <SPACE>vJ z]
+nnoremap <SPACE>vK z[
+nnoremap <SPACE>v= ggVGzC
+nnoremap <SPACE>v- ggVGzO
+nnoremap <SPACE>vi :echo FoldCCnavi()<CR>
 
 
 "S keybind{{{2
