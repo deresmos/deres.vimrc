@@ -148,12 +148,15 @@ augroup color
 augroup END
 colorscheme hybrid
 set background=dark
+set wrap
+set breakindent
 
 augroup buffers
   autocmd!
   autocmd FileType help setlocal nobuflisted
   autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
   autocmd FileType agit_diff,diff setlocal nofoldenable
+  autocmd FileType agit_diff setlocal wrap
 augroup END
 
 "fold setting{{{2
