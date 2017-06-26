@@ -95,6 +95,14 @@ hook_add = '''
   let g:DiffPairVisible = 0
 '''
 
+# mattn/gist-vim {{{2
+[[plugins]]
+repo = 'mattn/gist-vim'
+hook_add = '''
+  let g:gist_update_on_write = 2
+  let g:gist_post_private    = 1
+'''
+
 #}}}1 END git plugins
 
 # operator plugins {{{1
@@ -751,6 +759,10 @@ hook_add = '''
 # tpope/vim-repeat {{{2
 [[plugins]]
 repo = 'tpope/vim-repeat'
+
+# mattn/webapi-vim {{{2
+[[plugins]]
+repo = 'mattn/webapi-vim'
 
 #}}}1 END plugins
 
