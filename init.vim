@@ -444,6 +444,13 @@ nnoremap <silent> <SPACE>gtt :GitGutterToggle<CR>
 nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
 nnoremap <silent> <SPACE>gtl :GitGutterLineHighlightsToggle<CR>
 
+nnoremap <silent> <SPACE>gii :Gist<CR>
+nnoremap <silent> <SPACE>gil :Gist -l<CR>
+nnoremap <silent> <SPACE>gip :Gist --private<CR>
+nnoremap <silent> <SPACE>giP :Gist --public<CR>
+nnoremap <silent> <SPACE>gia :Gist --anonymous<CR>
+nnoremap <SPACE>gis :Gist --description<space>
+
 nnoremap gF <C-w>gf
 nnoremap <silent> gS :wincmd f<CR>
 nnoremap <silent> gV :vertical wincmd f<CR>
