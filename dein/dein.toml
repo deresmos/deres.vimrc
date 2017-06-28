@@ -314,6 +314,10 @@ hook_add = '''
   augroup END
 '''
 
+# Xuyuanp/nerdtree-git-plugin {{{2
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
+
 # mhinz/vim-startify {{{2
 [[plugins]]
 repo = 'mhinz/vim-startify'
