@@ -118,6 +118,8 @@ set expandtab
 set cursorline
 set colorcolumn=80
 
+set tags=.tags
+
 nnoremap x "_x
 vnoremap x "_x
 nnoremap s "_s
@@ -371,7 +373,7 @@ for s:n in range(1, 9)
   execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
-nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
+nnoremap <silent> <SPACE>tg :silent !ctags -f ./.tags<CR>:echo 'Created tags'<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 
 function! s:set_number() "{{{
