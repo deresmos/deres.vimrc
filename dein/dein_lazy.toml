@@ -301,6 +301,33 @@ hook_source = '''
   augroup END
 '''
 
+[[plugins]]
+repo = 'joonty/vdebug.git'
+if = '''has('python')'''
+on_ft = ['php', 'python']
+hook_source = '''
+    let g:vdebug_options = {
+      \ "port":          9001,
+      \ "timeout":       60,
+      \ "break_on_open": 1,
+      \ "ide_key":       ''
+    \ }
+
+    let g:vdebug_keymap = {
+      \ "run":               "<Space>dr",
+      \ "run_to_cursor":     "<Space>dt",
+      \ "step_over":         "<Space>dj",
+      \ "step_into":         "<Space>di",
+      \ "step_out":          "<Space>do",
+      \ "close":             "<Space>dc",
+      \ "detach":            "<Space>dd",
+      \ "set_breakpoint":    "<Space>dp",
+      \ "get_context":       "<Space>dg",
+      \ "eval_under_cursor": "<Space>de",
+      \ "eval_visual":       "<Space>dv",
+    \ }
+'''
+
 # }}}1
 
 # JavaScript plugins {{{1
