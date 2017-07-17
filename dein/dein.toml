@@ -790,8 +790,8 @@ hook_add = '''
 
   let g:ale_linters = {
     \ 'python': ['flake8'],
-    \ 'javascript': ['eslint', 'jshint'],
-    \ 'css': ['stylelint', 'csslint'],
+    \ 'javascript': ['eslint'],
+    \ 'css': ['stylelint'],
     \ }
   let g:ale_python_pylint_args="--disable=C0111"
 
