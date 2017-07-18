@@ -303,7 +303,8 @@ omap tQ t"
 nnoremap <Space><Space> :
 
 "F keybind {{{2
-nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>
+nnoremap <silent> <SPACE>ff :DeniteBufferDir file<CR>
+nnoremap <silent> <SPACE>fF :DeniteBufferDir file_rec<CR>
 nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
@@ -319,11 +320,9 @@ nnoremap <silent> [NERDTree]t :NERDTreeToggle<CR>
 nnoremap <silent> [NERDTree]f :NERDTreeFocus<CR>
 nnoremap <silent> [NERDTree]F :NERDTreeFind<CR>
 
-nnoremap <silent> <SPACE>fc :FufMruCmd<CR>
-nnoremap <silent> <SPACE>fj :FufJumpList<CR>
-nnoremap <silent> <SPACE>fh :FufChangeList<CR>
-nnoremap <silent> <SPACE>fbf :FufBookmarkFile<CR>
-nnoremap <silent> <SPACE>fbd :FufBookmarkDir<CR>
+nnoremap <silent> <SPACE>fh :Denite command_history<CR>
+nnoremap <silent> <SPACE>fj :Denite jump<CR>
+nnoremap <silent> <SPACE>fp :Denite change<CR>
 
 "Q keybind{{{2
 nnoremap <silent> <SPACE>qq :qa<CR>
@@ -335,7 +334,6 @@ nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 
 "B keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
-nnoremap <silent> <SPACE>bf :FufBookmarkFileAdd<CR>
 nnoremap <silent> <SPACE>bd :bdelete<CR>
 nnoremap <silent> <SPACE>bD :bdelete!<CR>
 nnoremap <silent> <SPACE>bs :wa<CR>
@@ -347,6 +345,7 @@ nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
 
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
+nnoremap <silent> <SPACE>pF :DeniteProjectDir file<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir grep<CR>
 nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -default-action=tabopen<CR>
 

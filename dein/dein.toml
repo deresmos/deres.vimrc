@@ -394,23 +394,6 @@ hook_add = '''
   let g:foldCCnavi_maxchars = 60
 '''
 
-# vim-scripts/FuzzyFinder {{{2
-[[plugins]]
-repo = 'vim-scripts/FuzzyFinder'
-hook_add = '''
-  let g:fuf_modesDisable           = []
-  let g:fuf_keyNextMode            = '<Nop>'
-  let g:fuf_keyPrevMode            = '<Nop>'
-  let g:fuf_keySwitchMatching      = '<Nop>'
-  let g:fuf_keyOpenTabpage         = '<C-t>'
-  let g:fuf_keyPrevPattern         = '<Nop>'
-  let g:fuf_keyOpenSplit           = '<C-s>'
-  let g:fuf_keyOpenVsplit          = '<C-v>'
-  let g:fuf_buffer_keyDelete       = '<C-]>'
-  let g:fuf_bookmarkfile_keyDelete = '<C-]>'
-  let g:fuf_bookmarkdir_keyDelete  = '<C-]>'
-'''
-
 # itchyny/lightline.vim {{{2
 [[plugins]]
 repo = 'itchyny/lightline.vim'
