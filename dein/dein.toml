@@ -609,6 +609,7 @@ hook_add = '''
   let g:howm_fileencoding       = 'utf-8'
   let g:howm_fileformat         = 'unix'
   let g:QFixHowm_CalendarWinCmd = 'rightbelow'
+  let g:QFixHowm_FileType       = 'qfix_memo'
 
   let g:QFixHowm_RootDir         = '~/.howm'
   let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
