@@ -825,4 +825,8 @@ hook_add = '''
 '''
 
 
+# AndrewRadev/linediff.vim {{{2
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
+
 # }}}1
