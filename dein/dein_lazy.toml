@@ -30,7 +30,13 @@ hook_source = '''
 
   call denite#custom#map(
     \ 'insert',
-    \ '<C-l>',
+    \ '<C-n>',
+    \ '../',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'insert',
+    \ '<C-p>',
     \ '<denite:do_action:preview>',
     \ 'noremap')
 
