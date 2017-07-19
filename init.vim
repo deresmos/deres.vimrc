@@ -310,9 +310,18 @@ nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 nnoremap <silent> <SPACE>fg :DeniteBufferDir grep<CR>
 nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -default-action=tabopen<CR>
-nnoremap <silent> <SPACE>fs :w<CR>
+nnoremap <silent> <SPACE>fs :call <SID>saveFile()<CR>
 nnoremap <silent> <SPACE>fq :wq<CR>
 nnoremap <silent> <SPACE>fc :f<space>
+
+function! s:saveFile() "{{{
+  if &readonly
+    SudoWrite
+  else
+    w
+  endif
+endfunction
+" }}}
 
 nnoremap [NERDTree] <Nop>
 nmap <SPACE>ft [NERDTree]

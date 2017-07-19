@@ -831,4 +831,8 @@ hook_add = '''
 [[plugins]]
 repo = 'AndrewRadev/linediff.vim'
 
+# chrisbra/SudoEdit.vim {{{2
+[[plugins]]
+repo = 'chrisbra/SudoEdit.vim'
+
 # }}}1
