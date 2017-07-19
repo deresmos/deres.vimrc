@@ -504,17 +504,20 @@ nnoremap <SPACE>sw :SearchBuffers<Space>
 
 "H keybind{{{2
 nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
-nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo.txt')<CR>
-nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule.txt')<CR>
-nnoremap <silent> <SPACE>ht :call qfixmemo#EditDiary('%Y/%m/%Y-%m-%d-000000.howm')<CR>
+nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo')<CR>
+nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule')<CR>
+nnoremap <silent> <SPACE>ht :call qfixmemo#EditDiary(g:qfixmemo_dialy)<CR>
 nnoremap <silent> <SPACE>hg :call qfixmemo#FGrep()<CR>
-nnoremap <silent> <SPACE>hid :call qfixmemo#InsertDate("date")<CR>
-nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate("time")<CR>
+nnoremap <silent> <SPACE>hid :call qfixmemo#InsertDate('date')<CR>
+nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate('time')<CR>
 nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
 nnoremap <silent> <SPACE>hlt :call qfixmemo#ListReminder('todo')<CR>
 nnoremap <silent> <SPACE>hls :call qfixmemo#ListReminder('schedule')<CR>
-nnoremap <SPACE>hpw :HowmDir work<CR>:echomsg 'Switched work'<CR>
-nnoremap <SPACE>hpm :HowmDir main<CR>:echomsg 'Switched main'<CR>
+nnoremap <silent> <SPACE>hlc :call qfixmemo#ListFile(g:qfixmemo_dialy)<CR>
+
+command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
+nnoremap <SPACE>hpw :HowmDir work<CR>
+nnoremap <SPACE>hpm :HowmDir main<CR>
 nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
 nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
 

@@ -591,15 +591,15 @@ hook_add = '''
   let g:QFixHowm_Key            = '<Nop>'
   let g:howm_fileencoding       = 'utf-8'
   let g:howm_fileformat         = 'unix'
+  let g:qfixmemo_dialy          = '%Y/%m/%Y-%m-%d'
   let g:QFixHowm_CalendarWinCmd = 'rightbelow'
+  let g:QFixHowm_CalendarCount  = 3
   let g:QFixHowm_FileType       = 'qfix_memo'
 
   let g:QFixHowm_RootDir         = '~/.howm'
   let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
   let g:QFixHowm_RecentMode      = 2
   let g:qfixmemo_folding_pattern = '^=[^=]'
-
-  command! -nargs=1 HowmDir let g:howm_dir = QFixHowm_RootDir.'/'.<q-args>|ech
 '''
 
 # haya14busa/incsearch.vim {{{2
