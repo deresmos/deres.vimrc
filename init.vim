@@ -332,6 +332,9 @@ nnoremap <silent> <SPACE>qr :Qfreplace<CR>
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 
+"L keybind{{{2
+xnoremap <silent> <SPACE>ld :Linediff<CR>
+
 "B keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
 nnoremap <silent> <SPACE>bd :bdelete<CR>
