@@ -526,6 +526,7 @@ nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
 nnoremap <silent> <SPACE>hlt :call qfixmemo#ListReminder('todo')<CR>
 nnoremap <silent> <SPACE>hls :call qfixmemo#ListReminder('schedule')<CR>
 nnoremap <silent> <SPACE>hlc :call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
+nnoremap <silent> <SPACE>hll :call qfixmemo#ListRecentTimeStamp()<CR>
 
 command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
 nnoremap <SPACE>hpw :HowmDir work<CR>
