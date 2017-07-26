@@ -272,7 +272,6 @@ nnoremap <TAB> >>
 nnoremap <S-TAB> <<
 xnoremap <TAB> >gv
 xnoremap <S-TAB> <gv
-nnoremap <C-i> <C-i>
 noremap j gj
 noremap k gk
 noremap gj j
@@ -290,6 +289,7 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 nnoremap <leader> <Nop>
+nnoremap <Space>; /
 
 omap iq i'
 omap iQ i"
