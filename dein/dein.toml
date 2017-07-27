@@ -835,4 +835,31 @@ repo = 'AndrewRadev/linediff.vim'
 [[plugins]]
 repo = 'chrisbra/SudoEdit.vim'
 
+# maxwell-k/dbext.vim {{{2
+[[plugins]]
+repo = 'maxwell-k/dbext.vim'
+hook_add = '''
+  if filereadable(expand('~/.dbextrc'))
+    execute 'source' expand('~/.dbextrc')
+  endif
+
+  let g:dbext_default_buffer_lines = 25
+
+  nmap <Space>mdp <Plug>DBPromptForBufferParameters
+  nmap <Space>mdsp :DBSetOption profile=
+  nmap <Space>mdsP :DBSetOption passwd=
+
+  nmap <Space>mdlt <Plug>DBListTable<CR>
+  nmap <Space>mdlv <Plug>DBListView
+  nmap <Space>mdlp <Plug>DBListProcedure
+
+  nmap <Space>mdi <Plug>DBSelectFromTable
+  nmap <Space>mdd <Plug>DBDescribeTable
+  nmap <Space>mdh <Plug>DBHistory
+  nmap <Space>mdI <Plug>DBSelectFromTableWithWhere
+
+  nmap <Space>mdr <Plug>DBExecSQLUnderCursor
+  xmap <Space>mdr <Plug>DBExecVisualSQL
+'''
+
 # }}}1
