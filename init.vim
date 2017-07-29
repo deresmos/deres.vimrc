@@ -234,6 +234,29 @@ function! s:ClearUndo()
   unlet l:old_undolevels
 endfunction
 
+" follow symlink {{{
+" https://github.com/blueyed/dotfiles/commit/1287a5897a15c11b6c05ca428c4a5e6322bd55e8
+function! s:followSymlink()
+  let l:fname = expand('%:p')
+
+  let l:resolve_file = resolve(l:fname)
+  if l:resolve_file == l:fname
+    return
+  endif
+
+  let l:resolve_file = fnameescape(l:resolve_file)
+  " if input('Symbolic link ' . l:fname . ' =>' . l:resolve_file . '; follow link? [y or n]') ==? 'y'
+  " endif
+  exec 'silent! file ' l:resolve_file
+endfunction
+
+command! FollowSymlink call s:followSymlink()
+
+augroup auto_fllow_symlink
+  autocmd!
+  autocmd BufReadPost * call s:followSymlink()
+augroup END
+"}}}
 
 " for lightline
 augroup qfcmd
