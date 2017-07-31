@@ -247,7 +247,8 @@ function! s:followSymlink()
   let l:resolve_file = fnameescape(l:resolve_file)
   " if input('Symbolic link ' . l:fname . ' =>' . l:resolve_file . '; follow link? [y or n]') ==? 'y'
   " endif
-  exec 'silent! file ' l:resolve_file
+  exec 'silent! file' l:resolve_file
+  w!
 endfunction
 
 command! FollowSymlink call s:followSymlink()
