@@ -14,13 +14,13 @@ set clipboard^=unnamedplus
 set splitbelow
 set splitright
 
+set scrolloff=5
+
 
 " keybind {{{1
 inoremap fd <ESC>
 vnoremap fd <ESC>
 
-nnoremap <silent> <tab> >>
-nnoremap <silent> <S-tab> <<
 vnoremap <silent> <tab> >gv
 vnoremap <silent> <S-tab> <gv
 
@@ -39,6 +39,13 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
+nnoremap <leader> <Nop>
+nnoremap <Space>; /
+nnoremap <S-o> <S-o>zz
+nnoremap <S-i> <S-i>zz
+
+nnoremap <SPACE>cj g,
+nnoremap <SPACE>ck g;
 
 nnoremap iq i'
 nnoremap iQ i"
