@@ -641,10 +641,8 @@ xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
 "M keybind {{{2
 nnoremap <silent> <SPACE>ma `azz
 nnoremap <silent> <SPACE>ms `szz
-nnoremap <silent> <SPACE>md `dzz
 nnoremap <silent> <SPACE>mA :mark a<CR>
 nnoremap <silent> <SPACE>mS :mark s<CR>
-nnoremap <silent> <SPACE>mD :mark d<CR>
 
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
