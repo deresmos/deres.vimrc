@@ -140,6 +140,8 @@ set title
 set hidden
 set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 
+set scrolloff=5
+
 augroup color
   autocmd!
   autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
