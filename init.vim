@@ -294,8 +294,6 @@ inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
 " not work tab??
-nnoremap <TAB> >>
-nnoremap <S-TAB> <<
 xnoremap <TAB> >gv
 xnoremap <S-TAB> <gv
 noremap j gj
