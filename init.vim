@@ -604,6 +604,9 @@ xmap <SPACE>cx <plug>NERDCommenterAltDelims
 
 nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 
+nnoremap <SPACE>cj g,
+nnoremap <SPACE>ck g;
+
 " Capture command {{{
 command! -nargs=1 -complete=command CaptureC call <SID>CaptureC(<f-args>)
 
