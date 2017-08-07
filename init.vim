@@ -569,7 +569,6 @@ endfunction
 
 "R keybind {{{2
 nnoremap <silent> <SPACE>re :noh<CR>:silent! SearchBuffersReset<CR>
-" nnoremap <silent> <SPACE>rp :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap <Space>rp :%s///g<Left><Left>
 xnoremap <Space>rp :s///g<Left><Left>
 nnoremap <Space>rP :%s/<C-r><C-w>//g<Left><Left>
