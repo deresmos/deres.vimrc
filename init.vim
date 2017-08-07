@@ -314,6 +314,8 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap <leader> <Nop>
 nnoremap <Space>; /
+nnoremap <S-o> <S-o>zz
+nnoremap <S-i> <S-i>zz
 
 omap iq i'
 omap iQ i"
