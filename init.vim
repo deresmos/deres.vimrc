@@ -241,6 +241,10 @@ endfunction
 function! s:followSymlink()
   let l:fname = expand('%:p')
 
+  if l:fname =~? '^\w\+:/'
+    return
+  endif
+
   let l:resolve_file = resolve(l:fname)
   if l:resolve_file == l:fname
     return
