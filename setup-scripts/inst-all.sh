@@ -22,4 +22,3 @@ install_soft composer
 install_soft cmigemo
 
 bash $dir'/inst-pip-package.sh'
-bash $dir'/inst-npm-package.sh'

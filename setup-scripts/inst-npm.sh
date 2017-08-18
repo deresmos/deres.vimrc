@@ -10,4 +10,5 @@ if hash nodebrew 2>/dev/null; then
 	nodebrew selfupdate &&
 	nodebrew install-binary latest &&
 	nodebrew use latest
+	npm install -g csslint jshint ternjs eslint stylelint csscomb
 fi
