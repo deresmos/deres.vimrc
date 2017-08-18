@@ -14,9 +14,6 @@ function install_soft () { #{{{
 }
 #}}}
 
-install_soft nodebrew
-
-source $HOME/.bash_profile
 install_soft npm
 
 install_soft composer
