@@ -15,6 +15,7 @@ function install_soft () { #{{{
 #}}}
 
 install_soft npm
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 install_soft composer
 
