@@ -333,8 +333,8 @@ omap tQ t"
 nnoremap <Space><Space> :
 
 "F keybind {{{2
-nnoremap <silent> <SPACE>ff :DeniteBufferDir file<CR>
-nnoremap <silent> <SPACE>fF :DeniteBufferDir file_rec<CR>
+nnoremap <silent> <SPACE>ff :DeniteBufferDir file_rec<CR>
+nnoremap <silent> <SPACE>fF :DeniteBufferDir file<CR>
 nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
