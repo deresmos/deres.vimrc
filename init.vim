@@ -338,8 +338,8 @@ nnoremap <silent> <SPACE>fF :DeniteBufferDir file_rec<CR>
 nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
-nnoremap <silent> <SPACE>fg :DeniteBufferDir grep<CR>
-nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -default-action=tabopen<CR>
+nnoremap <silent> <SPACE>fg :DeniteBufferDir grep -no-empty<CR>
+nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -no-empty -input=`expand('<cword>')`<CR>
 nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
 nnoremap <silent> <SPACE>fq :wq<CR>
