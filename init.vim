@@ -386,8 +386,8 @@ nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
 nnoremap <silent> <SPACE>pF :DeniteProjectDir file<CR>
-nnoremap <silent> <SPACE>pg :DeniteProjectDir grep<CR>
-nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -default-action=tabopen<CR>
+nnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty<CR>
+nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -no-empty -input=`expand('<cword>')`<CR>
 
 nnoremap <silent> <SPACE>pa "ap
 xnoremap <silent> <SPACE>pa "ap
