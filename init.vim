@@ -540,8 +540,6 @@ nnoremap <SPACE>sd :SDelete<Space>
 nnoremap <silent> <SPACE>sc :SClose<CR>
 nnoremap <silent> <SPACE>sC :SClose<CR>:qa!<CR>
 
-nnoremap <SPACE>sw :SearchBuffers<Space>
-
 "H keybind{{{2
 nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
 nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo')<CR>
