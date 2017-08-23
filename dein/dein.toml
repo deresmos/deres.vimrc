@@ -873,5 +873,3 @@ hook_add = '''
 '''
 
 # }}}1
-[[plugins]]
-repo = 'mtscout6/vim-tagbar-css'
