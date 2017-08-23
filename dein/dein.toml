@@ -822,6 +822,18 @@ hook_add = '''
   let g:tagbar_map_openfold  = '<Space>vo'
   let g:tagbar_map_closefold = '<Space>vc'
 
+  let g:tagbar_type_css = {
+  \  'ctagstype' : 'css',
+  \  'kinds' : [
+  \    'v:Variables:0:0',
+  \    's:Selectors:1:1',
+  \    '@:@:0:1',
+  \    'c:Classes:1:0',
+  \    'i:Identities:1:0',
+  \    'e:Elements:1:0',
+  \  ]
+  \}
+
 '''
 
 
