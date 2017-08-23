@@ -810,11 +810,11 @@ repo = 'majutsushi/tagbar'
 if = '''has('nvim')'''
 hook_add = '''
   let g:tagbar_previewwin_pos    = "rightbelow"
-  let g:tagbar_iconchars         = ['▸', '▾']
-  let g:tagbar_map_showproto     = '<Nop>'
+  let g:tagbar_iconchars         = ['+', '-']
   let g:tagbar_map_openallfolds  = '-'
   let g:tagbar_map_closeallfolds = '='
   let g:tagbar_autofocus         = 1
+  let g:tagbar_sort              = 0
 '''
 
 
