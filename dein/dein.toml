@@ -834,6 +834,20 @@ hook_add = '''
   \  ]
   \}
 
+  let g:tagbar_type_javascript = {
+  \  'ctagstype' : 'js',
+  \  'kinds' : [
+  \    'f:Functions:0:1',
+  \    'v:Variables:1:0',
+  \    'a:Arrays:1:0',
+  \    'n:Numbers:1:0',
+  \    's:Strings:1:0',
+  \    'b:Bools:1:0',
+  \    'j:jQuery:1:0',
+  \    'F:Functions:1:1'
+  \  ]
+  \}
+
   let g:tagbar_type_php = {
   \  'ctagstype' : 'php',
   \  'kinds' : [
