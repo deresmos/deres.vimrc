@@ -898,3 +898,11 @@ hook_add = '''
 '''
 
 # }}}1
+
+[[plugins]]
+repo = 'rking/ag.vim'
+hook_add = '''
+  let g:ag_prg = "ag --vimgrep -i -S --nocolor --follow --nogroup"
+  let g:ag_highlight = 1
+  let g:ag_qhandler="copen 20"
+'''
