@@ -123,11 +123,6 @@ hook_source = '''
   call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
 '''
 
-# honza/vim-snippets {{{2
-[[plugins]]
-repo = 'honza/vim-snippets'
-if = '''has('nvim')'''
-
 # SirVer/ultisnips {{{2
 [[plugins]]
 if = '''has('nvim')'''

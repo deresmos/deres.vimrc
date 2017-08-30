@@ -748,6 +748,11 @@ repo = 'mattn/webapi-vim'
 #}}}1 END plugins
 
 # Programing plugins {{{1
+# honza/vim-snippets {{{2
+[[plugins]]
+repo = 'honza/vim-snippets'
+if = '''has('nvim')'''
+
 # w0rp/ale {{{2
 [[plugins]]
 repo = 'w0rp/ale'
