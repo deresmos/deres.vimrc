@@ -483,6 +483,7 @@ nnoremap <silent> <SPACE>wP <c-w>\|<c-w>_
 nnoremap <silent> <SPACE>gs :Gstatus<CR>
 nnoremap <silent> <SPACE>gd :Gdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
+nnoremap <silent> <SPACE>gC :Git commit<CR>
 
 " merginal keybind
 nnoremap <SPACE>gc :MerginalToggle<CR>
