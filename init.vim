@@ -159,7 +159,7 @@ set breakindent
 
 highlight Search cterm=bold,underline ctermfg=197 ctermbg=none
 highlight IncSearch cterm=bold,underline ctermfg=197 ctermbg=235
-highlight Folded ctermfg=204 ctermbg=235 cterm=bold
+highlight Folded ctermfg=167 ctermbg=235 cterm=bold
 highlight LineNr ctermfg=251 ctermbg=235
 highlight CursorLineNr ctermfg=221 ctermbg=235
 highlight TagbarSignature ctermfg=251
