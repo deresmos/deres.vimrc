@@ -157,6 +157,15 @@ set background=dark
 set wrap
 set breakindent
 
+highlight Search cterm=bold,underline ctermfg=197 ctermbg=none
+highlight IncSearch cterm=bold,underline ctermfg=197 ctermbg=235
+highlight Folded ctermfg=204 ctermbg=235 cterm=bold
+highlight LineNr ctermfg=251 ctermbg=235
+highlight CursorLineNr ctermfg=221 ctermbg=235
+highlight TagbarSignature ctermfg=251
+highlight ZenSpace ctermbg=203
+highlight DeniteCursorLine ctermbg=237
+
 augroup buffers
   autocmd!
   autocmd FileType help setlocal nobuflisted
