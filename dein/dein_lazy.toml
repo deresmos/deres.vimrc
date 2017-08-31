@@ -79,7 +79,8 @@ hook_source = '''
 
   " custom color {{{
   call denite#custom#option('default', 'highlight_matched_char', 'Title')
-  call denite#custom#option('default', 'highlight_mode_insert', 'PmenuSel')
+  call denite#custom#option('default', 'highlight_mode_insert', 'DeniteCursorLine')
+  call denite#custom#option('default', 'highlight_mode_normal', 'DeniteCursorLine')
   " }}}
 
   " custom command {{{
