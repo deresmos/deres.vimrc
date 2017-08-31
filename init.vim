@@ -142,16 +142,6 @@ set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 
 set scrolloff=5
 
-augroup my-colorscheme
-  autocmd!
-  autocmd ColorScheme * highlight Search ctermfg=255 ctermbg=70
-  autocmd ColorScheme * highlight Folded ctermfg=214 cterm=bold
-  autocmd ColorScheme * highlight LineNr ctermfg=251 ctermbg=235
-  autocmd ColorScheme * highlight CursorLineNr ctermfg=221 ctermbg=235
-  autocmd ColorScheme * highlight TagbarSignature ctermfg=251
-  autocmd ColorScheme * highlight ZenSpace ctermbg=203
-  autocmd ColorScheme * highlight DeniteCursorLine ctermbg=237
-augroup END
 colorscheme hybrid
 set background=dark
 set wrap
