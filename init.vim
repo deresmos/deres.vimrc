@@ -142,14 +142,15 @@ set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 
 set scrolloff=5
 
-augroup color
+augroup my-colorscheme
   autocmd!
-  autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
-  autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
-  autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
-  autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
-  autocmd VimEnter,ColorScheme * highlight TagbarSignature ctermfg=251
-  autocmd ColorScheme * highlight ZenSpace ctermbg=203 guibg=203
+  autocmd ColorScheme * highlight Search ctermfg=255 ctermbg=70
+  autocmd ColorScheme * highlight Folded ctermfg=214 cterm=bold
+  autocmd ColorScheme * highlight LineNr ctermfg=251 ctermbg=235
+  autocmd ColorScheme * highlight CursorLineNr ctermfg=221 ctermbg=235
+  autocmd ColorScheme * highlight TagbarSignature ctermfg=251
+  autocmd ColorScheme * highlight ZenSpace ctermbg=203
+  autocmd ColorScheme * highlight DeniteCursorLine ctermbg=237
 augroup END
 colorscheme hybrid
 set background=dark
