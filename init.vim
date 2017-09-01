@@ -155,6 +155,9 @@ highlight CursorLineNr ctermfg=221 ctermbg=235
 highlight TagbarSignature ctermfg=251
 highlight ZenSpace ctermbg=203
 highlight DeniteCursorLine ctermfg=none ctermbg=237
+highlight DiffChange ctermfg=none ctermbg=236
+highlight DiffText cterm=bold,underline ctermfg=197 ctermbg=236
+highlight DiffAdd ctermfg=none ctermbg=236
 
 augroup buffers
   autocmd!
