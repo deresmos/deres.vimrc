@@ -481,7 +481,7 @@ nnoremap <silent> <SPACE>wP <c-w>\|<c-w>_
 "G keybind{{{2
 " fugitive keybind
 nnoremap <silent> <SPACE>gs :Gstatus<CR>
-nnoremap <silent> <SPACE>gd :Gdiff<CR>
+nnoremap <silent> <SPACE>gd :Gvdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
 nnoremap <silent> <SPACE>gC :Git commit<CR>
 
