@@ -302,7 +302,8 @@ hook_add = '''
     autocmd FileType nerdtree nmap <buffer> o ma
     autocmd FileType nerdtree nmap <buffer> i ml
     autocmd FileType nerdtree nmap <buffer> cp mc
-    autocmd FileType nerdtree nmap <buffer> mv mm
+    autocmd FileType nerdtree nmap <buffer> rn mm
+    autocmd FileType nerdtree nmap <buffer> vd mv
   augroup END
 '''
 
@@ -310,6 +311,9 @@ hook_add = '''
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
 
+# deresmos/nerdtree-diff-plugin {{{2
+[[plugins]]
+repo = 'deresmos/nerdtree-diff-plugin'
 # mhinz/vim-startify {{{2
 [[plugins]]
 repo = 'mhinz/vim-startify'
