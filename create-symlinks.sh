@@ -2,20 +2,23 @@
 
 set -x
 dir=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
+vim_conf_dir=$HOME/.vim/conf.d
+conf_dir=$dir/conf.d
 nvim_dir=$HOME/.config/nvim
 nvim_dein_dir=$nvim_dir/dein
 
 # vim/deinディレクトリ作成
 [ -d $nvim_dein_dir ] || mkdir -p $nvim_dein_dir
+[ -d $vim_conf_dir ] || mkdir -p $vim_conf_dir
 
 # オリジナルのvimrcを退避
 [ -f $HOME/.vimrc ] && ([ -f $HOME/.vimrc.ORIG ] || cp $HOME/.vimrc $HOME/.vimrc.ORIG)
 
 # シンボリックリンク貼り貼り
-ln -sf ${dir}/basic.vim $HOME/
-ln -sf ${dir}/basic.vim $HOME/.vimrc
+ln -sf ${dir}/${conf_dir}/basic.vim $vim_conf_dir/
+ln -sf ${conf_dir}/basic.vim $HOME/.vimrc
 ln -sf ${dir}/.ideavimrc $HOME/
 ln -sf ${dir}/init.vim $nvim_dir/
-ln -sf ${dir}/my.vim $nvim_dir/
+ln -sf ${conf_dir}/my.vim $vim_conf_dir/
 ln -sf ${dir}/dein/dein.toml $nvim_dein_dir/
 ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir/

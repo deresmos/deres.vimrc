@@ -1,5 +1,5 @@
 " settings {{{1
-source ~/.vim/basic.vim
+source ~/.vim/.conf.d/basic.vim
 
 nnoremap iq i'
 nnoremap iQ i"
