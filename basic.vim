@@ -48,7 +48,7 @@ set expandtab
 set cursorline
 set colorcolumn=80
 
-set tags=.tags
+set tags=./.tags;~
 
 nnoremap x "_x
 vnoremap x "_x

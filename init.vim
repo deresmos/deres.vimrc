@@ -140,7 +140,7 @@ for s:n in range(1, 9)
   execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
-nnoremap <silent> <SPACE>tg :silent !ctags -f ./.tags<CR>:echo 'Created tags'<CR>
+nnoremap <silent> <SPACE>tg :silent !ctags -R -f ./.tags 2> /dev/null&<CR>:echo 'Created tags'<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 
 function! s:set_number() "{{{
