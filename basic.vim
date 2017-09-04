@@ -72,7 +72,6 @@ set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 
 set scrolloff=5
 
-colorscheme hybrid
 set background=dark
 set wrap
 set breakindent

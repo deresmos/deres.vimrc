@@ -72,6 +72,7 @@ filetype plugin indent on
 "vim setting {{{1
 source ~/.vim/basic.vim
 
+colorscheme hybrid
 set foldtext=FoldCCtext()
 "nerdtree setting{{{2
 augroup nerdtree
