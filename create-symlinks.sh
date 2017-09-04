@@ -18,6 +18,7 @@ if [ -f $HOME/.vimrc ]; then
 fi
 
 # シンボリックリンク貼り貼り
+ln -sf ${dir}/basic.vim $HOME/
 ln -sf ${dir}/.ideavimrc $HOME/
 ln -sf ${dir}/init.vim $nvim_dir'/'
 ln -sf ${dir}/my.vim $nvim_dir'/my.vim'
