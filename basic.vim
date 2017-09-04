@@ -11,14 +11,14 @@ let g:undo_dir = g:vim_dir. '/undo'
 let g:view_dir = g:vim_dir. '/view'
 let g:startify_session_dir = g:vim_dir. '/session'
 
-function! s:MakeDirectory(dir_path) "{{{
+function! s:makeDirectory(dir_path) "{{{
   if !isdirectory(a:dir_path)
     call mkdir(a:dir_path, 'p')
   endif
 endfunction
 "}}}
-call s:MakeDirectory(g:undo_dir)
-call s:MakeDirectory(g:view_dir)
+call s:makeDirectory(g:undo_dir)
+call s:makeDirectory(g:view_dir)
 
 "basic setting {{{1
 set undofile
@@ -88,18 +88,18 @@ highlight DiffChange ctermfg=none ctermbg=236
 highlight DiffText cterm=bold,underline ctermfg=197 ctermbg=237
 highlight DiffAdd ctermfg=none ctermbg=237
 
-augroup buffers
+augroup custom-buffers
   autocmd!
   autocmd FileType help setlocal nobuflisted
   autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
-  autocmd FileType qf nnoremap <silent><buffer>dd :call <SID>del_entry()<CR>
-  autocmd FileType qf xnoremap <silent><buffer>d :call <SID>del_entry()<CR>
-  autocmd FileType qf nnoremap <silent><buffer>u :call <SID>undo_entry()<CR>
+  autocmd FileType qf nnoremap <silent><buffer>dd :call <SID>delEntry()<CR>
+  autocmd FileType qf xnoremap <silent><buffer>d :call <SID>delEntry()<CR>
+  autocmd FileType qf nnoremap <silent><buffer>u :call <SID>undoEntry()<CR>
   autocmd FileType agit_diff,diff setlocal nofoldenable
   autocmd FileType agit_diff setlocal wrap
 augroup END
 
-function! s:del_entry() range
+function! s:delEntry() range
   let l:qf = getqflist()
   let l:history = get(w:, 'qf_history', [])
   call add(l:history, copy(l:qf))
@@ -109,7 +109,7 @@ function! s:del_entry() range
   execute a:firstline
 endfunction
 
-function! s:undo_entry()
+function! s:undoEntry()
   let l:history = get(w:, 'qf_history', [])
   if !empty(l:history)
     call setqflist(remove(l:history, -1), 'r')
@@ -133,17 +133,17 @@ nnoremap <expr>l foldclosed('.') != -1 ? 'zo' : 'l'
 function! s:printFoldMarker(auto_mode, last, v_mode) range "{{{
   let l:count = v:count
   if a:last == 1
-    call <SID>put_foldmarker(1, a:firstline, a:auto_mode, l:count)
+    call <SID>putFoldMarker(1, a:firstline, a:auto_mode, l:count)
     return
   endif
 
-  call <SID>put_foldmarker(0, a:firstline, a:auto_mode, l:count)
+  call <SID>putFoldMarker(0, a:firstline, a:auto_mode, l:count)
   if a:v_mode
-    call <SID>put_foldmarker(1, a:lastline, a:auto_mode, l:count)
+    call <SID>putFoldMarker(1, a:lastline, a:auto_mode, l:count)
   endif
 endfunction
 "}}}
-function! s:put_foldmarker(foldclose_p, lnum, mode, count) " {{{
+function! s:putFoldMarker(foldclose_p, lnum, mode, count) " {{{
   let l:line_str = getline(a:lnum)
   let l:padding = l:line_str ==# '' ? '' : l:line_str =~# '\s$' ? '' : ' '
 
@@ -171,8 +171,8 @@ augroup view
   autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
 augroup END
 
-command -nargs=0 ClearUndo call <sid>ClearUndo()
-function! s:ClearUndo()
+command -nargs=0 ClearUndo call <sid>clearUndo()
+function! s:clearUndo()
   let l:old_undolevels = &l:undolevels
   set undolevels=-1
   exe "normal! a \<BS>\<Esc>"
