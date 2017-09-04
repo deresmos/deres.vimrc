@@ -46,15 +46,26 @@ nnoremap <SPACE>mqi :action QuickImplementations<CR>
 nnoremap <SPACE>mr :action RenameElement<CR>
 nnoremap <SPACE>mu :action ShowUsages<CR>
 
+nnoremap <SPACE>ej :action GotoNextError<CR>
+nnoremap <SPACE>ek :action GotoPreviousError<CR>
+
 nnoremap <SPACE>cs :action EditorCompleteStatement<CR>
 
 nnoremap <SPACE>fm :action Move<CR>
 nnoremap <SPACE>ff :action GotoFile<CR>
+nnoremap <SPACE>fg :action FindInPath<CR>
 
 nnoremap <SPACE>gb :action Annotate<CR>
 nnoremap <SPACE>gm :action Git.Branches<CR>
 nnoremap <SPACE>gd :action Compare.SameVersion<CR>
-nnoremap <SPACE>gD :action Compare.Selected<CR>
+nnoremap <SPACE>gD :action Git.CompareWithBranch<CR>
+nnoremap <SPACE>gf :action Compare.Selected<CR>
+nnoremap <SPACE>gj :action VcsShowNextChangeMarker<CR>
+nnoremap <SPACE>gk :action VcsShowPrevChangeMarker<CR>
+nnoremap <SPACE>gl :action Vcs.ShowTabbedFileHistory<CR>
+
+nnoremap <SPACE>pc :action CloseProject<CR>
+nnoremap <SPACE>po :action ShowColorPicker<CR>
 
 nnoremap <SPACE>m= :action ReformatCode<CR>
 nnoremap <SPACE><SPACE> :action GotoAction<CR>
