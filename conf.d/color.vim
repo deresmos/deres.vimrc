@@ -9,4 +9,3 @@ highlight DeniteCursorLine ctermfg=none ctermbg=237
 highlight DiffChange       ctermfg=none ctermbg=236
 highlight DiffText         ctermfg=197  ctermbg=237  cterm=bold,underline
 highlight DiffAdd          ctermfg=none ctermbg=237
-
