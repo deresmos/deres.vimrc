@@ -301,6 +301,10 @@ xnoremap <silent> <SPACE>pa "ap
 nnoremap <silent> <SPACE>ya "ay
 xnoremap <silent> <SPACE>ya "ay
 
+"D keybind{{{2
+nnoremap <silent> <SPACE>dw :windo diffthis<CR>
+nnoremap <silent> <SPACE>du :windo diffupdate<CR>
+
 "T keybind{{{2
 nnoremap <silent> <SPACE>tc :tabnew<CR>
 nnoremap <silent> <SPACE>tC :tab split<CR>
