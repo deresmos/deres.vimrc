@@ -70,168 +70,9 @@ filetype plugin indent on
 "}}}1
 
 "vim setting {{{1
-"script var{{{2
-if has('unix') || has('mac')
-  let s:cache_dir = expand('~/.cache/vim')
-elseif has('win64') || has('win32')
-  let s:cache_dir = expand($LOCALAPPDATA. '/.cache/vim')
-endif
+source ~/.vim/basic.vim
 
-let s:undo_dir = s:cache_dir. '/undo'
-let s:view_dir = s:cache_dir. '/view'
-let g:startify_session_dir = s:cache_dir. '/session'
-
-function! CheckDirectory(dir_path) "{{{
-  if !isdirectory(a:dir_path)
-    call mkdir(a:dir_path, 'p')
-  endif
-endfunction
-"}}}
-call CheckDirectory(s:undo_dir)
-call CheckDirectory(s:view_dir)
-
-"basic setting{{{2
-set undofile
-let &undodir = s:undo_dir
-filetype plugin on
-set ambiwidth=double
-
-set noshowmode
-if exists('&ambw')
-  set ambiwidth=double
-endif
-
-set wildmenu
-set wildmode=list:longest,full
-set incsearch
-set hlsearch
-set showmatch
-set ignorecase
-set smartcase
-
-set tabstop=2
-set softtabstop=0
-set shiftwidth=2
-set autoindent
-set expandtab
-" set smartindent
-set cursorline
-set colorcolumn=80
-
-set tags=.tags
-
-nnoremap x "_x
-vnoremap x "_x
-nnoremap s "_s
-vnoremap s "_s
-
-set showcmd
-syntax on
-" install gvim
-set clipboard&
-set clipboard^=unnamedplus
-set splitbelow
-set splitright
-" set smarttab
-
-set laststatus=2
-set noswapfile
-set title
-set hidden
-set listchars=tab:>.,trail:-,eol:$,extends:>,precedes:<,nbsp:%
-
-set scrolloff=5
-
-colorscheme hybrid
-set background=dark
-set wrap
-set breakindent
-
-highlight Search cterm=bold,underline ctermfg=197 ctermbg=none
-highlight IncSearch cterm=bold,underline ctermfg=197 ctermbg=235
-highlight Folded ctermfg=167 ctermbg=235 cterm=bold
-highlight LineNr ctermfg=251 ctermbg=235
-highlight CursorLineNr ctermfg=221 ctermbg=235
-highlight TagbarSignature ctermfg=251
-highlight ZenSpace ctermbg=203
-highlight DeniteCursorLine ctermfg=none ctermbg=237
-highlight DiffChange ctermfg=none ctermbg=236
-highlight DiffText cterm=bold,underline ctermfg=197 ctermbg=236
-highlight DiffAdd ctermfg=none ctermbg=236
-
-augroup buffers
-  autocmd!
-  autocmd FileType help setlocal nobuflisted
-  autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
-  autocmd FileType qf nnoremap <silent><buffer>dd :call <SID>del_entry()<CR>
-  autocmd FileType qf xnoremap <silent><buffer>d :call <SID>del_entry()<CR>
-  autocmd FileType qf nnoremap <silent><buffer>u :call <SID>undo_entry()<CR>
-  autocmd FileType agit_diff,diff setlocal nofoldenable
-  autocmd FileType agit_diff setlocal wrap
-augroup END
-
-function! s:del_entry() range
-  let l:qf = getqflist()
-  let l:history = get(w:, 'qf_history', [])
-  call add(l:history, copy(l:qf))
-  let w:qf_history = l:history
-  unlet! l:qf[a:firstline - 1 : a:lastline - 1]
-  call setqflist(l:qf, 'r')
-  execute a:firstline
-endfunction
-
-function! s:undo_entry()
-  let l:history = get(w:, 'qf_history', [])
-  if !empty(l:history)
-    call setqflist(remove(l:history, -1), 'r')
-  endif
-endfunction
-
-"fold setting{{{2
-set foldenable
-set foldmethod=marker
 set foldtext=FoldCCtext()
-set foldcolumn=0
-
-augroup foldmethod
-  autocmd!
-  autocmd BufRead,BufNewFile *.toml,.zshrc setlocal commentstring=#%s
-  autocmd BufRead,BufNewFile *.vim setlocal commentstring=\"%s
-  autocmd BufRead,BufNewFile *.html setlocal commentstring=<!--%s-->
-augroup END
-
-nnoremap <expr>l foldclosed('.') != -1 ? 'zo' : 'l'
-
-function! s:print_foldmarker(auto_mode, last, v_mode) range "{{{
-  let l:count = v:count
-  if a:last == 1
-    call <SID>put_foldmarker(1, a:firstline, a:auto_mode, l:count)
-    return
-  endif
-
-  call <SID>put_foldmarker(0, a:firstline, a:auto_mode, l:count)
-  if a:v_mode
-    call <SID>put_foldmarker(1, a:lastline, a:auto_mode, l:count)
-  endif
-endfunction
-"}}}
-function! s:put_foldmarker(foldclose_p, lnum, mode, count) " {{{
-  let l:line_str = getline(a:lnum)
-  let l:padding = l:line_str ==# '' ? '' : l:line_str =~# '\s$' ? '' : ' '
-
-  let [l:cms_start, l:cms_end] = ['', '']
-  let l:outside_a_comment_p = synIDattr(synID(a:lnum, strlen(l:line_str)-1, 1), 'name') !~? 'comment'
-  if l:outside_a_comment_p
-    let l:cms_start = matchstr(&commentstring,'\V\s\*\zs\.\+\ze%s')
-    let l:cms_end   = matchstr(&commentstring,'\V%s\zs\.\+')
-  endif
-
-  let l:fmr = split(&foldmarker, ',')[a:foldclose_p]
-  let l:foldlevel = (a:count) ? a:count : ((a:mode) ? foldlevel(a:lnum) : '')
-  exe a:lnum. 'normal! A'. l:padding. l:cms_start. l:fmr. l:foldlevel. l:cms_end
-endfunction
-"}}}
-
 "nerdtree setting{{{2
 augroup nerdtree
   autocmd!
@@ -240,122 +81,9 @@ augroup nerdtree
 augroup END
 
 
-"view setting{{{2
-" Save fold settings.
-" Don't save options.
-let &viewdir = s:view_dir
-set viewoptions-=options
-augroup view
-  autocmd!
-  autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
-  autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
-augroup END
-
-command -nargs=0 ClearUndo call <sid>ClearUndo()
-function! s:ClearUndo()
-  let l:old_undolevels = &l:undolevels
-  set undolevels=-1
-  exe "normal! a \<BS>\<Esc>"
-  let &l:undolevels = l:old_undolevels
-  unlet l:old_undolevels
-endfunction
-
-" follow symlink {{{
-" https://github.com/blueyed/dotfiles/commit/1287a5897a15c11b6c05ca428c4a5e6322bd55e8
-function! s:followSymlink()
-  let l:fname = expand('%:p')
-
-  if l:fname =~? '^\w\+:/'
-    return
-  endif
-
-  let l:resolve_file = resolve(l:fname)
-  if l:resolve_file == l:fname
-    return
-  endif
-
-  let l:resolve_file = fnameescape(l:resolve_file)
-  " if input('Symbolic link ' . l:fname . ' =>' . l:resolve_file . '; follow link? [y or n]') ==? 'y'
-  " endif
-  exec 'silent! file' l:resolve_file
-  w!
-endfunction
-
-command! FollowSymlink call s:followSymlink()
-
-augroup auto_fllow_symlink
-  autocmd!
-  autocmd BufReadPost * call s:followSymlink()
-augroup END
-"}}}
-
-" for lightline
-augroup qfcmd
-  autocmd!
-  autocmd QuickFixCmdPost *grep* cwindow
-augroup END
-
-" nnoremap <C-h> :vsp<CR> :exe("tjump ".expand('<cword>'))<CR>
-" nnoremap <C-k> :split<CR> :exe("tjump ".expand('<cword>'))<CR>
-set showtabline=2
-
-" vim or nvim
-if !has('nvim')
-  " urxvt
-  let &t_SI = "\<Esc>[6 q"
-  let &t_SR = "\<Esc>[4 q"
-  let &t_EI = "\<Esc>[2 q"
-endif
-
-if has('nvim')
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-  tnoremap <silent> <ESC> <C-\><C-n>
-  tnoremap <silent> fd <C-\><C-n>
-endif
 "}}}1
 
 "space vim setting {{{1
-"normal keybind {{{2
-inoremap fd <ESC>
-vnoremap fd <ESC>
-inoremap <C-j> <C-n>
-inoremap <C-k> <C-p>
-nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
-" not work tab??
-xnoremap <TAB> >gv
-xnoremap <S-TAB> <gv
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-noremap m %
-noremap <S-h> ^
-noremap <S-l> $
-noremap <S-j> }
-noremap <S-k> {
-noremap } <S-j>
-noremap { <S-k>
-nnoremap Q <Nop>
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap <leader> <Nop>
-nnoremap <Space>; /
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
-
-omap iq i'
-omap iQ i"
-omap aq a'
-omap aQ a"
-omap fq f'
-omap fQ f"
-omap tq t'
-omap tQ t"
-
-nnoremap <Space><Space> :
-
 "F keybind {{{2
 nnoremap <silent> <SPACE>ff :DeniteBufferDir file_rec<CR>
 nnoremap <silent> <SPACE>fF :DeniteBufferDir file<CR>
@@ -366,8 +94,6 @@ nnoremap <silent> <SPACE>fg :DeniteBufferDir grep -no-empty<CR>
 nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -no-empty -input=`expand('<cword>')`<CR>
 nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
-nnoremap <silent> <SPACE>fq :wq<CR>
-nnoremap <silent> <SPACE>fc :f<space>
 
 function! s:saveFile(force) "{{{
   let l:cmd = &readonly ? 'SudoWrite' : a:force ? 'w!' : 'w'
@@ -386,8 +112,6 @@ nnoremap <silent> <SPACE>fj :Denite jump<CR>
 nnoremap <silent> <SPACE>fp :Denite change<CR>
 
 "Q keybind{{{2
-nnoremap <silent> <SPACE>qq :qa<CR>
-nnoremap <silent> <SPACE>qQ :qa!<CR>
 nnoremap <silent> <SPACE>qr :Qfreplace<CR>
 
 "D keybind{{{2
@@ -399,13 +123,7 @@ xnoremap <silent> <SPACE>ld :Linediff<CR>
 
 "B keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
-nnoremap <silent> <SPACE>bd :bdelete<CR>
-nnoremap <silent> <SPACE>bD :bdelete!<CR>
-nnoremap <silent> <SPACE>bs :wa<CR>
 nnoremap <silent> <SPACE>bo :BufOnly<CR>
-nnoremap <silent> <SPACE>bn :bn<CR>
-nnoremap <silent> <SPACE>bp :bp<CR>
-nnoremap <silent> <SPACE><Tab> :b#<CR>
 nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
 
 "P keybind{{{2
@@ -414,25 +132,10 @@ nnoremap <silent> <SPACE>pF :DeniteProjectDir file<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty<CR>
 nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -no-empty -input=`expand('<cword>')`<CR>
 
-nnoremap <silent> <SPACE>pa "ap
-xnoremap <silent> <SPACE>pa "ap
-
 "Y keybind{{{2
 nnoremap <silent> <SPACE>yl :<C-u>Denite neoyank<CR>
-nnoremap <silent> <SPACE>ya "ay
-xnoremap <silent> <SPACE>ya "ay
 
 "T keybind{{{2
-nnoremap <silent> <SPACE>tc :tabnew<CR>
-nnoremap <silent> <SPACE>tC :tab split<CR>
-nnoremap <silent> <SPACE>td :tabclose<CR>
-nnoremap <silent> <SPACE>tO :tabonly<CR>
-
-nnoremap <silent> <SPACE>tl :tabnext<CR>
-nnoremap <silent> <SPACE>th :tabprevious<CR>
-nnoremap <silent> <SPACE>tL :+tabmove<CR>
-nnoremap <silent> <SPACE>tH :-tabmove<CR>
-
 for s:n in range(1, 9)
   execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
@@ -462,24 +165,6 @@ nnoremap <silent> [TNumber]r  :call <SID>set_relative_number()<CR>
 
 nnoremap <silent> <SPACE>tsl :setlocal list!<CR>
 
-
-"W keybind{{{2
-nnoremap <silent> <SPACE>ws :split<CR>
-nnoremap <silent> <SPACE>wv :vsplit<CR>
-nnoremap <silent> <SPACE>wd :close<CR>
-nnoremap <silent> <SPACE>wO :only<CR>
-nnoremap <silent> <SPACE>wD <c-w>j:close<CR>
-nnoremap <silent> <SPACE>w= <c-w>=<CR>
-
-nnoremap <SPACE>wl <c-w>l
-nnoremap <SPACE>wh <c-w>h
-nnoremap <SPACE>wj <c-w>j
-nnoremap <SPACE>wk <c-w>k
-nnoremap <silent> <SPACE>wL <c-w>L
-nnoremap <silent> <SPACE>wH <c-w>H
-nnoremap <silent> <SPACE>wJ <c-w>J
-nnoremap <silent> <SPACE>wK <c-w>K
-nnoremap <silent> <SPACE>wP <c-w>\|<c-w>_
 
 "G keybind{{{2
 " fugitive keybind
@@ -518,44 +203,8 @@ nnoremap <silent> <SPACE>giP :Gist --public<CR>
 nnoremap <silent> <SPACE>gia :Gist --anonymous<CR>
 nnoremap <SPACE>gis :Gist --description<space>
 
-nnoremap gF <C-w>gf
-nnoremap <silent> gS :wincmd f<CR>
-nnoremap <silent> gV :vertical wincmd f<CR>
-
 "V keybind{{{2
-" vim fold keybind
-nnoremap <SPACE>vf :call <SID>print_foldmarker(0, 0, 0)<CR>
-xnoremap <SPACE>vf :call <SID>print_foldmarker(0, 0, 1)<CR>
-nnoremap <SPACE>vF :call <SID>print_foldmarker(1, 0, 0)<CR>
-xnoremap <SPACE>vF :call <SID>print_foldmarker(1, 0, 1)<CR>
-nnoremap <SPACE>vl :call <SID>print_foldmarker(0, 1, 0)<CR>
-nnoremap <SPACE>vL :call <SID>print_foldmarker(1, 1, 0)<CR>
-nnoremap <SPACE>vd zd
-nnoremap <SPACE>vD zD
-nnoremap <SPACE>vE zE
-nnoremap <SPACE>vo zo
-nnoremap <SPACE>vO zO
-nnoremap <SPACE>vc zc
-nnoremap <SPACE>vC zC
-nnoremap <SPACE>va za
-nnoremap <SPACE>vA zA
-nnoremap <SPACE>vv zv
-nnoremap <SPACE>vx zx
-nnoremap <SPACE>vX zX
-nnoremap <SPACE>vm zm
-nnoremap <SPACE>vM zM
-nnoremap <SPACE>vr zr
-nnoremap <SPACE>vR zR
-nnoremap <SPACE>vn zn
-nnoremap <SPACE>vN zN
-nnoremap <SPACE>vj zj
-nnoremap <SPACE>vk zk
-nnoremap <SPACE>vJ z]
-nnoremap <SPACE>vK z[
-nnoremap <SPACE>v= ggVGzC
-nnoremap <SPACE>v- ggVGzO
 nnoremap <SPACE>vi :echo FoldCCnavi()<CR>
-
 
 "S keybind{{{2
 " session keybind
@@ -597,9 +246,6 @@ endfunction
 
 "R keybind {{{2
 nnoremap <silent> <SPACE>re :noh<CR>:silent! SearchBuffersReset<CR>
-nnoremap <Space>rp :%s///g<Left><Left>
-xnoremap <Space>rp :s///g<Left><Left>
-nnoremap <Space>rP :%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> <SPACE>rv :silent! loadview<CR>
 nnoremap <silent> <SPACE>rn :Renamer<CR>
 nnoremap <silent> <SPACE>rs :Ren<CR>
@@ -631,9 +277,6 @@ xmap <SPACE>cA <plug>NERDCommenterAppend
 xmap <SPACE>cx <plug>NERDCommenterAltDelims
 
 nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
-
-nnoremap <SPACE>cj g,
-nnoremap <SPACE>ck g;
 
 " Capture command {{{
 command! -nargs=1 -complete=command CaptureC call <SID>CaptureC(<f-args>)
@@ -668,11 +311,6 @@ xmap <SPACE>os <Plug>(openbrowser-smart-search)
 xnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
 xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
 
-"M keybind {{{2
-nnoremap <silent> <SPACE>ma `azz
-nnoremap <silent> <SPACE>ms `szz
-nnoremap <silent> <SPACE>mA :mark a<CR>
-nnoremap <silent> <SPACE>mS :mark s<CR>
 
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
