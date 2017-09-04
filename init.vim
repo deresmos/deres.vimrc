@@ -145,14 +145,14 @@ endfor
 nnoremap <silent> <SPACE>tg :silent !ctags -R -f ./.tags 2> /dev/null&<CR>:echo 'Created tags'<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 
-function! s:set_number() "{{{
+function! s:setNumber() "{{{
   if &relativenumber
     setlocal relativenumber!
   endif
   setlocal number!
 endfunction
 " }}}
-function! s:set_relative_number() "{{{
+function! s:setRelativeNumber() "{{{
   if &number
     setlocal number!
   endif
@@ -162,8 +162,8 @@ endfunction
 
 nnoremap [TNumber] <Nop>
 nmap <SPACE>tn [TNumber]
-nnoremap <silent> [TNumber]n :call <SID>set_number()<CR>
-nnoremap <silent> [TNumber]r  :call <SID>set_relative_number()<CR>
+nnoremap <silent> [TNumber]n :call <SID>setNumber()<CR>
+nnoremap <silent> [TNumber]r  :call <SID>setRelativeNumber()<CR>
 
 nnoremap <silent> <SPACE>tsl :setlocal list!<CR>
 
@@ -281,9 +281,9 @@ xmap <SPACE>cx <plug>NERDCommenterAltDelims
 nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 
 " Capture command {{{
-command! -nargs=1 -complete=command CaptureC call <SID>CaptureC(<f-args>)
+command! -nargs=1 -complete=command CaptureC call <SID>captureC(<f-args>)
 
-function! s:CaptureC(cmd)
+function! s:captureC(cmd)
   redir => l:result
   silent execute a:cmd
   redir END
