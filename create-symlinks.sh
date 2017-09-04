@@ -15,8 +15,9 @@ nvim_dein_dir=$nvim_dir/dein
 [ -f $HOME/.vimrc ] && ([ -f $HOME/.vimrc.ORIG ] || cp $HOME/.vimrc $HOME/.vimrc.ORIG)
 
 # シンボリックリンク貼り貼り
-ln -sf ${dir}/${conf_dir}/basic.vim $vim_conf_dir/
+ln -sf ${conf_dir}/basic.vim $vim_conf_dir/
 ln -sf ${conf_dir}/basic.vim $HOME/.vimrc
+ln -sf ${conf_dir}/color.vim $vim_conf_dir/
 ln -sf ${dir}/.ideavimrc $HOME/
 ln -sf ${dir}/init.vim $nvim_dir/
 ln -sf ${conf_dir}/my.vim $vim_conf_dir/
