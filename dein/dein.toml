@@ -781,6 +781,34 @@ hook_add = '''
     \ }
   let g:ale_python_pylint_args="--disable=C0111"
 
+  let g:ale_fixers = {
+    \ 'javascript': [
+    \   {buffer, lines -> {
+    \   'command': 'eslint --config ~/.eslintrc.js --fix %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'css': [
+    \   {buffer, lines -> {
+    \   'command': 'stylelint --config ~/.stylelintrc.js --fix %t',
+    \   'read_temporary_file': 1}},
+    \   {buffer, lines -> {
+    \   'command': 'csscomb -c ~/.csscomb.json %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'php': [
+    \   {buffer, lines -> {
+    \   'command': 'php-cs-fixer fix --config ~/.php_cs_fixer.php %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'python': ['yapf', 'isort'],
+    \ 'markdown': [
+    \   {buffer, lines -> {
+    \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ }
+  " let g:ale_fix_on_save = 1
+
   highlight link ALEWarningSign SpellCap
 '''
 
