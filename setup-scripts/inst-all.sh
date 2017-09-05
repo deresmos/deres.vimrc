@@ -21,4 +21,6 @@ install_soft composer
 
 install_soft cmigemo
 
+install_soft php-cs-fixer
+
 bash $dir'/inst-pip-package.sh'
