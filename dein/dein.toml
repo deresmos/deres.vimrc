@@ -783,6 +783,7 @@ hook_add = '''
   let g:ale_python_pylint_options='--disable=C0111,C0103'
   let g:ale_python_flake8_options='--ignore=F401'
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
+  let g:ale_css_stylelint_options='-c stylelint'
   let g:ale_php_phpcs_standard='PSR2'
 
   let g:ale_fixers = {
@@ -793,7 +794,7 @@ hook_add = '''
     \ ],
     \ 'css': [
     \   {buffer, lines -> {
-    \   'command': 'stylelint --config ~/.stylelintrc.js --fix %t',
+    \   'command': 'stylelint -c stylelint --fix %t',
     \   'read_temporary_file': 1}},
     \   {buffer, lines -> {
     \   'command': 'csscomb -c ~/.csscomb.json %t',
