@@ -775,11 +775,13 @@ hook_add = '''
   let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
 
   let g:ale_linters = {
-    \ 'python': ['flake8'],
+    \ 'python': ['flake8', 'pylint'],
     \ 'javascript': ['eslint'],
     \ 'css': ['stylelint'],
     \ }
-  let g:ale_python_pylint_args="--disable=C0111"
+  let g:ale_python_pylint_options='--disable=C0111,C0103'
+  let g:ale_python_flake8_options='--ignore=F401'
+  let g:ale_type_map = {'flake8': {'ES': 'WS'}}
 
   let g:ale_fixers = {
     \ 'javascript': [
@@ -798,9 +800,12 @@ hook_add = '''
     \ 'php': [
     \   {buffer, lines -> {
     \   'command': 'php-cs-fixer fix --config ~/.php_cs_fixer.php %t',
+    \ 'python': [
+    \   'isort',
+    \   {buffer, lines -> {
+    \   'command': 'yapf -i --style pep8 %t',
     \   'read_temporary_file': 1}}
     \ ],
-    \ 'python': ['yapf', 'isort'],
     \ 'markdown': [
     \   {buffer, lines -> {
     \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
