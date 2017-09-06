@@ -1,51 +1,5 @@
 " settings {{{1
-set ignorecase
-
-set incsearch
-set hlsearch
-set showmatch
-set ignorecase
-set smartcase
-
-noremap x "_x
-
-set clipboard^=unnamedplus
-
-set splitbelow
-set splitright
-
-set scrolloff=5
-
-
-" keybind {{{1
-inoremap fd <ESC>
-vnoremap fd <ESC>
-
-vnoremap <silent> <tab> >gv
-vnoremap <silent> <S-tab> <gv
-
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-noremap m %
-noremap <S-h> ^
-noremap <S-l> $
-noremap <S-j> }
-noremap <S-k> {
-noremap } <S-j>
-noremap { <S-k>
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap <leader> <Nop>
-nnoremap <Space>; /
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
-
-nnoremap <SPACE>cj g,
-nnoremap <SPACE>ck g;
+source ~/.vim/.conf.d/basic.vim
 
 nnoremap iq i'
 nnoremap iQ i"
@@ -55,11 +9,6 @@ nnoremap fq f'
 nnoremap fQ f"
 nnoremap tq t'
 nnoremap tQ t"
-
-nnoremap <silent> <SPACE>ya "ay
-vnoremap <silent> <SPACE>ya "ay
-nnoremap <silent> <SPACE>pa "ap
-vnoremap <silent> <SPACE>pa "ap
 
 nnoremap R <Nop>
 nnoremap <silent> Riw "adiwhp
@@ -85,33 +34,6 @@ vnoremap <silent> R "adhp
 nnoremap <silent> <SPACE>th gT
 nnoremap <silent> <SPACE>tl gt
 
-nnoremap <silent> <SPACE>ws :split<CR>
-nnoremap <silent> <SPACE>wv :vsplit<CR>
-nnoremap <silent> <SPACE>wd :close<CR>
-nnoremap <silent> <SPACE>wD <c-w>j:close<CR>
-
-nnoremap <silent> <SPACE>ma `a
-nnoremap <silent> <SPACE>ms `s
-nnoremap <silent> <SPACE>md `d
-nnoremap <silent> <SPACE>mA :mark a<CR>
-nnoremap <silent> <SPACE>mS :mark s<CR>
-nnoremap <silent> <SPACE>mD :mark d<CR>
-
-nmap <SPACE>wl <c-w>l
-nmap <SPACE>wh <c-w>h
-nmap <SPACE>wj <c-w>j
-nmap <SPACE>wk <c-w>k
-
-nnoremap <SPACE>vo zo
-nnoremap <SPACE>vO zO
-nnoremap <SPACE>vc zc
-nnoremap <SPACE>vC zC
-
-nnoremap <silent> <SPACE>re :noh<CR>
-nnoremap <Space>rp :%s///g<Left><Left>
-xnoremap <Space>rp :s///g<Left><Left>
-nnoremap <Space>rP :%s/<C-r><C-w>//g<Left><Left>
-
 nnoremap <silent> <SPACE>tn :set norelativenumber<CR> :set number!<CR>
 nnoremap <silent> <SPACE>tN :set nonumber<CR> :set relativenumber!<CR>
 
@@ -124,15 +46,26 @@ nnoremap <SPACE>mqi :action QuickImplementations<CR>
 nnoremap <SPACE>mr :action RenameElement<CR>
 nnoremap <SPACE>mu :action ShowUsages<CR>
 
+nnoremap <SPACE>ej :action GotoNextError<CR>
+nnoremap <SPACE>ek :action GotoPreviousError<CR>
+
 nnoremap <SPACE>cs :action EditorCompleteStatement<CR>
 
 nnoremap <SPACE>fm :action Move<CR>
 nnoremap <SPACE>ff :action GotoFile<CR>
+nnoremap <SPACE>fg :action FindInPath<CR>
 
 nnoremap <SPACE>gb :action Annotate<CR>
 nnoremap <SPACE>gm :action Git.Branches<CR>
 nnoremap <SPACE>gd :action Compare.SameVersion<CR>
-nnoremap <SPACE>gD :action Compare.Selected<CR>
+nnoremap <SPACE>gD :action Git.CompareWithBranch<CR>
+nnoremap <SPACE>gf :action Compare.Selected<CR>
+nnoremap <SPACE>gj :action VcsShowNextChangeMarker<CR>
+nnoremap <SPACE>gk :action VcsShowPrevChangeMarker<CR>
+nnoremap <SPACE>gl :action Vcs.ShowTabbedFileHistory<CR>
+
+nnoremap <SPACE>pc :action CloseProject<CR>
+nnoremap <SPACE>po :action ShowColorPicker<CR>
 
 nnoremap <SPACE>m= :action ReformatCode<CR>
 nnoremap <SPACE><SPACE> :action GotoAction<CR>

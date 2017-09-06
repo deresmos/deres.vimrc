@@ -775,11 +775,49 @@ hook_add = '''
   let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
 
   let g:ale_linters = {
-    \ 'python': ['flake8'],
+    \ 'python': ['flake8', 'pylint'],
     \ 'javascript': ['eslint'],
+    \ 'php': ['phpcs'],
     \ 'css': ['stylelint'],
     \ }
-  let g:ale_python_pylint_args="--disable=C0111"
+  let g:ale_python_pylint_options='--disable=C0111,C0103'
+  let g:ale_python_flake8_options='--ignore=F401'
+  let g:ale_type_map = {'flake8': {'ES': 'WS'}}
+  let g:ale_css_stylelint_options='-c stylelint'
+  let g:ale_php_phpcs_standard='PSR2'
+
+  let g:ale_fixers = {
+    \ 'javascript': [
+    \   {buffer, lines -> {
+    \   'command': 'eslint --config ~/.eslintrc.js --fix %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'css': [
+    \   {buffer, lines -> {
+    \   'command': 'stylelint -c stylelint --fix %t',
+    \   'read_temporary_file': 1}},
+    \   {buffer, lines -> {
+    \   'command': 'csscomb -c ~/.csscomb.json %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'php': [
+    \   {buffer, lines -> {
+    \   'command': 'phpcbf --standard=PSR2 %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'python': [
+    \   'isort',
+    \   {buffer, lines -> {
+    \   'command': 'yapf -i --style pep8 %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'markdown': [
+    \   {buffer, lines -> {
+    \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ }
+  " let g:ale_fix_on_save = 1
 
   highlight link ALEWarningSign SpellCap
 '''
