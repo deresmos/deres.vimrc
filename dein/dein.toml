@@ -27,6 +27,8 @@ hook_add = '''
     autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
   augroup END
 
+  let g:agit_max_log_lines = 5000
+
   let g:agit_preset_views = {
     \ 'default': [
     \   {'name': 'log'},
