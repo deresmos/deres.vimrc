@@ -973,3 +973,6 @@ hook_add = '''
   let g:ag_highlight = 1
   let g:ag_qhandler="copen 20"
 '''
+
+[[plugins]]
+repo = 'gregsexton/gitv'
