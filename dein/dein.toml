@@ -765,6 +765,10 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo = 'mattn/webapi-vim'
 
+# tpope/tpope-vim-abolish {{{2
+[[plugins]]
+repo = 'tpope/tpope-vim-abolish'
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
