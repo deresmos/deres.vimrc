@@ -163,6 +163,17 @@ repo = 'rhysd/vim-operator-surround'
 [[plugins]]
 repo = 'tyru/operator-camelize.vim'
 
+# sgur/vim-textobj-parameter {{{2
+[[plugins]]
+repo = 'sgur/vim-textobj-parameter'
+hook_add = '''
+  let g:vim_textobj_parameter_mapping = 'a'
+'''
+
+# kana/vim-textobj-entire {{{2
+[[plugins]]
+repo = 'kana/vim-textobj-entire'
+
 # tyru/operator-html-escape.vim {{{2
 [[plugins]]
 repo = 'tyru/operator-html-escape.vim'
