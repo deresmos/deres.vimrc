@@ -12,6 +12,9 @@ hook_add = '''
     autocmd FileType gitcommit nmap <buffer> <SPACE>gj <C-n>
     autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
   augroup END
+
+  nnoremap <silent> <SPACE>go :silent! Glog<CR><C-w>j
+  nnoremap <silent> <SPACE>gO :silent! Glog --<CR><C-w>j
 '''
 
 # cohama/agit.vim {{{2
