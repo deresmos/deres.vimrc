@@ -75,6 +75,10 @@ colorscheme hybrid
 source ~/.vim/conf.d/basic.vim
 source ~/.vim/conf.d/color.vim
 
+augroup session-post
+  autocmd SessionLoadPost * NTermAutocmd
+augroup END
+
 set foldtext=FoldCCtext()
 "nerdtree setting{{{2
 augroup nerdtree
@@ -215,8 +219,8 @@ nnoremap <SPACE>ss :SSave<Space>
 nnoremap <silent> <SPACE>sS :silent! SSave tmp<CR>y
 nnoremap <SPACE>sl :SLoad<Space>
 nnoremap <SPACE>sd :SDelete<Space>
-nnoremap <silent> <SPACE>sc :SClose<CR>
-nnoremap <silent> <SPACE>sC :SClose<CR>:qa!<CR>
+nnoremap <silent> <SPACE>sc :SClose<CR>:silent! NTermDeleteAll<CR>
+nnoremap <silent> <SPACE>sC :SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>
 
 "H keybind{{{2
 nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
