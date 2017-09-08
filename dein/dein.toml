@@ -813,8 +813,7 @@ hook_add = '''
     \   'command': 'stylelint -c stylelint --fix %t',
     \   'read_temporary_file': 1}},
     \   {buffer, lines -> {
-    \   'command': 'csscomb -c ~/.csscomb.json %t',
-    \   'read_temporary_file': 1}}
+    \   'command': 'csscomb -c ~/.csscomb.json %s'}}
     \ ],
     \ 'php': [
     \   {buffer, lines -> {
