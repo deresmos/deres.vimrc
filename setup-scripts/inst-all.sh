@@ -15,6 +15,7 @@ function install_soft () { #{{{
 #}}}
 
 install_soft npm
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH'  >> ~/.bash_profile
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 install_soft composer
@@ -24,3 +25,4 @@ install_soft cmigemo
 install_soft php-cs-fixer
 
 bash $dir'/inst-pip-package.sh'
+bash $dir'/inst-npm-package.sh'
