@@ -438,7 +438,7 @@ if has('nvim')
 endif
 "}}}1
 
-let s:my_conf_path = expand('~/.vim/conf.d/my.vim')
-if filereadable(s:my_conf_path)
-  execute 'source' s:my_conf_path
+let s:custom_conf_path = expand('~/.vim/conf.d/custom.vim')
+if filereadable(s:custom_conf_path)
+  execute 'source' s:custom_conf_path
 endif
