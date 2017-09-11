@@ -768,6 +768,10 @@ repo = 'mattn/webapi-vim'
 [[plugins]]
 repo = 'tpope/tpope-vim-abolish'
 
+# benjifisher/matchit.zip {{{2
+[[plugins]]
+repo = 'benjifisher/matchit.zip'
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
