@@ -234,7 +234,7 @@ noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
-noremap m %
+map mm %
 noremap <S-h> ^
 noremap <S-l> $
 noremap <S-j> }
@@ -250,6 +250,7 @@ nnoremap <leader> <Nop>
 nnoremap <Space>; /
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
+nnoremap ; :
 
 omap iq i'
 omap iQ i"
