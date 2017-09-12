@@ -479,3 +479,4 @@ function! s:DictionaryTranslate(...)
 endfunction
 
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
+" }}}
