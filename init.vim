@@ -124,6 +124,8 @@ nnoremap <silent> <SPACE>qr :Qfreplace<CR>
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 nnoremap <silent> <SPACE>dt :Denite tag<CR>
+nnoremap <SPACE>df :DictionaryTranslate<space>
+nnoremap <SPACE>dF :DictionaryTranslate<CR>
 
 "L keybind{{{2
 xnoremap <silent> <SPACE>ld :Linediff<CR>
@@ -449,3 +451,32 @@ let s:custom_conf_path = expand('~/.vim/conf.d/custom.vim')
 if filereadable(s:custom_conf_path)
   execute 'source' s:custom_conf_path
 endif
+
+" Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
+function! s:DictionaryTranslate(...)
+    let l:word = a:0 == 0 ? expand('<cword>') : a:1
+    call histadd('cmd', 'DictionaryTranslate '  . l:word)
+    if l:word ==# '' | return | endif
+    let l:gene_path = '~/.vim/gene-utf8.txt'
+    let l:jpn_to_eng = l:word !~? '^[a-z_]\+$'
+    let l:output_option = l:jpn_to_eng ? '-B 1' : '-A 1'
+
+    silent pedit Translate\ Result | wincmd P | %delete
+    setlocal buftype=nofile noswapfile modifiable
+    silent execute 'read !grep -ihw' l:output_option l:word l:gene_path
+
+    silent 0delete
+    let l:esc = @z
+    let @z = ''
+    while search('^' . l:word . '$', 'Wc') > 0
+        silent execute line('.') - l:jpn_to_eng . 'delete Z 2'
+    endwhile
+    silent 0put z
+    let @z = l:esc
+
+    silent call append(expand('.'), '')
+    silent call append(line('.'), '===========================')
+    silent 1delete | wincmd P
+endfunction
+
+command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
