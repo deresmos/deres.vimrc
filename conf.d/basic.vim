@@ -248,9 +248,12 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap <leader> <Nop>
 nnoremap <Space>; /
+nnoremap <Space>+ /\C<LEFT><LEFT>
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
 nnoremap ; :
+nnoremap <C-j> <C-e>
+nnoremap <C-k> <C-y>
 
 omap iq i'
 omap iQ i"
