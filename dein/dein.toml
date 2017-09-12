@@ -772,6 +772,10 @@ repo = 'tpope/tpope-vim-abolish'
 [[plugins]]
 repo = 'benjifisher/matchit.zip'
 
+# ujihisa/neco-look {{{2
+[[plugins]]
+repo = 'ujihisa/neco-look'
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
