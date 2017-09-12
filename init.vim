@@ -254,7 +254,6 @@ endfunction
 " }}}
 
 "R keybind {{{2
-nnoremap <silent> <SPACE>re :noh<CR>:silent! SearchBuffersReset<CR>
 nnoremap <silent> <SPACE>rv :silent! loadview<CR>
 nnoremap <silent> <SPACE>rn :Renamer<CR>
 nnoremap <silent> <SPACE>rs :Ren<CR>
