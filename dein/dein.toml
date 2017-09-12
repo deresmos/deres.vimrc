@@ -934,6 +934,23 @@ hook_add = '''
   \    'v:Variables:1:0'
   \  ]
   \}
+
+  let g:tagbar_type_html = {
+  \  'ctagstype' : 'html',
+  \  'kinds' : [
+  \    'i:Identities:0:0',
+  \    'c:Classes:0:1',
+  \  ]
+  \}
+
+  let g:tagbar_type_xhtml = {
+  \  'ctagstype' : 'html',
+  \  'kinds' : [
+  \    'i:Identities:1:0',
+  \    'c:Classes:1:0',
+  \    'e:Ebisu tags:1:0',
+  \  ]
+  \}
 '''
 
 
