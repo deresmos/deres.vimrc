@@ -31,15 +31,15 @@ set shellslash
 set encoding=utf8
 "dein setting {{{1
 if has('unix') || has('mac')
-  let s:dein_dir = expand('~/.cache/nvim-dein')
+  let g:dein_dir = expand('~/.cache/nvim-dein')
   let g:rc_dir   = expand('~/.config/nvim/dein')
   let s:nvim_dir = expand('~/.config/nvim')
 elseif has('win64') || has('win32')
-  let s:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
+  let g:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
   let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
   let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
 endif
-let s:dein_repo_dir = s:dein_dir. '/repos/github.com/Shougo/dein.vim'
+let s:dein_repo_dir = g:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
@@ -48,8 +48,8 @@ if &runtimepath !~# '/dein.vim'
   execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
+if dein#load_state(g:dein_dir)
+  call dein#begin(g:dein_dir)
 
   let s:toml      = g:rc_dir. '/dein.toml'
   let s:lazy_toml = g:rc_dir. '/dein_lazy.toml'

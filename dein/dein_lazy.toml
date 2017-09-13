@@ -125,18 +125,6 @@ hook_source = '''
   call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
 '''
 
-# SirVer/ultisnips {{{2
-[[plugins]]
-if = '''has('nvim')'''
-repo = 'SirVer/ultisnips'
-on_i = 1
-hook_source = '''
-  let g:UltiSnipsExpandTrigger       = "<C-l>"
-  let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
-  let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-  let g:UltiSnipsSnippetsDir         = "~/.vim/snips"
-'''
-
 # elzr/vim-json {{{2
 [[plugins]]
 repo = 'elzr/vim-json'

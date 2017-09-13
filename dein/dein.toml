@@ -781,8 +781,19 @@ repo = 'ujihisa/neco-look'
 # Programing plugins {{{1
 # honza/vim-snippets {{{2
 [[plugins]]
-repo = 'honza/vim-snippets'
+repo = 'deresmos/vim-snippets'
 if = '''has('nvim')'''
+
+# SirVer/ultisnips {{{2
+[[plugins]]
+if = '''has('nvim')'''
+repo = 'SirVer/ultisnips'
+hook_add = '''
+  let g:UltiSnipsExpandTrigger       = "<C-l>"
+  let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
+  let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+  let g:UltiSnipsSnippetsDir = g:dein_dir . "/repos/github.com/deresmos/vim-snippets/UltiSnips/"
+'''
 
 # w0rp/ale {{{2
 [[plugins]]
