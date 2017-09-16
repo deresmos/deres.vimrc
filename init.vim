@@ -92,13 +92,13 @@ augroup END
 
 "space vim setting {{{1
 "F keybind {{{2
-nnoremap <silent> <SPACE>ff :DeniteBufferDir file_rec<CR>
-nnoremap <silent> <SPACE>fF :DeniteBufferDir file<CR>
+nnoremap <silent> <SPACE>ff :Denite file_rec<CR>
+nnoremap <silent> <SPACE>fF :Denite file<CR>
 nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
-nnoremap <silent> <SPACE>fg :DeniteBufferDir grep -no-empty<CR>
-nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -no-empty -input=`expand('<cword>')`<CR>
+nnoremap <silent> <SPACE>fg :Denite grep -no-empty<CR>
+nnoremap <silent> <SPACE>fG :Denite grep -no-empty -input=`expand('<cword>')`<CR>
 nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
 
@@ -134,6 +134,10 @@ xnoremap <silent> <SPACE>ld :Linediff<CR>
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
 nnoremap <silent> <SPACE>bo :BufOnly<CR>
 nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
+nnoremap <silent> <SPACE>bf :DeniteBufferDir file_rec<CR>
+nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
+nnoremap <silent> <SPACE>bg :DeniteBufferDir grep -no-empty<CR>
+nnoremap <silent> <SPACE>bG :DeniteBufferDir grep -no-empty -input=`expand('<cword>')`<CR>
 
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
