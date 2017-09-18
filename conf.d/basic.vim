@@ -79,7 +79,7 @@ set breakindent
 augroup custom-buffers
   autocmd!
   autocmd FileType help setlocal nobuflisted
-  autocmd FileType qf,help,qfreplace nnoremap <silent><buffer>q :quit<CR>
+  autocmd FileType qf,help,qfreplace,diff nnoremap <silent><buffer>q :quit<CR>
   autocmd FileType qf nnoremap <silent><buffer>dd :call <SID>delEntry()<CR>
   autocmd FileType qf xnoremap <silent><buffer>d :call <SID>delEntry()<CR>
   autocmd FileType qf nnoremap <silent><buffer>u :call <SID>undoEntry()<CR>
