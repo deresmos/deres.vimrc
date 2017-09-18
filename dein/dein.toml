@@ -301,7 +301,6 @@ hook_add = '''
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 hook_add = '''
-  let g:NERDTreeShowHidden = 1
   let g:NERDTreeMinimalUI = 1
   let g:NERDTreeAutoDeleteBuffer = 1
   let g:NERDTreeMapActivateNode = 'l'
