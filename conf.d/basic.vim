@@ -343,6 +343,8 @@ nnoremap <SPACE>vl :call <SID>printFoldMarker(0, 1, 0)<CR>
 nnoremap <SPACE>vL :call <SID>printFoldMarker(1, 1, 0)<CR>
 nnoremap <SPACE>vd zd
 nnoremap <SPACE>vD zD
+xnoremap <SPACE>vd zd
+xnoremap <SPACE>vD zD
 nnoremap <SPACE>vE zE
 nnoremap <SPACE>vo zo
 nnoremap <SPACE>vO zO
