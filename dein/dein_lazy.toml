@@ -120,6 +120,7 @@ hook_source = '''
   let g:deoplete#enable_smart_case  = 1
   let g:deoplete#tag#cache_limit_size = 50000000
   let g:deoplete#max_list = 15
+  let g:deoplete#file#enable_buffer_path = 1
 
   call deoplete#custom#set('buffer', 'min_pattern_length', 1)
   call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
