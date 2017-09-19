@@ -74,6 +74,7 @@ colorscheme hybrid
 
 source ~/.vim/conf.d/basic.vim
 source ~/.vim/conf.d/color.vim
+source ~/.vim/conf.d/filetype.vim
 
 augroup session-post
   autocmd SessionLoadPost * NTermAutocmd
@@ -364,13 +365,6 @@ if has('nvim')
   nnoremap <silent> <SPACE>msw :Switch<CR>
   nnoremap <silent> <SPACE>msW :SwitchReverse<CR>
   " }}}
-
-  augroup html-fold
-    autocmd!
-
-    autocmd BufRead,BufNewFile *.html,*.xhtml syntax region htmlFold start="<\z(p\|h\d\|i\?frame\|table\|colgroup\|thead\|tfoot\|tbody\|t[dhr]\|pre\|[diou]l\|li\|span\|div\|head\|script\|style\|blockquote\|form\|body\)\%(\_s*\_[^/]\?>\|\_s\_[^>]*\_[^>/]>\)" end="</\z1\_s*>" fold transparent keepend extend containedin=htmlHead,htmlH\d
-    autocmd BufRead,BufNewFile *.html,*.xhtml setlocal foldmethod=syntax
-  augroup END
 
   augroup formatter " {{{
     autocmd!

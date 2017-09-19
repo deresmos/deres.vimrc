@@ -79,34 +79,6 @@ set background=dark
 set wrap
 set breakindent
 
-augroup custom-buffers
-  autocmd!
-  autocmd FileType help setlocal nobuflisted
-  autocmd FileType qf,help,qfreplace,diff nnoremap <silent><buffer>q :quit<CR>
-  autocmd FileType qf nnoremap <silent><buffer>dd :call <SID>delEntry()<CR>
-  autocmd FileType qf xnoremap <silent><buffer>d :call <SID>delEntry()<CR>
-  autocmd FileType qf nnoremap <silent><buffer>u :call <SID>undoEntry()<CR>
-  autocmd FileType agit_diff,diff setlocal nofoldenable
-  autocmd FileType agit_diff setlocal wrap
-augroup END
-
-function! s:delEntry() range
-  let l:qf = getqflist()
-  let l:history = get(w:, 'qf_history', [])
-  call add(l:history, copy(l:qf))
-  let w:qf_history = l:history
-  unlet! l:qf[a:firstline - 1 : a:lastline - 1]
-  call setqflist(l:qf, 'r')
-  execute a:firstline
-endfunction
-
-function! s:undoEntry()
-  let l:history = get(w:, 'qf_history', [])
-  if !empty(l:history)
-    call setqflist(remove(l:history, -1), 'r')
-  endif
-endfunction
-
 "fold setting{{{1
 set foldenable
 set foldmethod=marker
@@ -367,6 +339,16 @@ nnoremap <SPACE>vJ z]
 nnoremap <SPACE>vK z[
 nnoremap <SPACE>v= ggVGzC
 nnoremap <SPACE>v- ggVGzO
+nnoremap <SPACE>vtl :call <SID>toggleFoldList()<CR>
+
+function! s:toggleFoldList() "{{{
+  if &foldcolumn == 0
+    setlocal foldcolumn=4
+  else
+    setlocal foldcolumn=0
+  endif
+endfunction
+"}}}
 
 "R keybind {{{2
 nnoremap <silent> <SPACE>re :noh<CR>
