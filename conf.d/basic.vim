@@ -48,7 +48,7 @@ set expandtab
 set cursorline
 set colorcolumn=80
 
-set fileformats=dos,unix,mac
+set fileformats=unix,mac,dos
 set fileencodings=utf-8,sjis
 
 set tags=./.tags;~
