@@ -422,7 +422,7 @@ hook_add = '''
     \   ],
     \   'right': [
     \     ['lineinfo'],
-    \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+    \     ['fileindent', 'charcode', 'fileformat', 'fileencoding', 'filetype'],
     \     ['ale'],
     \   ]
     \ },
@@ -451,6 +451,7 @@ hook_add = '''
     \   'filename': 'MyFilename',
     \   'filenamefull': 'MyFilenameFull',
     \   'lineinfo': 'MyLineInfo',
+    \   'fileindent': 'MyFileIndent',
     \   'maxline': 'MaxLine',
     \   'fileformat': 'MyFileformat',
     \   'filetype': 'MyFiletype',
@@ -545,6 +546,10 @@ hook_add = '''
     endfor
 
     return join(ret, ' ')
+  endfunction
+
+  function! MyFileIndent()
+    return winwidth(0) > 80 ? DetectSpaceOrTab() : ''
   endfunction
 
   function! MyFileformat()

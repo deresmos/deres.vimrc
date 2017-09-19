@@ -448,6 +448,28 @@ if filereadable(expand('~/.vim/conf.d/custom.vim'))
   execute 'source' '~/.vim/conf.d/custom.vim'
 endif
 
+function DetectSpaceOrTab()
+  let l:len_tab   = len(
+    \ filter(getbufline(bufname('%'), 1, 1000), "v:val =~# '^\\t'"))
+  let l:len_space = len(
+    \ filter(getbufline(bufname('%'), 1, 1000), "v:val =~# '^ '"))
+
+  if l:len_tab > l:len_space
+    setlocal noexpandtab
+    return 'tab'
+  elseif l:len_tab < l:len_space
+    setlocal expandtab
+    return 'space'
+  else
+    return ''
+  endif
+endfunction
+
+augroup auto-detect-indent
+  autocmd!
+  autocmd BufReadPost * call DetectSpaceOrTab()
+augroup END
+
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
 function! s:DictionaryTranslate(...)
     let l:word = a:0 == 0 ? expand('<cword>') : a:1
