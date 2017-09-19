@@ -444,11 +444,8 @@ if has('nvim')
 endif
 "}}}1
 
-autocmd! FileType sql setlocal dictionary=~/.vim/dict/sql.dict
-
-let s:custom_conf_path = expand('~/.vim/conf.d/custom.vim')
-if filereadable(s:custom_conf_path)
-  execute 'source' s:custom_conf_path
+if filereadable(expand('~/.vim/conf.d/custom.vim'))
+  execute 'source' '~/.vim/conf.d/custom.vim'
 endif
 
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
