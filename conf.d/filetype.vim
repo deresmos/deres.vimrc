@@ -14,9 +14,9 @@ augroup custom-filetype
   autocmd FileType sql if filereadable(expand('~/.vim/dict/sql.dict')) |
     \ setlocal dictionary=~/.vim/dict/sql.dict | endif
 
-  autocmd FileType html,xhtml set foldmethod=manual
-  autocmd FileType html,xhtml nnoremap <buffer> <SPACE>vf zf
-  autocmd FileType html,xhtml xnoremap <buffer> <SPACE>vf zf
+  autocmd FileType html,xhtml,css set foldmethod=manual
+  autocmd FileType html,xhtml,css nnoremap <buffer> <SPACE>vf zf
+  autocmd FileType html,xhtml,css xnoremap <buffer> <SPACE>vf zf
 augroup END
 
 "functions {{{1
