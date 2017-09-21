@@ -1004,6 +1004,16 @@ hook_add = '''
   xmap <Space>mdr <Plug>DBExecVisualSQL
 '''
 
+# KabbAmine/vCoolor.vim {{{2
+[[plugins]]
+repo = 'KabbAmine/vCoolor.vim'
+hook_add = '''
+  let g:vcoolor_disable_mappings = 1
+  let g:vcoolor_lowercase = 0
+  nnoremap <SPACE>ocp :VCoolor<CR>
+  nnoremap <SPACE>ocP :VCoolIns r<CR>
+'''
+
 # }}}1
 
 [[plugins]]
