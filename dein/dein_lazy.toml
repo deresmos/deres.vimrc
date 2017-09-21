@@ -243,6 +243,15 @@ repo = 'hail2u/vim-css3-syntax'
 if = '''has('nvim')'''
 on_ft = 'css'
 
+# vim-scripts/CSSMinister # {{{2
+[[plugins]]
+repo = 'vim-scripts/CSSMinister'
+on_ft = 'css'
+hook_add = '''
+  nnoremap <SPACE>cth :ToHex<CR>
+  nnoremap <SPACE>ctr :ToRGB<CR>
+'''
+
 # othree/html5.vim # {{{2
 [[plugins]]
 repo = 'othree/html5.vim'
