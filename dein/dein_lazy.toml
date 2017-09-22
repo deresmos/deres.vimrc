@@ -224,7 +224,7 @@ hook_source = '''
 [[plugins]]
 repo = 'gregsexton/MatchTag'
 if = '''has('nvim')'''
-on_ft = ['html']
+on_ft = ['html', 'xhtml']
 
 # chrisbra/colorizer {{{2
 [[plugins]]
