@@ -266,6 +266,8 @@ xnoremap <silent> <SPACE>pa "ap
 "Y keybind{{{2
 nnoremap <silent> <SPACE>ya "ay
 xnoremap <silent> <SPACE>ya "ay
+nnoremap <silent> <SPACE>yf :let @+ = expand('%:t')<CR>
+nnoremap <silent> <SPACE>yF :let @+ = expand('%:p')<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dw :windo diffthis<CR>
