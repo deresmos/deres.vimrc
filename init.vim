@@ -379,38 +379,38 @@ if has('nvim')
     autocmd!
 
     " nmap keybind {{{
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mee <C-y>,
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>met <C-y>;
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meu <C-y>u
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>med <C-y>d
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meD <C-y>D
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>men <C-y>n
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meN <C-y>N
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mei <C-y>i
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mem <C-y>m
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mek <C-y>k
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mej <C-y>j
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>me/ <C-y>/
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mea <C-y>a
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>meA <C-y>A
-    autocmd BufRead,BufNewFile *.html,*.css,*.php nmap <buffer><silent> <SPACE>mec <C-y>c
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mee <C-y>,
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>met <C-y>;
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meu <C-y>u
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>med <C-y>d
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meD <C-y>D
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>men <C-y>n
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meN <C-y>N
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mei <C-y>i
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mem <C-y>m
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mek <C-y>k
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mej <C-y>j
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>me/ <C-y>/
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mea <C-y>a
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meA <C-y>A
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mec <C-y>c
     " }}}
     " xmap  keybind {{{
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mee <C-y>,
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>met <C-y>;
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meu <C-y>u
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>med <C-y>d
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meD <C-y>D
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>men <C-y>n
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meN <C-y>N
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mei <C-y>i
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mem <C-y>m
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mek <C-y>k
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mej <C-y>j
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>me/ <C-y>/
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mea <C-y>a
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>meA <C-y>A
-    autocmd BufRead,BufNewFile *.html,*.css,*.php xmap <buffer><silent> <SPACE>mec <C-y>c
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mee <C-y>,
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>met <C-y>;
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meu <C-y>u
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>med <C-y>d
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meD <C-y>D
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>men <C-y>n
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meN <C-y>N
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mei <C-y>i
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mem <C-y>m
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mek <C-y>k
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mej <C-y>j
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>me/ <C-y>/
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mea <C-y>a
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meA <C-y>A
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mec <C-y>c
     " }}}
   augroup END " }}}
 
