@@ -230,11 +230,16 @@ on_ft = ['html']
 [[plugins]]
 repo = 'chrisbra/colorizer'
 if = '''has('nvim')'''
-on_ft = ['css', 'html']
+on_ft = ['css', 'html', 'xhtml']
 hook_source = '''
-  let g:colorizer_auto_filetype = 'css,html'
   let g:colorizer_skip_comments = 1
-  let g:colorizer_auto_color    = 1
+  let g:colorizer_auto_color    = 0
+
+  augroup colorizer-setting
+    autocmd!
+
+    autocmd FileType css,html,xhtml nnoremap  <buffer><silent> <SPACE>tcc :ColorToggle<CR>
+  augroup END
 '''
 
 # hail2u/vim-css3-syntax # {{{2
