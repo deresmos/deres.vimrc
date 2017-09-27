@@ -1059,6 +1059,8 @@ hook_add = '''
 
   let g:ag_highlight = 1
   let g:ag_qhandler="copen 20"
+  nnoremap <SPACE>ag :Ag<space>
+  nnoremap <SPACE>aG :exe 'Ag<space>' expand('<cword>')<CR>
 '''
 
 [[plugins]]
