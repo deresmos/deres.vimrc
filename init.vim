@@ -450,9 +450,9 @@ endif
 
 function DetectSpaceOrTab()
   let l:len_tab   = len(
-    \ filter(getbufline(bufname('%'), 1, 1000), "v:val =~# '^\\t'"))
+    \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^\\t'"))
   let l:len_space = len(
-    \ filter(getbufline(bufname('%'), 1, 1000), "v:val =~# '^ '"))
+    \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^ '"))
 
   if l:len_tab > l:len_space
     setlocal noexpandtab
