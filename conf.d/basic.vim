@@ -291,6 +291,10 @@ nnoremap <silent> <SPACE>th :tabprevious<CR>
 nnoremap <silent> <SPACE>tL :+tabmove<CR>
 nnoremap <silent> <SPACE>tH :-tabmove<CR>
 
+nnoremap <silent> <SPACE>tj <C-]>
+nnoremap <silent> <SPACE>tk <C-t>
+nnoremap <silent> <SPACE>tJ g<C-]>
+
 "W keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>
 nnoremap <silent> <SPACE>wv :vsplit<CR>
