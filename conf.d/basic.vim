@@ -195,6 +195,13 @@ if has('nvim')
   tnoremap <silent> fd <C-\><C-n>
 endif
 
+augroup CursorlineCmd
+  autocmd!
+
+  autocmd WinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+augroup END
+
 "vim keybind {{{1
 "normal keybind {{{2
 inoremap fd <ESC>
