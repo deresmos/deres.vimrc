@@ -454,7 +454,7 @@ if filereadable(expand('~/.vim/conf.d/custom.vim'))
   execute 'source' '~/.vim/conf.d/custom.vim'
 endif
 
-function DetectSpaceOrTab()
+function! DetectSpaceOrTab() "{{{
   let l:len_tab   = len(
     \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^\\t'"))
   let l:len_space = len(
@@ -474,7 +474,7 @@ endfunction
 augroup auto-detect-indent
   autocmd!
   autocmd BufReadPost * call DetectSpaceOrTab()
-augroup END
+augroup END "}}}
 
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
 function! s:DictionaryTranslate(...)
