@@ -780,31 +780,6 @@ repo = 'benjifisher/matchit.zip'
 [[plugins]]
 repo = 'ujihisa/neco-look'
 
-# deresmos/local-indent.vim {{{2
-[[plugins]]
-repo = 'deresmos/local-indent.vim'
-rev = 'fix-highlight'
-hook_add = '''
-  augroup local-indent-setting
-    autocmd!
-
-    autocmd ColorScheme * highlight LocalIndentGuide ctermfg=none ctermbg=237
-
-    autocmd FileType * LocalIndentGuide -hl
-    autocmd FileType text,nerdtree LocalIndentGuide +hl
-  augroup END
-
-  nnoremap <SPACE>tli :call <SID>toggleLocalIndentHighlight()<CR>
-
-  function! s:toggleLocalIndentHighlight() " {{{
-    if b:localindent.use_hl
-      LocalIndentGuide -hl
-    else
-      LocalIndentGuide +hl
-    endif
-  endfunction " }}}
-'''
-
 #}}}1 END plugins
 
 # Programing plugins {{{1
