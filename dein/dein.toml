@@ -780,6 +780,19 @@ repo = 'benjifisher/matchit.zip'
 [[plugins]]
 repo = 'ujihisa/neco-look'
 
+# machakann/vim-highlightedyank {{{2
+[[plugins]]
+repo = 'machakann/vim-highlightedyank'
+hook_add = '''
+  let g:highlightedyank_highlight_duration = 500
+
+  augroup HighlightedYankColorScheme
+    autocmd!
+
+    autocmd ColorScheme * highlight HighlightedyankRegion ctermfg=none ctermbg=none cterm=bold,underline
+  augroup END
+'''
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
