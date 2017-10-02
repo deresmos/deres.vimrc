@@ -39,7 +39,7 @@ Neovimをインストールしましょう。
 Linux, Macの方なら、create-symlinks.sh実行させれば、使えるようになります。
 Neovimに対応してます。(Vimでも動きますが、いくつか使えないコマンドがあります)
 ```sh
-./create-symlinks.sh
+./setup.sh
 ```
 
 ## 使い方
