@@ -36,7 +36,7 @@ Neovimをインストールしましょう。
 [インストール方法](https://github.com/neovim/neovim/wiki/Installing-Neovim)
 
 ### 揃ったら
-Linux, Macの方なら、create-symlinks.sh実行させれば、使えるようになります。
+Linux, Macの方なら、setup.sh実行させれば、使えるようになります。
 Neovimに対応してます。(Vimでも動きますが、いくつか使えないコマンドがあります)
 ```sh
 ./setup.sh
