@@ -509,8 +509,8 @@ command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTran
 function! s:NaspHelp(...) "{{{
   let l:word = a:0 == 0 ? expand('<cword>') : a:1
 
-  execute 'pedit' expand('~/task/nasp_dict.txt') '| wincmd P'
-  execute '/\v(void|Bool|Array|String|Object)\s+' . l:word . '\('
+  execute 'pedit' expand('~/.vim/help/nasp_dict.txt') '| wincmd P'
+  execute '/\v(void|Bool|Array|String|Object)\s+' . l:word . '\w*\('
 endfunction
 
 command! -nargs=? -complete=command NaspHelp call <SID>NaspHelp(<f-args>)
