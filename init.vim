@@ -505,3 +505,15 @@ endfunction
 
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
 " }}}
+
+function! s:NaspHelp(...) "{{{
+  let l:word = a:0 == 0 ? expand('<cword>') : a:1
+
+  execute 'pedit' expand('~/task/nasp_dict.txt') '| wincmd P'
+  execute '/\v(void|Bool|Array|String|Object)\s+' . l:word . '\('
+endfunction
+
+command! -nargs=? -complete=command NaspHelp call <SID>NaspHelp(<f-args>)
+nnoremap <SPACE>snh :NaspHelp<space>
+nnoremap <silent> <SPACE>snH :NaspHelp<CR>
+"}}}
