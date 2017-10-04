@@ -154,7 +154,22 @@ for s:n in range(1, 9)
   execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
-nnoremap <silent> <SPACE>tg :silent !ctags -R -f ./.tags 2> /dev/null&<CR>:echo 'Created tags'<CR>
+function! s:ExecteCtags() "{{{
+  let l:tag_name = '.tags'
+  let l:tags_path = findfile(l:tag_name, '.;')
+  if l:tags_path ==# ''
+    echo 'Not found .tags'
+    return
+  endif
+  let l:tags_dirpath = fnamemodify(l:tags_path, ':p:h')
+  let l:tmp_dirpath = getcwd()
+
+  execute 'lcd' l:tags_dirpath
+  execute 'silent !ctags --exclude=.git -R -f' l:tag_name '2> /dev/null &'
+  execute 'lcd' l:tmp_dirpath
+endfunction "}}}
+
+nnoremap <silent> <SPACE>tg :call <SID>ExecteCtags()<CR>
 nnoremap <silent> <SPACE>tb :Tagbar<CR>
 
 function! s:setNumber() "{{{
