@@ -578,6 +578,10 @@ hook_add = '''
   let g:NERDSpaceDelims            = 1
   let g:NERDCompactSexyComs        = 1
   let g:NERDDefaultAlign           = 'left'
+
+  let g:NERDCustomDelimiters = {
+      \ 'wsh': { 'left': "'" },
+  \ }
 '''
 
 # junegunn/vim-easy-align {{{2
