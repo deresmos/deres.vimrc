@@ -17,9 +17,11 @@ augroup custom-filetype
   autocmd FileType aspvbs if filereadable(expand('~/.vim/dict/nasp.dict')) |
     \ setlocal dictionary=~/.vim/dict/nasp.dict | endif
 
-  autocmd FileType html,xhtml,css set foldmethod=manual
-  autocmd FileType html,xhtml,css nnoremap <buffer> <SPACE>vf zf
-  autocmd FileType html,xhtml,css xnoremap <buffer> <SPACE>vf zf
+  autocmd FileType html,xhtml,css,aspvbs,wsh setlocal foldmethod=manual
+  autocmd FileType html,xhtml,css,aspvbs,wsh nnoremap <buffer> <SPACE>vf zf
+  autocmd FileType html,xhtml,css,aspvbs,wsh xnoremap <buffer> <SPACE>vf zf
+
+  autocmd FileType wsh UltiSnipsAddFiletypes aspvbs
 augroup END
 
 "functions {{{1
