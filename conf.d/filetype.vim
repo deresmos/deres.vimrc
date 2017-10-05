@@ -22,6 +22,9 @@ augroup custom-filetype
   autocmd FileType html,xhtml,css,aspvbs,wsh xnoremap <buffer> <SPACE>vf zf
 
   autocmd FileType wsh UltiSnipsAddFiletypes aspvbs
+
+  autocmd FileType wsh,vb,aspvbs setlocal fileformat=dos
+  autocmd FileType wsh,vb,aspvbs setlocal fileencoding=sjis
 augroup END
 
 "functions {{{1
