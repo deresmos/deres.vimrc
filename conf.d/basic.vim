@@ -363,6 +363,9 @@ function! s:toggleFoldList() "{{{
 endfunction
 "}}}
 
+"S keybind{{{2
+nnoremap <SPACE>sts /\v\s+$<CR>
+
 "R keybind {{{2
 nnoremap <silent> <SPACE>re :noh<CR>
 
