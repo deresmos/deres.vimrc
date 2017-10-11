@@ -270,10 +270,6 @@ hook_add = '''
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 
-# djoshea/vim-autoread {{{2
-[[plugins]]
-repo = 'djoshea/vim-autoread'
-
 # thinca/vim-qfreplace {{{2
 [[plugins]]
 repo = 'thinca/vim-qfreplace'

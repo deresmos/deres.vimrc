@@ -48,6 +48,12 @@ set expandtab
 set cursorline
 set colorcolumn=80
 
+set autoread
+augroup autoread-group
+  autocmd!
+  autocmd WinEnter * checktime
+augroup END
+
 set fileformats=unix,mac,dos
 set fileencodings=utf-8,sjis
 
