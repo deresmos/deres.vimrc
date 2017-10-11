@@ -379,6 +379,6 @@ nnoremap <SPACE>ck g;
 
 "M keybind {{{2
 nnoremap <silent> <SPACE>ma `azz
-nnoremap <silent> <SPACE>ms `szz
 nnoremap <silent> <SPACE>mA :mark a<CR>
-nnoremap <silent> <SPACE>mS :mark s<CR>
+nnoremap <silent> <SPACE>mf `fzz
+nnoremap <silent> <SPACE>mF :mark f<CR>
