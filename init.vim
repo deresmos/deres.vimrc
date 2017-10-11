@@ -76,6 +76,8 @@ source ~/.vim/conf.d/basic.vim
 source ~/.vim/conf.d/color.vim
 source ~/.vim/conf.d/filetype.vim
 
+set scrollback=100000
+
 augroup session-post
   autocmd SessionLoadPost * NTermAutocmd
 augroup END
