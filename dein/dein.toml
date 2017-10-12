@@ -807,8 +807,8 @@ if = '''has('nvim')'''
 repo = 'SirVer/ultisnips'
 hook_add = '''
   let g:UltiSnipsExpandTrigger       = "<C-l>"
-  let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
-  let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+  let g:UltiSnipsJumpForwardTrigger  = "<C-i>"
+  let g:UltiSnipsJumpBackwardTrigger = "<C-o>"
   let g:UltiSnipsSnippetsDir = g:dein_dir . "/repos/github.com/deresmos/vim-snippets/UltiSnips/"
 '''
 
