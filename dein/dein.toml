@@ -486,7 +486,7 @@ hook_add = '''
   endfunction
 
   function! MaxLine()
-    return 'L' . line('$')
+    return 'L:' . line('$')
   endfunction
 
   function! MyLineInfo()
