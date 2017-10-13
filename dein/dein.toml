@@ -470,6 +470,10 @@ hook_add = '''
     \ },
   \ }
 
+  let g:lightline.tab = {
+    \ 'active': [ 'tabnum', 'modified' ],
+    \ 'inactive': [ 'tabnum', 'modified' ] }
+
   let s:p = g:lightline#colorscheme#wombat#palette
   let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
   let s:p.insert.right = [['#444444 ', '#95e454', 238, 119], ['#d0d0d0', '#585858', 252, 240]]
