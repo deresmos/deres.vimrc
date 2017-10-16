@@ -325,6 +325,18 @@ repo = 'Xuyuanp/nerdtree-git-plugin'
 # deresmos/nerdtree-diff-plugin {{{2
 [[plugins]]
 repo = 'deresmos/nerdtree-diff-plugin'
+
+# deresmos/nerdtree-yp-plugin {{{2
+[[plugins]]
+repo = 'deresmos/nerdtree-yp-plugin'
+hook_add = '''
+  augroup nerdtree-yp-keymap
+    autocmd!
+    autocmd FileType nerdtree nmap <buffer> yy my
+    autocmd FileType nerdtree nmap <buffer> pp mp
+  augroup END
+'''
+
 # mhinz/vim-startify {{{2
 [[plugins]]
 repo = 'mhinz/vim-startify'
