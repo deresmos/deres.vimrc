@@ -21,10 +21,10 @@ augroup custom-filetype
   autocmd FileType html,xhtml,css,aspvbs,wsh nnoremap <buffer> <SPACE>vf zf
   autocmd FileType html,xhtml,css,aspvbs,wsh xnoremap <buffer> <SPACE>vf zf
 
-  autocmd FileType wsh UltiSnipsAddFiletypes aspvbs
+  autocmd FileType wsh,vb UltiSnipsAddFiletypes aspvbs
 
-  autocmd BufNewFile *.asp,*.vb,*.wsf setlocal fileformat=dos
-  autocmd BufNewFile *.asp,*.vb,*.wsf setlocal fileencoding=sjis
+  autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal fileformat=dos
+  autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal fileencoding=sjis
 augroup END
 
 "functions {{{1
