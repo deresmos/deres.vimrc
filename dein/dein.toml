@@ -788,9 +788,14 @@ repo = 'mattn/webapi-vim'
 [[plugins]]
 repo = 'tpope/tpope-vim-abolish'
 
-# benjifisher/matchit.zip {{{2
+# adelarsq/vim-matchit {{{2
 [[plugins]]
-repo = 'benjifisher/matchit.zip'
+repo = 'adelarsq/vim-matchit'
+hook_add = '''
+  augroup matchit-settings
+    autocmd FileType wsh,vb,aspvbs let b:match_words="\\<function\\>:\\<end function\\>,\\<sub\\>:\\<end sub\\>,\\<with\\>:\\<end with\\>,\\<while\\>:\\<wend\\>,\\<for\\>:\\<next\\>,\\<on error resume next\\>:\\<on error\\>,\\<if\\>:\\<end if\\>"
+  augroup END
+'''
 
 # ujihisa/neco-look {{{2
 [[plugins]]
