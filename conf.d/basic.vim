@@ -242,6 +242,7 @@ nnoremap <C-i> <C-i>zz
 nnoremap ; :
 nnoremap <C-j> <C-e>
 nnoremap <C-k> <C-y>
+inoremap <C-o> <C-x><C-]>
 
 omap iq i'
 omap iQ i"
