@@ -99,6 +99,8 @@ hook_source = '''
 
   call denite#custom#source('file_rec', 'matchers',
     \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+  call denite#custom#source('file', 'matchers',
+    \ ['matcher_fuzzy', 'matcher_ignore_globs'])
 
   call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
     \ [ '*~', '*.o', '*.exe', '*.bak',
@@ -107,6 +109,26 @@ hook_source = '''
     \ 'node_modules/', 'bower_components/', 'vendor/ruby',
     \ '.idea/'])
   "}}}
+'''
+hook_add = '''
+  nnoremap <silent> <SPACE>ds :call <SID>switchMatherRegexp()<CR>
+  nnoremap <silent> <SPACE>dS :call <SID>switchMatherFuzzy()<CR>
+
+  function! s:switchMatherRegexp()
+    call denite#custom#source('file_rec', 'matchers',
+      \ ['matcher_regexp', 'matcher_ignore_globs'])
+    call denite#custom#source('file', 'matchers',
+      \ ['matcher_regexp', 'matcher_ignore_globs'])
+    echo 'Switched mather_regexp'
+  endfunction
+
+  function! s:switchMatherFuzzy()
+    call denite#custom#source('file_rec', 'matchers',
+      \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+    call denite#custom#source('file', 'matchers',
+      \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+    echo 'Switched mather_fuzzy'
+  endfunction
 '''
 
 # Shougo/deoplete.nvim {{{2
