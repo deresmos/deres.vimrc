@@ -97,7 +97,7 @@ set foldcolumn=0
 
 augroup foldmethod
   autocmd!
-  autocmd BufRead,BufNewFile *.toml,.zshrc setlocal commentstring=#%s
+  autocmd BufRead,BufNewFile *.toml,*.zshrc setlocal commentstring=#%s
   autocmd BufRead,BufNewFile *.vim setlocal commentstring=\"%s
   autocmd BufRead,BufNewFile *.html setlocal commentstring=<!--%s-->
 augroup END
