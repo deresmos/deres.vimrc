@@ -12,10 +12,10 @@ augroup custom-filetype
   autocmd FileType agit_diff,diff setlocal wrap
 
   autocmd FileType sql if filereadable(expand('~/.vim/dict/sql.dict')) |
-    \ setlocal dictionary=~/.vim/dict/sql.dict | endif
+        \ setlocal dictionary=~/.vim/dict/sql.dict | endif
 
   autocmd FileType aspvbs if filereadable(expand('~/.vim/dict/nasp.dict')) |
-    \ setlocal dictionary=~/.vim/dict/nasp.dict | endif
+        \ setlocal dictionary=~/.vim/dict/nasp.dict | endif
 
   autocmd FileType html,xhtml,css,aspvbs,wsh setlocal foldmethod=manual
   autocmd FileType html,xhtml,css,aspvbs,wsh nnoremap <buffer> <SPACE>vf zf
@@ -28,8 +28,8 @@ augroup custom-filetype
   autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal tabstop=4 shiftwidth=4
 
   autocmd FileType html,xhtml,css,aspvbs,wsh,vb,sql if
-    \ &fileencoding ==# 'sjis' |
-    \ setlocal tabstop=4 shiftwidth=4 | endif
+        \ &fileencoding ==# 'sjis' |
+        \ setlocal tabstop=4 shiftwidth=4 | endif
 augroup END
 
 "functions {{{1
