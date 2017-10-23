@@ -85,6 +85,11 @@ set background=dark
 set wrap
 set breakindent
 
+augroup no-auto-commentout
+  autocmd!
+  autocmd FileType * setlocal formatoptions-=ro
+augroup END
+
 "fold setting{{{1
 set foldenable
 set foldmethod=marker
