@@ -27,7 +27,7 @@ augroup custom-filetype
   autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal fileencoding=sjis
   autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal tabstop=4 shiftwidth=4
 
-  autocmd FileType html,xhtml,css,aspvbs,wsh,vb,sql if
+  autocmd FileType sql if
         \ &fileencoding ==# 'sjis' |
         \ setlocal tabstop=4 shiftwidth=4 | endif
 augroup END
