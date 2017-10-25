@@ -30,6 +30,10 @@ augroup custom-filetype
   autocmd FileType sql if
         \ &fileencoding ==# 'sjis' |
         \ setlocal tabstop=4 shiftwidth=4 | endif
+
+  autocmd FileType html,xhtml if
+        \ &fileencoding ==# 'sjis' |
+        \ exec 'UltiSnipsAddFiletypes aspvbs' | endif
 augroup END
 
 "functions {{{1
