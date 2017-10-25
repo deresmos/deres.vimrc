@@ -34,6 +34,10 @@ augroup custom-filetype
   autocmd FileType html,xhtml if
         \ &fileencoding ==# 'sjis' |
         \ exec 'UltiSnipsAddFiletypes aspvbs' | endif
+
+  autocmd FileType pov if
+        \ &fileencoding ==# 'sjis' |
+        \ setlocal filetype=aspvbs | endif
 augroup END
 
 "functions {{{1
