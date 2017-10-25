@@ -480,11 +480,40 @@ hook_add = '''
     \ 'component': {
     \   'number': 'w%{winnr()}:b%n',
     \ },
+    \ 'tab_component_function': {
+    \   'tabfilename_active':   'MyTabFilenameActive',
+    \   'tabfilename_inactive': 'MyTabFilenameInactive',
+    \   'tabnum_active':        'MyTabNumActive',
+    \   'tabnum_inactive':      'MyTabNumInactive',
+    \ },
+    \ 'tab': {
+    \   'active':   ['tabnum_active',   'tabfilename_active',   'modified'],
+    \   'inactive': ['tabnum_inactive', 'tabfilename_inactive', 'modified'],
+    \ },
   \ }
 
-  let g:lightline.tab = {
-    \ 'active': [ 'tabnum', 'modified' ],
-    \ 'inactive': [ 'tabnum', 'modified' ] }
+  function! s:MyTabFilename(n, length) abort
+    let l:buflist = tabpagebuflist(a:n)
+    let l:winnr = tabpagewinnr(a:n)
+    let l:filename = expand('#' . l:buflist[l:winnr - 1] . ':t')
+    return l:filename !=# '' ? l:filename[0:a:length] : '[No Name]'
+  endfunction
+
+  function! MyTabFilenameActive(n) abort
+    return s:MyTabFilename(a:n, 13)
+  endfunction
+
+  function! MyTabFilenameInactive(n) abort
+    return s:MyTabFilename(a:n, 6)
+  endfunction
+
+  function! MyTabNumActive(n) abort
+    return '<' . a:n . '>'
+  endfunction
+
+  function! MyTabNumInactive(n) abort
+    return '[' . a:n . ']'
+  endfunction
 
   let s:p = g:lightline#colorscheme#wombat#palette
   let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
