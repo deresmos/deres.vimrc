@@ -115,19 +115,23 @@ hook_add = '''
   nnoremap <silent> <SPACE>dS :call <SID>switchMatherFuzzy()<CR>
 
   function! s:switchMatherRegexp()
-    call denite#custom#source('file_rec', 'matchers',
-      \ ['matcher_regexp', 'matcher_ignore_globs'])
-    call denite#custom#source('file', 'matchers',
-      \ ['matcher_regexp', 'matcher_ignore_globs'])
-    echo 'Switched mather_regexp'
+    call s:switchMather('matcher_regexp')
   endfunction
 
   function! s:switchMatherFuzzy()
-    call denite#custom#source('file_rec', 'matchers',
-      \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-    call denite#custom#source('file', 'matchers',
-      \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-    echo 'Switched mather_fuzzy'
+    call s:switchMather('matcher_fuzzy')
+  endfunction
+
+  function! s:switchMather(matcher)
+    let l:lists = [
+      \ 'file_rec', 'file', 'buffer', 'file_mru',
+      \ 'line', 'jump', 'change', 'tag']
+
+    for l:list in l:lists
+      call denite#custom#source(l:list, 'matchers',
+        \ [a:matcher, 'matcher_ignore_globs'])
+    endfor
+    echo 'Switched ' . a:matcher
   endfunction
 '''
 
