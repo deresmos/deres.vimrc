@@ -39,11 +39,20 @@ augroup custom-filetype
         \ &fileencoding ==# 'sjis' |
         \ setlocal filetype=aspvbs | endif
 
-  autocmd FileType fugitiveblame nnoremap <buffer><silent> <CR> :exec 'Git show' matchstr(getline('.'),'\x\+')<CR>
+  autocmd FileType fugitiveblame nnoremap <buffer><silent>gs 
+    \ :call <SID>BlameStatusOpenTab()<CR>
 
 augroup END
 
 "functions {{{1
+function! s:BlameStatusOpenTab() "{{{2
+    silent tabedit Blame status
+    setlocal buftype=nofile noswapfile modifiable nobuflisted filetype=diff
+    nnoremap <buffer><silent> q :quit<CR>
+
+    silent execute 'read !cd' b:git_dir '&& git show' matchstr(getline('.'),'\x\+')
+endfunction
+
 function! s:delEntry() range "{{{2
   let l:qf = getqflist()
   let l:history = get(w:, 'qf_history', [])
