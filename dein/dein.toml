@@ -12,9 +12,6 @@ hook_add = '''
     autocmd FileType gitcommit nmap <buffer> <SPACE>gj <C-n>
     autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
   augroup END
-
-  nnoremap <silent> <SPACE>go :silent! Glog<CR><C-w>j
-  nnoremap <silent> <SPACE>gO :silent! Glog --<CR><C-w>j
 '''
 
 # cohama/agit.vim {{{2
@@ -25,6 +22,9 @@ hook_add = '''
     autocmd!
     autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
     autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
+    autocmd FileType agit nnoremap <buffer><silent> ch
+      \ :let g:gitgutter_diff_base = agit#extract_hash(getline('.'))<CR>
+      \ :echo 'Switched gitgutter hash'<CR>
   augroup END
 
   let g:agit_max_log_lines = 200
@@ -61,6 +61,8 @@ hook_add = '''
   let g:gitgutter_realtime              = 0
   let g:gitgutter_eager                 = 1
   let g:gitgutter_async                 = 1
+
+  nnoremap <SPACE>gog :let g:gitgutter_diff_base =<space>
 '''
 
 # rhysd/committia.vim {{{2
