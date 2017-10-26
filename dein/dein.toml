@@ -141,14 +141,14 @@ hook_add = '''
   xmap <silent>sE <Plug>(operator-html-unescape)
 
   let g:operator#surround#blocks = {
-    \ '-' : [ 
-    \ {'block' : ['(', ')'], 
+    \ '-' : [
+    \ {'block' : ['(', ')'],
     \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['b'] },
-    \ {'block' : ['{', '}'], 
+    \ {'block' : ['{', '}'],
     \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
-    \ {'block' : ["'", "'"], 
+    \ {'block' : ["'", "'"],
     \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['s'] },
-    \ {'block' : ['"', '"'], 
+    \ {'block' : ['"', '"'],
     \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['d'] }
     \ ]}
 '''
@@ -545,8 +545,8 @@ hook_add = '''
   endfunction
 
   function! MyFilename()
-    return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') : 
-      \ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]') 
+    return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') :
+      \ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]')
       \ . ('' != MyModified() ? ' ' . MyModified() : '')
   endfunction
 
@@ -1134,3 +1134,5 @@ hook_add = '''
 
 [[plugins]]
 repo = 'gregsexton/gitv'
+
+

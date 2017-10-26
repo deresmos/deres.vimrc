@@ -182,7 +182,7 @@ if = '''has('nvim')'''
 on_ft = ['markdown','mkd']
 hook_source = '''
   let g:mkdp_path_to_chrome = "firefox"
-''' 
+'''
 
 # plasticboy/vim-markdown # {{{2
 [[plugins]]

@@ -39,7 +39,7 @@ augroup custom-filetype
         \ &fileencoding ==# 'sjis' |
         \ setlocal filetype=aspvbs | endif
 
-  autocmd FileType fugitiveblame nnoremap <buffer><silent>gs 
+  autocmd FileType fugitiveblame nnoremap <buffer><silent>gs
     \ :call <SID>BlameStatusOpenTab()<CR>
 
 augroup END
