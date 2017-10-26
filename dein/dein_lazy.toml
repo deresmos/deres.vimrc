@@ -111,6 +111,7 @@ hook_source = '''
   "}}}
 '''
 hook_add = '''
+  let g:denite_cwd = ''
   nnoremap <silent> <SPACE>ds :call <SID>switchMatherRegexp()<CR>
   nnoremap <silent> <SPACE>dS :call <SID>switchMatherFuzzy()<CR>
 

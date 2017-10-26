@@ -95,13 +95,13 @@ augroup END
 
 "space vim setting {{{1
 "F keybind {{{2
-nnoremap <silent> <SPACE>ff :Denite file_rec<CR>
-nnoremap <silent> <SPACE>fF :Denite file<CR>
+nnoremap <silent> <SPACE>ff :Denite file_rec -path=`get(g:, 'denite_cwd', getcwd())`<CR>
+nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`<CR>
 nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
-nnoremap <silent> <SPACE>fg :Denite grep -no-empty<CR>
-nnoremap <silent> <SPACE>fG :Denite grep -no-empty -input=`expand('<cword>')`<CR>
+nnoremap <silent> <SPACE>fg :Denite grep -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
+nnoremap <silent> <SPACE>fG :Denite grep -no-empty -input=`expand('<cword>')` -path=`get(g:, 'denite_cwd', getcwd())`<CR>
 nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
 
@@ -126,6 +126,7 @@ nnoremap <silent> <SPACE>qr :Qfreplace<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
+nnoremap <silent> <SPACE>dcd :let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
 nnoremap <silent> <SPACE>dt :Denite tag<CR>
 nnoremap <SPACE>df :DictionaryTranslate<space>
 nnoremap <SPACE>dF :DictionaryTranslate<CR>
