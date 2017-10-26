@@ -39,7 +39,7 @@ hook_add = '''
     \ ],
     \ 'file': [
     \   {'name': 'filelog'},
-    \   {'name': 'catfile',
+    \   {'name': 'stat',
     \    'layout': 'botright vnew'},
     \   {'name': 'diff',
     \    'layout': 'belowright {winheight(".") * 3 / 4}new'}

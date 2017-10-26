@@ -38,6 +38,9 @@ augroup custom-filetype
   autocmd FileType pov if
         \ &fileencoding ==# 'sjis' |
         \ setlocal filetype=aspvbs | endif
+
+  autocmd FileType fugitiveblame nnoremap <buffer><silent> <CR> :exec 'Git show' matchstr(getline('.'),'\x\+')<CR>
+
 augroup END
 
 "functions {{{1
