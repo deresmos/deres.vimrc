@@ -525,7 +525,7 @@ endfunction
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
 " }}}
 
-function! CloseUnloadedBuffers()
+function! CloseUnloadedBuffers() "{{{
   let l:lastbuffer = bufnr('$')
   let l:delete_count = 0
 
@@ -540,6 +540,7 @@ function! CloseUnloadedBuffers()
   let l:multi = 'buffers deleted'
   echomsg l:delete_count l:delete_count <= 1 ? l:single : l:multi
 endfunction
+"}}}
 
 function! s:NaspHelp(...) "{{{
   let l:word = a:0 == 0 ? expand('<cword>') : a:1
