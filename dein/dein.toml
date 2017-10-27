@@ -841,6 +841,10 @@ hook_add = '''
   augroup END
 '''
 
+# google/vim-searchindex {{{2
+[[plugins]]
+repo = 'google/vim-searchindex'
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
