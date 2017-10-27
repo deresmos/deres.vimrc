@@ -46,11 +46,12 @@ augroup END
 
 "functions {{{1
 function! s:BlameStatusOpenTab() "{{{2
+    let l:hash = matchstr(getline('.'),'\x\+')
     silent tabedit Blame status
     setlocal buftype=nofile noswapfile modifiable nobuflisted filetype=diff
     nnoremap <buffer><silent> q :quit<CR>
 
-    silent execute 'read !cd' b:git_dir '&& git show' matchstr(getline('.'),'\x\+')
+    silent execute 'read !cd' b:git_dir '&& git show' l:hash
 endfunction
 
 function! s:delEntry() range "{{{2
