@@ -475,9 +475,9 @@ endif
 
 function! DetectSpaceOrTab() "{{{
   let l:len_tab   = len(
-    \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^\\t'"))
+        \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^\\t'"))
   let l:len_space = len(
-    \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^ '"))
+        \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^ '"))
 
   if l:len_tab > l:len_space
     setlocal noexpandtab
@@ -497,29 +497,29 @@ augroup END "}}}
 
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
 function! s:DictionaryTranslate(...)
-    let l:word = a:0 == 0 ? expand('<cword>') : a:1
-    call histadd('cmd', 'DictionaryTranslate '  . l:word)
-    if l:word ==# '' | return | endif
-    let l:gene_path = '~/.vim/gene-utf8.txt'
-    let l:jpn_to_eng = l:word !~? '^[a-z_]\+$'
-    let l:output_option = l:jpn_to_eng ? '-B 1' : '-A 1'
+  let l:word = a:0 == 0 ? expand('<cword>') : a:1
+  call histadd('cmd', 'DictionaryTranslate '  . l:word)
+  if l:word ==# '' | return | endif
+  let l:gene_path = '~/.vim/gene-utf8.txt'
+  let l:jpn_to_eng = l:word !~? '^[a-z_]\+$'
+  let l:output_option = l:jpn_to_eng ? '-B 1' : '-A 1'
 
-    silent pedit Translate\ Result | wincmd P | %delete
-    setlocal buftype=nofile noswapfile modifiable
-    silent execute 'read !grep -ihw' l:output_option l:word l:gene_path
+  silent pedit Translate\ Result | wincmd P | %delete
+  setlocal buftype=nofile noswapfile modifiable
+  silent execute 'read !grep -ihw' l:output_option l:word l:gene_path
 
-    silent 0delete
-    let l:esc = @z
-    let @z = ''
-    while search('^' . l:word . '$', 'Wc') > 0
-        silent execute line('.') - l:jpn_to_eng . 'delete Z 2'
-    endwhile
-    silent 0put z
-    let @z = l:esc
+  silent 0delete
+  let l:esc = @z
+  let @z = ''
+  while search('^' . l:word . '$', 'Wc') > 0
+    silent execute line('.') - l:jpn_to_eng . 'delete Z 2'
+  endwhile
+  silent 0put z
+  let @z = l:esc
 
-    silent call append(expand('.'), '')
-    silent call append(line('.'), '===========================')
-    silent 1delete | wincmd P
+  silent call append(expand('.'), '')
+  silent call append(line('.'), '===========================')
+  silent 1delete | wincmd P
 endfunction
 
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
@@ -578,6 +578,6 @@ augroup CsvCursorHighlight
   autocmd BufNewFile,BufRead *.csv setlocal filetype=csv
   autocmd CursorMoved *.csv CSVa
   autocmd FileType csv nnoremap <buffer><silent> <SPACE>soc
-    \ :let b:isCSVaRun = !b:isCSVaRun<CR>
+        \ :let b:isCSVaRun = !b:isCSVaRun<CR>
 augroup END
 "}}}
