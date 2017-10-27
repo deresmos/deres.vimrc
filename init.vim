@@ -553,3 +553,31 @@ command! -nargs=? -complete=command NaspHelp call <SID>NaspHelp(<f-args>)
 nnoremap <SPACE>snh :NaspHelp<space>
 nnoremap <silent> <SPACE>snH :NaspHelp<CR>
 "}}}
+
+" CSV highlight same column process {{{
+function! CSVH(x)
+  execute 'match Keyword /\v^((".{-}"|[^,]*)*,){' . a:x . '}\zs(".{-}"|[^,]*)/'
+endfunction
+
+function! CSVA()
+  let b:isCSVaRun = get(b:, 'isCSVaRun', 1)
+
+  if b:isCSVaRun
+    let l:line = substitute(getline('.')[0:col('.')-1], '[^,"]', '', 'g')
+    let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
+    call CSVH(strlen(l:line))
+  endif
+endfunction
+
+command! CSVa :call CSVA()
+command! CSVn execute 'match none'
+
+augroup CsvCursorHighlight
+  autocmd!
+
+  autocmd BufNewFile,BufRead *.csv setlocal filetype=csv
+  autocmd CursorMoved *.csv CSVa
+  autocmd FileType csv nnoremap <buffer><silent> <SPACE>soc
+    \ :let b:isCSVaRun = !b:isCSVaRun<CR>
+augroup END
+"}}}
