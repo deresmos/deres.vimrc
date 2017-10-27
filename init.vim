@@ -137,6 +137,7 @@ xnoremap <silent> <SPACE>ld :Linediff<CR>
 "B keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
 nnoremap <silent> <SPACE>bo :BufOnly<CR>
+nnoremap <silent> <SPACE>bu :call CloseUnloadedBuffers()<CR>
 nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
 nnoremap <silent> <SPACE>bf :DeniteBufferDir file_rec<CR>
 nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
@@ -523,6 +524,22 @@ endfunction
 
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
 " }}}
+
+function! CloseUnloadedBuffers()
+  let l:lastbuffer = bufnr('$')
+  let l:delete_count = 0
+
+  for l:n in range(1, l:lastbuffer)
+    if buflisted(l:n) && !bufloaded(l:n)
+      silent execute 'bdelete! ' . l:n
+      let l:delete_count += 1
+    endif
+  endfor
+
+  let l:single = 'buffer deleted'
+  let l:multi = 'buffers deleted'
+  echomsg l:delete_count l:delete_count <= 1 ? l:single : l:multi
+endfunction
 
 function! s:NaspHelp(...) "{{{
   let l:word = a:0 == 0 ? expand('<cword>') : a:1
