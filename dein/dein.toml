@@ -16,7 +16,8 @@ hook_add = '''
 
 # cohama/agit.vim {{{2
 [[plugins]]
-repo = 'cohama/agit.vim'
+repo = 'deresmos/agit.vim'
+rev = 'fix/diff_garbled'
 hook_add = '''
   augroup agit-keymap
     autocmd!
