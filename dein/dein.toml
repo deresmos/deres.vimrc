@@ -45,6 +45,10 @@ hook_add = '''
     \   {'name': 'diff',
     \    'layout': 'belowright {winheight(".") * 3 / 4}new'}
     \ ]}
+
+  let g:agit_diff_stat_cp932_pattern = [
+    \ 'B_dev'
+    \ ]
 '''
 
 # airblade/vim-gitgutter {{{2
