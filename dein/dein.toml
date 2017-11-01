@@ -825,6 +825,7 @@ repo = 'tpope/tpope-vim-abolish'
 repo = 'adelarsq/vim-matchit'
 hook_add = '''
   augroup matchit-settings
+    autocmd!
     autocmd FileType wsh,vb,aspvbs let b:match_words="\\<function\\>:\\<end function\\>,\\<sub\\>:\\<end sub\\>,\\<with\\>:\\<end with\\>,\\<while\\>:\\<wend\\>,\\<for\\>:\\<next\\>,\\<on error resume next\\>:\\<on error\\>,\\<if\\>:\\<end if\\>"
   augroup END
 '''
