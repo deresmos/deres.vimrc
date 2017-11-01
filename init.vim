@@ -498,7 +498,6 @@ augroup END "}}}
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
 function! s:DictionaryTranslate(...)
   let l:word = a:0 == 0 ? expand('<cword>') : a:1
-  call histadd('cmd', 'DictionaryTranslate '  . l:word)
   if l:word ==# '' | return | endif
   let l:gene_path = '~/.vim/gene-utf8.txt'
   let l:jpn_to_eng = l:word !~? '^[a-z_]\+$'
@@ -506,6 +505,7 @@ function! s:DictionaryTranslate(...)
 
   silent pedit Translate\ Result | wincmd P | %delete
   setlocal buftype=nofile noswapfile modifiable
+  nnoremap <buffer><silent> q :quit<CR>
   silent execute 'read !grep -ihw' l:output_option l:word l:gene_path
 
   silent 0delete
@@ -523,6 +523,8 @@ function! s:DictionaryTranslate(...)
 endfunction
 
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
+nnoremap <SPACE>tr :DictionaryTranslate<space>
+nnoremap <SPACE>tR :DictionaryTranslate<CR>
 " }}}
 
 function! CloseUnloadedBuffers() "{{{
