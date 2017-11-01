@@ -48,6 +48,8 @@ set expandtab
 set cursorline
 set colorcolumn=80
 
+set spelllang=en_us
+
 set autoread
 augroup autoread-group
   autocmd!
