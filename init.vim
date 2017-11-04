@@ -101,6 +101,7 @@ nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
 nnoremap <silent> <SPACE>fl :Denite line<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 nnoremap <silent> <SPACE>fg :Denite grep -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
+xnoremap <silent> <SPACE>fg :Denite grep -no-empty -path=`get(g:, 'denite_cwd', getcwd())` -input=`GetVisualSelection()`<CR>
 nnoremap <silent> <SPACE>fG :Denite grep -no-empty -input=`expand('<cword>')` -path=`get(g:, 'denite_cwd', getcwd())`<CR>
 nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
@@ -142,12 +143,14 @@ nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
 nnoremap <silent> <SPACE>bf :DeniteBufferDir file_rec<CR>
 nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
 nnoremap <silent> <SPACE>bg :DeniteBufferDir grep -no-empty<CR>
+xnoremap <silent> <SPACE>bg :DeniteBufferDir grep -no-empty -input=`GetVisualSelection()`<CR>
 nnoremap <silent> <SPACE>bG :DeniteBufferDir grep -no-empty -input=`expand('<cword>')`<CR>
 
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
 nnoremap <silent> <SPACE>pF :DeniteProjectDir file<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty<CR>
+xnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty -input=`GetVisualSelection()`<CR>
 nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -no-empty -input=`expand('<cword>')`<CR>
 
 "Y keybind{{{2
@@ -583,3 +586,7 @@ augroup CsvCursorHighlight
         \ :let b:isCSVaRun = !b:isCSVaRun<CR>
 augroup END
 "}}}
+
+function! g:GetVisualSelection() "{{{
+  return getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
+endfunction "}}}
