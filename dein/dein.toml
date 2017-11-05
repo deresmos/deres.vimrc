@@ -276,6 +276,14 @@ hook_add = '''
 # tyru/open-browser.vim {{{2
 [[plugins]]
 repo = 'tyru/open-browser.vim'
+hook_add = '''
+  if has('unix')
+    let g:openbrowser_browser_commands = [
+      \ {"name": "firefox",
+      \  "args": ["{browser}", "{uri}"]},
+    \ ]
+  endif
+'''
 
 # thinca/vim-qfreplace {{{2
 [[plugins]]
