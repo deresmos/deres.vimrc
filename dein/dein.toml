@@ -277,7 +277,7 @@ hook_add = '''
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 hook_add = '''
-  if has('unix')
+  if system('uname') == "Linux\n"
     let g:openbrowser_browser_commands = [
       \ {"name": "firefox",
       \  "args": ["{browser}", "{uri}"]},
