@@ -546,7 +546,7 @@ hook_add = '''
   endfunction
 
   function! MyLineInfo()
-    return 'L' . line('.') . ':R' . virtcol('$')
+    return 'L' . line('.') . ':R' . printf('%03d', virtcol('$'))
   endfunction
 
   function! MyModified()
