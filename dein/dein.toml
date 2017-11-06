@@ -1057,38 +1057,19 @@ hook_add = '''
   \  ]
   \}
 
-  let g:tagbar_type_wsh = {
+  let s:tagbar_type_vbs = {
   \  'ctagstype' : 'vbs',
   \  'kinds' : [
   \    'd:Constants:0:0',
-  \    'f:Functions:1:0',
-  \    's:Subroutines:1:0',
+  \    'f:Functions:1:1',
+  \    's:Subroutines:1:1',
   \    'v:Variables:1:0',
-  \    'F:Funs:1:1',
   \  ]
   \}
 
-  let g:tagbar_type_aspvbs = {
-  \  'ctagstype' : 'vbs',
-  \  'kinds' : [
-  \    'd:Constants:0:0',
-  \    'f:Functions:1:0',
-  \    's:Subroutines:1:0',
-  \    'v:Variables:1:0',
-  \    'F:Funs:1:1',
-  \  ]
-  \}
-
-  let g:tagbar_type_vb = {
-  \  'ctagstype' : 'vbs',
-  \  'kinds' : [
-  \    'd:Constants:0:0',
-  \    'f:Functions:1:0',
-  \    's:Subroutines:1:0',
-  \    'v:Variables:1:0',
-  \    'F:Funs:1:1',
-  \  ]
-  \}
+  let g:tagbar_type_wsh    = s:tagbar_type_vbs
+  let g:tagbar_type_aspvbs = s:tagbar_type_vbs
+  let g:tagbar_type_vb     = s:tagbar_type_vbs
 '''
 
 
