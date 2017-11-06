@@ -579,7 +579,9 @@ hook_add = '''
   endfunction
 
   function! MyCurrentTag()
-    return winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
+    let l:_ = winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
+    let l:_ = len(l:_) > 30 ? '' : l:_
+    return l:_
   endfunction
 
   function! MyGitGutter()
@@ -601,7 +603,7 @@ hook_add = '''
   endfunction
 
   function! MyFileIndent()
-    return winwidth(0) > 80 ? DetectSpaceOrTab() : ''
+    return winwidth(0) > 100 ? DetectSpaceOrTab() : ''
   endfunction
 
   function! MyFileformat()
@@ -609,7 +611,7 @@ hook_add = '''
   endfunction
 
   function! MyFiletype()
-    return winwidth(0) > 80 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    return winwidth(0) > 100? (strlen(&filetype) ? &filetype : 'no ft') : ''
   endfunction
 
   function! MyFileencoding()
