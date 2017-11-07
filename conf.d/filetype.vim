@@ -40,7 +40,7 @@ augroup custom-filetype
         \ setlocal filetype=aspvbs | endif
 
   autocmd FileType fugitiveblame nnoremap <buffer><silent>gs
-    \ :call <SID>BlameStatusOpenTab()<CR>
+        \ :call <SID>BlameStatusOpenTab()<CR>
 
   autocmd TabLeave  * :call <SID>saveLastTab()
   autocmd TabClosed * :call <SID>tabNextLastTab()
@@ -48,12 +48,12 @@ augroup END
 
 "functions {{{1
 function! s:BlameStatusOpenTab() "{{{2
-    let l:hash = matchstr(getline('.'),'\x\+')
-    silent tabedit Blame status
-    setlocal buftype=nofile noswapfile modifiable nobuflisted filetype=diff
-    nnoremap <buffer><silent> q :quit<CR>
+  let l:hash = matchstr(getline('.'),'\x\+')
+  silent tabedit Blame status
+  setlocal buftype=nofile noswapfile modifiable nobuflisted filetype=diff
+  nnoremap <buffer><silent> q :quit<CR>
 
-    silent execute 'read !cd' b:git_dir '&& git show' l:hash
+  silent execute 'read !cd' b:git_dir '&& git show' l:hash
 endfunction
 
 function! s:delEntry() range "{{{2
