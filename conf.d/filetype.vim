@@ -42,6 +42,8 @@ augroup custom-filetype
   autocmd FileType fugitiveblame nnoremap <buffer><silent>gs
     \ :call <SID>BlameStatusOpenTab()<CR>
 
+  autocmd TabLeave  * :call <SID>saveLastTab()
+  autocmd TabClosed * :call <SID>tabNextLastTab()
 augroup END
 
 "functions {{{1
@@ -68,6 +70,20 @@ function! s:undoEntry() "{{{2
   let l:history = get(w:, 'qf_history', [])
   if !empty(l:history)
     call setqflist(remove(l:history, -1), 'r')
+  endif
+endfunction
+
+function! s:saveLastTab() "{{{2
+  if exists('g:lasttab')
+    let g:lasttab_num = g:lasttab
+  endif
+  let g:lasttab = tabpagenr()
+endfunction
+
+function! s:tabNextLastTab() "{{{2
+  echomsg tabpagenr('$')
+  if tabpagenr('$') > 1 && tabpagenr('$') >= g:lasttab_num
+    exec 'tabnext' g:lasttab_num
   endif
 endfunction
 
