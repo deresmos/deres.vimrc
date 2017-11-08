@@ -337,6 +337,38 @@ endfunction
 " }}}
 nnoremap <SPACE>cp :CaptureC<space>
 
+" GitDiffBetween command {{{
+command! -nargs=* -complete=command GitDiffBetween call <SID>gitDiffBetween(<f-args>)
+
+function! s:gitDiffBetween(commit1, commit2)
+  let l:bufname = 'Diff Between'
+  tabnew
+
+  " stat window
+  let l:title = '[' . a:commit1 .  '  <=>  ' . a:commit2 . ']' . "\n\n"
+  silent put =l:title
+  execute 'silent read !git --no-pager diff --stat' a:commit1 a:commit2
+  1,1delete
+  2,2delete
+
+  setlocal bufhidden=unload nobuflisted readonly buftype=nofile
+  nnoremap <buffer><silent>q :quit<CR>
+  silent keepalt file `=l:bufname . ' stat'`
+  setlocal filetype=agit_stat
+
+  " diff window
+  execute 'belowright' winheight('.') * 3 / 4 'new'
+  execute 'silent read !git --no-pager diff' a:commit1 a:commit2
+  1,1delete
+
+  setlocal bufhidden=unload nobuflisted readonly buftype=nofile
+  nnoremap <buffer><silent>q :quit<CR>
+  silent keepalt file `=l:bufname . ' diff'`
+  setlocal filetype=agit_diff
+endfunction
+" }}}
+nnoremap <SPACE>gD :GitDiffBetween<space>
+
 "O keybind {{{2
 nmap <SPACE>os <Plug>(openbrowser-smart-search)
 nnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
