@@ -90,6 +90,8 @@ hook_source = '''
     call s:switchGrepCommand('jvgrep')
   endif
 
+  call s:switchMatherFuzzy()
+
   call denite#custom#source('file_rec', 'matchers',
     \ ['matcher_fuzzy', 'matcher_ignore_globs'])
   call denite#custom#source('file', 'matchers',
