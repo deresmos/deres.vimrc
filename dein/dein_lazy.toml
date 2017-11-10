@@ -85,12 +85,12 @@ hook_source = '''
 
   " custom command {{{
   if executable('ag')
-    call s:switchGrepCommand('ag')
+    call SwitchGrepCommand('ag')
   elseif executable('jvgrep')
-    call s:switchGrepCommand('jvgrep')
+    call SwitchGrepCommand('jvgrep')
   endif
 
-  call s:switchMatherFuzzy()
+  call SwitchMatherFuzzy()
 
   call denite#custom#source('file_rec', 'matchers',
     \ ['matcher_fuzzy', 'matcher_ignore_globs'])
@@ -107,14 +107,14 @@ hook_source = '''
 '''
 hook_add = '''
   let g:denite_cwd = ''
-  nnoremap <silent> <SPACE>ds :call <SID>switchMatherRegexp()<CR>
-  nnoremap <silent> <SPACE>dS :call <SID>switchMatherFuzzy()<CR>
+  nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp()<CR>
+  nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy()<CR>
 
-  function! s:switchMatherRegexp() " {{{3
+  function! SwitchMatherRegexp() " {{{3
     call s:switchMather('matcher_regexp')
   endfunction
 
-  function! s:switchMatherFuzzy() " {{{3
+  function! SwitchMatherFuzzy() " {{{3
     call s:switchMather('matcher_fuzzy')
   endfunction
 
@@ -130,9 +130,9 @@ hook_add = '''
     echo 'Switched ' . a:matcher
   endfunction 
 
-  nnoremap <silent> <SPACE>dr :call <SID>switchGrepCommand('jvgrep')<CR>
-  nnoremap <silent> <SPACE>dR :call <SID>switchGrepCommand('ag')<CR>
-  function! s:switchGrepCommand(command) " {{{3
+  nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('jvgrep')<CR>
+  nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('ag')<CR>
+  function! SwitchGrepCommand(command) " {{{3
     if a:command ==# 'ag'
       call denite#custom#var('grep', 'command', ['ag'])
       call denite#custom#var('grep', 'default_opts',
