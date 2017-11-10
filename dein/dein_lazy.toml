@@ -133,7 +133,34 @@ hook_add = '''
         \ [a:matcher, 'matcher_ignore_globs'])
     endfor
     echo 'Switched ' . a:matcher
+  endfunction 
+
+  nnoremap <silent> <SPACE>dr :call <SID>switchGrepCommand('jvgrep')<CR>
+  nnoremap <silent> <SPACE>dR :call <SID>switchGrepCommand('ag')<CR>
+  function! s:switchGrepCommand(command) " {{{1
+    if a:command ==# 'ag'
+      call denite#custom#var('grep', 'command', ['ag'])
+      call denite#custom#var('grep', 'default_opts',
+          \ ['-i', '-S', '--vimgrep', '--follow', '--nocolor', '--nogroup'])
+      call denite#custom#var('grep', 'recursive_opts', [])
+      call denite#custom#var('grep', 'pattern_opt', [])
+      call denite#custom#var('grep', 'separator', ['--'])
+      call denite#custom#var('grep', 'final_opts', [])
+
+      call denite#custom#var('file_rec', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
+
+    elseif a:command ==# 'jvgrep'
+      call denite#custom#var('grep', 'command', ['jvgrep'])
+      call denite#custom#var('grep', 'default_opts', [])
+      call denite#custom#var('grep', 'recursive_opts', ['-R'])
+      call denite#custom#var('grep', 'pattern_opt', [])
+      call denite#custom#var('grep', 'separator', [])
+      call denite#custom#var('grep', 'final_opts', [])
+
+    endif
   endfunction
+  " }}}1
 '''
 
 # Shougo/deoplete.nvim {{{2
