@@ -155,7 +155,7 @@ hook_add = '''
 
     endif
   endfunction
-  " }}}1
+  " }}}3
 '''
 
 # Shougo/deoplete.nvim {{{2
