@@ -864,7 +864,7 @@ repo = 'google/vim-searchindex'
 #}}}1 END plugins
 
 # Programing plugins {{{1
-# honza/vim-snippets {{{2
+# deresmos/vim-snippets {{{2
 [[plugins]]
 repo = 'deresmos/vim-snippets'
 if = '''has('nvim')'''
