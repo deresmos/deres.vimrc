@@ -204,7 +204,6 @@ if !has('nvim')
 endif
 
 if has('nvim')
-  tnoremap <silent> <ESC> <C-\><C-n>
   tnoremap <silent> fd <C-\><C-n>
 endif
 
