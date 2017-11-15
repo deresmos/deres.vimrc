@@ -592,8 +592,12 @@ nnoremap <silent> <SPACE>snH :NaspHelp<CR>
 "}}}
 
 " CSV highlight same column process {{{
-function! CSVH(x)
-  execute 'match Keyword /\v^((".{-}"|[^,]*)*,){' . a:x . '}\zs(".{-}"|[^,]*)/'
+function! CSVH(x, max)
+  if a:x
+    execute 'match Keyword /\v^(("\_.{-}"|[^,]*)*,){' . a:x . '}\zs("\_.{-}"|[^,]*)/'
+  else
+    execute 'match Keyword /\v^\zs("\_.{-}"|[^,]{-})\ze,(("\_.{-}"|[^,]*)*,){' . (a:max - 1) . '}/'
+  endif
 endfunction
 
 function! CSVA()
@@ -602,8 +606,14 @@ function! CSVA()
   if b:isCSVaRun
     let l:line = substitute(getline('.')[0:col('.')-1], '[^,"]', '', 'g')
     let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
-    call CSVH(strlen(l:line))
+    call CSVH(strlen(l:line), s:CSVMaxColumn())
   endif
+endfunction
+
+function! s:CSVMaxColumn()
+  let l:line = substitute(getline(1), '[^,"]', '', 'g')
+  let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
+  return strlen(l:line)
 endfunction
 
 command! CSVa :call CSVA()
