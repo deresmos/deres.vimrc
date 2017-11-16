@@ -29,6 +29,7 @@ hook_add = '''
   augroup END
 
   let g:agit_max_log_lines = 200
+  let g:agit_ignore_spaces = 0
 
   let g:agit_preset_views = {
     \ 'default': [
