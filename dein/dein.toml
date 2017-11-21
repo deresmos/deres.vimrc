@@ -349,6 +349,17 @@ hook_add = '''
   augroup END
 '''
 
+# deresmos/nerdtree-dirdiff-plugin {{{2
+[[plugins]]
+repo = 'deresmos/nerdtree-dirdiff-plugin'
+hook_add = '''
+  augroup nerdtree-dirdiff-keymap
+    autocmd!
+    autocmd FileType nerdtree nmap <buffer> dt mt
+    autocmd FileType nerdtree nmap <buffer> dw mw
+  augroup END
+'''
+
 # mhinz/vim-startify {{{2
 [[plugins]]
 repo = 'mhinz/vim-startify'
