@@ -1123,6 +1123,10 @@ hook_add = '''
   nnoremap <SPACE>ocP :VCoolIns r<CR>
 '''
 
+# will133/vim-dirdiff {{{2
+[[plugins]]
+repo = 'will133/vim-dirdiff'
+
 # }}}1
 
 [[plugins]]
