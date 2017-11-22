@@ -293,6 +293,7 @@ nnoremap <silent> <SPACE>yF :let @+ = expand('%:p')<CR>
 "D keybind{{{2
 nnoremap <silent> <SPACE>dw :windo diffthis<CR>
 nnoremap <silent> <SPACE>du :windo diffupdate<CR>
+nnoremap <silent> <SPACE>do :windo diffoff<CR>
 
 "T keybind{{{2
 nnoremap <silent> <SPACE>tc :tabnew<CR>
