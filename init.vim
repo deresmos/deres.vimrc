@@ -177,7 +177,7 @@ function! s:ExecteCtags() "{{{
 endfunction "}}}
 
 nnoremap <silent> <SPACE>tg :call <SID>ExecteCtags()<CR>
-nnoremap <silent> <SPACE>tb :Tagbar<CR>
+nnoremap <silent> <SPACE>tb :TagbarOpen fj<CR>
 
 function! s:setNumber() "{{{
   if &relativenumber
