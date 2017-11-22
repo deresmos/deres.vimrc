@@ -58,6 +58,7 @@ augroup END
 
 set fileformats=unix,mac,dos
 set fileencodings=utf-8,sjis
+set nofixendofline
 
 set tags=./.tags;~
 
