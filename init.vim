@@ -602,13 +602,23 @@ function! CSVH(x)
   endif
 endfunction
 
-function! CSVA()
-  let b:isCSVaRun = get(b:, 'isCSVaRun', 1)
-
+function! CSVHighlightCursor()
+  let b:isCSVaRun = get(b:, 'isCSVaRun', 0)
   if b:isCSVaRun
     let l:line = substitute(getline('.')[0:col('.')-1], '[^,"]', '', 'g')
     let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
     call CSVH(strlen(l:line))
+  endif
+endfunction
+
+function! CSVA()
+  let b:isCSVaRun = get(b:, 'isCSVaRun', 0)
+
+  if b:isCSVaRun
+    let b:isCSVaRun = 0
+  else
+    let b:isCSVaRun = 1
+    match none
   endif
 endfunction
 
@@ -620,12 +630,14 @@ endfunction
 
 command! CSVa :call CSVA()
 command! CSVn execute 'match none'
+command! -nargs=1 CSVh call CSVH(<f-args>)
 
 augroup CsvCursorHighlight
   autocmd!
 
   autocmd BufNewFile,BufRead *.csv setlocal filetype=csv
-  autocmd CursorMoved *.csv CSVa
+  autocmd FileType csv CSVa
+  autocmd CursorMoved *.csv call CSVHighlightCursor()
   autocmd FileType csv nnoremap <buffer><silent> <SPACE>soc
         \ :let b:isCSVaRun = !b:isCSVaRun<CR>
 augroup END
