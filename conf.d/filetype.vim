@@ -47,7 +47,7 @@ augroup custom-filetype
 augroup END
 
 "functions {{{1
-function! s:BlameStatusOpenTab() "{{{2
+function! s:BlameStatusOpenTab() abort "{{{2
   let l:hash = matchstr(getline('.'),'\x\+')
   silent tabedit Blame status
   setlocal buftype=nofile noswapfile modifiable nobuflisted filetype=diff
@@ -66,21 +66,21 @@ function! s:delEntry() range "{{{2
   execute a:firstline
 endfunction
 
-function! s:undoEntry() "{{{2
+function! s:undoEntry() abort "{{{2
   let l:history = get(w:, 'qf_history', [])
   if !empty(l:history)
     call setqflist(remove(l:history, -1), 'r')
   endif
 endfunction
 
-function! s:saveLastTab() "{{{2
+function! s:saveLastTab() abort "{{{2
   if exists('g:lasttab')
     let g:lasttab_num = g:lasttab
   endif
   let g:lasttab = tabpagenr()
 endfunction
 
-function! s:tabNextLastTab() "{{{2
+function! s:tabNextLastTab() abort "{{{2
   echomsg tabpagenr('$')
   if tabpagenr('$') > 1 && tabpagenr('$') >= g:lasttab_num
     exec 'tabnext' g:lasttab_num

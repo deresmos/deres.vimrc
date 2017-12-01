@@ -110,15 +110,15 @@ hook_add = '''
   nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp()<CR>
   nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy()<CR>
 
-  function! SwitchMatherRegexp() " {{{3
+  function! SwitchMatherRegexp() abort " {{{3
     call s:switchMather('matcher_regexp')
   endfunction
 
-  function! SwitchMatherFuzzy() " {{{3
+  function! SwitchMatherFuzzy() abort " {{{3
     call s:switchMather('matcher_fuzzy')
   endfunction
 
-  function! s:switchMather(matcher) " {{{3
+  function! s:switchMather(matcher) abort " {{{3
     let l:lists = [
       \ 'file_rec', 'file', 'buffer', 'file_mru',
       \ 'line', 'jump', 'change', 'tag']
@@ -132,7 +132,7 @@ hook_add = '''
 
   nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('jvgrep')<CR>
   nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('ag')<CR>
-  function! SwitchGrepCommand(command) " {{{3
+  function! SwitchGrepCommand(command) abort " {{{3
     if a:command ==# 'ag'
       call denite#custom#var('grep', 'command', ['ag'])
       call denite#custom#var('grep', 'default_opts',

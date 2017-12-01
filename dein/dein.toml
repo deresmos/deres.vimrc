@@ -76,7 +76,7 @@ repo = 'rhysd/committia.vim'
 hook_add = '''
   let g:committia_open_only_vim_starting = 1
   let g:committia_hooks = {}
-  function! g:committia_hooks.edit_open(info)
+  function! g:committia_hooks.edit_open(info) abort
     nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
     nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
   endfunction
@@ -544,7 +544,7 @@ hook_add = '''
   let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
   let g:lightline#colorscheme#wombat#palette = s:p
 
-  function! AleStatus()
+  function! AleStatus() abort
     if has('nvim')
       return ale#statusline#Status()
     endif
@@ -552,33 +552,33 @@ hook_add = '''
     return ''
   endfunction
 
-  function! MaxLine()
+  function! MaxLine() abort
     return 'L:' . line('$')
   endfunction
 
-  function! MyLineInfo()
+  function! MyLineInfo() abort
     return 'L' . line('.') . ':R' . printf('%03d', virtcol('$'))
   endfunction
 
-  function! MyModified()
+  function! MyModified() abort
     return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
   endfunction
 
-  function! MyReadonly()
+  function! MyReadonly() abort
     return &readonly ? 'Readonly' : ''
   endfunction
 
-  function! MyFilename()
+  function! MyFilename() abort
     return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') :
       \ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]')
       \ . ('' != MyModified() ? ' ' . MyModified() : '')
   endfunction
 
-  function! MyFilenameFull()
+  function! MyFilenameFull() abort
     return '' != expand('%:p') ? expand('%:p') : '[No Name]'
   endfunction
 
-  function! MyFugitive()
+  function! MyFugitive() abort
     try
       if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
         return fugitive#head()
@@ -589,13 +589,13 @@ hook_add = '''
     return ''
   endfunction
 
-  function! MyCurrentTag()
+  function! MyCurrentTag() abort
     let l:_ = winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
     let l:_ = len(l:_) > 30 ? '' : l:_
     return l:_
   endfunction
 
-  function! MyGitGutter()
+  function! MyGitGutter() abort
     if ! exists('*GitGutterGetHunkSummary')
       \ || ! get(g:, 'gitgutter_enabled', 0)
       \ || winwidth(0) <= 70
@@ -613,23 +613,23 @@ hook_add = '''
     return join(ret, ' ')
   endfunction
 
-  function! MyFileIndent()
+  function! MyFileIndent() abort
     return winwidth(0) > 100 ? DetectSpaceOrTab() : ''
   endfunction
 
-  function! MyFileformat()
+  function! MyFileformat() abort
     return winwidth(0) > 80 ? &fileformat : ''
   endfunction
 
-  function! MyFiletype()
+  function! MyFiletype() abort
     return winwidth(0) > 100? (strlen(&filetype) ? &filetype : 'no ft') : ''
   endfunction
 
-  function! MyFileencoding()
+  function! MyFileencoding() abort
     return winwidth(0) > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
   endfunction
 
-  function! MyMode()
+  function! MyMode() abort
     return winwidth(0) > 30 ? lightline#mode() : ''
   endfunction
 '''

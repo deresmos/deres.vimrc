@@ -106,7 +106,7 @@ nnoremap <silent> <SPACE>fG :Denite grep -no-empty -input=`expand('<cword>')` -p
 nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
 
-function! s:saveFile(force) "{{{
+function! s:saveFile(force) abort "{{{
   let l:cmd = &readonly ? 'SudoWrite' : a:force ? 'w!' : 'w'
   execute l:cmd
 endfunction
@@ -161,7 +161,7 @@ for s:n in range(1, 9)
   execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
-function! s:ExecteCtags() "{{{
+function! s:ExecteCtags() abort "{{{
   let l:tag_name = '.tags'
   let l:tags_path = findfile(l:tag_name, '.;')
   if l:tags_path ==# ''
@@ -179,14 +179,14 @@ endfunction "}}}
 nnoremap <silent> <SPACE>tg :call <SID>ExecteCtags()<CR>
 nnoremap <silent> <SPACE>tb :TagbarOpen fj<CR>
 
-function! s:setNumber() "{{{
+function! s:setNumber() abort "{{{
   if &relativenumber
     setlocal relativenumber!
   endif
   setlocal number!
 endfunction
 " }}}
-function! s:setRelativeNumber() "{{{
+function! s:setRelativeNumber() abort "{{{
   if &number
     setlocal number!
   endif
@@ -271,11 +271,11 @@ nnoremap <SPACE>hpm :HowmDir main<CR>
 nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
 nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
 
-function s:pullHowm() " {{{
+function s:pullHowm() abort " {{{
   execute '!cd ~/.howm && git pull'
 endfunction
 " }}}
-function s:pushHowm() " {{{
+function s:pushHowm() abort " {{{
   execute '!cd ~/.howm && git add . && git commit -m "commit" && git push'
 endfunction
 " }}}
@@ -316,7 +316,7 @@ nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 " Capture command {{{
 command! -nargs=1 -complete=command CaptureC call <SID>captureC(<f-args>)
 
-function! s:captureC(cmd)
+function! s:captureC(cmd) abort
   redir => l:result
   silent execute a:cmd
   redir END
@@ -340,7 +340,7 @@ nnoremap <SPACE>cp :CaptureC<space>
 " GitDiffBetween command {{{
 command! -nargs=* -complete=command GitDiffBetween call <SID>gitDiffBetween(<f-args>)
 
-function! s:gitDiffBetween(commit1, commit2)
+function! s:gitDiffBetween(commit1, commit2) abort
   let l:bufname = 'Diff Between'
   tabnew
 
@@ -475,13 +475,13 @@ if has('nvim')
   augroup END " }}}
 
   " terminal keybind {{{
-  function! s:term2()
+  function! s:term2() abort
     exe 'NTermT'
     exe 'NTermV'
     exe 'stopinsert'
   endfunction
 
-  function! s:term3()
+  function! s:term3() abort
     exe 'NTermT'
     exe 'NTermV'
     exe 'NTermS'
@@ -537,7 +537,7 @@ augroup auto-detect-indent
 augroup END "}}}
 
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
-function! s:DictionaryTranslate(...)
+function! s:DictionaryTranslate(...) abort
   let l:word = a:0 == 0 ? expand('<cword>') : a:1
   if l:word ==# '' | return | endif
   let l:gene_path = '~/.vim/gene-utf8.txt'
@@ -568,7 +568,7 @@ nnoremap <SPACE>tr :DictionaryTranslate<space>
 nnoremap <SPACE>tR :DictionaryTranslate<CR>
 " }}}
 
-function! CloseUnloadedBuffers() "{{{
+function! CloseUnloadedBuffers() abort "{{{
   let l:lastbuffer = bufnr('$')
   let l:delete_count = 0
 
@@ -585,7 +585,7 @@ function! CloseUnloadedBuffers() "{{{
 endfunction
 "}}}
 
-function! s:NaspHelp(...) "{{{
+function! s:NaspHelp(...) abort "{{{
   let l:word = a:0 == 0 ? expand('<cword>') : a:1
 
   execute 'pedit' expand('~/.vim/help/nasp_dict.txt') '| wincmd P'
@@ -598,7 +598,7 @@ nnoremap <silent> <SPACE>snH :NaspHelp<CR>
 "}}}
 
 " CSV highlight same column process {{{
-function! CSVH(x)
+function! CSVH(x) abort
   let l:max_column = s:CSVMaxColumn()
 
   if a:x
@@ -608,7 +608,7 @@ function! CSVH(x)
   endif
 endfunction
 
-function! CSVHighlightCursor()
+function! CSVHighlightCursor() abort
   let b:isCSVaRun = get(b:, 'isCSVaRun', 0)
   if b:isCSVaRun
     let l:line = substitute(getline('.')[0:col('.')-1], '[^,"]', '', 'g')
@@ -617,7 +617,7 @@ function! CSVHighlightCursor()
   endif
 endfunction
 
-function! CSVA()
+function! CSVA() abort
   let b:isCSVaRun = get(b:, 'isCSVaRun', 0)
 
   if b:isCSVaRun
@@ -628,7 +628,7 @@ function! CSVA()
   endif
 endfunction
 
-function! s:CSVMaxColumn()
+function! s:CSVMaxColumn() abort
   let l:line = substitute(getline(1), '[^,"]', '', 'g')
   let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
   return strlen(l:line)
@@ -649,6 +649,6 @@ augroup CsvCursorHighlight
 augroup END
 "}}}
 
-function! g:GetVisualSelection() "{{{
+function! g:GetVisualSelection() abort "{{{
   return getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
 endfunction "}}}

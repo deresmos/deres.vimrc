@@ -11,7 +11,7 @@ let g:undo_dir = g:vim_dir. '/undo'
 let g:view_dir = g:vim_dir. '/view'
 let g:startify_session_dir = g:vim_dir. '/session'
 
-function! s:makeDirectory(dir_path) "{{{
+function! s:makeDirectory(dir_path) abort "{{{
   if !isdirectory(a:dir_path)
     call mkdir(a:dir_path, 'p')
   endif
@@ -120,7 +120,7 @@ function! s:printFoldMarker(auto_mode, last, v_mode) range "{{{
   endif
 endfunction
 "}}}
-function! s:putFoldMarker(foldclose_p, lnum, mode, count) " {{{
+function! s:putFoldMarker(foldclose_p, lnum, mode, count) abort " {{{
   let l:line_str = getline(a:lnum)
   let l:padding = l:line_str ==# '' ? '' : l:line_str =~# '\s$' ? '' : ' '
 
@@ -149,7 +149,7 @@ augroup view
 augroup END
 
 command -nargs=0 ClearUndo call <sid>clearUndo()
-function! s:clearUndo()
+function! s:clearUndo() abort
   let l:old_undolevels = &l:undolevels
   set undolevels=-1
   exe "normal! a \<BS>\<Esc>"
@@ -159,7 +159,7 @@ endfunction
 
 " follow symlink {{{
 " https://github.com/blueyed/dotfiles/commit/1287a5897a15c11b6c05ca428c4a5e6322bd55e8
-function! s:followSymlink()
+function! s:followSymlink() abort
   let l:fname = expand('%:p')
 
   if l:fname =~? '^\w\+:/'
@@ -368,7 +368,7 @@ nnoremap <SPACE>v= ggVGzC
 nnoremap <SPACE>v- ggVGzO
 nnoremap <SPACE>vtl :call <SID>toggleFoldList()<CR>
 
-function! s:toggleFoldList() "{{{
+function! s:toggleFoldList() abort "{{{
   if &foldcolumn == 0
     setlocal foldcolumn=4
   else
