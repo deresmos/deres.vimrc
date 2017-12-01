@@ -508,21 +508,27 @@ if filereadable(expand('~/.vim/conf.d/custom.vim'))
   execute 'source' '~/.vim/conf.d/custom.vim'
 endif
 
-function! DetectSpaceOrTab() "{{{
-  let l:len_tab   = len(
-        \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^\\t'"))
-  let l:len_space = len(
-        \ filter(getbufline(bufname('%'), 1, 300), "v:val =~# '^ '"))
+function! DetectSpaceOrTab() abort "{{{
+  let max_line_num = 300
+  let space_name   = 'space'
+  let tab_name     = 'tab'
 
-  if l:len_tab > l:len_space
+  let buflines = getbufline(bufname('%'), 1, max_line_num) 
+  let len_tab   = len(
+        \ filter(copy(buflines), "v:val =~# '^\\t'"))
+  let len_space = len(
+        \ filter(copy(buflines), "v:val =~# '^ '"))
+
+  let result = ''
+  if len_tab > len_space
     setlocal noexpandtab
-    return 'tab'
-  elseif l:len_tab < l:len_space
+    let result = tab_name
+  elseif len_tab < len_space
     setlocal expandtab
-    return 'space'
-  else
-    return ''
+    let result = space_name
   endif
+
+  return result
 endfunction
 
 augroup auto-detect-indent
