@@ -161,22 +161,20 @@ for s:n in range(1, 9)
   execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
-function! s:ExecteCtags() abort "{{{
-  let l:tag_name = '.tags'
-  let l:tags_path = findfile(l:tag_name, '.;')
-  if l:tags_path ==# ''
+function! s:ExecuteCtags() abort "{{{
+  let tag_name = '.tags'
+
+  let tags_path = findfile(tag_name, '.;')
+  if tags_path ==# ''
     echo 'Not found .tags'
     return
   endif
-  let l:tags_dirpath = fnamemodify(l:tags_path, ':p:h')
-  let l:tmp_dirpath = getcwd()
 
-  execute 'lcd' l:tags_dirpath
-  execute 'silent !ctags --exclude=.git -R -f' l:tag_name '2> /dev/null &'
-  execute 'lcd' l:tmp_dirpath
+  let tags_dirpath = fnamemodify(tags_path, ':p:h')
+  execute 'silent !cd' tags_dirpath '&& ctags --exclude=.git -R -f' tag_name '2> /dev/null &'
 endfunction "}}}
 
-nnoremap <silent> <SPACE>tg :call <SID>ExecteCtags()<CR>
+nnoremap <silent> <SPACE>tg :call <SID>ExecuteCtags()<CR>
 nnoremap <silent> <SPACE>tb :TagbarOpen fj<CR>
 
 function! s:setNumber() abort "{{{
