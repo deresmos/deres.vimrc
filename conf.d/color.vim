@@ -1,18 +1,28 @@
-highlight Search           ctermfg=197  ctermbg=none cterm=bold,underline
-highlight IncSearch        ctermfg=197  ctermbg=235  cterm=bold,underline
-highlight Folded           ctermfg=167  ctermbg=235  cterm=bold
-highlight LineNr           ctermfg=251  ctermbg=235
-highlight CursorLineNr     ctermfg=221  ctermbg=235
-highlight TagbarSignature  ctermfg=none ctermfg=251
-highlight ZenSpace         ctermfg=none ctermbg=203
-highlight DeniteCursorLine ctermfg=none ctermbg=237
-highlight DiffChange       ctermfg=none ctermbg=237
-highlight DiffText         ctermfg=197  ctermbg=237  cterm=bold,underline
-highlight DiffAdd          ctermfg=none ctermbg=237
-highlight DiffDelete       ctermfg=52   ctermbg=52
-highlight String           ctermfg=108  ctermbg=none
-highlight Function         ctermfg=73   ctermbg=none
-highlight Conditional      ctermfg=197  ctermbg=none
-highlight Number           ctermfg=166  ctermbg=none
-highlight Boolean          ctermfg=197  ctermbg=none
-highlight Statement        ctermfg=173  ctermbg=none
+function! MyHighlights()
+  if g:colors_name ==# 'hybrid'
+    highlight Search           ctermfg=197  ctermbg=none cterm=bold,underline
+    highlight IncSearch        ctermfg=197  ctermbg=235  cterm=bold,underline
+    highlight Folded           ctermfg=167  ctermbg=235  cterm=bold
+    highlight LineNr           ctermfg=251  ctermbg=235
+    highlight CursorLineNr     ctermfg=221  ctermbg=235
+    highlight TagbarSignature  ctermfg=none ctermfg=251
+    highlight ZenSpace         ctermfg=none ctermbg=203
+    highlight DeniteCursorLine ctermfg=none ctermbg=237
+    highlight DiffChange       ctermfg=none ctermbg=237
+    highlight DiffText         ctermfg=197  ctermbg=237  cterm=bold,underline
+    highlight DiffAdd          ctermfg=none ctermbg=237
+    highlight DiffDelete       ctermfg=52   ctermbg=52
+    highlight String           ctermfg=108  ctermbg=none
+    highlight Function         ctermfg=73   ctermbg=none
+    highlight Conditional      ctermfg=197  ctermbg=none
+    highlight Number           ctermfg=166  ctermbg=none
+    highlight Boolean          ctermfg=197  ctermbg=none
+    highlight Statement        ctermfg=173  ctermbg=none
+    highlight vimHighlight     ctermfg=166  ctermbg=none
+  endif
+endfunction
+
+augroup MyHighlight
+  autocmd!
+  autocmd ColorScheme * call MyHighlights()
+augroup END

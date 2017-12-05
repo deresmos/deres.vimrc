@@ -70,11 +70,11 @@ filetype plugin indent on
 "}}}1
 
 "vim setting {{{1
-colorscheme hybrid
-
 source ~/.vim/conf.d/basic.vim
 source ~/.vim/conf.d/color.vim
 source ~/.vim/conf.d/filetype.vim
+
+colorscheme hybrid
 
 set scrollback=100000
 
