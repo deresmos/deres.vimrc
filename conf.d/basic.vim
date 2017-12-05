@@ -56,7 +56,7 @@ augroup autoread-group
   autocmd WinEnter * checktime
 augroup END
 
-set fileformats=unix,mac,dos
+set fileformats=unix,dos,mac
 set fileencodings=utf-8,sjis
 set nofixendofline
 
