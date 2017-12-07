@@ -7,8 +7,8 @@ elseif has('win64') || has('win32')
   let g:vim_dir = expand($LOCALAPPDATA. '/.vim')
 endif
 
-let g:undo_dir = g:vim_dir. '/undo'
-let g:view_dir = g:vim_dir. '/view'
+let s:undo_dir = g:vim_dir. '/undo'
+let s:view_dir = g:vim_dir. '/view'
 let g:startify_session_dir = g:vim_dir. '/session'
 
 function! s:makeDirectory(dir_path) abort "{{{
@@ -17,12 +17,11 @@ function! s:makeDirectory(dir_path) abort "{{{
   endif
 endfunction
 "}}}
-call s:makeDirectory(g:undo_dir)
-call s:makeDirectory(g:view_dir)
 
 "basic setting {{{1
 set undofile
-let &undodir = g:undo_dir
+let &undodir = s:undo_dir
+call s:makeDirectory(&undodir)
 filetype plugin on
 set ambiwidth=double
 
@@ -140,7 +139,8 @@ endfunction
 "view setting {{{1
 " Save fold settings.
 " Don't save options.
-let &viewdir = g:view_dir
+let &viewdir = s:view_dir
+call s:makeDirectory(&viewdir)
 set viewoptions-=options
 augroup view
   autocmd!
