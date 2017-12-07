@@ -1136,6 +1136,35 @@ hook_add = '''
 [[plugins]]
 repo = 'will133/vim-dirdiff'
 
+# MattesGroeger/vim-bookmarks {{{2
+[[plugins]]
+repo = 'MattesGroeger/vim-bookmarks'
+hook_add = '''
+  let g:bookmark_no_default_key_mappings = 1
+  let g:bookmark_auto_save_file          = $HOME . '/.vim/.bookmarks'
+  let g:bookmark_location_list           = 1
+  let g:bookmark_sign                    = '//'
+  let g:bookmark_annotation_sign         = '//'
+
+  highlight default link BookmarkAnnotationSign BookmarkSign
+
+  nnoremap [Bookmark] <Nop>
+  nmap <Space>bm [Bookmark]
+
+  nmap <silent> [Bookmark]t <Plug>BookmarkToggle
+  nmap <silent> [Bookmark]a <Plug>BookmarkAnnotate
+  nmap <silent> [Bookmark]l <Plug>BookmarkShowAll
+  nmap <silent> [Bookmark]j <Plug>BookmarkNext
+  nmap <silent> [Bookmark]k <Plug>BookmarkPrev
+  nmap <silent> [Bookmark]C <Plug>BookmarkClear
+  nmap <silent> [Bookmark]X <Plug>BookmarkClearAll
+  nmap <silent> [Bookmark]jj <Plug>BookmarkMoveDown
+  nmap <silent> [Bookmark]kk <Plug>BookmarkMoveUp
+  nmap <silent> [Bookmark]g <Plug>BookmarkMoveToLine
+  nmap [Bookmark]S :BookmarkSave<space>
+  nmap [Bookmark]L :BookmarkLoad<space>
+'''
+
 # }}}1
 
 [[plugins]]
