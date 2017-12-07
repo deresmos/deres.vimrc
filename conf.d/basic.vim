@@ -56,7 +56,7 @@ augroup autoread-group
 augroup END
 
 set fileformats=unix,dos,mac
-set fileencodings=utf-8,sjis
+set fileencodings=utf-8,sjis,cp932
 set nofixendofline
 
 set tags=./.tags;~
