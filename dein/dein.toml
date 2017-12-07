@@ -1016,9 +1016,8 @@ hook_add = '''
   let g:tagbar_map_closefold = '<Space>vc'
 
   let g:tagbar_type_css = {
-  \  'ctagstype' : 'css',
+  \  'ctagstype' : 'mycss',
   \  'kinds' : [
-  \    'v:Variables:0:0',
   \    's:Selectors:1:1',
   \    '@:@:0:1',
   \    'c:Classes:1:0',
@@ -1028,7 +1027,7 @@ hook_add = '''
   \}
 
   let g:tagbar_type_javascript = {
-  \  'ctagstype' : 'js',
+  \  'ctagstype' : 'myjs',
   \  'kinds' : [
   \    'f:Functions:0:1',
   \    'v:Variables:1:0',
@@ -1037,12 +1036,12 @@ hook_add = '''
   \    's:Strings:1:0',
   \    'b:Bools:1:0',
   \    'j:jQuery:1:0',
-  \    'F:Functions:1:1'
+  \    'z:Functions:1:1'
   \  ]
   \}
 
   let g:tagbar_type_php = {
-  \  'ctagstype' : 'php',
+  \  'ctagstype' : 'myphp',
   \  'kinds' : [
   \    'd:Const Definitions:0:0',
   \    'c:Classes:0:1',
@@ -1054,7 +1053,7 @@ hook_add = '''
   \}
 
   let g:tagbar_type_html = {
-  \  'ctagstype' : 'html',
+  \  'ctagstype' : 'myhtml',
   \  'kinds' : [
   \    'i:Identities:0:0',
   \    'c:Classes:0:1',
@@ -1062,7 +1061,7 @@ hook_add = '''
   \}
 
   let g:tagbar_type_xhtml = {
-  \  'ctagstype' : 'html',
+  \  'ctagstype' : 'myhtml',
   \  'kinds' : [
   \    'i:Identities:1:0',
   \    'c:Classes:1:0',
@@ -1071,7 +1070,7 @@ hook_add = '''
   \}
 
   let s:tagbar_type_vbs = {
-  \  'ctagstype' : 'vbs',
+  \  'ctagstype' : 'myvbs',
   \  'kinds' : [
   \    'd:Constants:0:0',
   \    'f:Functions:1:1',
