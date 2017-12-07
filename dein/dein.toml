@@ -364,7 +364,9 @@ hook_add = '''
 repo = 'mhinz/vim-startify'
 hook_add = '''
 let g:startify_files_number = 5
-let g:startify_custom_indices = ['a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's']
+let g:startify_session_number = 10
+let g:startify_custom_indices = ['a', 'b', 'c', 'd', 'f', 'g', 'i', 'm',
+  \ 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z']
 let g:startify_list_order = [
   \ ['Sessions:'],
   \ 'sessions',
