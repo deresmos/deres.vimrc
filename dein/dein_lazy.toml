@@ -107,8 +107,8 @@ hook_source = '''
 '''
 hook_add = '''
   let g:denite_cwd = ''
-  nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp()<CR>
-  nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy()<CR>
+  nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
+  nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
 
   nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('jvgrep') <Bar> echo 'Changed grep cmd to [jvgrep]'<CR>
   nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('ag')     <Bar> echo 'Changed grep cmd to [ag]'<CR>
@@ -130,7 +130,6 @@ hook_add = '''
       call denite#custom#source(l:list, 'matchers',
         \ [a:matcher, 'matcher_ignore_globs'])
     endfor
-    echo 'Switched ' . a:matcher
   endfunction
 
   function! SwitchGrepCommand(command) abort " {{{3
