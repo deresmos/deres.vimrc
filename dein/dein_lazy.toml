@@ -110,6 +110,9 @@ hook_add = '''
   nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp()<CR>
   nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy()<CR>
 
+  nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('jvgrep') <Bar> echo 'Changed grep cmd to [jvgrep]'<CR>
+  nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('ag')     <Bar> echo 'Changed grep cmd to [ag]'<CR>
+
   function! SwitchMatherRegexp() abort " {{{3
     call s:switchMather('matcher_regexp')
   endfunction
@@ -128,10 +131,8 @@ hook_add = '''
         \ [a:matcher, 'matcher_ignore_globs'])
     endfor
     echo 'Switched ' . a:matcher
-  endfunction 
+  endfunction
 
-  nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('jvgrep') <Bar> echo 'Changed grep cmd to [jvgrep]'<CR>
-  nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('ag')     <Bar> echo 'Changed grep cmd to [ag]'<CR>
   function! SwitchGrepCommand(command) abort " {{{3
     if a:command ==# 'ag'
       call denite#custom#var('grep', 'command', ['ag'])
