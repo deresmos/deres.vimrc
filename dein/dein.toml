@@ -865,8 +865,7 @@ hook_add = '''
 
   augroup HighlightedYankColorScheme
     autocmd!
-
-    autocmd ColorScheme * highlight HighlightedyankRegion ctermfg=none ctermbg=none cterm=bold,underline
+    autocmd ColorScheme * highlight HighlightedyankRegion ctermfg=none ctermbg=237 cterm=bold
   augroup END
 '''
 
