@@ -84,10 +84,10 @@ hook_source = '''
   " }}}
 
   " custom command {{{
-  if executable('ag')
-    call SwitchGrepCommand('ag')
-  elseif executable('jvgrep')
-    call SwitchGrepCommand('jvgrep')
+  if executable('rg')
+    call SwitchGrepCommand('rg')
+  elseif executable('pt')
+    call SwitchGrepCommand('pt')
   endif
 
   call SwitchMatherFuzzy()
@@ -110,8 +110,8 @@ hook_add = '''
   nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
   nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
 
-  nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('jvgrep') <Bar> echo 'Changed grep cmd to [jvgrep]'<CR>
-  nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('ag')     <Bar> echo 'Changed grep cmd to [ag]'<CR>
+  nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('pt') <Bar> echo 'Changed grep cmd to [pt]'<CR>
+  nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('rg') <Bar> echo 'Changed grep cmd to [rg]'<CR>
 
   function! SwitchMatherRegexp() abort " {{{3
     call s:switchMather('matcher_regexp')
@@ -136,7 +136,7 @@ hook_add = '''
     if a:command ==# 'ag'
       call denite#custom#var('grep', 'command', ['ag'])
       call denite#custom#var('grep', 'default_opts',
-          \ ['-i', '-S', '--vimgrep', '--follow', '--nocolor', '--nogroup'])
+          \ ['--vimgrep', '--follow', '--hidden', '-S'])
       call denite#custom#var('grep', 'recursive_opts', [])
       call denite#custom#var('grep', 'pattern_opt', [])
       call denite#custom#var('grep', 'separator', ['--'])
@@ -153,8 +153,28 @@ hook_add = '''
       call denite#custom#var('grep', 'separator', [])
       call denite#custom#var('grep', 'final_opts', [])
 
-    endif
-  endfunction
+    elseif a:command ==# 'rg'
+      call denite#custom#var('grep', 'command', ['rg'])
+      call denite#custom#var('grep', 'default_opts',
+          \ ['--vimgrep', '--follow', '--hidden', '-S'])
+      call denite#custom#var('grep', 'recursive_opts', [])
+      call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+      call denite#custom#var('grep', 'separator', ['--'])
+      call denite#custom#var('grep', 'final_opts', [])
+
+      call denite#custom#var('file_rec', 'command',
+        \ ['rg', '--files', '--follow', '--hidden', '--no-heading'])
+
+    elseif a:command ==# 'pt'
+      call denite#custom#var('grep', 'command', ['pt'])
+      call denite#custom#var('grep', 'default_opts',
+          \ ['--nogroup', '--nocolor', '--follow', '--hidden', '-S'])
+      call denite#custom#var('grep', 'recursive_opts', [])
+      call denite#custom#var('grep', 'pattern_opt', [])
+      call denite#custom#var('grep', 'separator', ['--'])
+      call denite#custom#var('grep', 'final_opts', [])
+        endif
+      endfunction
   " }}}3
 '''
 
