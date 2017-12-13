@@ -250,6 +250,7 @@ nnoremap ; :
 nnoremap <C-j> <C-e>
 nnoremap <C-k> <C-y>
 inoremap <C-o> <C-x><C-]>
+nnoremap Y y$
 
 nnoremap <silent> <Space>fR :source $MYVIMRC<CR>
 
