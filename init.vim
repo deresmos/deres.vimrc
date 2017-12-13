@@ -269,11 +269,11 @@ nnoremap <SPACE>hpm :HowmDir main<CR>
 nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
 nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
 
-function s:pullHowm() abort " {{{
+function! s:pullHowm() abort " {{{
   execute '!cd ~/.howm && git pull'
 endfunction
 " }}}
-function s:pushHowm() abort " {{{
+function! s:pushHowm() abort " {{{
   execute '!cd ~/.howm && git add . && git commit -m "commit" && git push'
 endfunction
 " }}}
