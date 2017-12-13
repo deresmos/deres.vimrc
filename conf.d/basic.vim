@@ -251,6 +251,8 @@ nnoremap <C-j> <C-e>
 nnoremap <C-k> <C-y>
 inoremap <C-o> <C-x><C-]>
 
+nnoremap <silent> <Space>fR :source $MYVIMRC<CR>
+
 omap iq i'
 omap iQ i"
 omap aq a'
