@@ -650,3 +650,8 @@ augroup END
 function! g:GetVisualSelection() abort "{{{
   return getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
 endfunction "}}}
+
+function! g:GetVisualSelectionESC() abort "{{{
+  let word = getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
+  return substitute(word, '[()[\]]', '\\\0', 'g')
+endfunction "}}}
