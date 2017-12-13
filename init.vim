@@ -511,7 +511,7 @@ function! DetectSpaceOrTab() abort "{{{
   let space_name   = 'space'
   let tab_name     = 'tab'
 
-  let buflines = getbufline(bufname('%'), 1, max_line_num) 
+  let buflines = getbufline(bufname('%'), 1, max_line_num)
   let len_tab   = len(
         \ filter(copy(buflines), "v:val =~# '^\\t'"))
   let len_space = len(
