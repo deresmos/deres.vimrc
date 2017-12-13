@@ -148,7 +148,7 @@ augroup view
   autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
 augroup END
 
-command -nargs=0 ClearUndo call <sid>clearUndo()
+command! -nargs=0 ClearUndo call <sid>clearUndo()
 function! s:clearUndo() abort
   let l:old_undolevels = &l:undolevels
   set undolevels=-1
