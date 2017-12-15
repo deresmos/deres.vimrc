@@ -107,11 +107,11 @@ hook_source = '''
 '''
 hook_add = '''
   let g:denite_cwd = ''
-  nnoremap <silent> <SPACE>ds :call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
-  nnoremap <silent> <SPACE>dS :call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
+  nnoremap <silent> <SPACE>ds :<C-u>call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
+  nnoremap <silent> <SPACE>dS :<C-u>call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
 
-  nnoremap <silent> <SPACE>dr :call SwitchGrepCommand('pt') <Bar> echo 'Changed grep cmd to [pt]'<CR>
-  nnoremap <silent> <SPACE>dR :call SwitchGrepCommand('rg') <Bar> echo 'Changed grep cmd to [rg]'<CR>
+  nnoremap <silent> <SPACE>dr :<C-u>call SwitchGrepCommand('pt') <Bar> echo 'Changed grep cmd to [pt]'<CR>
+  nnoremap <silent> <SPACE>dR :<C-u>call SwitchGrepCommand('rg') <Bar> echo 'Changed grep cmd to [rg]'<CR>
 
   function! SwitchMatherRegexp() abort " {{{3
     call s:switchMather('matcher_regexp')
@@ -323,8 +323,8 @@ on_ft = 'css'
 repo = 'vim-scripts/CSSMinister'
 on_ft = 'css'
 hook_add = '''
-  nnoremap <SPACE>cth :ToHex<CR>
-  nnoremap <SPACE>ctr :ToRGB<CR>
+  nnoremap <SPACE>cth :<C-u>ToHex<CR>
+  nnoremap <SPACE>ctr :<C-u>ToRGB<CR>
 '''
 
 # othree/html5.vim # {{{2

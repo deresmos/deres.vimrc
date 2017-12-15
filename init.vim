@@ -103,8 +103,8 @@ nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 nnoremap <silent> <SPACE>fg :Denite grep -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
 xnoremap <silent> <SPACE>fg :Denite grep:::`GetVisualSelectionESC()` -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
 nnoremap <silent> <SPACE>fG :Denite grep:::`expand('<cword>')` -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
-nnoremap <silent> <SPACE>fs :call <SID>saveFile(0)<CR>
-nnoremap <silent> <SPACE>fS :call <SID>saveFile(1)<CR>
+nnoremap <silent> <SPACE>fs :<C-u>call <SID>saveFile(0)<CR>
+nnoremap <silent> <SPACE>fS :<C-u>call <SID>saveFile(1)<CR>
 
 function! s:saveFile(force) abort "{{{
   let l:cmd = &readonly ? 'SudoWrite' : a:force ? 'w!' : 'w'
@@ -114,34 +114,34 @@ endfunction
 
 nnoremap [NERDTree] <Nop>
 nmap <SPACE>ft [NERDTree]
-nnoremap <silent> [NERDTree]t :NERDTreeToggle<CR>
-nnoremap <silent> [NERDTree]f :NERDTreeFocus<CR>
-nnoremap <silent> [NERDTree]F :NERDTreeFind<CR>
+nnoremap <silent> [NERDTree]t :<C-u>NERDTreeToggle<CR>
+nnoremap <silent> [NERDTree]f :<C-u>NERDTreeFocus<CR>
+nnoremap <silent> [NERDTree]F :<C-u>NERDTreeFind<CR>
 
 nnoremap <silent> <SPACE>fh :Denite command_history<CR>
 nnoremap <silent> <SPACE>fj :Denite jump<CR>
 nnoremap <silent> <SPACE>fp :Denite change<CR>
 
 "Q keybind{{{2
-nnoremap <silent> <SPACE>qr :Qfreplace<CR>
+nnoremap <silent> <SPACE>qr :<C-u>Qfreplace<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
-nnoremap <silent> <SPACE>dcd :let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
-nnoremap <silent> <SPACE>doc :echo 'denite_cwd: ' . g:denite_cwd<CR>
+nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
+nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
 nnoremap <silent> <SPACE>dt :Denite tag<CR>
 nnoremap <silent> <SPACE>dp :Denite dein -default-action=open<CR>
-nnoremap <SPACE>df :DictionaryTranslate<space>
-nnoremap <SPACE>dF :DictionaryTranslate<CR>
+nnoremap <SPACE>df :<C-u>DictionaryTranslate<space>
+nnoremap <SPACE>dF :<C-u>DictionaryTranslate<CR>
 
 "L keybind{{{2
 xnoremap <silent> <SPACE>ld :Linediff<CR>
 
 "B keybind{{{2
 nnoremap <silent> <SPACE>bb :Denite buffer<CR>
-nnoremap <silent> <SPACE>bo :BufOnly<CR>
-nnoremap <silent> <SPACE>bu :call CloseUnloadedBuffers()<CR>
-nnoremap <silent> <SPACE>bl :BuffergatorToggle<CR>
+nnoremap <silent> <SPACE>bo :<C-u>BufOnly<CR>
+nnoremap <silent> <SPACE>bu :<C-u>call CloseUnloadedBuffers()<CR>
+nnoremap <silent> <SPACE>bl :<C-u>BuffergatorToggle<CR>
 nnoremap <silent> <SPACE>bf :DeniteBufferDir file_rec<CR>
 nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
 nnoremap <silent> <SPACE>bg :DeniteBufferDir grep -no-empty<CR>
@@ -176,8 +176,8 @@ function! s:ExecuteCtags() abort "{{{
   execute 'silent !cd' tags_dirpath '&& ctags --exclude=.git -R -f' tag_name '2> /dev/null &'
 endfunction "}}}
 
-nnoremap <silent> <SPACE>tg :call <SID>ExecuteCtags()<CR>
-nnoremap <silent> <SPACE>tb :TagbarOpen fj<CR>
+nnoremap <silent> <SPACE>tg :<C-u>call <SID>ExecuteCtags()<CR>
+nnoremap <silent> <SPACE>tb :<C-u>TagbarOpen fj<CR>
 
 function! s:setNumber() abort "{{{
   if &relativenumber
@@ -196,28 +196,28 @@ endfunction
 
 nnoremap [TNumber] <Nop>
 nmap <SPACE>tn [TNumber]
-nnoremap <silent> [TNumber]n :call <SID>setNumber()<CR>
-nnoremap <silent> [TNumber]r  :call <SID>setRelativeNumber()<CR>
+nnoremap <silent> [TNumber]n :<C-u>call <SID>setNumber()<CR>
+nnoremap <silent> [TNumber]r  :<C-u>call <SID>setRelativeNumber()<CR>
 
-nnoremap <silent> <SPACE>tsl :setlocal list!<CR>
+nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
 
 
 "G keybind{{{2
 " fugitive keybind
-nnoremap <silent> <SPACE>gs :Gstatus<CR>
-nnoremap <silent> <SPACE>gd :Gvdiff<CR>
+nnoremap <silent> <SPACE>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <SPACE>gd :<C-u>Gvdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
-nnoremap <silent> <SPACE>gC :Git commit<CR>
+nnoremap <silent> <SPACE>gC :<C-u>Git commit<CR>
 
 " merginal keybind
-nnoremap <SPACE>gc :MerginalToggle<CR>
+nnoremap <SPACE>gc :<C-u>MerginalToggle<CR>
 
 " vimagit keybind
-nnoremap <SPACE>gm :Magit<CR>
+nnoremap <SPACE>gm :<C-u>Magit<CR>
 
 " agit keybind
-nnoremap <SPACE>gl :Agit<CR>
-nnoremap <SPACE>gf :AgitFile<CR>
+nnoremap <SPACE>gl :<C-u>Agit<CR>
+nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 
 " gitgutter keybind
 nmap <silent> <SPACE>gk <Plug>GitGutterPrevHunkzz
@@ -227,49 +227,49 @@ nnoremap <silent> <SPACE>gu <Nop>
 nmap <silent> <SPACE>gU <Plug>GitGutterUndoHunk
 nnoremap <silent> <SPACE>ga <Nop>
 nmap <silent> <SPACE>gA <Plug>GitGutterStageHunk
-nnoremap <silent> <SPACE>gg :GitGutter<CR>
-nnoremap <silent> <SPACE>gtt :GitGutterToggle<CR>
-nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
-nnoremap <silent> <SPACE>gtl :GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
 
-nnoremap <silent> <SPACE>gii :Gist<CR>
-nnoremap <silent> <SPACE>gil :Gist -l<CR>
-nnoremap <silent> <SPACE>gip :Gist --private<CR>
-nnoremap <silent> <SPACE>giP :Gist --public<CR>
-nnoremap <silent> <SPACE>gia :Gist --anonymous<CR>
-nnoremap <SPACE>gis :Gist --description<space>
+nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
+nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
+nnoremap <silent> <SPACE>gip :<C-u>Gist --private<CR>
+nnoremap <silent> <SPACE>giP :<C-u>Gist --public<CR>
+nnoremap <silent> <SPACE>gia :<C-u>Gist --anonymous<CR>
+nnoremap <SPACE>gis :<C-u>Gist --description<space>
 
 "V keybind{{{2
-nnoremap <SPACE>vi :echo FoldCCnavi()<CR>
+nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
 
 "S keybind{{{2
 " session keybind
-nnoremap <SPACE>ss :SSave<Space>
-nnoremap <silent> <SPACE>sS :silent! SSave tmp<CR>y
-nnoremap <SPACE>sl :SLoad<Space>
-nnoremap <SPACE>sd :SDelete<Space>
-nnoremap <silent> <SPACE>sc :SClose<CR>:silent! NTermDeleteAll<CR>
-nnoremap <silent> <SPACE>sC :SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>
+nnoremap <SPACE>ss :<C-u>SSave<Space>
+nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
+nnoremap <SPACE>sl :<C-u>SLoad<Space>
+nnoremap <SPACE>sd :<C-u>SDelete<Space>
+nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>
+nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>
 
 "H keybind{{{2
-nnoremap <silent> <SPACE>hc :call qfixmemo#Calendar()<CR>
-nnoremap <silent> <SPACE>hm :call qfixmemo#EditDiary('memo')<CR>
-nnoremap <silent> <SPACE>hs :call qfixmemo#EditDiary('schedule')<CR>
-nnoremap <silent> <SPACE>ht :call qfixmemo#EditDiary(g:qfixmemo_diary)<CR>
-nnoremap <silent> <SPACE>hg :call qfixmemo#FGrep()<CR>
-nnoremap <silent> <SPACE>hid :call qfixmemo#InsertDate('date')<CR>
-nnoremap <silent> <SPACE>hit :call qfixmemo#InsertDate('time')<CR>
-nnoremap <silent> <SPACE>hlr :call qfixmemo#ListMru()<CR>
-nnoremap <silent> <SPACE>hlt :call qfixmemo#ListReminder('todo')<CR>
-nnoremap <silent> <SPACE>hls :call qfixmemo#ListReminder('schedule')<CR>
-nnoremap <silent> <SPACE>hlc :call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
-nnoremap <silent> <SPACE>hll :call qfixmemo#ListRecentTimeStamp()<CR>
+nnoremap <silent> <SPACE>hc :<C-u>call qfixmemo#Calendar()<CR>
+nnoremap <silent> <SPACE>hm :<C-u>call qfixmemo#EditDiary('memo')<CR>
+nnoremap <silent> <SPACE>hs :<C-u>call qfixmemo#EditDiary('schedule')<CR>
+nnoremap <silent> <SPACE>ht :<C-u>call qfixmemo#EditDiary(g:qfixmemo_diary)<CR>
+nnoremap <silent> <SPACE>hg :<C-u>call qfixmemo#FGrep()<CR>
+nnoremap <silent> <SPACE>hid :<C-u>call qfixmemo#InsertDate('date')<CR>
+nnoremap <silent> <SPACE>hit :<C-u>call qfixmemo#InsertDate('time')<CR>
+nnoremap <silent> <SPACE>hlr :<C-u>call qfixmemo#ListMru()<CR>
+nnoremap <silent> <SPACE>hlt :<C-u>call qfixmemo#ListReminder('todo')<CR>
+nnoremap <silent> <SPACE>hls :<C-u>call qfixmemo#ListReminder('schedule')<CR>
+nnoremap <silent> <SPACE>hlc :<C-u>call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
+nnoremap <silent> <SPACE>hll :<C-u>call qfixmemo#ListRecentTimeStamp()<CR>
 
 command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
-nnoremap <SPACE>hpw :HowmDir work<CR>
-nnoremap <SPACE>hpm :HowmDir main<CR>
-nnoremap <SPACE>hpd :call <SID>pullHowm()<CR>
-nnoremap <SPACE>hpu :call <SID>pushHowm()<CR>
+nnoremap <SPACE>hpw :<C-u>HowmDir work<CR>
+nnoremap <SPACE>hpm :<C-u>HowmDir main<CR>
+nnoremap <SPACE>hpd :<C-u>call <SID>pullHowm()<CR>
+nnoremap <SPACE>hpu :<C-u>call <SID>pushHowm()<CR>
 
 function! s:pullHowm() abort " {{{
   execute '!cd ~/.howm && git pull'
@@ -281,9 +281,9 @@ endfunction
 " }}}
 
 "R keybind {{{2
-nnoremap <silent> <SPACE>rv :silent! loadview<CR>
-nnoremap <silent> <SPACE>rn :Renamer<CR>
-nnoremap <silent> <SPACE>rs :Ren<CR>
+nnoremap <silent> <SPACE>rv :<C-u>silent! loadview<CR>
+nnoremap <silent> <SPACE>rn :<C-u>Renamer<CR>
+nnoremap <silent> <SPACE>rs :<C-u>Ren<CR>
 
 nnoremap q <Nop>
 nnoremap <silent> <SPACE>rc q
@@ -311,7 +311,7 @@ xmap <SPACE>ci <plug>NERDCommenterToEOL
 xmap <SPACE>cA <plug>NERDCommenterAppend
 xmap <SPACE>cx <plug>NERDCommenterAltDelims
 
-nnoremap <SPACE>cd :lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
+nnoremap <SPACE>cd :<C-u>lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 
 " Capture command {{{
 command! -nargs=1 -complete=command CaptureC call <SID>captureC(<f-args>)
@@ -335,7 +335,7 @@ function! s:captureC(cmd) abort
   call lightline#update()
 endfunction
 " }}}
-nnoremap <SPACE>cp :CaptureC<space>
+nnoremap <SPACE>cp :<C-u>CaptureC<space>
 
 " GitDiffBetween command {{{
 command! -nargs=* -complete=command GitDiffBetween call <SID>gitDiffBetween(<f-args>)
@@ -371,30 +371,30 @@ nnoremap <SPACE>gD :GitDiffBetween<space>
 
 "O keybind {{{2
 nmap <SPACE>os <Plug>(openbrowser-smart-search)
-nnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
-nnoremap <silent> <SPACE>om :MarkdownPreview<CR>
+nnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
+nnoremap <silent> <SPACE>om :<C-u>MarkdownPreview<CR>
 
 xmap <SPACE>os <Plug>(openbrowser-smart-search)
-xnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
-xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
+xnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
+xnoremap <silent> <SPACE>om :<C-u>MarkdownPreview<CR>
 
 
 "U keybind {{{2
-nnoremap <silent> <SPACE>up :call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
-nnoremap <silent> <SPACE>uP :call dein#update()<CR>
+nnoremap <silent> <SPACE>up :<C-u>call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
+nnoremap <silent> <SPACE>uP :<C-u>call dein#update()<CR>
 
-nnoremap <silent> <SPACE>utt :UndotreeToggle<CR>
-nnoremap <silent> <SPACE>utf :UndotreeFocus<CR>
+nnoremap <silent> <SPACE>utt :<C-u>UndotreeToggle<CR>
+nnoremap <silent> <SPACE>utf :<C-u>UndotreeFocus<CR>
 
 "V keybind {{{2
-nnoremap <SPACE>vg :vimgrep /\v/ %<Left><Left><Left>
-xnoremap <SPACE>vg :vimgrep /\v<c-r><c-w>/ %
+nnoremap <SPACE>vg :<C-u>vimgrep /\v/ %<Left><Left><Left>
+xnoremap <SPACE>vg :<C-u>vimgrep /\v<c-r><c-w>/ %
 
 "A keybind {{{2
-nnoremap <SPACE>al= vis:EasyAlign*=<CR>
-xnoremap <SPACE>al= :EasyAlign*=<CR>
-nnoremap <SPACE>al\| vis:EasyAlign*\|<CR>
-xnoremap <SPACE>al\| :EasyAlign*\|<CR>
+nnoremap <SPACE>al= vis:<C-u>EasyAlign*=<CR>
+xnoremap <SPACE>al= :<C-u>EasyAlign*=<CR>
+nnoremap <SPACE>al\| vis:<C-u>EasyAlign*\|<CR>
+xnoremap <SPACE>al\| :<C-u>EasyAlign*\|<CR>
 
 
 "E keybind {{{2
@@ -420,10 +420,10 @@ if has('nvim')
 
   nnoremap <silent> <SPACE>mcl :lwindow<CR>
 
-  nnoremap <silent> <SPACE>mpi :call deoplete#sources#padawan#InstallServer()<CR>
+  nnoremap <silent> <SPACE>mpi :<C-u>call deoplete#sources#padawan#InstallServer()<CR>
 
-  nnoremap <silent> <SPACE>msw :Switch<CR>
-  nnoremap <silent> <SPACE>msW :SwitchReverse<CR>
+  nnoremap <silent> <SPACE>msw :<C-u>Switch<CR>
+  nnoremap <silent> <SPACE>msW :<C-u>SwitchReverse<CR>
   " }}}
 
   augroup formatter " {{{
@@ -490,16 +490,16 @@ if has('nvim')
 
   nnoremap [Term] <Nop>
   nmap <SPACE>to [Term]
-  nnoremap <silent> [Term]e :NTerm<CR>
-  nnoremap <silent> [Term]v :NTermV<CR>
-  nnoremap <silent> [Term]s :NTermS<CR>
-  nnoremap <silent> [Term]t :NTermT<CR>
+  nnoremap <silent> [Term]e :<C-u>NTerm<CR>
+  nnoremap <silent> [Term]v :<C-u>NTermV<CR>
+  nnoremap <silent> [Term]s :<C-u>NTermS<CR>
+  nnoremap <silent> [Term]t :<C-u>NTermT<CR>
   nnoremap <silent> [Term]o :NTermToggle<CR>
   nnoremap <silent> [Term]O :30NTermToggle<CR>
-  nnoremap <silent> [Term]2 :call <SID>term2()<CR>
-  nnoremap <silent> [Term]3 :call <SID>term3()<CR>
-  nnoremap <silent> [Term]d :NTermDeletes<CR>
-  nnoremap <silent> [Term]D :NTermDeleteAll<CR>
+  nnoremap <silent> [Term]2 :<C-u>call <SID>term2()<CR>
+  nnoremap <silent> [Term]3 :<C-u>call <SID>term3()<CR>
+  nnoremap <silent> [Term]d :<C-u>NTermDeletes<CR>
+  nnoremap <silent> [Term]D :<C-u>NTermDeleteAll<CR>
   " }}}
 endif
 "}}}1

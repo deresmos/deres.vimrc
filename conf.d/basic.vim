@@ -221,7 +221,7 @@ inoremap fd <ESC>
 vnoremap fd <ESC>
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
-nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
+nnoremap <silent> <SPACE>of :<C-u>silent! !xdg-open %<CR>
 " not work tab??
 xnoremap <TAB> >gv
 xnoremap <S-TAB> <gv
@@ -252,7 +252,7 @@ nnoremap <C-k> <C-y>
 inoremap <C-o> <C-x><C-]>
 nnoremap Y y$
 
-nnoremap <silent> <Space>fR :source $MYVIMRC<CR>
+nnoremap <silent> <Space>fR :<C-u>source $MYVIMRC<CR>
 
 omap iq i'
 omap iQ i"
@@ -338,12 +338,12 @@ nnoremap <silent> gV :vertical wincmd f<CR>
 
 "V keybind{{{2
 " vim fold keybind
-nnoremap <SPACE>vf :call <SID>printFoldMarker(0, 0, 0)<CR>
-xnoremap <SPACE>vf :call <SID>printFoldMarker(0, 0, 1)<CR>
-nnoremap <SPACE>vF :call <SID>printFoldMarker(1, 0, 0)<CR>
-xnoremap <SPACE>vF :call <SID>printFoldMarker(1, 0, 1)<CR>
-nnoremap <SPACE>vl :call <SID>printFoldMarker(0, 1, 0)<CR>
-nnoremap <SPACE>vL :call <SID>printFoldMarker(1, 1, 0)<CR>
+nnoremap <SPACE>vf :<C-u>call <SID>printFoldMarker(0, 0, 0)<CR>
+xnoremap <SPACE>vf :<C-u>call <SID>printFoldMarker(0, 0, 1)<CR>
+nnoremap <SPACE>vF :<C-u>call <SID>printFoldMarker(1, 0, 0)<CR>
+xnoremap <SPACE>vF :<C-u>call <SID>printFoldMarker(1, 0, 1)<CR>
+nnoremap <SPACE>vl :<C-u>call <SID>printFoldMarker(0, 1, 0)<CR>
+nnoremap <SPACE>vL :<C-u>call <SID>printFoldMarker(1, 1, 0)<CR>
 nnoremap <SPACE>vd zd
 nnoremap <SPACE>vD zD
 xnoremap <SPACE>vd zd
@@ -370,7 +370,7 @@ nnoremap <SPACE>vJ z]
 nnoremap <SPACE>vK z[
 nnoremap <SPACE>v= ggVGzC
 nnoremap <SPACE>v- ggVGzO
-nnoremap <SPACE>vtl :call <SID>toggleFoldList()<CR>
+nnoremap <SPACE>vtl :<C-u>call <SID>toggleFoldList()<CR>
 
 function! s:toggleFoldList() abort "{{{
   if &foldcolumn == 0

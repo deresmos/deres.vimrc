@@ -67,7 +67,7 @@ hook_add = '''
   let g:gitgutter_eager                 = 1
   let g:gitgutter_async                 = 1
 
-  nnoremap <SPACE>gog :let g:gitgutter_diff_base =<space>
+  nnoremap <SPACE>gog :<C-u>let g:gitgutter_diff_base =<space>
 '''
 
 # rhysd/committia.vim {{{2
@@ -828,7 +828,7 @@ hook_add = '''
   " }}}
 
   call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
-  nnoremap <silent> <Space>? :LeaderGuide '<Space>'<CR>
+  nnoremap <silent> <Space>? :<C-u>LeaderGuide '<Space>'<CR>
 '''
 
 # tpope/vim-repeat {{{2
@@ -897,7 +897,7 @@ hook_add = '''
 repo = 'w0rp/ale'
 if ='''has('nvim')'''
 hook_add = '''
-  nnoremap <silent> <SPACE>af :silent! ALEFix<CR>
+  nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
 
   let g:ale_sign_column_always   = 1
   let g:ale_lint_on_insert_leave = 1
@@ -1105,8 +1105,8 @@ hook_add = '''
   let g:dbext_default_buffer_lines = 25
 
   nmap <Space>mdp <Plug>DBPromptForBufferParameters
-  nmap <Space>mdsp :DBSetOption profile=
-  nmap <Space>mdsP :DBSetOption passwd=
+  nmap <Space>mdsp :<C-u>DBSetOption profile=
+  nmap <Space>mdsP :<C-u>DBSetOption passwd=
 
   nmap <Space>mdlt <Plug>DBListTable<CR>
   nmap <Space>mdlv <Plug>DBListView
