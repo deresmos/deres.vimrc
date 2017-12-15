@@ -66,6 +66,8 @@ vnoremap x "_x
 nnoremap s "_s
 vnoremap s "_s
 
+set mouse=a
+
 set showcmd
 syntax on
 " install gvim
