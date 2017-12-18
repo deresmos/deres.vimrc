@@ -508,34 +508,6 @@ if filereadable(expand('~/.vim/conf.d/custom.vim'))
   execute 'source' '~/.vim/conf.d/custom.vim'
 endif
 
-function! DetectSpaceOrTab() abort "{{{
-  let max_line_num = 300
-  let space_name   = 'space'
-  let tab_name     = 'tab'
-
-  let buflines = getbufline(bufname('%'), 1, max_line_num)
-  let len_tab   = len(
-        \ filter(copy(buflines), "v:val =~# '^\\t'"))
-  let len_space = len(
-        \ filter(copy(buflines), "v:val =~# '^ '"))
-
-  let result = ''
-  if len_tab > len_space
-    setlocal noexpandtab
-    let result = tab_name
-  elseif len_tab < len_space
-    setlocal expandtab
-    let result = space_name
-  endif
-
-  return result
-endfunction
-
-augroup auto-detect-indent
-  autocmd!
-  autocmd BufReadPost * call DetectSpaceOrTab()
-augroup END "}}}
-
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
 function! s:DictionaryTranslate(...) abort
   let l:word = a:0 == 0 ? expand('<cword>') : a:1

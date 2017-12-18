@@ -616,7 +616,7 @@ hook_add = '''
   endfunction
 
   function! MyFileIndent() abort
-    return winwidth(0) > 100 ? DetectSpaceOrTab() : ''
+    return winwidth(0) > 100 ? spatab#GetDetectName() : ''
   endfunction
 
   function! MyFileformat() abort
@@ -872,6 +872,16 @@ hook_add = '''
 # google/vim-searchindex {{{2
 [[plugins]]
 repo = 'google/vim-searchindex'
+
+# deresmos/vim-spatab {{{2
+[[plugins]]
+repo = 'deresmos/vim-spatab'
+hook_add = '''
+  augroup vim-spatab
+    autocmd!
+    autocmd BufReadPost * STDetect
+  augroup END
+'''
 
 #}}}1 END plugins
 
@@ -1179,5 +1189,3 @@ hook_add = '''
 
 [[plugins]]
 repo = 'gregsexton/gitv'
-
-
