@@ -375,8 +375,8 @@ nnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
 nnoremap <silent> <SPACE>om :<C-u>MarkdownPreview<CR>
 
 xmap <SPACE>os <Plug>(openbrowser-smart-search)
-xnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
-xnoremap <silent> <SPACE>om :<C-u>MarkdownPreview<CR>
+xnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
+xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
 
 
 "U keybind {{{2
@@ -391,10 +391,10 @@ nnoremap <SPACE>vg :<C-u>vimgrep /\v/ %<Left><Left><Left>
 xnoremap <SPACE>vg :<C-u>vimgrep /\v<c-r><c-w>/ %
 
 "A keybind {{{2
-nnoremap <SPACE>al= vis:<C-u>EasyAlign*=<CR>
-xnoremap <SPACE>al= :<C-u>EasyAlign*=<CR>
-nnoremap <SPACE>al\| vis:<C-u>EasyAlign*\|<CR>
-xnoremap <SPACE>al\| :<C-u>EasyAlign*\|<CR>
+nnoremap <SPACE>al= vis:EasyAlign*=<CR>
+xnoremap <SPACE>al= :EasyAlign*=<CR>
+nnoremap <SPACE>al\| vis:EasyAlign*\|<CR>
+xnoremap <SPACE>al\| :EasyAlign*\|<CR>
 
 
 "E keybind {{{2
