@@ -341,9 +341,9 @@ nnoremap <silent> gV :vertical wincmd f<CR>
 "V keybind{{{2
 " vim fold keybind
 nnoremap <SPACE>vf :<C-u>call <SID>printFoldMarker(0, 0, 0)<CR>
-xnoremap <SPACE>vf :<C-u>call <SID>printFoldMarker(0, 0, 1)<CR>
+xnoremap <SPACE>vf :call <SID>printFoldMarker(0, 0, 1)<CR>
 nnoremap <SPACE>vF :<C-u>call <SID>printFoldMarker(1, 0, 0)<CR>
-xnoremap <SPACE>vF :<C-u>call <SID>printFoldMarker(1, 0, 1)<CR>
+xnoremap <SPACE>vF :call <SID>printFoldMarker(1, 0, 1)<CR>
 nnoremap <SPACE>vl :<C-u>call <SID>printFoldMarker(0, 1, 0)<CR>
 nnoremap <SPACE>vL :<C-u>call <SID>printFoldMarker(1, 1, 0)<CR>
 nnoremap <SPACE>vd zd
