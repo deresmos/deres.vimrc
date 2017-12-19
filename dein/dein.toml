@@ -877,6 +877,8 @@ repo = 'google/vim-searchindex'
 [[plugins]]
 repo = 'deresmos/vim-spatab'
 hook_add = '''
+  let g:spatab_count_mode = 0
+
   augroup vim-spatab
     autocmd!
     autocmd BufReadPost * STDetect
