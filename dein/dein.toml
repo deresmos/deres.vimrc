@@ -14,7 +14,7 @@ hook_add = '''
   augroup END
 '''
 
-# cohama/agit.vim {{{2
+# deresmos/agit.vim {{{2
 [[plugins]]
 repo = 'deresmos/agit.vim'
 hook_add = '''
