@@ -53,7 +53,8 @@ function! s:BlameStatusOpenTab() abort "{{{2
   setlocal buftype=nofile noswapfile modifiable nobuflisted filetype=diff
   nnoremap <buffer><silent> q :quit<CR>
 
-  silent execute 'read !cd' b:git_dir '&& git show' l:hash
+  silent execute 'read !cd' b:git_dir '&& git show' l:hash '| head -c 1000000'
+  normal! gg
 endfunction
 
 function! s:delEntry() range "{{{2
