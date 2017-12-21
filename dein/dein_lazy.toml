@@ -208,6 +208,18 @@ repo = 'tpope/vim-endwise'
 if = '''has('nvim')'''
 on_i = 1
 
+# metakirby5/codi.vim # {{{2
+[[plugins]]
+repo = 'metakirby5/codi.vim'
+if = '''has('nvim')'''
+on_ft = ['python', 'javascript', 'php']
+hook_add = '''
+  augroup my_codi
+    autocmd!
+    autocmd FileType python,javascript,php nnoremap <buffer><silent> <Space>mci :Codi<CR>
+  augroup END
+'''
+
 # }}}1
 
 # Markdown plugins {{{1
