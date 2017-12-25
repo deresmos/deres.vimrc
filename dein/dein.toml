@@ -47,7 +47,7 @@ hook_add = '''
     \ ]}
 
   let g:agit_diff_stat_cp932_pattern = [
-    \ 'B_dev'
+    \ 'toB'
     \ ]
 '''
 
