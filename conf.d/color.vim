@@ -10,7 +10,7 @@ function! MyHighlights()
     highlight DeniteCursorLine ctermfg=none ctermbg=237
     highlight DiffChange       ctermfg=none ctermbg=237
     highlight DiffText         ctermfg=197  ctermbg=237  cterm=bold,underline
-    highlight DiffAdd          ctermfg=none ctermbg=237
+    highlight DiffAdd          ctermfg=none ctermbg=2
     highlight DiffDelete       ctermfg=52   ctermbg=52
     highlight String           ctermfg=108  ctermbg=none
     highlight Function         ctermfg=73   ctermbg=none
