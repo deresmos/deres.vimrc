@@ -1028,6 +1028,13 @@ hook_add = '''
   let g:tagbar_map_openfold  = '<Space>vo'
   let g:tagbar_map_closefold = '<Space>vc'
 
+  let g:tagbar_type_dosini = {
+  \  'ctagstype': 'ini',
+  \  'kinds': [
+  \    's:Sections:1:1',
+  \  ]
+  \}
+
   let g:tagbar_type_css = {
   \  'ctagstype' : 'mycss',
   \  'kinds' : [
