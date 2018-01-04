@@ -7,6 +7,10 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
 
+# deresmos/denite-gitdiff {{{2
+[[plugins]]
+repo = 'deresmos/denite-gitdiff'
+
 # Shougo/denite.nvim {{{2
 [[plugins]]
 repo = 'Shougo/denite.nvim'
@@ -75,6 +79,19 @@ hook_source = '''
     \ 'fd',
     \ '<denite:leave_mode>',
     \ 'noremap')
+
+  call denite#custom#map(
+    \ 'insert',
+    \ '<C-d><C-t>',
+    \ '<denite:do_action:tabvdiff>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'insert',
+    \ '<C-d><C-m>',
+    \ '<denite:do_action:openvdiff>',
+    \ 'noremap')
+
   " }}}
 
   " custom color {{{
