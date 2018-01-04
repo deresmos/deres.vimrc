@@ -15,7 +15,7 @@ repo = 'deresmos/denite-gitdiff'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 if = '''has('python3')'''
-depends = ['neomru.vim', 'neoyank.vim']
+depends = ['neomru.vim', 'neoyank.vim', 'denite-gitdiff']
 hook_source = '''
   call denite#custom#option('default', 'prompt', '>')
 
