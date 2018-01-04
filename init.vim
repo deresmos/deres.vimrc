@@ -133,6 +133,8 @@ nnoremap <silent> <SPACE>dt :Denite tag<CR>
 nnoremap <silent> <SPACE>dp :Denite dein -default-action=open<CR>
 nnoremap <SPACE>df :<C-u>DictionaryTranslate<space>
 nnoremap <SPACE>dF :<C-u>DictionaryTranslate<CR>
+nnoremap <silent> <SPACE>dd :<C-u>Denite diffbranch -no-empty<CR>
+nnoremap <silent> <SPACE>dD :<C-u>Denite diffbranch:: -no-empty<CR>
 
 "L keybind{{{2
 xnoremap <silent> <SPACE>ld :Linediff<CR>
