@@ -10,6 +10,7 @@ repo = 'Shougo/neoyank.vim'
 # deresmos/denite-gitdiff {{{2
 [[plugins]]
 repo = 'deresmos/denite-gitdiff'
+rev = 'feature/gitdifflog'
 
 # Shougo/denite.nvim {{{2
 [[plugins]]
