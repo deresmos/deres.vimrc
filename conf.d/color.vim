@@ -8,9 +8,9 @@ function! MyHighlights()
     highlight TagbarSignature  ctermfg=none ctermfg=251
     highlight ZenSpace         ctermfg=none ctermbg=203
     highlight DeniteCursorLine ctermfg=none ctermbg=237
-    highlight DiffChange       ctermfg=none ctermbg=237
-    highlight DiffText         ctermfg=197  ctermbg=237  cterm=bold,underline
-    highlight DiffAdd          ctermfg=none ctermbg=237
+    highlight DiffChange       ctermfg=none ctermbg=17
+    highlight DiffText         ctermfg=none ctermbg=53
+    highlight DiffAdd          ctermfg=none ctermbg=22
     highlight DiffDelete       ctermfg=52   ctermbg=52
     highlight String           ctermfg=108  ctermbg=none
     highlight Function         ctermfg=73   ctermbg=none
