@@ -733,15 +733,6 @@ repo = 'cocopon/colorswatch.vim'
 [[plugins]]
 repo = 'guns/xterm-color-table.vim'
 
-# jeetsukumaran/vim-buffergator {{{2
-[[plugins]]
-repo = 'jeetsukumaran/vim-buffergator'
-hook_add = '''
-  let g:buffergator_viewport_split_policy = 'B'
-  let g:buffergator_split_size            = 15
-  let g:buffergator_sort_regime           = 'mru'
-'''
-
 # AndrewRadev/switch.vim {{{2
 [[plugins]]
 repo = 'AndrewRadev/switch.vim'
