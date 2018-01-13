@@ -27,6 +27,7 @@
 
 if !1 | finish | endif
 
+source ~/.vim/conf.d/basic.vim
 set shellslash
 set encoding=utf8
 "dein setting {{{1
@@ -70,7 +71,6 @@ filetype plugin indent on
 "}}}1
 
 "vim setting {{{1
-source ~/.vim/conf.d/basic.vim
 source ~/.vim/conf.d/color.vim
 source ~/.vim/conf.d/filetype.vim
 
