@@ -70,8 +70,20 @@ hook_source = '''
     \ 'noremap')
 
   call denite#custom#map(
+    \ 'normal',
+    \ 's',
+    \ '<denite:do_action:split>',
+    \ 'noremap')
+
+  call denite#custom#map(
     \ 'insert',
     \ '<C-v>',
+    \ '<denite:do_action:vsplit>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ 'v',
     \ '<denite:do_action:vsplit>',
     \ 'noremap')
 
@@ -88,9 +100,33 @@ hook_source = '''
     \ 'noremap')
 
   call denite#custom#map(
+    \ 'normal',
+    \ 'dt',
+    \ '<denite:do_action:tabvdiff>',
+    \ 'noremap')
+
+  call denite#custom#map(
     \ 'insert',
     \ '<C-d><C-m>',
     \ '<denite:do_action:openvdiff>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ 'dm',
+    \ '<denite:do_action:openvdiff>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'insert',
+    \ '<C-d><C-d>',
+    \ '<denite:do_action:delete>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ 'dd',
+    \ '<denite:do_action:delete>',
     \ 'noremap')
 
   " }}}
