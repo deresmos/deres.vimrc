@@ -248,7 +248,7 @@ nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
 " session keybind
 nnoremap <SPACE>ss :<C-u>SSave<Space>
 nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
-nnoremap <SPACE>sl :<C-u>SLoad<Space>
+nnoremap <silent> <SPACE>sl :<C-u>Denite session<CR>
 nnoremap <SPACE>sd :<C-u>SDelete<Space>
 nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>
 nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>

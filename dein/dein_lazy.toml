@@ -7,10 +7,13 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
 
-# deresmos/denite-gitdiff {{{2
+# rafi/vim-denite-session {{{2
 [[plugins]]
-repo = 'deresmos/denite-gitdiff'
-rev = 'feature/gitdifflog'
+repo = 'rafi/vim-denite-session'
+on_source = 'denite.nvim'
+hook_source = '''
+  call denite#custom#var('session', 'path', g:startify_session_dir)
+'''
 
 # Shougo/denite.nvim {{{2
 [[plugins]]
