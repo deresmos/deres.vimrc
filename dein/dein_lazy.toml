@@ -90,7 +90,7 @@ hook_source = '''
   call denite#custom#map(
     \ 'insert',
     \ 'fd',
-    \ '<denite:leave_mode>',
+    \ '<denite:enter_mode:normal>',
     \ 'noremap')
 
   call denite#custom#map(
