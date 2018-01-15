@@ -15,6 +15,12 @@ hook_source = '''
   call denite#custom#var('session', 'path', g:startify_session_dir)
 '''
 
+# deresmos/denite-gitdiff {{{2
+[[plugins]]
+repo = 'deresmos/denite-gitdiff'
+on_source = 'denite.nvim'
+rev = 'feature/gitdifflog'
+
 # Shougo/denite.nvim {{{2
 [[plugins]]
 repo = 'Shougo/denite.nvim'
