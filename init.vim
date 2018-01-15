@@ -126,7 +126,7 @@ nnoremap <silent> <SPACE>fp :Denite change<CR>
 nnoremap <silent> <SPACE>qr :<C-u>Qfreplace<CR>
 
 "D keybind{{{2
-nnoremap <silent> <SPACE>dl :Denite -resume -mode=insert<CR>
+nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
 nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
 nnoremap <silent> <SPACE>dt :Denite tag<CR>

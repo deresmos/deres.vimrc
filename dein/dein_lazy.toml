@@ -156,6 +156,7 @@ hook_source = '''
   call denite#custom#option('default', 'highlight_matched_char', 'Search')
   call denite#custom#option('default', 'highlight_mode_insert', 'DeniteCursorLine')
   call denite#custom#option('default', 'highlight_mode_normal', 'DeniteCursorLine')
+  call denite#custom#option('default', 'mode', 'normal')
   " }}}
 
   " custom command {{{
