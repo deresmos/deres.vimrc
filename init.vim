@@ -133,8 +133,6 @@ nnoremap <silent> <SPACE>dt :Denite tag<CR>
 nnoremap <silent> <SPACE>dp :Denite dein -default-action=open<CR>
 nnoremap <SPACE>df :<C-u>DictionaryTranslate<space>
 nnoremap <SPACE>dF :<C-u>DictionaryTranslate<CR>
-nnoremap <silent> <SPACE>dd :<C-u>Denite gitdiffbranch -no-empty<CR>
-nnoremap <silent> <SPACE>dD :<C-u>Denite gitdiffbranch:: -no-empty<CR>
 
 "L keybind{{{2
 xnoremap <silent> <SPACE>ld :Linediff<CR>
@@ -207,7 +205,7 @@ nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
 "G keybind{{{2
 " fugitive keybind
 nnoremap <silent> <SPACE>gs :<C-u>Gstatus<CR>
-nnoremap <silent> <SPACE>gd :<C-u>Gvdiff<CR>
+nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
 nnoremap <silent> <SPACE>gC :<C-u>Git commit<CR>
 
@@ -240,6 +238,11 @@ nnoremap <silent> <SPACE>gip :<C-u>Gist --private<CR>
 nnoremap <silent> <SPACE>giP :<C-u>Gist --public<CR>
 nnoremap <silent> <SPACE>gia :<C-u>Gist --anonymous<CR>
 nnoremap <SPACE>gis :<C-u>Gist --description<space>
+
+nnoremap <silent> <SPACE>gdb :<C-u>Denite gitdiffbranch -no-empty<CR>
+nnoremap <silent> <SPACE>gdD :<C-u>Denite gitdiffbranch:: -no-empty<CR>
+nnoremap <silent> <SPACE>gdl :<C-u>Denite gitdiffbranch -no-empty<CR>
+nnoremap <silent> <SPACE>gdL :<C-u>Denite gitdiffbranch:: -no-empty<CR>
 
 "V keybind{{{2
 nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
