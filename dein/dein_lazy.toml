@@ -31,6 +31,12 @@ hook_source = '''
 
   " custom mapping {{{
   call denite#custom#map(
+    \ 'normal',
+    \ 'l',
+    \ '<denite:do_action:default>',
+    \ 'noremap')
+
+  call denite#custom#map(
     \ 'insert',
     \ '<C-j>',
     \ '<denite:move_to_next_line>',
