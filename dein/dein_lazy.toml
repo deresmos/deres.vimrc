@@ -134,6 +134,18 @@ hook_source = '''
 
   call denite#custom#map(
     \ 'insert',
+    \ '<C-f><C-m>',
+    \ '<denite:do_action:branch_log>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ 'fm',
+    \ '<denite:do_action:branch_log>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'insert',
     \ '<C-d><C-d>',
     \ '<denite:do_action:delete>',
     \ 'noremap')
