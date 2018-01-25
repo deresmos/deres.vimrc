@@ -19,7 +19,6 @@ hook_source = '''
 [[plugins]]
 repo = 'deresmos/denite-gitdiff'
 on_source = 'denite.nvim'
-rev = 'feature/gitdifflog'
 
 # Shougo/denite.nvim {{{2
 [[plugins]]
