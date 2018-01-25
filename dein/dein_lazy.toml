@@ -37,6 +37,18 @@ hook_source = '''
     \ 'noremap')
 
   call denite#custom#map(
+    \ 'normal',
+    \ 'gj',
+    \ '<denite:jump_to_next_by:path>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ 'gk',
+    \ '<denite:jump_to_previous_by:path>',
+    \ 'noremap')
+
+  call denite#custom#map(
     \ 'insert',
     \ '<C-j>',
     \ '<denite:move_to_next_line>',
