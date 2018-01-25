@@ -240,9 +240,11 @@ nnoremap <silent> <SPACE>gia :<C-u>Gist --anonymous<CR>
 nnoremap <SPACE>gis :<C-u>Gist --description<space>
 
 nnoremap <silent> <SPACE>gdb :<C-u>Denite gitdiffbranch -no-empty<CR>
-nnoremap <silent> <SPACE>gdD :<C-u>Denite gitdiffbranch:: -no-empty<CR>
+nnoremap <silent> <SPACE>gdB :<C-u>Denite gitdiffbranch:: -no-empty<CR>
 nnoremap <silent> <SPACE>gdl :<C-u>Denite gitdifflog -no-empty<CR>
 nnoremap <silent> <SPACE>gdL :<C-u>Denite gitdifflog:: -no-empty<CR>
+nnoremap <silent> <SPACE>gdf :<C-u>Denite gitdifflog:input:::`expand('%:p')` -no-empty<CR>
+nnoremap <silent> <SPACE>gdF :<C-u>Denite gitdifflog::::`expand('%:p')` -no-empty<CR>
 
 "V keybind{{{2
 nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
