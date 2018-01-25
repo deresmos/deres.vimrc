@@ -208,7 +208,7 @@ hook_source = '''
     \ '.DS_Store', '*.pyc', '*.sw[po]',
     \ '.hg/', '.git/', '.bzr/', '.svn/',
     \ 'node_modules/', 'bower_components/', 'vendor/ruby',
-    \ '.idea/'])
+    \ '.idea/', '.tags'])
   "}}}
   " https://qiita.com/hrsh7th@github/items/303d46ba13532c502828 {{{
   function! DeniteQfreplace(context)
