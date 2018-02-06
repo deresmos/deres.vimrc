@@ -876,6 +876,10 @@ hook_add = '''
   augroup END
 '''
 
+# andreshazard/vim-logreview {{{2
+[[plugins]]
+repo = 'andreshazard/vim-logreview'
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
