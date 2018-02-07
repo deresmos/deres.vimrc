@@ -10,6 +10,7 @@ endif
 let s:undo_dir = g:vim_dir. '/undo'
 let s:view_dir = g:vim_dir. '/view'
 let g:startify_session_dir = g:vim_dir. '/session'
+set sessionoptions=buffers,curdir,folds,help,winsize,tabpages,slash,unix
 
 function! s:makeDirectory(dir_path) abort "{{{
   if !isdirectory(a:dir_path)
