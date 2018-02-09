@@ -47,7 +47,8 @@ hook_add = '''
     \ ]}
 
   let g:agit_diff_stat_cp932_pattern = [
-    \ 'B_dev'
+    \ 'B_dev',
+    \ 'toB'
     \ ]
 '''
 
@@ -868,7 +869,7 @@ repo = 'google/vim-searchindex'
 [[plugins]]
 repo = 'deresmos/vim-spatab'
 hook_add = '''
-  let g:spatab_count_mode = 0
+  let g:spatab_count_mode = 1
 
   augroup vim-spatab
     autocmd!
