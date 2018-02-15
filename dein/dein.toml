@@ -55,6 +55,7 @@ hook_add = '''
 # airblade/vim-gitgutter {{{2
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
+rev = '850e947'
 hook_add = '''
   let g:gitgutter_sign_added            = '+'
   let g:gitgutter_sign_modified         = '~'
