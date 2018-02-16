@@ -385,6 +385,11 @@ xmap <SPACE>os <Plug>(openbrowser-smart-search)
 xnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
 xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
 
+nnoremap <SPACE>op :<C-u>call ShowOptions()<CR>
+function! ShowOptions()
+  echo 'g:denite_cwd: ' . g:denite_cwd
+  echo 'g:gitgutter_diff_base: ' . g:gitgutter_diff_base
+endfunction
 
 "U keybind {{{2
 nnoremap <silent> <SPACE>up :<C-u>call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
@@ -408,13 +413,6 @@ xnoremap <SPACE>al\| :EasyAlign*\|<CR>
 nmap <SPACE>ej <Plug>(ale_next)zz
 nmap <SPACE>ek <Plug>(ale_previous)zz
 nmap <SPACE>et <Plug>(ale_toggle)
-
-"O keybind {{{2
-nnoremap <SPACE>op :<C-u>call ShowOptions()<CR>
-function! ShowOptions()
-  echo 'g:denite_cwd: ' . g:denite_cwd
-  echo 'g:gitgutter_diff_base: ' . g:gitgutter_diff_base
-endfunction
 
 "nvim only keybind{{{2
 if has('nvim')
