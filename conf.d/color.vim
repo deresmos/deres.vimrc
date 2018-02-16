@@ -2,7 +2,7 @@ function! MyHighlights()
   if g:colors_name ==# 'hybrid'
     highlight Search           ctermfg=197  ctermbg=none cterm=bold,underline
     highlight IncSearch        ctermfg=197  ctermbg=235  cterm=bold,underline
-    highlight Folded           ctermfg=167  ctermbg=235  cterm=bold
+    highlight Folded           ctermfg=34   ctermbg=235  cterm=bold
     highlight LineNr           ctermfg=242  ctermbg=235
     highlight CursorLineNr     ctermfg=221  ctermbg=235
     highlight TagbarSignature  ctermfg=none ctermfg=251
