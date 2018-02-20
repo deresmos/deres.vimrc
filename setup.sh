@@ -21,6 +21,5 @@ ln -sf ${conf_dir}/color.vim $vim_conf_dir/
 ln -sf ${conf_dir}/filetype.vim $vim_conf_dir/
 ln -sf ${dir}/.ideavimrc $HOME/
 ln -sf ${dir}/init.vim $nvim_dir/
-ln -sf ${conf_dir}/custom.vim $vim_conf_dir/
 ln -sf ${dir}/dein/dein.toml $nvim_dein_dir/
 ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir/
