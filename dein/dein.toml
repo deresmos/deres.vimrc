@@ -689,6 +689,10 @@ hook_add = '''
   let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
   let g:QFixHowm_RecentMode      = 2
   let g:qfixmemo_folding_pattern = '^=[^=]'
+
+  function! QFixMemoBufRead()
+    setlocal foldenable
+  endfunction
 '''
 
 # haya14busa/incsearch.vim {{{2
