@@ -240,12 +240,12 @@ noremap <S-k> {
 noremap } <S-j>
 noremap { <S-k>
 nnoremap Q <Nop>
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
+noremap n nzz
+noremap N Nzz
+noremap * *zz
+noremap # #zz
 nnoremap <leader> <Nop>
-nnoremap <Space>; /
+noremap <Space>; /
 nnoremap <Space>+ /\C<LEFT><LEFT>
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
