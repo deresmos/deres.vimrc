@@ -258,13 +258,21 @@ nnoremap Y y$
 nnoremap <silent> <Space>fR :<C-u>source $MYVIMRC<CR>
 
 omap iq i'
+xmap iq i'
 omap iQ i"
+xmap iQ i"
 omap aq a'
+xmap aq a'
 omap aQ a"
+xmap aQ a"
 omap fq f'
+xmap fq f'
 omap fQ f"
+xmap fQ f"
 omap tq t'
+xmap tq t'
 omap tQ t"
+xmap tQ t"
 
 nnoremap <Space><Space> :
 
