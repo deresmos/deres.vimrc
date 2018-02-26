@@ -293,6 +293,7 @@ nnoremap <silent> <SPACE>rn :<C-u>Renamer<CR>
 nnoremap <silent> <SPACE>rs :<C-u>Ren<CR>
 
 nnoremap q <Nop>
+xnoremap q <Nop>
 nnoremap <silent> <SPACE>rc q
 
 "J keybind {{{2
