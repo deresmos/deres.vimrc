@@ -567,6 +567,8 @@ function! CloseUnloadedBuffers() abort "{{{
   let l:multi = 'buffers deleted'
   echomsg l:delete_count l:delete_count <= 1 ? l:single : l:multi
 endfunction
+
+nnoremap <silent> <Space>bQ :call CloseUnloadedBuffers()<CR>
 "}}}
 
 function! s:NaspHelp(...) abort "{{{
