@@ -641,18 +641,3 @@ function! g:GetVisualSelectionESC() abort "{{{
   let word = getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
   return substitute(word, '[()[\]]', '\\\0', 'g')
 endfunction "}}}
-
-"Codi commands {{{
-command! -nargs=? CodiPython     call s:Codi('py',  <f-args>)
-command! -nargs=? CodiJavaScript call s:Codi('js',  <f-args>)
-command! -nargs=? CodiPHP        call s:Codi('php', <f-args>)
-
-function! s:Codi(...) abort
-  let edit = 'tabedit'
-  if a:0 > 1
-    let edit = a:2
-  endif
-
-  execute edit '$HOME/.scratch.' . a:1
-  execute 'Codi'
-endfunction "}}}
