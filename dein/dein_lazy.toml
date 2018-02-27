@@ -2,10 +2,12 @@
 # Shougo/neomru.vim {{{2
 [[plugins]]
 repo = 'Shougo/neomru.vim'
+on_source = 'denite.nvim'
 
 # Shougo/neoyank.vim {{{2
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
+on_source = 'denite.nvim'
 
 # rafi/vim-denite-session {{{2
 [[plugins]]
@@ -24,7 +26,6 @@ on_source = 'denite.nvim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 if = '''has('python3')'''
-depends = ['neomru.vim', 'neoyank.vim', 'denite-gitdiff']
 hook_source = '''
   call denite#custom#option('default', 'prompt', '>')
 
