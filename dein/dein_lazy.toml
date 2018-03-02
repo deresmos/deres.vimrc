@@ -222,7 +222,7 @@ hook_source = '''
     endfor
 
     call setqflist(qflist)
-    call qfreplace#start('')
+    call qfreplace#start('tabnew')
   endfunction
 
   call denite#custom#action('file', 'qfreplace', function('DeniteQfreplace'))

@@ -123,7 +123,7 @@ nnoremap <silent> <SPACE>fj :Denite jump<CR>
 nnoremap <silent> <SPACE>fp :Denite change<CR>
 
 "Q keybind{{{2
-nnoremap <silent> <SPACE>qr :<C-u>Qfreplace<CR>
+nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
