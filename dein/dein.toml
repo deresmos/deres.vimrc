@@ -894,6 +894,13 @@ hook_add = '''
 [[plugins]]
 repo = 'andreshazard/vim-logreview'
 
+# rhysd/git-messenger.vim {{{2
+[[plugins]]
+repo = 'rhysd/git-messenger.vim'
+hook_add = '''
+  nmap <Space>gid <Plug>(git-messenger-commit-message)
+'''
+
 #}}}1 END plugins
 
 # Programing plugins {{{1
@@ -1202,9 +1209,3 @@ hook_add = '''
 
 [[plugins]]
 repo = 'gregsexton/gitv'
-
-[[plugins]]
-repo = 'rhysd/git-messenger.vim'
-hook_add = '''
-  nmap <Space>gid <Plug>(git-messenger-commit-message)
-'''
