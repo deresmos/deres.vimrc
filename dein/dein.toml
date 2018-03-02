@@ -699,24 +699,24 @@ hook_add = '''
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
 hook_add = '''
-  nmap /  <Plug>(incsearch-forward)
-  nmap g/ <Plug>(incsearch-stay)
+  map /  <Plug>(incsearch-forward)
+  map g/ <Plug>(incsearch-stay)
 '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-fuzzy.vim'
 hook_add = '''
-  nmap z/ <Plug>(incsearch-fuzzy-/)
-  nmap zg/ <Plug>(incsearch-fuzzy-stay)
-  nmap zs/ <Plug>(incsearch-fuzzyspell-/)
-  nmap zsg/ <Plug>(incsearch-fuzzyspell-stay)
+  nmap <Space>z;   <Plug>(incsearch-fuzzy-/)
+  nmap <Space>zg;  <Plug>(incsearch-fuzzy-stay)
+  nmap <Space>zs;  <Plug>(incsearch-fuzzyspell-/)
+  nmap <Space>zsg; <Plug>(incsearch-fuzzyspell-stay)
 '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-migemo.vim'
 hook_add = '''
-  nmap m/ <Plug>(incsearch-migemo-/)
-  nmap mg/ <Plug>(incsearch-migemo-stay)
+  nmap <Space>m;  <Plug>(incsearch-migemo-/)
+  nmap <Space>mg; <Plug>(incsearch-migemo-stay)
 '''
 
 # mhinz/neovim-remote {{{2
@@ -870,8 +870,6 @@ hook_add = '''
 [[plugins]]
 repo = 'google/vim-searchindex'
 hook_add = '''
-  map / /<Plug>SearchIndex
-
   map <silent> n  nzz<Plug>SearchIndex
   map <silent> N  Nzz<Plug>SearchIndex
   map <silent> *  <Plug>ImprovedStar_*zz<Plug>SearchIndex

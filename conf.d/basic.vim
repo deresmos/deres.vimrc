@@ -245,7 +245,8 @@ noremap N Nzz
 noremap * *zz
 noremap # #zz
 nnoremap <leader> <Nop>
-noremap <Space>; /
+map <Space>; /
+map <Space>g; g/
 nnoremap <Space>+ /\C<LEFT><LEFT>
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
