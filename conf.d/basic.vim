@@ -342,6 +342,9 @@ nnoremap <silent> <SPACE>wJ <c-w>J
 nnoremap <silent> <SPACE>wK <c-w>K
 nnoremap <silent> <SPACE>wP <c-w>\|<c-w>_
 
+nnoremap <silent> <SPACE>wtl :call MoveWindow('+', 'vsplit')<CR>
+nnoremap <silent> <SPACE>wth :call MoveWindow('-', 'vsplit')<CR>
+
 "G keybind{{{2
 nnoremap gF <C-w>gf
 nnoremap <silent> gS :wincmd f<CR>
@@ -411,3 +414,40 @@ nnoremap <silent> <SPACE>ma `azz
 nnoremap <silent> <SPACE>mA :mark a<CR>
 nnoremap <silent> <SPACE>mf `fzz
 nnoremap <silent> <SPACE>mF :mark f<CR>
+
+"functions {{{1
+function! MoveWindow(moveto, cmd_sp) "{{{
+  let l:tab_nr = tabpagenr('$')
+  let l:win_nr = winnr('$')
+
+  " There is no processing
+  if l:tab_nr == 1 && l:win_nr == 1
+    return
+  endif
+
+  if (a:moveto == '-') && (l:win_nr == 1) && (tabpagenr() == 1)
+    return
+  endif
+
+  if (a:moveto == '+') && (l:win_nr == 1) && (tabpagenr() == l:tab_nr)
+    return
+  endif
+
+  " main process
+  let l:cur_buf = bufnr('%')
+  let l:is_left_ok = (a:moveto ==# '-' && tabpagenr() != 1)
+  let l:is_right_ok = (a:moveto ==# '+' && tabpagenr() < tab_nr)
+
+  close!
+  if l:is_left_ok || l:is_right_ok
+    if l:tab_nr == tabpagenr('$')
+      execute a:moveto ==# '+' ? 'tabnext' : 'tabprev'
+    endif
+
+    execute a:cmd_sp
+  else
+    execute a:moveto ==# '+' ? 'tabnew' : '0tabnew'
+  endif
+
+  execute 'b' . l:cur_buf
+endfunction
