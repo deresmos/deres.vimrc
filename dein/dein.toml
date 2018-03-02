@@ -874,10 +874,10 @@ hook_add = '''
 
   map <silent> n  nzz<Plug>SearchIndex
   map <silent> N  Nzz<Plug>SearchIndex
-  map <silent> *  *zz<Plug>SearchIndex
-  map <silent> #  #zz<Plug>SearchIndex
-  map <silent> g* g*zz<Plug>SearchIndex
-  map <silent> g# g#zz<Plug>SearchIndex
+  map <silent> *  <Plug>ImprovedStar_*zz<Plug>SearchIndex
+  map <silent> #  <Plug>ImprovedStar_#zz<Plug>SearchIndex
+  map <silent> g* <Plug>ImprovedStar_g*zz<Plug>SearchIndex
+  map <silent> g# <Plug>ImprovedStar_g#zz<Plug>SearchIndex
 '''
 
 # deresmos/vim-spatab {{{2
