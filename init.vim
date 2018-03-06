@@ -550,7 +550,7 @@ endfunction
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
 nnoremap <SPACE>tr :DictionaryTranslate<space>
 nnoremap <SPACE>tR :DictionaryTranslate<CR>
-nnoremap <silent> <SPACE>otl :call OpenTranslateTab()<CR>
+nnoremap <silent> <SPACE>otl :<C-u>call OpenTranslateTab()<CR>
 " }}}
 
 function! CloseUnloadedBuffers() abort "{{{
