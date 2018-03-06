@@ -260,9 +260,9 @@ nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>
 
 "H keybind{{{2
 nnoremap <silent> <SPACE>hc :<C-u>call qfixmemo#Calendar()<CR>
-nnoremap <silent> <SPACE>hm :<C-u>call qfixmemo#EditDiary('memo')<CR>
-nnoremap <silent> <SPACE>hs :<C-u>call qfixmemo#EditDiary('schedule')<CR>
-nnoremap <silent> <SPACE>ht :<C-u>call qfixmemo#EditDiary(g:qfixmemo_diary)<CR>
+nnoremap <silent> <SPACE>hm :<C-u>tabnew<CR>:call qfixmemo#EditDiary('memo')<CR>
+nnoremap <silent> <SPACE>hs :<C-u>tabnew<CR>:call qfixmemo#EditDiary('schedule')<CR>
+nnoremap <silent> <SPACE>ht :<C-u>tabnew<CR>:call qfixmemo#EditDiary(g:qfixmemo_diary)<CR>
 nnoremap <silent> <SPACE>hg :<C-u>call qfixmemo#FGrep()<CR>
 nnoremap <silent> <SPACE>hid :<C-u>call qfixmemo#InsertDate('date')<CR>
 nnoremap <silent> <SPACE>hit :<C-u>call qfixmemo#InsertDate('time')<CR>
