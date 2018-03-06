@@ -550,6 +550,7 @@ endfunction
 command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
 nnoremap <SPACE>tr :DictionaryTranslate<space>
 nnoremap <SPACE>tR :DictionaryTranslate<CR>
+nnoremap <silent> <SPACE>otl :call OpenTranslateTab()<CR>
 " }}}
 
 function! CloseUnloadedBuffers() abort "{{{
@@ -642,4 +643,47 @@ endfunction "}}}
 function! g:GetVisualSelectionESC() abort "{{{
   let word = getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
   return substitute(word, '[()[\]]', '\\\0', 'g')
+endfunction "}}}
+
+" OpenTranslateTab functions {{{
+function! g:OpenTranslateTab() abort
+  " Left JA Window
+  tabnew Translate-JAtoEN
+  setlocal buftype=nofile nobuflisted noswapfile modifiable
+  setlocal filetype=trans-ja
+  nnoremap <buffer><silent> q :tabclose<CR>
+  nnoremap <silent><buffer> <Space>otl :call <SID>updateTranslateWindow()<CR>
+
+  " Right EN Window
+  vnew Translate-ENtoJA
+  setlocal buftype=nofile nobuflisted noswapfile modifiable
+  setlocal filetype=trans-en
+  nnoremap <buffer><silent> q :tabclose<CR>
+  nnoremap <silent><buffer> <Space>otl :call <SID>updateTranslateWindow()<CR>
+
+  " Cursor is JA window
+  wincmd p
+endfunction
+
+function! s:setTranslateResult(from, to) abort
+  let l:contents = join(getline(1, line('$')), "\\\n")
+  let l:contents = substitute(l:contents, '"', '\\\"', 'g')
+  
+  let l:cmd = 'read! trans ' . a:from . ':' . a:to . 
+    \' -b -no-auto -no-warn -no-ansi -e google'
+
+  wincmd p
+  %delete
+  execute l:cmd '"' l:contents . '"'
+  1.1delete
+  wincmd p
+endfunction
+
+function! s:updateTranslateWindow() abort
+  let l:ft = &filetype
+  if l:ft ==# 'trans-ja'
+    call s:setTranslateResult('ja', 'en')
+  elseif l:ft ==# 'trans-en'
+    call s:setTranslateResult('en', 'ja')
+  endif
 endfunction "}}}
