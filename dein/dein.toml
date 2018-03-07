@@ -526,19 +526,15 @@ hook_add = '''
   endfunction
 
   function! MyTabFilenameActive(n) abort
-    return s:MyTabFilename(a:n, 13)
+    return s:MyTabFilename(a:n, 20) . ' <'
   endfunction
 
   function! MyTabFilenameInactive(n) abort
-    return s:MyTabFilename(a:n, 6)
+    return s:MyTabFilename(a:n, 12)
   endfunction
 
   function! MyTabNumActive(n) abort
-    return '<' . a:n . '>'
-  endfunction
-
-  function! MyTabNumInactive(n) abort
-    return '[' . a:n . ']'
+    return '>'
   endfunction
 
   let s:p = g:lightline#colorscheme#wombat#palette
