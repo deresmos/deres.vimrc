@@ -19,6 +19,7 @@ function! MyHighlights()
     highlight Boolean          ctermfg=197  ctermbg=none
     highlight Statement        ctermfg=173  ctermbg=none
     highlight vimHighlight     ctermfg=166  ctermbg=none
+    highlight VertSplit        ctermfg=244  ctermbg=none
   endif
 endfunction
 
