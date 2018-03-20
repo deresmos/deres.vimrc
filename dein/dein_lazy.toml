@@ -375,6 +375,8 @@ hook_add = '''
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['pyls'],
   \ }
+'''
+hook_source = '''
   let g:LanguageClient_diagnosticsEnable = 0
   nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
   nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
