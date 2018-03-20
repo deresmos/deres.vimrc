@@ -319,6 +319,17 @@ hook_source = '''
   call deoplete#custom#set('buffer', 'min_pattern_length', 1)
   call deoplete#custom#source('tag', 'rank', 1000)
   call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
+
+  if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+  endif
+  let g:deoplete#omni#input_patterns.stylus = ['\w+', '\w+[):; ]?\s+\w*', '[@!]']
+  let g:deoplete#omni#input_patterns.vue = ['\w+', '\w+[):;]?\s+\w*', '[@!]']
+
+  if !exists('g:deoplete#omni#functions')
+    let g:deoplete#omni#functions = {}
+  endif
+  let g:deoplete#omni#functions.vue = ['stylcomplete#CompleteStyl']
 '''
 
 # elzr/vim-json {{{2
@@ -582,7 +593,17 @@ hook_source = '''
 
 # }}}1
 
-# posva/vim-vue # {{{2
+# posva/vim-vue # {{{1
 [[plugins]]
 repo = 'posva/vim-vue'
 on_ft = 'vue'
+
+# iloginow/vim-stylus # {{{1
+[[plugins]]
+repo = 'iloginow/vim-stylus'
+on_ft = ['stylus', 'vue']
+hook_add = '''
+  let g:quickrun_config['stylus'] = {
+    \ 'command': 'stylus', 'exec': ['%c < %s']
+  \ }
+'''
