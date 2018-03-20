@@ -510,7 +510,6 @@ hook_add = '''
     \   'tabfilename_active':   'MyTabFilenameActive',
     \   'tabfilename_inactive': 'MyTabFilenameInactive',
     \   'tabnum_active':        'MyTabNumActive',
-    \   'tabnum_inactive':      'MyTabNumInactive',
     \ },
     \ 'tab': {
     \   'active':   ['tabnum_active',   'tabfilename_active',   'modified'],
