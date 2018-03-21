@@ -641,8 +641,6 @@ hook_add = '''
   function! s:precious()
       augroup my-precious
           autocmd!
-          autocmd InsertEnter <buffer> :PreciousSwitch
-          autocmd InsertLeave <buffer> :PreciousReset
           autocmd CursorMoved <buffer> :PreciousSwitch
       augroup END
   endfunction
