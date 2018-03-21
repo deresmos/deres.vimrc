@@ -600,7 +600,7 @@ on_ft = 'vue'
 
 # iloginow/vim-stylus # {{{1
 [[plugins]]
-repo = 'iloginow/vim-stylus'
+repo = 'deresmos/vim-stylus'
 on_ft = ['stylus', 'vue']
 hook_add = '''
   let g:quickrun_config['stylus'] = {
