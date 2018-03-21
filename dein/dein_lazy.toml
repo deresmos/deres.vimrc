@@ -379,20 +379,28 @@ hook_source = '''
 [[plugins]]
 repo = 'autozimu/LanguageClient-neovim'
 build = 'bash install.sh'
-on_ft  = ['vue', 'javascript', 'python']
+on_ft  = ['vue', 'javascript', 'python', 'php']
 hook_add = '''
+  function! s:lsp()
+    nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
+    nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
+    nnoremap <buffer><silent> <Space>md  :call LanguageClient_textDocument_hover()<CR>
+    nnoremap <buffer><silent> <Space>mu  :call LanguageClient_textDocument_references()<CR>
+  endfunction
+
+  augroup my-lsp-cmd
+    autocmd!
+    autocmd FileType vue,javascript,python,php :call s:lsp()
+  augroup END
+'''
+hook_source = '''
+  let g:LanguageClient_diagnosticsEnable = 0
   let g:LanguageClient_serverCommands = {
     \ 'vue': ['vls'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['pyls'],
+    \ 'php': ['php', '~/.config/composer/php-language-server/bin/php-language-server.php'],
   \ }
-'''
-hook_source = '''
-  let g:LanguageClient_diagnosticsEnable = 0
-  nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
-  nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
-  nnoremap <buffer><silent> <Space>md  :call LanguageClient_textDocument_hover()<CR>
-  nnoremap <buffer><silent> <Space>mu  :call LanguageClient_textDocument_references()<CR>
 '''
 
 # }}}1
