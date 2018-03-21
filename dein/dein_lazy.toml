@@ -607,3 +607,49 @@ hook_add = '''
     \ 'command': 'stylus', 'exec': ['%c < %s']
   \ }
 '''
+
+# cespare/vim-toml # {{{1
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+# osyo-manga/vim-precious # {{{1
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+on_ft = ['vue', 'toml']
+hook_source = '''
+  let g:precious_enable_switch_CursorMoved_i = {'*': 0}
+  let g:precious_enable_switch_CursorHold    = {'*': 0}
+
+	omap <buffer> ic <Plug>(textobj-precious-i)
+	vmap <buffer> ic <Plug>(textobj-precious-i)
+	nmap <buffer><silent> <Space>mcC <Plug>(precious-quickrun-op)ic
+
+	let g:precious_enable_switchers = {
+    \	'*':    {'setfiletype': 0},
+    \	'toml': {'setfiletype': 1},
+    \	'html': {'setfiletype': 1},
+    \	'vue':  {'setfiletype': 1},
+	\ }
+'''
+hook_post_source = '''
+  augroup precious-augroup
+    autocmd!
+  augroup END
+'''
+hook_add = '''
+  function! s:precious()
+      augroup my-precious
+          autocmd!
+          autocmd InsertEnter <buffer> :PreciousSwitch
+          autocmd InsertLeave <buffer> :PreciousReset
+          autocmd CursorMoved <buffer> :PreciousSwitch
+      augroup END
+  endfunction
+
+  augroup my-precious-cmd
+    autocmd!
+    autocmd FileType vue,toml call s:precious()
+    autocmd BufEnter,BufWinEnter *.vue,*.toml call s:precious()
+  augroup END
+'''
