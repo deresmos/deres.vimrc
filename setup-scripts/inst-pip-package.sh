@@ -1,4 +1,5 @@
 #! /bin/bash
+pip instal -U pip
 
 pip install -U \
   yapf \
