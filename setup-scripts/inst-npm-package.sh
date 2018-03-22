@@ -10,3 +10,5 @@ npm install -g \
   vue-language-server \
   javascript-typescript-langserver \
   stylus \
+  pug \
+  pug-cli \
