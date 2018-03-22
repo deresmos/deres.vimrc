@@ -656,3 +656,12 @@ hook_add = '''
     autocmd BufEnter,BufWinEnter *.vue,*.toml call s:precious()
   augroup END
 '''
+
+# digitaltoad/vim-pug # {{{1
+[[plugins]]
+repo = 'digitaltoad/vim-pug'
+hook_add = '''
+  let g:quickrun_config['pug'] = {
+    \ 'command': 'pug', 'cmdopt': '--pretty', 'exec': ['%c %o < %s']
+  \ }
+'''
