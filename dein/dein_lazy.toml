@@ -664,4 +664,9 @@ hook_add = '''
   let g:quickrun_config['pug'] = {
     \ 'command': 'pug', 'cmdopt': '--pretty', 'exec': ['%c %o < %s']
   \ }
+
+  augroup my-pug-augroup
+    autocmd!
+    autocmd FileType pug setlocal syntax=css
+  augroup END
 '''
