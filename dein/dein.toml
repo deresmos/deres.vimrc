@@ -1212,7 +1212,4 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'roxma/nvim-yarp'
-
-[[plugins]]
 repo = 'Shougo/context_filetype.vim'
