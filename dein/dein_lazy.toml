@@ -626,11 +626,6 @@ on_ft = ['vue', 'toml']
 hook_source = '''
   let g:precious_enable_switch_CursorMoved_i = {'*': 0}
   let g:precious_enable_switch_CursorHold    = {'*': 0}
-
-	omap <buffer> ic <Plug>(textobj-precious-i)
-	vmap <buffer> ic <Plug>(textobj-precious-i)
-	nmap <buffer><silent> <Space>mcC <Plug>(precious-quickrun-op)ic
-
 	let g:precious_enable_switchers = {
     \	'*':    {'setfiletype': 0},
     \	'toml': {'setfiletype': 1},
@@ -645,10 +640,14 @@ hook_post_source = '''
 '''
 hook_add = '''
   function! s:precious()
-      augroup my-precious
-          autocmd!
-          autocmd CursorMoved <buffer> :PreciousSwitch
-      augroup END
+    augroup my-precious
+      autocmd!
+      autocmd CursorMoved <buffer> :PreciousSwitch
+    augroup END
+
+    omap <buffer> ic <Plug>(textobj-precious-i)
+    vmap <buffer> ic <Plug>(textobj-precious-i)
+    nmap <buffer><silent> <Space>mcC <Plug>(precious-quickrun-op)ic
   endfunction
 
   augroup my-precious-cmd
