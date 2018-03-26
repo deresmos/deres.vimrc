@@ -1213,3 +1213,22 @@ hook_add = '''
 
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  let g:indent_guides_guide_size            = 1
+  let g:indent_guides_start_level           = 2
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_enable_on_vim_startup = 0
+  nnoremap <silent> <Space>tsL :IndentGuidesToggle<CR>
+
+  let g:indent_guides_exclude_filetypes = [
+    \ 'help',
+    \ 'nerdtree',
+    \ 'tagbar',
+    \ 'nvim-term',
+    \ 'nvim-term-t',
+  \ ]
+
+'''
