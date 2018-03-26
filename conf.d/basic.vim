@@ -26,6 +26,9 @@ call s:makeDirectory(&undodir)
 filetype plugin on
 set ambiwidth=double
 
+set iskeyword+=$
+set iskeyword+=-
+
 set noshowmode
 if exists('&ambw')
   set ambiwidth=double
