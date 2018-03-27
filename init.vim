@@ -75,6 +75,7 @@ source ~/.vim/conf.d/color.vim
 source ~/.vim/conf.d/filetype.vim
 
 colorscheme hybrid
+set guicursor=n:blinkon1
 
 set scrollback=100000
 
