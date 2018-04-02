@@ -936,7 +936,7 @@ hook_add = '''
   let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
 
   let g:ale_linters = {
-    \ 'python': ['flake8', 'pylint'],
+    \ 'python': ['flake8', 'pylint', 'mypy'],
     \ 'javascript': ['eslint'],
     \ 'php': ['phpcs'],
     \ 'css': ['stylelint'],
