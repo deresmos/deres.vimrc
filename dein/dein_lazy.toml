@@ -546,6 +546,8 @@ hook_source = '''
     autocmd!
     autocmd FileType go setlocal completeopt-=preview
   augroup END
+
+  let g:go_metalinter_autosave = 0
 '''
 
 # zchee/deoplete-go # {{{2
