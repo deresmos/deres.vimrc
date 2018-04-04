@@ -12,3 +12,4 @@ npm install -g \
   stylus \
   pug \
   pug-cli \
+  sql-formatter-cli \
