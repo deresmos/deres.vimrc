@@ -989,7 +989,7 @@ hook_add = '''
     \ ],
     \ 'sql': [
     \   {buffer, lines -> {
-    \   'command': 'sql-formatter-cli -i %t -o %t',
+    \   'command': 'sqlformat --reindent --keywords upper -s %t | sql-formatter-cli -o %t',
     \   'read_temporary_file': 1}}
     \ ],
     \ }

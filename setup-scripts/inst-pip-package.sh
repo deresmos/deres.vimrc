@@ -12,3 +12,4 @@ pip install -U \
   proselint \
   yamllint \
   python-language-server \
+  sqlparse \
