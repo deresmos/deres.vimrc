@@ -208,10 +208,9 @@ nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
 nnoremap <silent> <SPACE>gs :<C-u>Gstatus<CR>
 nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
-nnoremap <silent> <SPACE>gC :<C-u>Git commit<CR>
 
 " merginal keybind
-nnoremap <SPACE>gc :<C-u>MerginalToggle<CR>
+nnoremap <SPACE>gC :<C-u>MerginalToggle<CR>
 
 " vimagit keybind
 nnoremap <SPACE>gm :<C-u>Magit<CR>
