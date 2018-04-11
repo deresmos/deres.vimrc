@@ -1255,5 +1255,5 @@ hook_add = '''
 [[plugins]]
 repo = 'skywind3000/asyncrun.vim'
 hook_add = '''
-  let g:asyncrun_exit = 'copen 4 | wincmd p'
+  let g:asyncrun_exit = 'copen | wincmd p'
 '''
