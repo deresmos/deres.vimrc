@@ -223,10 +223,10 @@ nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 nmap <silent> <SPACE>gk <Plug>GitGutterPrevHunkzz
 nmap <silent> <SPACE>gj <Plug>GitGutterNextHunkzz
 nmap <silent> <SPACE>gp <Plug>GitGutterPreviewHunk
-nnoremap <silent> <SPACE>gPp :AsyncRun -cwd=<root> git push origin HEAD<CR>
-nnoremap <silent> <SPACE>gPl :AsyncRun -cwd=<root> git pull origin HEAD<CR>
-nnoremap <silent> <SPACE>gPL :AsyncRun -cwd=<root> git pull --all<CR>
-nnoremap <silent> <SPACE>gPf :AsyncRun -cwd=<root> git fetch<CR>
+nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push origin HEAD<CR>
+nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
+nnoremap <silent> <SPACE>gPL :<C-u>AsyncRun -cwd=<root> git pull --all<CR>
+nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
 nnoremap <silent> <SPACE>gu <Nop>
 nmap <silent> <SPACE>gU <Plug>GitGutterUndoHunk
 nnoremap <silent> <SPACE>ga <Nop>
