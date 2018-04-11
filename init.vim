@@ -170,11 +170,12 @@ function! s:ExecuteCtags() abort "{{{
   let tags_path = findfile(tag_name, '.;')
   if tags_path ==# ''
     echo 'Not found .tags'
+    execute 'AsyncRun -cwd=<root> pwd && ctags --exclude=.git -R -f' tag_name '2> /dev/null'
     return
   endif
 
   let tags_dirpath = fnamemodify(tags_path, ':p:h')
-  execute 'AsyncRun cd' tags_dirpath '&& ctags --exclude=.git -R -f' tag_name '2> /dev/null'
+  execute 'AsyncRun -cwd=' . tags_dirpath 'ctags --exclude=.git -R -f' tag_name '2> /dev/null'
 endfunction "}}}
 
 nnoremap <silent> <SPACE>tg :<C-u>call <SID>ExecuteCtags()<CR>
