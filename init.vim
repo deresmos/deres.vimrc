@@ -174,7 +174,7 @@ function! s:ExecuteCtags() abort "{{{
   endif
 
   let tags_dirpath = fnamemodify(tags_path, ':p:h')
-  execute 'silent !cd' tags_dirpath '&& ctags --exclude=.git -R -f' tag_name '2> /dev/null &'
+  execute 'AsyncRun cd' tags_dirpath '&& ctags --exclude=.git -R -f' tag_name '2> /dev/null'
 endfunction "}}}
 
 nnoremap <silent> <SPACE>tg :<C-u>call <SID>ExecuteCtags()<CR>
@@ -223,6 +223,10 @@ nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 nmap <silent> <SPACE>gk <Plug>GitGutterPrevHunkzz
 nmap <silent> <SPACE>gj <Plug>GitGutterNextHunkzz
 nmap <silent> <SPACE>gp <Plug>GitGutterPreviewHunk
+nnoremap <silent> <SPACE>gPp :AsyncRun -cwd=<root> git push origin HEAD<CR>
+nnoremap <silent> <SPACE>gPl :AsyncRun -cwd=<root> git pull origin HEAD<CR>
+nnoremap <silent> <SPACE>gPL :AsyncRun -cwd=<root> git pull --all<CR>
+nnoremap <silent> <SPACE>gPf :AsyncRun -cwd=<root> git fetch<CR>
 nnoremap <silent> <SPACE>gu <Nop>
 nmap <silent> <SPACE>gU <Plug>GitGutterUndoHunk
 nnoremap <silent> <SPACE>ga <Nop>
@@ -273,17 +277,17 @@ nnoremap <silent> <SPACE>hlc :<C-u>call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
 nnoremap <silent> <SPACE>hll :<C-u>call qfixmemo#ListRecentTimeStamp()<CR>
 
 command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
-nnoremap <SPACE>hpw :<C-u>HowmDir work<CR>
-nnoremap <SPACE>hpm :<C-u>HowmDir main<CR>
-nnoremap <SPACE>hpd :<C-u>call <SID>pullHowm()<CR>
-nnoremap <SPACE>hpu :<C-u>call <SID>pushHowm()<CR>
+nnoremap <silent> <SPACE>hpw :<C-u>HowmDir work<CR>
+nnoremap <silent> <SPACE>hpm :<C-u>HowmDir main<CR>
+nnoremap <silent> <SPACE>hpl :<C-u>call <SID>pullHowm()<CR>
+nnoremap <silent> <SPACE>hps :<C-u>call <SID>pushHowm()<CR>
 
 function! s:pullHowm() abort " {{{
-  execute '!cd ~/.howm && git pull'
+  execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir 'git pull origin master'
 endfunction
 " }}}
 function! s:pushHowm() abort " {{{
-  execute '!cd ~/.howm && git add . && git commit -m "commit" && git push'
+  execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir ' git add . && git commit -m "commit" && git push origin master'
 endfunction
 " }}}
 
