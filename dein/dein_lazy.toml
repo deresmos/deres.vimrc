@@ -320,16 +320,16 @@ hook_source = '''
   call deoplete#custom#source('tag', 'rank', 1000)
   call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
 
-  if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-  endif
-  let g:deoplete#omni#input_patterns.stylus = ['\w+', '\w+[):; ]?\s+\w*', '[@!]']
-  let g:deoplete#omni#input_patterns.vue = ['\w+', '\w+[):;]?\s+\w*', '[@!]']
+  call deoplete#custom#var('omni', 'input_patterns', {
+    \ 'stylus': ['\w+', '\w+[):; ]?\s+\w*', '[@!]'],
+    \ 'vue':    ['\w+', '\w+[):;]?\s+\w*', '[@!]'],
+    \ 'css':    ['\w+', '\w+[):;]?\s*\w*', '[@!]'],
+  \ })
 
-  if !exists('g:deoplete#omni#functions')
-    let g:deoplete#omni#functions = {}
-  endif
-  let g:deoplete#omni#functions.vue = ['stylcomplete#CompleteStyl']
+  call deoplete#custom#var('omni', 'functions', {
+    \ 'stylus': ['stylcomplete#CompleteStyl'],
+    \ 'css':    ['csscomplete#CompleteCSS'],
+  \ })
 '''
 
 # elzr/vim-json {{{2
