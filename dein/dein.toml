@@ -579,7 +579,7 @@ hook_add = '''
 
   function! MyCurrentTag() abort
     let l:_ = winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
-    let l:_ = len(l:_) > 30 ? '' : l:_
+    let l:_ = l:_[:40]
     return l:_
   endfunction
 
