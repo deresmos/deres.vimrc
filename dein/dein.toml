@@ -1257,5 +1257,8 @@ hook_add = '''
 [[plugins]]
 repo = 'skywind3000/asyncrun.vim'
 hook_add = '''
-  let g:asyncrun_exit = 'copen | wincmd p'
+  let g:asyncrun_exit = 'highlight! link LightlineMiddle_active LightlineMiddle_normal | copen | wincmd p'
+  augroup my_asyncrun
+    autocmd User AsyncRunStart highlight! LightlineMiddle_active ctermbg=34
+  augroup END
 '''
