@@ -540,14 +540,6 @@ hook_add = '''
   let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
   let g:lightline#colorscheme#wombat#palette = s:p
 
-  function! AleStatus() abort
-    if has('nvim')
-      return ale#statusline#Status()
-    endif
-
-    return ''
-  endfunction
-
   function! MaxLine() abort
     return 'L:' . line('$')
   endfunction
@@ -930,7 +922,20 @@ hook_add = '''
   let g:ale_echo_msg_warning_str = 'W'
 
   let g:ale_echo_msg_format   = '%s [%severity%] | %linter%'
-  let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
+
+  function! AleStatus()
+    if !get(b:, 'ale_enabled', 0) && !g:ale_enabled
+      return ''
+    endif
+
+    let counts = ale#statusline#Count(bufnr(''))
+
+    if !counts['total']
+      return 'OK'
+    endif
+
+    return printf('E%d W%d', counts[0], counts[1])
+  endfunction
 
   let g:ale_linters = {
     \ 'python': ['flake8', 'pylint', 'mypy'],
