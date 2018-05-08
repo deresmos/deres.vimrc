@@ -180,6 +180,7 @@ endfunction "}}}
 
 nnoremap <silent> <SPACE>tg :<C-u>call <SID>ExecuteCtags()<CR>
 nnoremap <silent> <SPACE>tb :<C-u>TagbarOpen fj<CR>
+nnoremap <silent> <SPACE>tB :<C-u>call tagbar#ToggleWindow() <Bar> call tagbar#ToggleWindow()<CR>
 
 function! s:setNumber() abort "{{{
   if &relativenumber
