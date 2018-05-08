@@ -1037,7 +1037,7 @@ hook_add = '''
 
 # majutsushi/tagbar {{{2
 [[plugins]]
-repo = 'majutsushi/tagbar'
+repo = 'deresmos/tagbar'
 if = '''has('nvim')'''
 hook_add = '''
   let g:tagbar_previewwin_pos    = "rightbelow"
