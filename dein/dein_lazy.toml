@@ -337,6 +337,9 @@ hook_source = '''
 repo = 'elzr/vim-json'
 if = '''has('nvim')'''
 on_ft = 'json'
+hook_source = '''
+  let g:vim_json_syntax_conceal = 0
+'''
 
 # tpope/vim-endwise # {{{2
 [[plugins]]
