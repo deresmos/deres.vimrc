@@ -13,3 +13,5 @@ pip install -U \
   yamllint \
   python-language-server \
   sqlparse \
+  pylint \
+  mypy \
