@@ -945,6 +945,10 @@ repo = 'w0rp/ale'
 if ='''has('nvim')'''
 hook_add = '''
   nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
+  augroup custom-ale
+    autocmd!
+    autocmd FileType python let b:ale_fix_on_save = 1
+  augroup END
 
   let g:ale_sign_column_always   = 1
   let g:ale_lint_on_insert_leave = 1
