@@ -675,3 +675,8 @@ hook_add = '''
     autocmd FileType pug setlocal syntax=css
   augroup END
 '''
+
+[[plugins]]
+repo = 'hjson/vim-hjson'
+on_ft = ['hjson']
+
