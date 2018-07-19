@@ -13,7 +13,7 @@ hook_add = '''
     autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
   augroup END
 
-  function FugitiveCommitError(error, tmpfile)
+  function! FugitiveCommitError(error, tmpfile)
     if a:error =~? 'pre-commit'
       call s:applyQflist(a:tmpfile)
     endif
