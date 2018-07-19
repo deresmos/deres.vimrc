@@ -150,11 +150,11 @@ xnoremap <silent> <SPACE>bg :DeniteBufferDir grep:::`GetVisualSelectionESC()` -n
 nnoremap <silent> <SPACE>bG :DeniteBufferDir grep:::`expand('<cword>')` -no-empty<CR>
 
 "P keybind{{{2
-nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec -mode=insert<CR>
-nnoremap <silent> <SPACE>pF :DeniteProjectDir file<CR>
-nnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty<CR>
-xnoremap <silent> <SPACE>pg :DeniteProjectDir grep:::`GetVisualSelectionESC()` -no-empty<CR>
-nnoremap <silent> <SPACE>pG :DeniteProjectDir grep:::`expand('<cword>')` -no-empty<CR>
+nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec -mode=insert -path=`expand('%:p:h')`<CR>
+nnoremap <silent> <SPACE>pF :DeniteProjectDir file -path=`expand('%:p:h')`<CR>
+nnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty -path=`expand('%:p:h')`<CR>
+xnoremap <silent> <SPACE>pg :DeniteProjectDir grep:::`GetVisualSelectionESC()` -no-empty -path=`expand('%:p:h')`<CR>
+nnoremap <silent> <SPACE>pG :DeniteProjectDir grep:::`expand('<cword>')` -no-empty -path=`expand('%:p:h')`<CR>
 
 "Y keybind{{{2
 nnoremap <silent> <SPACE>yl :<C-u>Denite neoyank<CR>
