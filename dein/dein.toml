@@ -977,14 +977,12 @@ hook_add = '''
   endfunction
 
   let g:ale_linters = {
-    \ 'python': ['flake8', 'pylint', 'mypy'],
+    \ 'python': ['flake8'],
     \ 'javascript': ['eslint'],
     \ 'php': ['phpcs'],
     \ 'css': ['stylelint'],
     \ 'xhtml': ['tidy'],
     \ }
-  let g:ale_python_pylint_options='--disable=C0111,C0103'
-  let g:ale_python_flake8_options='--ignore=F401'
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
   let g:ale_css_stylelint_options='-c stylelint'
   let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
