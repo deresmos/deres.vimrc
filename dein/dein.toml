@@ -99,11 +99,15 @@ hook_add = '''
   let g:gitgutter_highlight_lines       = 0
   let g:gitgutter_async                 = 1
 
-  nnoremap <SPACE>gog :<C-u>let g:gitgutter_diff_base =<space>
+  set signcolumn=yes
 
-  augroup gitgutter_custom
+  nnoremap <SPACE>gob :<C-u>let g:gitgutter_diff_base =<space>
+  nnoremap <silent><SPACE>goB :<C-u>let g:gitgutter_diff_base = ''<CR>
+
+  augroup gitgutter-custom
     autocmd!
-    autocmd TextChanged * call gitgutter#process_buffer(bufnr(''), 0)
+    autocmd TextChanged,InsertLeave * GitGutter
+    autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
   augroup END
 '''
 
