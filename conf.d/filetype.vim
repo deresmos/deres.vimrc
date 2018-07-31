@@ -44,6 +44,8 @@ augroup custom-filetype
 
   autocmd TabLeave  * :call <SID>saveLastTab()
   autocmd TabClosed * :call <SID>tabNextLastTab()
+
+  autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 augroup END
 
 "functions {{{1
