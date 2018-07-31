@@ -5,7 +5,7 @@ repo = 'idanarye/vim-merginal'
 
 # tpope/vim-fugitive {{{2
 [[plugins]]
-repo = 'deresmos/vim-fugitive'
+repo = 'tpope/vim-fugitive'
 hook_add = '''
   augroup fugitive-keymap
     autocmd!
