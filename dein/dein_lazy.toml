@@ -170,12 +170,6 @@ hook_source = '''
 
   call denite#custom#map(
     \ 'normal',
-    \ 'vie',
-    \ '<denite:toggle_select_all>',
-    \ 'noremap')
-
-  call denite#custom#map(
-    \ 'normal',
     \ 'rp',
     \ '<denite:do_action:qfreplace>',
     \ 'noremap')
