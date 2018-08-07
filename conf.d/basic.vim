@@ -284,7 +284,6 @@ nnoremap <Space><Space> :
 nnoremap <silent> <SPACE>fs :w<CR>
 nnoremap <silent> <SPACE>fS :w!<CR>
 nnoremap <silent> <SPACE>fq :wq<CR>
-nnoremap <silent> <SPACE>fc :f<space>
 
 "Q keybind{{{2
 nnoremap <silent> <SPACE>qq :qa<CR>

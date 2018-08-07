@@ -122,6 +122,7 @@ nnoremap <silent> [NERDTree]F :<C-u>NERDTreeFind<CR>
 nnoremap <silent> <SPACE>fh :Denite command_history<CR>
 nnoremap <silent> <SPACE>fj :Denite jump<CR>
 nnoremap <silent> <SPACE>fp :Denite change<CR>
+nnoremap <silent> <SPACE>fP :Denite register<CR>
 
 "Q keybind{{{2
 nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
