@@ -133,6 +133,12 @@ hook_source = '''
     \ 'noremap')
 
   call denite#custom#map(
+    \ 'normal',
+    \ 'dlt',
+    \ '<denite:do_action:tabvdiff_local>',
+    \ 'noremap')
+
+  call denite#custom#map(
     \ 'insert',
     \ '<C-d><C-m>',
     \ '<denite:do_action:openvdiff>',
@@ -142,6 +148,12 @@ hook_source = '''
     \ 'normal',
     \ 'dm',
     \ '<denite:do_action:openvdiff>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ 'dlm',
+    \ '<denite:do_action:openvdiff_local>',
     \ 'noremap')
 
   call denite#custom#map(
