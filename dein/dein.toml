@@ -546,11 +546,11 @@ hook_add = '''
     \ 'tab_component_function': {
     \   'tabfilename_active':   'MyTabFilenameActive',
     \   'tabfilename_inactive': 'MyTabFilenameInactive',
-    \   'tabnum_active':        'MyTabNumActive',
+    \   'tabmodified':          'MyTabModified',
     \ },
     \ 'tab': {
-    \   'active':   ['tabnum_active',   'tabfilename_active',   'modified'],
-    \   'inactive': ['tabnum_inactive', 'tabfilename_inactive', 'modified'],
+    \   'active':   ['tabfilename_active',   'tabmodified'],
+    \   'inactive': ['tabfilename_inactive', 'modified'],
     \ },
   \ }
 
@@ -562,26 +562,35 @@ hook_add = '''
   endfunction
 
   function! MyTabFilenameActive(n) abort
-    return s:MyTabFilename(a:n, 20) . ' <'
+    return s:MyTabFilename(a:n, 23)
   endfunction
 
   function! MyTabFilenameInactive(n) abort
-    return s:MyTabFilename(a:n, 12)
-  endfunction
-
-  function! MyTabNumActive(n) abort
-    return '>'
+    return s:MyTabFilename(a:n, 11)
   endfunction
 
   let s:p = g:lightline#colorscheme#wombat#palette
+  let s:tabsel = [['#d0d0d0', '#242424', 252, 235]]
   let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
   let s:p.insert.right = [['#444444 ', '#95e454', 238, 119], ['#d0d0d0', '#585858', 252, 240]]
   let s:p.visual.right = [['#444444 ', '#f2c68a', 238, 216], ['#d0d0d0', '#585858', 252, 240]]
   let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
+  let s:p.tabline.left = [['#767676', '#242424', 243, 235]]
+  let s:p.tabline.tabsel = s:tabsel
   let g:lightline#colorscheme#wombat#palette = s:p
 
   function! MaxLine() abort
     return 'L:' . line('$')
+  endfunction
+
+  function! MyTabModified(n) abort
+    let s:p = g:lightline#colorscheme#wombat#palette
+    let s:p.tabline.tabsel = &modified ? [['#5fff00', '#242424', 82, 235]] : s:tabsel
+    let g:lightline#colorscheme#wombat#palette = s:p
+
+    call lightline#colorscheme()
+
+    return ''
   endfunction
 
   function! MyLineInfo() abort
