@@ -682,6 +682,7 @@ hook_add = '''
   augroup END
 '''
 
+# hjson/vim-hjson # {{{1
 [[plugins]]
 repo = 'hjson/vim-hjson'
 on_ft = ['hjson']
