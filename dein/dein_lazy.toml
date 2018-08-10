@@ -338,6 +338,18 @@ hook_source = '''
   \ })
 '''
 
+# SirVer/ultisnips {{{2
+[[plugins]]
+if = '''has('nvim')'''
+repo = 'SirVer/ultisnips'
+on_event = 'InsertEnter'
+hook_add = '''
+  let g:UltiSnipsExpandTrigger       = "<C-l>"
+  let g:UltiSnipsJumpForwardTrigger  = "<C-i>"
+  let g:UltiSnipsJumpBackwardTrigger = "<C-o>"
+  let g:UltiSnipsSnippetsDir = g:dein_dir . "/repos/github.com/deresmos/vim-snippets/UltiSnips/"
+'''
+
 # elzr/vim-json {{{2
 [[plugins]]
 repo = 'elzr/vim-json'
