@@ -157,6 +157,10 @@ hook_add = '''
   let g:gist_post_private    = 1
 '''
 
+# lambdalisue/gina.vim {{{2
+[[plugins]]
+repo = 'lambdalisue/gina.vim'
+
 #}}}1 END git plugins
 
 # operator plugins {{{1
@@ -488,7 +492,7 @@ hook_add = '''
     \ 'active': {
     \   'left': [
     \     ['mode', 'paste', 'readonly'],
-    \     ['fugitive', 'gitgutter'],
+    \     ['branchname', 'gitgutter'],
     \     ['currenttag'],
     \   ],
     \   'right': [
@@ -518,7 +522,7 @@ hook_add = '''
     \ },
     \ 'component_function': {
     \   'modified': 'MyModified',
-    \   'fugitive': 'MyFugitive',
+    \   'branchname': 'gina#component#repo#branch',
     \   'filename': 'MyFilename',
     \   'filenamefull': 'MyFilenameFull',
     \   'lineinfo': 'MyLineInfo',
@@ -613,17 +617,6 @@ hook_add = '''
 
   function! MyFilenameFull() abort
     return '' != expand('%:p') ? expand('%:p') : '[No Name]'
-  endfunction
-
-  function! MyFugitive() abort
-    try
-      if &ft !~? exists('*fugitive#head') && strlen(fugitive#head())
-        return fugitive#head()
-      endif
-    catch
-    endtry
-
-    return ''
   endfunction
 
   function! MyCurrentTag() abort
