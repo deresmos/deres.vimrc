@@ -14,3 +14,4 @@ npm install -g \
   pug-cli \
   sql-formatter-cli \
   vscode-css-languageserver-bin \
+  bash-language-server \
