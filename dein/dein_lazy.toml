@@ -701,3 +701,10 @@ hook_add = '''
 repo = 'hjson/vim-hjson'
 on_ft = ['hjson']
 
+# Shougo/echodoc.vim # {{{1
+[[plugins]]
+repo = 'Shougo/echodoc.vim'
+on_ft = ['python']
+hook_add = '''
+  let g:echodoc#enable_at_startup = 1
+'''
