@@ -400,7 +400,7 @@ hook_source = '''
 [[plugins]]
 repo = 'autozimu/LanguageClient-neovim'
 build = 'bash install.sh'
-on_ft  = ['vue', 'javascript', 'python', 'php']
+on_ft  = ['vue', 'javascript', 'python', 'php', 'css']
 hook_add = '''
   function! s:lsp()
     nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
@@ -411,7 +411,7 @@ hook_add = '''
 
   augroup my-lsp-cmd
     autocmd!
-    autocmd FileType vue,javascript,python,php :call s:lsp()
+    autocmd FileType vue,javascript,python,php,css :call s:lsp()
   augroup END
 '''
 hook_source = '''
@@ -421,6 +421,7 @@ hook_source = '''
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'python': ['pyls'],
     \ 'php': ['php', '~/.config/composer/php-language-server/bin/php-language-server.php'],
+    \ 'css': ['css-languageserver', '--stdio'],
   \ }
 '''
 
