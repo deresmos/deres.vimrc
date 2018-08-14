@@ -107,7 +107,7 @@ hook_add = '''
 
   augroup gitgutter-custom
     autocmd!
-    autocmd TextChanged,InsertLeave * GitGutter
+    autocmd TextChanged,InsertLeave,WinEnter * GitGutter
     autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
   augroup END
 '''
