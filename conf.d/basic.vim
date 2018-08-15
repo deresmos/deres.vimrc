@@ -148,10 +148,22 @@ endfunction
 let &viewdir = s:view_dir
 call s:makeDirectory(&viewdir)
 set viewoptions-=options
-augroup view
+set viewoptions-=curdir
+
+function s:loadview() "{{{
+  let filesize = getfsize(expand('%'))
+  " Skip upper 1M filesize
+  if filesize >= 1048576
+    return
+  endif
+
+  silent! loadview
+endfunction "}}}
+
+augroup auto-view
   autocmd!
-  autocmd BufWritePost,BufWinLeave * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
-  autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
+  autocmd BufWritePost,BufWinLeave * if expand('%') != '' && &buftype !~ 'nofile' | silent! mkview | endif
+  autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | call s:loadview() | endif
 augroup END
 
 command! -nargs=0 ClearUndo call <sid>clearUndo()
