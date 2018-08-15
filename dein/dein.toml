@@ -1243,9 +1243,6 @@ hook_add = '''
 # }}}1
 
 [[plugins]]
-repo = 'gregsexton/gitv'
-
-[[plugins]]
 repo = 'rhysd/git-messenger.vim'
 hook_add = '''
   nmap <Space>gid <Plug>(git-messenger-commit-message)
