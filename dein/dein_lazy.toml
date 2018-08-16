@@ -708,3 +708,9 @@ on_ft = ['python']
 hook_add = '''
   let g:echodoc#enable_at_startup = 1
 '''
+
+# Shougo/neco-vim # {{{1
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+on_source = 'deoplete.nvim'
