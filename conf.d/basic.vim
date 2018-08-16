@@ -150,7 +150,7 @@ call s:makeDirectory(&viewdir)
 set viewoptions-=options
 set viewoptions-=curdir
 
-function s:loadview() "{{{
+function! s:loadview() "{{{
   let filesize = getfsize(expand('%'))
   " Skip upper 1M filesize
   if filesize >= 1048576
