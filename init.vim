@@ -168,6 +168,8 @@ endfor
 function! s:ExecuteCtags() abort "{{{
   let tag_name = '.tags'
 
+  let b:asyncrun_after_cmd = ''
+
   let tags_path = findfile(tag_name, '.;')
   if tags_path ==# ''
     echo 'Not found .tags'
