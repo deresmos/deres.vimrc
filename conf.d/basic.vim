@@ -50,7 +50,6 @@ set expandtab
 " set smartindent
 set cursorline
 set colorcolumn=80
-set inccommand=split
 
 set spelllang=en_us
 

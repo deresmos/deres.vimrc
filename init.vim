@@ -78,6 +78,7 @@ colorscheme hybrid
 set guicursor=n:blinkon1
 
 set scrollback=100000
+set inccommand=split
 
 augroup session-post
   autocmd SessionLoadPost * NTermAutocmd
