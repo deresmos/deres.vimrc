@@ -876,10 +876,6 @@ hook_add = '''
   augroup END
 '''
 
-# ujihisa/neco-look {{{2
-[[plugins]]
-repo = 'ujihisa/neco-look'
-
 # machakann/vim-highlightedyank {{{2
 [[plugins]]
 repo = 'machakann/vim-highlightedyank'

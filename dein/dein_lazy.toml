@@ -338,6 +338,14 @@ hook_source = '''
   \ })
 '''
 
+# ujihisa/neco-look {{{2
+[[plugins]]
+repo = 'ujihisa/neco-look'
+on_source = 'deoplete.nvim'
+hook_source = '''
+  call deoplete#custom#source('look', 'rank', 1)
+'''
+
 # SirVer/ultisnips {{{2
 [[plugins]]
 if = '''has('nvim')'''
