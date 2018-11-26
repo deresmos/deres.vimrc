@@ -316,14 +316,9 @@ if ='''has('nvim')'''
 on_event = 'InsertEnter'
 hook_source = '''
   let g:deoplete#enable_at_startup  = 1
-  let g:deoplete#enable_ignore_case = 1
-  let g:deoplete#enable_smart_case  = 1
-  let g:deoplete#tag#cache_limit_size = 0
-  let g:deoplete#max_list = 15
-  let g:deoplete#file#enable_buffer_path = 1
 
   call deoplete#custom#source('buffer', 'min_pattern_length', 1)
-  call deoplete#custom#source('tag', 'rank', 1000)
+  call deoplete#custom#source('tag', 'rank', 1)
   call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
 
   call deoplete#custom#var('omni', 'input_patterns', {
