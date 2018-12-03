@@ -253,14 +253,14 @@ hook_add = '''
   function! s:switchMather(matcher) abort " {{{3
     let l:lists = [
       \ 'file_rec', 'file', 'buffer', 'file_mru',
-      \ 'line', 'jump', 'change', 'tag', 'gitdiffbranch']
+      \ 'line', 'jump', 'change', 'tag', 'gitdiff_file']
 
     for l:list in l:lists
       call denite#custom#source(l:list, 'matchers',
         \ [a:matcher, 'matcher_ignore_globs'])
     endfor
 
-    call denite#custom#source('gitdifflog', 'matchers', [a:matcher])
+    call denite#custom#source('gitdiff_log', 'matchers', [a:matcher])
   endfunction
 
   function! SwitchGrepCommand(command) abort " {{{3
