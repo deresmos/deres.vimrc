@@ -102,9 +102,9 @@ nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`
 nnoremap <silent> <SPACE>fr :Denite file_mru -mode=insert<CR>
 nnoremap <silent> <SPACE>fl :Denite line -mode=insert<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
-nnoremap <silent> <SPACE>fg :Denite grep -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
-xnoremap <silent> <SPACE>fg :Denite grep:::`GetVisualSelectionESC()` -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
-nnoremap <silent> <SPACE>fG :Denite grep:::`expand('<cword>')` -no-empty -path=`get(g:, 'denite_cwd', getcwd())`<CR>
+nnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep<CR>
+xnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`GetVisualWordEscape()`<CR>
+nnoremap <silent> <SPACE>fG :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`expand('<cword>')`<CR>
 nnoremap <silent> <SPACE>fs :<C-u>call <SID>saveFile(0)<CR>
 nnoremap <silent> <SPACE>fS :<C-u>call <SID>saveFile(1)<CR>
 
@@ -147,16 +147,16 @@ nnoremap <silent> <SPACE>bu :<C-u>call CloseUnloadedBuffers()<CR>
 nnoremap <silent> <SPACE>bl :<C-u>BuffergatorToggle<CR>
 nnoremap <silent> <SPACE>bf :DeniteBufferDir file_rec -mode=insert<CR>
 nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
-nnoremap <silent> <SPACE>bg :DeniteBufferDir grep -no-empty<CR>
-xnoremap <silent> <SPACE>bg :DeniteBufferDir grep:::`GetVisualSelectionESC()` -no-empty<CR>
-nnoremap <silent> <SPACE>bG :DeniteBufferDir grep:::`expand('<cword>')` -no-empty<CR>
+nnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep<CR>
+xnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep:::`GetVisualWordEscape()`<CR>
+nnoremap <silent> <SPACE>bG :DeniteBufferDir -no-empty grep:::`expand('<cword>')`<CR>
 
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec -mode=insert -path=`expand('%:p:h')`<CR>
 nnoremap <silent> <SPACE>pF :DeniteProjectDir file -path=`expand('%:p:h')`<CR>
-nnoremap <silent> <SPACE>pg :DeniteProjectDir grep -no-empty -path=`expand('%:p:h')`<CR>
-xnoremap <silent> <SPACE>pg :DeniteProjectDir grep:::`GetVisualSelectionESC()` -no-empty -path=`expand('%:p:h')`<CR>
-nnoremap <silent> <SPACE>pG :DeniteProjectDir grep:::`expand('<cword>')` -no-empty -path=`expand('%:p:h')`<CR>
+nnoremap <silent> <SPACE>pg :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep<CR>
+xnoremap <silent> <SPACE>pg :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep:::`GetVisualWordEscape()`<CR>
+nnoremap <silent> <SPACE>pG :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep:::`expand('<cword>')`<CR>
 
 "Y keybind{{{2
 nnoremap <silent> <SPACE>yl :<C-u>Denite neoyank<CR>
@@ -646,13 +646,15 @@ augroup CsvCursorHighlight
 augroup END
 "}}}
 
-function! g:GetVisualSelection() abort "{{{
-  return getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
+function! g:GetVisualWord() abort "{{{
+  let word = getline("'<")[getpos("'<")[2] - 1:getpos("'>")[2] - 1]
+  return word
 endfunction "}}}
 
-function! g:GetVisualSelectionESC() abort "{{{
-  let word = getline("'<")[getpos("'<")[1:2][1] - 1: getpos("'>")[1:2][1] - 1]
-  return substitute(word, '[()[\]]', '\\\0', 'g')
+function! g:GetVisualWordEscape() abort "{{{
+  let word = substitute(GetVisualWord(), '\\', '\\\\', 'g')
+  let word = substitute(word, '[.?*+^$|()[\]]', '\\\0', 'g')
+  return word
 endfunction "}}}
 
 " OpenTranslateTab functions {{{
