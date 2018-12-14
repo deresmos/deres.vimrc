@@ -27,7 +27,6 @@
 
 if !1 | finish | endif
 
-source ~/.vim/conf.d/basic.vim
 set shellslash
 set encoding=utf8
 "dein setting {{{1
@@ -35,10 +34,12 @@ if has('unix') || has('mac')
   let g:dein_dir = expand('~/.cache/nvim-dein')
   let g:rc_dir   = expand('~/.config/nvim/dein')
   let s:nvim_dir = expand('~/.config/nvim')
+  let g:conf_dir = expand('~/.config/nvim/conf.d')
 elseif has('win64') || has('win32')
   let g:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
   let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
   let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
+  let g:conf_dir = expand($LOCALAPPDATA. '/nvim/conf.d')
 endif
 let s:dein_repo_dir = g:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
@@ -71,8 +72,9 @@ filetype plugin indent on
 "}}}1
 
 "vim setting {{{1
-source ~/.vim/conf.d/color.vim
-source ~/.vim/conf.d/filetype.vim
+execute 'source' g:conf_dir . '/basic.vim'
+execute 'source' g:conf_dir . '/color.vim'
+execute 'source' g:conf_dir . '/filetype.vim'
 
 colorscheme hybrid
 set guicursor=n:blinkon1
