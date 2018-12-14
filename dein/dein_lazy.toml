@@ -253,7 +253,7 @@ hook_add = '''
   function! s:switchMather(matcher) abort " {{{3
     let l:lists = [
       \ 'file_rec', 'file', 'buffer', 'file_mru',
-      \ 'line', 'jump', 'change', 'tag', 'gitdiff_file']
+      \ 'line', 'jump', 'change', 'tag', 'gitdiff_file', 'grep']
 
     for l:list in l:lists
       call denite#custom#source(l:list, 'matchers',
