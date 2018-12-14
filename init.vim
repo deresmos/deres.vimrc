@@ -34,13 +34,15 @@ if has('unix') || has('mac')
   let g:dein_dir = expand('~/.cache/nvim-dein')
   let g:rc_dir   = expand('~/.config/nvim/dein')
   let s:nvim_dir = expand('~/.config/nvim')
-  let g:conf_dir = expand('~/.config/nvim/conf.d')
+  let g:conf_dir = expand('~/.vim/conf.d')
 elseif has('win64') || has('win32')
   let g:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
   let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
   let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
   let g:conf_dir = expand($LOCALAPPDATA. '/nvim/conf.d')
 endif
+
+execute 'source' g:conf_dir . '/basic.vim'
 let s:dein_repo_dir = g:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
@@ -72,7 +74,6 @@ filetype plugin indent on
 "}}}1
 
 "vim setting {{{1
-execute 'source' g:conf_dir . '/basic.vim'
 execute 'source' g:conf_dir . '/color.vim'
 execute 'source' g:conf_dir . '/filetype.vim'
 
