@@ -348,8 +348,8 @@ hook_add = '''
   map t <Plug>(easymotion-bd-tl)
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
-  nmap <SPACE>jj <Plug>(easymotion-s2)
-  omap <SPACE>jj <Plug>(easymotion-s2)
+  nmap <SPACE>jj <Plug>(easymotion-overwin-f2)
+  omap <SPACE>jj <Plug>(easymotion-overwin-f2)
   nmap <SPACE>jg <Plug>(easymotion-sn)
   omap <SPACE>jg <Plug>(easymotion-tn)
 '''
