@@ -105,6 +105,13 @@ hook_add = '''
   nnoremap <SPACE>gob :<C-u>let g:gitgutter_diff_base =<space>
   nnoremap <silent><SPACE>goB :<C-u>let g:gitgutter_diff_base = ''<CR>
 
+  augroup gitgutter-highlight-custom
+    autocmd!
+    autocmd ColorScheme * highlight GitGutterAdd    ctermfg=22 ctermbg=235
+    autocmd ColorScheme * highlight GitGutterDelete ctermfg=52 ctermbg=235
+    autocmd ColorScheme * highlight GitGutterChange ctermfg=17 ctermbg=235
+  augroup END
+
   augroup gitgutter-custom
     autocmd!
     autocmd TextChanged,InsertLeave,WinEnter * GitGutter

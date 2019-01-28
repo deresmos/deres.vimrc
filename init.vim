@@ -244,6 +244,7 @@ nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
 nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
 nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
 nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
 
 nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
 nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
