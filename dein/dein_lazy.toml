@@ -38,6 +38,12 @@ hook_source = '''
 
   call denite#custom#map(
     \ 'normal',
+    \ 'h',
+    \ '<denite:restore_sources>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
     \ 'gj',
     \ '<denite:jump_to_next_by:path>',
     \ 'noremap')
