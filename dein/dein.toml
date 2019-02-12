@@ -491,6 +491,10 @@ hook_add = '''
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
+  let s:small_width = 50
+  let s:medium_width = 70
+  let s:large_width = 100
+
   let g:lightline = {}
   let g:lightline = {
     \ 'colorscheme': 'wombat',
@@ -511,11 +515,11 @@ hook_add = '''
     \ 'inactive': {
     \   'left': [
     \     [''],
-    \     ['filenamefull'],
+    \     ['filename'],
     \   ],
     \   'right': [
-    \     ['lineinfo'],
-    \     ['number', 'filetype'],
+    \     [''],
+    \     ['number', ''],
     \   ]
     \ },
     \ 'tabline': {
@@ -523,7 +527,7 @@ hook_add = '''
     \     ['tabs'],
     \   ],
     \   'right': [
-    \     ['filenamefull'],
+    \     ['filename'],
     \     ['number', 'maxline'],
     \   ]
     \ },
@@ -573,11 +577,11 @@ hook_add = '''
   endfunction
 
   function! MyTabFilenameActive(n) abort
-    return s:MyTabFilename(a:n, 23)
+    return a:n
   endfunction
 
   function! MyTabFilenameInactive(n) abort
-    return s:MyTabFilename(a:n, 11)
+    return a:n
   endfunction
 
   let s:p = g:lightline#colorscheme#wombat#palette
@@ -617,9 +621,13 @@ hook_add = '''
   endfunction
 
   function! MyFilename() abort
-    return ('' != expand('%:p') ? winwidth(0) > 110 ? expand('%:p') :
-      \ winwidth(0) > 40 ? expand('%:t') : '' : '[No Name]')
-      \ . ('' != MyModified() ? ' ' . MyModified() : '')
+    let filename = (expand('%:p') == '') ? '[No Name]' : expand('%:p')
+    let filename = substitute(filename, expand('$HOME'), '~', 'g')
+    if strlen(filename) > winwidth(0) * 0.75
+      let filename = expand('%:t')
+    endif
+
+    return filename
   endfunction
 
   function! MyFilenameFull() abort
@@ -627,7 +635,7 @@ hook_add = '''
   endfunction
 
   function! MyCurrentTag() abort
-    let l:_ = winwidth(0) > 40 ? tagbar#currenttag('%s', '') : ''
+    let l:_ = winwidth(0) > s:large_width ? tagbar#currenttag('%s', '') : ''
     let l:_ = l:_[:40]
     return l:_
   endfunction
@@ -635,7 +643,7 @@ hook_add = '''
   function! MyGitGutter() abort
     if ! exists('*GitGutterGetHunkSummary')
       \ || ! get(g:, 'gitgutter_enabled', 0)
-      \ || winwidth(0) <= 70
+      \ || winwidth(0) <= s:medium_width
     endif
 
     let symbols = ['+','~', '-']
@@ -651,23 +659,23 @@ hook_add = '''
   endfunction
 
   function! MyFileIndent() abort
-    return winwidth(0) > 100 ? spatab#GetDetectName() : ''
+    return winwidth(0) > s:small_width ? spatab#GetDetectName() : ''
   endfunction
 
   function! MyFileformat() abort
-    return winwidth(0) > 80 ? &fileformat : ''
+    return winwidth(0) > s:small_width ? &fileformat : ''
   endfunction
 
   function! MyFiletype() abort
-    return winwidth(0) > 100? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    return winwidth(0) > s:medium_width ? (strlen(&filetype) ? &filetype : 'no ft') : ''
   endfunction
 
   function! MyFileencoding() abort
-    return winwidth(0) > 40 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    return winwidth(0) > s:small_width ? (strlen(&fenc) ? &fenc : &enc) : ''
   endfunction
 
   function! MyMode() abort
-    return winwidth(0) > 30 ? lightline#mode() : ''
+    return lightline#mode()
   endfunction
 '''
 
