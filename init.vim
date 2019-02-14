@@ -102,7 +102,7 @@ augroup END
 "F keybind {{{2
 nnoremap <silent> <SPACE>ff :Denite file_rec -path=`get(g:, 'denite_cwd', getcwd())` -mode=insert<CR>
 nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`<CR>
-nnoremap <silent> <SPACE>fr :Denite file_mru -mode=insert<CR>
+nnoremap <silent> <SPACE>fr :Denite file/old -mode=insert<CR>
 nnoremap <silent> <SPACE>fl :Denite line -mode=insert<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 nnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep<CR>
