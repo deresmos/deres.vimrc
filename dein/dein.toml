@@ -1329,3 +1329,17 @@ hook_add = '''
     autocmd User AsyncRunStop highlight! link LightlineMiddle_active LightlineMiddle_normal | call s:asyncrun_after()
   augroup END
 '''
+
+[[plugins]]
+repo = 'sheerun/vim-polyglot'
+build = './build'
+hook_add = '''
+  let g:quickrun_config['pug'] = {
+    \ 'command': 'pug', 'cmdopt': '--pretty', 'exec': ['%c %o < %s']
+  \ }
+
+  augroup my-pug-augroup
+    autocmd!
+    " autocmd FileType pug setlocal syntax=css
+  augroup END
+'''

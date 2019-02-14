@@ -617,11 +617,6 @@ hook_source = '''
 
 # }}}1
 
-# posva/vim-vue # {{{1
-[[plugins]]
-repo = 'posva/vim-vue'
-on_ft = 'vue'
-
 # iloginow/vim-stylus # {{{1
 [[plugins]]
 repo = 'deresmos/vim-stylus'
@@ -631,11 +626,6 @@ hook_add = '''
     \ 'command': 'stylus', 'exec': ['%c < %s']
   \ }
 '''
-
-# cespare/vim-toml # {{{1
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
 
 # osyo-manga/vim-precious # {{{1
 [[plugins]]
@@ -672,20 +662,6 @@ hook_add = '''
     autocmd!
     autocmd FileType vue,toml call s:precious()
     autocmd BufEnter,BufWinEnter *.vue,*.toml call s:precious()
-  augroup END
-'''
-
-# digitaltoad/vim-pug # {{{1
-[[plugins]]
-repo = 'digitaltoad/vim-pug'
-hook_add = '''
-  let g:quickrun_config['pug'] = {
-    \ 'command': 'pug', 'cmdopt': '--pretty', 'exec': ['%c %o < %s']
-  \ }
-
-  augroup my-pug-augroup
-    autocmd!
-    autocmd FileType pug setlocal syntax=css
   augroup END
 '''
 
