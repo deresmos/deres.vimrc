@@ -725,10 +725,13 @@ hook_add = '''
   let g:QFixHowm_CalendarWinCmd = 'rightbelow'
   let g:QFixHowm_CalendarCount  = 3
   let g:QFixHowm_FileType       = 'qfix_memo'
+  let g:qfixmemo_template       = ['%TITLE% ']
+  let g:qfixmemo_use_addtime    = 0
+  let g:qfixmemo_use_updatetime = 0
+  let g:QFixHowm_SaveTime       = -1
 
   let g:QFixHowm_RootDir         = '~/.howm'
   let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
-  let g:QFixHowm_RecentMode      = 2
   let g:qfixmemo_folding_pattern = '^=[^=]'
 
   function! QFixMemoBufRead()
