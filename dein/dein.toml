@@ -1266,12 +1266,6 @@ hook_add = '''
 # }}}1
 
 [[plugins]]
-repo = 'rhysd/git-messenger.vim'
-hook_add = '''
-  nmap <Space>gid <Plug>(git-messenger-commit-message)
-'''
-
-[[plugins]]
 repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]

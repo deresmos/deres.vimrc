@@ -683,3 +683,16 @@ hook_add = '''
 repo = 'Shougo/neco-vim'
 on_ft = 'vim'
 on_source = 'deoplete.nvim'
+
+# rhysd/git-messenger.vim # {{{1
+[[plugins]]
+repo = 'rhysd/git-messenger.vim'
+on_cmd = 'GitMessenger'
+on_map = '<Plug>(git-messenger-'
+hook_add = '''
+
+  nmap <Space>gid <Plug>(git-messenger)
+  nmap <Space>giD <Plug>(git-messenger-into-popup)
+
+'''
+
