@@ -337,7 +337,9 @@ nnoremap <silent> <SPACE>tH :-tabmove<CR>
 
 nnoremap <silent> <SPACE>tj <C-]>
 nnoremap <silent> <SPACE>tk <C-t>
-nnoremap <silent> <SPACE>tJ g<C-]>
+xnoremap <silent> <SPACE>tk :<C-u>execute 'tag' GetVisualWord()<CR>
+nnoremap <silent> <SPACE>tJ :<C-u>execute 'ltag' expand('<cword>') <BAR> lopen<CR>
+xnoremap <silent> <SPACE>tJ :<C-u>execute 'ltag' GetVisualWord() <BAR> lopen<CR>
 
 "W keybind{{{2
 nnoremap <silent> <SPACE>ws :split<CR>
@@ -431,7 +433,7 @@ nnoremap <silent> <SPACE>mf `fzz
 nnoremap <silent> <SPACE>mF :mark f<CR>
 
 "functions {{{1
-function! MoveWindow(moveto, cmd_sp) "{{{
+function! MoveWindow(moveto, cmd_sp) "{{{2
   let l:tab_nr = tabpagenr('$')
   let l:win_nr = winnr('$')
 
@@ -466,3 +468,15 @@ function! MoveWindow(moveto, cmd_sp) "{{{
 
   execute 'b' . l:cur_buf
 endfunction
+
+function! g:GetVisualWord() abort "{{{2
+  let word = getline("'<")[getpos("'<")[2] - 1:getpos("'>")[2] - 1]
+  return word
+endfunction
+
+function! g:GetVisualWordEscape() abort "{{{2
+  let word = substitute(GetVisualWord(), '\\', '\\\\', 'g')
+  let word = substitute(word, '[.?*+^$|()[\]]', '\\\0', 'g')
+  return word
+endfunction
+
