@@ -278,6 +278,7 @@ nnoremap <silent> <SPACE>hm :<C-u>tabnew<CR>:call qfixmemo#EditDiary('memo')<CR>
 nnoremap <silent> <SPACE>hs :<C-u>tabnew<CR>:call qfixmemo#EditDiary('schedule')<CR>
 nnoremap <silent> <SPACE>ht :<C-u>tabnew<CR>:call qfixmemo#EditDiary(g:qfixmemo_diary)<CR>
 nnoremap <silent> <SPACE>hg :<C-u>call qfixmemo#FGrep()<CR>
+nnoremap <silent> <SPACE>ha :<C-u>call qfixmemo#PairFile('%')<CR>
 nnoremap <silent> <SPACE>hid :<C-u>call qfixmemo#InsertDate('date')<CR>
 nnoremap <silent> <SPACE>hit :<C-u>call qfixmemo#InsertDate('time')<CR>
 nnoremap <silent> <SPACE>hlr :<C-u>call qfixmemo#ListMru()<CR>
@@ -285,21 +286,6 @@ nnoremap <silent> <SPACE>hlt :<C-u>call qfixmemo#ListReminder('todo')<CR>
 nnoremap <silent> <SPACE>hls :<C-u>call qfixmemo#ListReminder('schedule')<CR>
 nnoremap <silent> <SPACE>hlc :<C-u>call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
 nnoremap <silent> <SPACE>hll :<C-u>call qfixmemo#ListRecentTimeStamp()<CR>
-
-command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
-nnoremap <silent> <SPACE>hpw :<C-u>HowmDir work<CR>
-nnoremap <silent> <SPACE>hpm :<C-u>HowmDir main<CR>
-nnoremap <silent> <SPACE>hpl :<C-u>call <SID>pullHowm()<CR>
-nnoremap <silent> <SPACE>hps :<C-u>call <SID>pushHowm()<CR>
-
-function! s:pullHowm() abort " {{{
-  execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir 'git pull origin master'
-endfunction
-" }}}
-function! s:pushHowm() abort " {{{
-  execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir ' git add . && git commit -m "commit" && git push origin master'
-endfunction
-" }}}
 
 "R keybind {{{2
 nnoremap <silent> <SPACE>rv :<C-u>silent! loadview<CR>

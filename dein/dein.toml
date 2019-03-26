@@ -737,6 +737,22 @@ hook_add = '''
   function! QFixMemoBufRead()
     setlocal foldenable
   endfunction
+
+  command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
+  nnoremap <silent> <SPACE>hpw :<C-u>HowmDir work<CR>
+  nnoremap <silent> <SPACE>hpm :<C-u>HowmDir main<CR>
+  nnoremap <silent> <SPACE>hpl :<C-u>call <SID>pullHowm()<CR>
+  nnoremap <silent> <SPACE>hps :<C-u>call <SID>pushHowm()<CR>
+
+  function! s:pullHowm() abort " {{{
+    execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir 'git pull origin master'
+  endfunction
+  " }}}
+  function! s:pushHowm() abort " {{{
+    execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir ' git add . && git commit -m "commit" && git push origin master'
+  endfunction
+  " }}}
+
 '''
 
 # haya14busa/incsearch.vim {{{2
