@@ -636,17 +636,6 @@ augroup CsvCursorHighlight
 augroup END
 "}}}
 
-function! g:GetVisualWord() abort "{{{
-  let word = getline("'<")[getpos("'<")[2] - 1:getpos("'>")[2] - 1]
-  return word
-endfunction "}}}
-
-function! g:GetVisualWordEscape() abort "{{{
-  let word = substitute(GetVisualWord(), '\\', '\\\\', 'g')
-  let word = substitute(word, '[.?*+^$|()[\]]', '\\\0', 'g')
-  return word
-endfunction "}}}
-
 " OpenTranslateTab functions {{{
 function! g:OpenTranslateTab() abort
   " Left JA Window
