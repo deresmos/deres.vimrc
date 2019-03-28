@@ -848,3 +848,20 @@ hook_post_source = '''
   highlight link gitmessengerPopupNormal NormalFloat
 
 '''
+
+# Shougo/deol {{{1
+[[plugins]]
+repo = 'Shougo/deol.nvim'
+on_cmd = 'Deol'
+hook_add = '''
+  
+  nnoremap <silent> <SPACE>ttt :<C-u>call <SID>DeolFloating()<CR>
+
+  function! s:DeolFloating() abort
+    exec 'Deol -split=floating'
+      \ '-winrow=1 -winheight=' . string(&lines * 0.8)
+      \ '-wincol=1 -winwidth=' . string(&columns)
+  endfunction
+
+
+'''

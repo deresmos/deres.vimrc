@@ -290,11 +290,6 @@ hook_add = '''
   let g:nvimterm#enter_insert = 0
 '''
 
-# Shougo/deol {{{2
-[[plugins]]
-repo = 'Shougo/deol.nvim'
-if = '''has('nvim')'''
-
 # w0ng/vim-hybrid {{{2
 [[plugins]]
 repo = 'w0ng/vim-hybrid'
