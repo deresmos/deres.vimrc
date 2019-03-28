@@ -836,11 +836,15 @@ on_source = 'deoplete.nvim'
 [[plugins]]
 repo = 'rhysd/git-messenger.vim'
 on_cmd = 'GitMessenger'
-on_map = '<Plug>(git-messenger-'
+on_map = '<Plug>(git-messenger'
 hook_add = '''
 
-  nmap <Space>gid <Plug>(git-messenger)
-  nmap <Space>giD <Plug>(git-messenger-into-popup)
+  nmap <SPACE>gid <Plug>(git-messenger)
+  nmap <SPACE>giD <Plug>(git-messenger-into-popup)
 
 '''
+hook_post_source = '''
 
+  highlight link gitmessengerPopupNormal NormalFloat
+
+'''

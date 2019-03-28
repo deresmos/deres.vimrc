@@ -21,6 +21,7 @@ function! MyHighlights()
     highlight vimHighlight     ctermfg=166  ctermbg=none
     highlight VertSplit        ctermfg=244  ctermbg=none
     highlight IndentGuidesOdd  ctermbg=236
+    highlight NormalFloat ctermfg=none ctermbg=233
   endif
 endfunction
 
