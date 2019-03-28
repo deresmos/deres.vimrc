@@ -333,17 +333,18 @@ hook_add = '''
 	  nnoremap <silent><buffer><expr> p defx#do_action('paste')
 
 	  nnoremap <silent><buffer><expr> <CR> defx#do_action('multi',
-      \ [['quit'], ['drop', 'open']])
+      \ [['call', 'DefxPreCommand'], ['drop']])
 	  nnoremap <silent><buffer><expr> <C-M> defx#do_action('multi',
-      \ [['quit'], ['drop', 'open']])
-	  nnoremap <silent><buffer><expr> l defx#do_action('open')
+      \ [['call', 'DefxPreCommand'], ['drop']])
+	  nnoremap <silent><buffer><expr> l defx#do_action('open_or_close_tree')
+	  nnoremap <silent><buffer><expr> L defx#do_action('open')
 	  nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
 	  nnoremap <silent><buffer><expr> e defx#do_action('multi', 
-      \ [['drop', 'vsplit'], 'quit'])
+      \ [['call', 'DefxPreCommand'], ['drop', 'vsplit']])
 	  nnoremap <silent><buffer><expr> E defx#do_action('multi', 
-      \ [['drop', 'split'], 'quit'])
+      \ [['call', 'DefxPreCommand'], ['drop', 'split']])
 	  nnoremap <silent><buffer><expr> t defx#do_action('multi', 
-      \ [['drop', 'tabedit'], 'quit'])
+      \ [['call', 'DefxPreCommand'], ['drop', 'tabedit']])
 	  nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
 	  nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
 
@@ -358,7 +359,7 @@ hook_add = '''
 		" nnoremap <silent><buffer><expr> ss defx#do_action('toggle_sort', 'size')
 		" nnoremap <silent><buffer><expr> se defx#do_action('toggle_sort', 'extension')
 
-	  nnoremap <silent><buffer><expr> d defx#do_action('remove')
+	  nnoremap <silent><buffer><expr> D defx#do_action('remove')
 	  nnoremap <silent><buffer><expr> r defx#do_action('rename')
 	  nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
 	  nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
@@ -367,31 +368,60 @@ hook_add = '''
 	  nnoremap <silent><buffer><expr> ; defx#do_action('repeat')
 	  nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
 	  nnoremap <silent><buffer><expr> q defx#do_action('quit')
-	  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
+	  nnoremap <silent><buffer><expr> <Space><Space> defx#do_action('toggle_select') . 'j'
 	  nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
 	  nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
 	  nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
 	  nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 
 		nnoremap <silent><buffer><expr> <SPACE>fg
-      \ defx#do_action('multi',
-      \ ['quit', ['call', 'CursorDeniteGrep']])
+      \ defx#do_action('call', 'DefxDeniteGrep')
 		nnoremap <silent><buffer><expr> <SPACE>ff
-      \ defx#do_action('multi',
-      \ ['quit', ['call', 'CursorDeniteFile']])
+      \ defx#do_action('call', 'DefxDeniteFile')
+		nnoremap <silent><buffer><expr> ds
+      \ defx#do_action('call', 'DefxSetDiffSource')
+		nnoremap <silent><buffer><expr> dt
+      \ defx#do_action('call', 'DefxSetDiffTarget')
+		nnoremap <silent><buffer><expr> do
+      \ defx#do_action('call', 'DefxOpenDiffDir')
 
-    nmap <buffer><silent> <SPACE>gk <Plug>(defx-git-prev)
-    nmap <buffer><silent> <SPACE>gj <Plug>(defx-git-next)
+    nmap <silent><buffer> <SPACE>gk <Plug>(defx-git-prev)
+    nmap <silent><buffer> <SPACE>gj <Plug>(defx-git-next)
 
     " functions {{{
-		function! CursorDeniteGrep(context) abort
-      let filepath = fnamemodify(a:context.targets[0], ':p:h')
-      exec 'Denite grep -no-empty -path=' . filepath
+    function! DefxPreCommand(context) abort
+      if a:context.buffer_name == 'defx-floating'
+        quit
+      elseif a:context.buffer_name == 'defx-tree'
+        wincmd p
+      endif
+    endfunction
+
+    function! DefxSetDiffSource(context) abort
+      let g:defx_diff_source = a:context.targets[0]
+      echo 'Set diff source:' g:defx_diff_source
+    endfunction
+
+    function! DefxSetDiffTarget(context) abort
+      let g:defx_diff_target = a:context.targets[0]
+      echo 'Set diff target:' g:defx_diff_target
+    endfunction
+
+    function! DefxOpenDiffDir(...) abort
+      tabedit
+      execute 'DirDiff' g:defx_diff_source g:defx_diff_target
+    endfunction
+
+		function! DefxDeniteGrep(context) abort
+      call DefxPreCommand(a:context)
+      let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+      exec 'Denite grep -no-empty -path=' . dirpath
 		endfunction
 
-		function! CursorDeniteFile(context) abort
-      let filepath = fnamemodify(a:context.targets[0], ':p:h')
-      exec 'Denite file -no-empty -mode=insert -path=' . filepath
+		function! DefxDeniteFile(context) abort
+      call DefxPreCommand(a:context)
+      let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+      exec 'Denite file_rec -no-empty -mode=insert -path=' . dirpath
 		endfunction
     " }}}
 
@@ -402,14 +432,24 @@ hook_source = '''
 
 	call defx#custom#option('_', {
     \ 'root_marker': ': ',
-    \ 'direction': 'topleft',
     \ 'buffer_name': 'defx',
+    \ 'direction': 'topleft',
     \ 'split': 'vertical',
+    \ 'columns': 'mark:git:filename:size:time',
+    \ })
+	call defx#custom#option('defx-floating', {
+    \ 'split': 'floating',
     \ 'winrow': '1',
-    \ 'winheight': '1000',
-    \ 'wincol': '0',
+    \ 'winheight': &lines - 3,
+    \ 'wincol': (&columns - 113) / 2,
     \ 'winwidth': '113',
     \ 'columns': 'mark:git:filename:size:time',
+    \ })
+	call defx#custom#option('defx-tree', {
+    \ 'direction': 'topleft',
+    \ 'split': 'vertical',
+    \ 'winwidth': '35',
+    \ 'columns': 'mark:git:filename',
     \ })
 
 	call defx#custom#column('filename', {
@@ -769,7 +809,7 @@ hook_source = '''
 [[plugins]]
 repo = 'deresmos/vim-stylus'
 on_ft = ['stylus', 'vue']
-hook_add = '''
+hook_source = '''
   let g:quickrun_config['stylus'] = {
     \ 'command': 'stylus', 'exec': ['%c < %s']
   \ }

@@ -117,11 +117,13 @@ function! s:saveFile(force) abort "{{{
 endfunction
 " }}}
 
-nnoremap [NERDTree] <Nop>
-nmap <SPACE>ft [NERDTree]
-nnoremap <silent> [NERDTree]t :<C-u>NERDTreeToggle<CR>
-nnoremap <silent> [NERDTree]f :<C-u>NERDTreeFocus<CR>
-nnoremap <silent> [NERDTree]F :<C-u>NERDTreeFind<CR>
+nnoremap <silent> <SPACE>ft :Defx -buffer-name=defx-tree -listed -resume<CR>
+nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating -toggle<CR>
+" nnoremap [NERDTree] <Nop>
+" nmap <SPACE>ft [NERDTree]
+" nnoremap <silent> [NERDTree]t :<C-u>NERDTreeToggle<CR>
+" nnoremap <silent> [NERDTree]f :<C-u>NERDTreeFocus<CR>
+" nnoremap <silent> [NERDTree]F :<C-u>NERDTreeFind<CR>
 
 nnoremap <silent> <SPACE>fh :Denite command_history<CR>
 nnoremap <silent> <SPACE>fj :Denite jump<CR>
