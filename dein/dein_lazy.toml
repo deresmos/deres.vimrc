@@ -326,6 +326,7 @@ hook_add = '''
 
 	function! s:defx_my_settings() abort
     set signcolumn=no
+    set listchars=
 
 	  " Define mappings
 	  nnoremap <silent><buffer><expr> c defx#do_action('copy')
