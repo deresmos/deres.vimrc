@@ -1348,3 +1348,27 @@ hook_add = '''
     " autocmd FileType pug setlocal syntax=css
   augroup END
 '''
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+build = 'coc#util#install()'
+hook_add = '''
+
+  nmap <silent> <SPACE>mgg <Plug>(coc-definition)
+  " nmap <silent> gy <Plug>(coc-type-definition)
+  " nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> <SPACE>mu <Plug>(coc-references)
+  nmap <silent> <SPACE>m= <Plug>(coc-format)
+  nmap <silent> <SPACE>mr <Plug>(coc-rename)
+
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  nnoremap <silent> <SPACE>md :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if &filetype == 'vim'
+      execute 'h '.expand('<cword>')
+    else
+      call CocActionAsync('doHover')
+    endif
+  endfunction
+
+'''
