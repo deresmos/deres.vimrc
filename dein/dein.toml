@@ -1358,8 +1358,12 @@ hook_add = '''
   " nmap <silent> gy <Plug>(coc-type-definition)
   " nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> <SPACE>mu <Plug>(coc-references)
-  nmap <silent> <SPACE>m= <Plug>(coc-format)
+  nmap <silent> <SPACE>mf <Plug>(coc-format)
+  xmap <silent> <SPACE>mf <Plug>(coc-format-selected)
+  nmap <silent> <SPACE>mF <Plug>(coc-fix-current)
   nmap <silent> <SPACE>mr <Plug>(coc-rename)
+  nmap <silent> <SPACE>ej <Plug>(coc-diagnostic-next)
+  nmap <silent> <SPACE>ek <Plug>(coc-diagnostic-prev)
 
   autocmd CursorHold * silent call CocActionAsync('highlight')
   nnoremap <silent> <SPACE>md :call <SID>show_documentation()<CR>
@@ -1369,6 +1373,18 @@ hook_add = '''
     else
       call CocActionAsync('doHover')
     endif
+  endfunction
+
+  function! CocCustomInstall() abort
+    CocInstall coc-python
+      \ coc-snippets
+      \ coc-json
+      \ coc-css
+      \ coc-html
+      \ coc-tsserver
+      \ coc-phpls
+      \ coc-tag
+      \ coc-tslint
   endfunction
 
 '''

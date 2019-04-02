@@ -413,8 +413,8 @@ xnoremap <SPACE>al\| :EasyAlign*\|<CR>
 
 
 "E keybind {{{2
-nmap <SPACE>ej <Plug>(ale_next)zz
-nmap <SPACE>ek <Plug>(ale_previous)zz
+" nmap <SPACE>ej <Plug>(ale_next)zz
+" nmap <SPACE>ek <Plug>(ale_previous)zz
 nmap <SPACE>et <Plug>(ale_toggle)
 
 "nvim only keybind{{{2

@@ -1,0 +1,33 @@
+{
+  "suggest.timeout": 5000,
+  "diagnostic.enable": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextPrefix": " >> ",
+  "signature.maxWindowHeight": 12,
+  "codeLens.enable": true,
+
+  "languageserver": {
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": [
+        "vim"
+      ]
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": [
+        "start"
+      ],
+      "filetypes": [
+        "sh"
+      ]
+    }
+  },
+
+  "python.jediEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.linting.banditEnabled": true,
+  "python.linting.pylintEnabled": false
+}
