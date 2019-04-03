@@ -604,8 +604,8 @@ hook_source = '''
 repo = 'autozimu/LanguageClient-neovim'
 build = 'bash install.sh'
 on_if = '$DEOPLETE'
-on_ft  = ['vue', 'javascript', 'python', 'php', 'css', 'sh']
-hook_add = '''
+hook_source = '''
+
   function! s:lsp()
     nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
     nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
