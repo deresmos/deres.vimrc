@@ -1,10 +1,16 @@
 {
   "suggest.timeout": 5000,
+  "coc.preferences.previewAutoClose": false,
+  "suggest.maxPreviewWidth": 100,
+  "suggest.snippetIndicator": " >>",
+  "suggest.maxCompleteItemCount": 25,
   "diagnostic.enable": true,
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": " >> ",
-  "signature.maxWindowHeight": 12,
-  "codeLens.enable": true,
+  "signature.maxWindowHeight": 25,
+  "diagnostic.checkCurrentLine": true,
+  "signature.preferShownAbove": false,
+  "signature.hideOnTextChange": false,
 
   "languageserver": {
     "efm": {
@@ -29,5 +35,7 @@
   "python.linting.flake8Enabled": true,
   "python.linting.mypyEnabled": true,
   "python.linting.banditEnabled": true,
-  "python.linting.pylintEnabled": false
+  "python.linting.pylintEnabled": false,
+
+  "codeLens.enable": false
 }
