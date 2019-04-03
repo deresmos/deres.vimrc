@@ -498,8 +498,11 @@ repo = 'Shougo/deoplete.nvim'
 if ='''has('nvim')'''
 on_event = 'InsertEnter'
 hook_source = '''
+
   let g:deoplete#enable_at_startup  = 1
   set completeopt+=noinsert
+  set completeopt-=preview
+
   call deoplete#custom#source('buffer', 'min_pattern_length', 1)
   call deoplete#custom#source('tag', 'rank', 1)
   call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
@@ -514,6 +517,7 @@ hook_source = '''
     \ 'stylus': ['stylcomplete#CompleteStyl'],
     \ 'css':    ['csscomplete#CompleteCSS'],
   \ })
+
 '''
 
 # ncm2/float-preview.nvim {{{2
@@ -862,9 +866,12 @@ on_ft = ['hjson']
 # Shougo/echodoc.vim # {{{1
 [[plugins]]
 repo = 'Shougo/echodoc.vim'
-on_ft = ['python']
+on_source = 'deoplete.nvim'
 hook_add = '''
+
   let g:echodoc#enable_at_startup = 1
+  let g:echodoc#type = 'virtual'
+
 '''
 
 # Shougo/neco-vim # {{{1
