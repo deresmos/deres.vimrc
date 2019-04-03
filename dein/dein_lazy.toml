@@ -939,6 +939,8 @@ hook_source = '''
 
   autocmd CursorHold * silent call CocActionAsync('highlight')
   nnoremap <silent> <SPACE>md :call <SID>show_documentation()<CR>
+  nnoremap <silent> <SPACE>ms :call CocActionAsync('showSignatureHelp')<CR>
+
   function! s:show_documentation()
     if &filetype == 'vim'
       execute 'h '.expand('<cword>')
@@ -960,3 +962,7 @@ hook_source = '''
   endfunction
 
 '''
+
+[[plugins]]
+repo = 'neoclide/coc-denite'
+on_source = 'coc.nvim'
