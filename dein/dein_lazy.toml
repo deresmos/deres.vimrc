@@ -495,7 +495,7 @@ hook_source = '''
 # Shougo/deoplete.nvim {{{2
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
-if ='''has('nvim')'''
+on_if = '$DEOPLETE'
 on_event = 'InsertEnter'
 hook_source = '''
 
@@ -524,6 +524,7 @@ hook_source = '''
 [[plugins]]
 repo = 'ncm2/float-preview.nvim'
 on_source = 'deoplete.nvim'
+on_if = '$DEOPLETE'
 hook_source = '''
 
   let g:float_preview#docked = 0
@@ -599,35 +600,36 @@ hook_source = '''
 '''
 
 # autozimu/LanguageClient-neovim # {{{2
-# [[plugins]]
-# repo = 'autozimu/LanguageClient-neovim'
-# build = 'bash install.sh'
-# on_ft  = ['vue', 'javascript', 'python', 'php', 'css', 'sh']
-# hook_add = '''
-#   function! s:lsp()
-#     nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
-#     nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
-#     nnoremap <buffer><silent> <Space>md  :call LanguageClient_textDocument_hover()<CR>
-#     nnoremap <buffer><silent> <Space>mu  :call LanguageClient_textDocument_references()<CR>
-#   endfunction
-#
-#   augroup my-lsp-cmd
-#     autocmd!
-#     autocmd FileType vue,javascript,python,php,css,sh :call s:lsp()
-#   augroup END
-# '''
-# hook_source = '''
-#   let g:LanguageClient_diagnosticsEnable = 0
-#   let g:LanguageClient_serverCommands = {
-#     \ 'vue': ['vls'],
-#     \ 'javascript': ['javascript-typescript-stdio'],
-#     \ 'python': ['pyls'],
-#     \ 'php': ['php', '~/.config/composer/php-language-server/bin/php-language-server.php'],
-#     \ 'css': ['css-languageserver', '--stdio'],
-#     \ 'sh': ['bash-language-server', 'start'],
-#   \ }
-# '''
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+build = 'bash install.sh'
+on_if = '$DEOPLETE'
+on_ft  = ['vue', 'javascript', 'python', 'php', 'css', 'sh']
+hook_add = '''
+  function! s:lsp()
+    nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
+    nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
+    nnoremap <buffer><silent> <Space>md  :call LanguageClient_textDocument_hover()<CR>
+    nnoremap <buffer><silent> <Space>mu  :call LanguageClient_textDocument_references()<CR>
+  endfunction
 
+  augroup my-lsp-cmd
+    autocmd!
+    autocmd FileType vue,javascript,python,php,css,sh :call s:lsp()
+  augroup END
+'''
+hook_source = '''
+  let g:LanguageClient_diagnosticsEnable = 0
+  let g:LanguageClient_serverCommands = {
+    \ 'vue': ['vls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'python': ['pyls'],
+    \ 'php': ['intelephense', '--stdio'],
+    \ 'css': ['css-languageserver', '--stdio'],
+    \ 'sh': ['bash-language-server', 'start'],
+  \ }
+'''
 # }}}1
 
 # Markdown plugins {{{1
@@ -768,19 +770,7 @@ on_ft = 'go'
 
 # }}}1
 
-# PHP plugins {{{1
-# padawan-php/deoplete-padawan # {{{2
-[[plugins]]
-repo = 'padawan-php/deoplete-padawan'
-if = '''has('nvim')'''
-on_event = 'InsertEnter'
-on_ft = 'php'
-hook_source = '''
-  augroup padawan-setting
-    autocmd! FileType php setlocal completeopt-=preview
-  augroup END
-'''
-
+# joonty/vdebug.git # {{{2
 [[plugins]]
 repo = 'joonty/vdebug.git'
 if = '''has('python')'''
@@ -929,3 +919,44 @@ hook_add = '''
 
 '''
 
+# neoclide/coc.nvim {{{1
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+on_if = 'empty($DEOPLETE)'
+build = 'coc#util#install()'
+hook_source = '''
+
+  nmap <silent> <SPACE>mgg <Plug>(coc-definition)
+  " nmap <silent> gy <Plug>(coc-type-definition)
+  " nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> <SPACE>mu <Plug>(coc-references)
+  nmap <silent> <SPACE>mf <Plug>(coc-format)
+  xmap <silent> <SPACE>mf <Plug>(coc-format-selected)
+  nmap <silent> <SPACE>mF <Plug>(coc-fix-current)
+  nmap <silent> <SPACE>mr <Plug>(coc-rename)
+  nmap <silent> <SPACE>ej <Plug>(coc-diagnostic-next)
+  nmap <silent> <SPACE>ek <Plug>(coc-diagnostic-prev)
+
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+  nnoremap <silent> <SPACE>md :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if &filetype == 'vim'
+      execute 'h '.expand('<cword>')
+    else
+      call CocActionAsync('doHover')
+    endif
+  endfunction
+
+  function! CocCustomInstall() abort
+    CocInstall coc-python
+      \ coc-snippets
+      \ coc-json
+      \ coc-css
+      \ coc-html
+      \ coc-tsserver
+      \ coc-phpls
+      \ coc-tag
+      \ coc-tslint
+  endfunction
+
+'''
