@@ -959,6 +959,10 @@ hook_source = '''
       \ coc-phpls
       \ coc-tag
       \ coc-tslint
+      \ coc-yaml
+      \ coc-emmet
+      \ coc-vetur
+      \ coc-yank
   endfunction
 
 '''
