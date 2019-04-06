@@ -499,7 +499,7 @@ hook_add = '''
     \   'left': [
     \     ['mode', 'paste', 'readonly'],
     \     ['branchname', 'gitgutter'],
-    \     ['currenttag'],
+    \     ['currenttag', 'vista'],
     \   ],
     \   'right': [
     \     ['lineinfo'],
@@ -541,6 +541,7 @@ hook_add = '''
     \   'gitgutter': 'MyGitGutter',
     \   'ale': 'AleStatus',
     \   'currenttag': 'MyCurrentTag',
+    \   'vista': 'NearestMethodOrFunction',
     \ },
     \ 'component_expand': {
     \   'readonly': 'MyReadonly',
@@ -563,6 +564,10 @@ hook_add = '''
     \   'inactive': ['tabfilename_inactive', 'modified'],
     \ },
   \ }
+
+  function! NearestMethodOrFunction() abort
+    return get(b:, 'vista_nearest_method_or_function', '')
+  endfunction
 
   function! s:MyTabFilename(n, length) abort
     let l:buflist = tabpagebuflist(a:n)
@@ -630,6 +635,10 @@ hook_add = '''
   endfunction
 
   function! MyCurrentTag() abort
+    if !exists('*tagbar#currenttag')
+      return ''
+    endif
+
     let l:_ = winwidth(0) > s:large_width ? tagbar#currenttag('%s', '') : ''
     let l:_ = l:_[:40]
     return l:_
