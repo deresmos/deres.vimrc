@@ -24,14 +24,13 @@ set undofile
 let &undodir = s:undo_dir
 call s:makeDirectory(&undodir)
 filetype plugin on
-set ambiwidth=double
 
 set iskeyword+=$
 set iskeyword+=-
 
 set noshowmode
 if exists('&ambw')
-  set ambiwidth=double
+  set ambiwidth=single
 endif
 
 set wildmenu

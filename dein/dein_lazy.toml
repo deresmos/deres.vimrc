@@ -22,6 +22,11 @@ hook_source = '''
 repo = 'deresmos/denite-gitdiff'
 on_source = 'denite.nvim'
 
+# deresmos/denite-gitdiff {{{2
+[[plugins]]
+repo = 'iyuuya/denite-ale'
+on_source = 'denite.nvim'
+
 # Shougo/denite.nvim {{{2
 [[plugins]]
 repo = 'Shougo/denite.nvim'
@@ -220,6 +225,7 @@ hook_source = '''
     \ '.DS_Store', '*.pyc', '*.sw[po]',
     \ '.hg/', '.git/', '.bzr/', '.svn/',
     \ 'node_modules/', 'bower_components/', 'vendor/ruby',
+    \ '.mypy_cache/',
     \ '.idea/', '.tags'])
   "}}}
   " https://qiita.com/hrsh7th@github/items/303d46ba13532c502828 {{{
@@ -1024,3 +1030,10 @@ hook_source = '''
   let g:tagbar_type_aspvbs = s:tagbar_type_vbs
   let g:tagbar_type_vb     = s:tagbar_type_vbs
 '''
+
+# ranger cli {{{1
+[[plugins]]
+repo = 'francoiscabrol/ranger.vim'
+
+[[plugins]]
+repo = 'rbgrouleff/bclose.vim'
