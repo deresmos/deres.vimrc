@@ -255,10 +255,10 @@ noremap <S-k> {
 noremap } <S-j>
 noremap { <S-k>
 nnoremap Q <Nop>
-noremap n nzz
-noremap N Nzz
-noremap * *zz
-noremap # #zz
+noremap n n
+noremap N N
+noremap * *
+noremap # #
 nnoremap <leader> <Nop>
 map <Space>; /
 map <Space>g; g/

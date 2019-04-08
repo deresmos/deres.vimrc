@@ -929,7 +929,7 @@ on_source = 'coc.nvim'
 repo = 'liuchengxu/vista.vim'
 hook_source = '''
 
-  let g:vista_icon_indent = ["▸ ", "-"]
+  let g:vista_echo_cursor_strategy = "floating_win"
 
 '''
 

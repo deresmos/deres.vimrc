@@ -4,11 +4,11 @@
   "suggest.maxPreviewWidth": 100,
   "suggest.snippetIndicator": " >>",
   "suggest.maxCompleteItemCount": 25,
-  "diagnostic.enable": true,
+  "diagnostic.enable": false,
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextPrefix": " >> ",
-  "signature.maxWindowHeight": 25,
   "diagnostic.checkCurrentLine": true,
+  "signature.maxWindowHeight": 25,
   "signature.preferShownAbove": false,
   "signature.hideOnTextChange": false,
 

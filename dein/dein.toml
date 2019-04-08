@@ -930,12 +930,12 @@ hook_add = '''
 [[plugins]]
 repo = 'google/vim-searchindex'
 hook_add = '''
-  map <silent> n  nzz<Plug>SearchIndex
-  map <silent> N  Nzz<Plug>SearchIndex
-  map <silent> *  <Plug>ImprovedStar_*zz<Plug>SearchIndex
-  map <silent> #  <Plug>ImprovedStar_#zz<Plug>SearchIndex
-  map <silent> g* <Plug>ImprovedStar_g*zz<Plug>SearchIndex
-  map <silent> g# <Plug>ImprovedStar_g#zz<Plug>SearchIndex
+  map <silent> n  n<Plug>SearchIndex
+  map <silent> N  N<Plug>SearchIndex
+  map <silent> *  <Plug>ImprovedStar_*<Plug>SearchIndex
+  map <silent> #  <Plug>ImprovedStar_#<Plug>SearchIndex
+  map <silent> g* <Plug>ImprovedStar_g*<Plug>SearchIndex
+  map <silent> g# <Plug>ImprovedStar_g#<Plug>SearchIndex
 '''
 
 # deresmos/vim-spatab {{{2

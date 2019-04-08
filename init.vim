@@ -231,8 +231,8 @@ nnoremap <SPACE>gl :<C-u>Agit<CR>
 nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 
 " gitgutter keybind
-nmap <silent> <SPACE>gk <Plug>GitGutterPrevHunkzz
-nmap <silent> <SPACE>gj <Plug>GitGutterNextHunkzz
+nmap <silent> <SPACE>gk <Plug>GitGutterPrevHunk
+nmap <silent> <SPACE>gj <Plug>GitGutterNextHunk
 nmap <silent> <SPACE>gp <Plug>GitGutterPreviewHunk
 nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push -v origin HEAD<CR>
 nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
@@ -413,8 +413,8 @@ xnoremap <SPACE>al\| :EasyAlign*\|<CR>
 
 
 "E keybind {{{2
-" nmap <SPACE>ej <Plug>(ale_next)zz
-" nmap <SPACE>ek <Plug>(ale_previous)zz
+nmap <SPACE>ej <Plug>(ale_next)
+nmap <SPACE>ek <Plug>(ale_previous)
 nmap <SPACE>et <Plug>(ale_toggle)
 
 "nvim only keybind{{{2
