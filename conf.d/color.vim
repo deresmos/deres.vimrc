@@ -22,6 +22,12 @@ function! MyHighlights()
     highlight VertSplit        ctermfg=244  ctermbg=none
     highlight IndentGuidesOdd  ctermbg=236
     highlight NormalFloat ctermfg=none ctermbg=233
+
+    highlight link ALEVirtualTextError WarningMsg
+    highlight link ALEVirtualTextInfo WarningMsg
+    highlight link ALEVirtualTextStyleError WarningMsg
+    highlight link ALEVirtualTextStyleWarning WarningMsg
+    highlight link ALEVirtualTextWarning WarningMsg
   endif
 endfunction
 
