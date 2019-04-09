@@ -1,12 +1,19 @@
 # git plugins {{{1
-# idanarye/vim-merginal {{{2
+# rhysd/committia.vim {{{2
 [[plugins]]
-repo = 'idanarye/vim-merginal'
+repo = 'rhysd/committia.vim'
+hook_add = '''
+  let g:committia_open_only_vim_starting = 1
+  let g:committia_hooks = {}
+  function! g:committia_hooks.edit_open(info) abort
+    nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
+    nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
+  endfunction
+'''
 
 # tpope/vim-fugitive {{{2
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-rev = 'db3b837'
 hook_add = '''
   augroup fugitive-keymap
     autocmd!
@@ -48,44 +55,6 @@ hook_add = '''
   endfunction
 '''
 
-# deresmos/agit.vim {{{2
-[[plugins]]
-repo = 'deresmos/agit.vim'
-hook_add = '''
-  augroup agit-keymap
-    autocmd!
-    autocmd FileType agit nmap <buffer> rv <Plug>(agit-git-revert)
-    autocmd FileType agit nmap <buffer> cp <Plug>(agit-git-cherry-pick)
-    autocmd FileType agit nnoremap <buffer><silent> ch
-      \ :let g:gitgutter_diff_base = agit#extract_hash(getline('.'))<CR>
-      \ :echo 'Switched gitgutter hash'<CR>
-  augroup END
-
-  let g:agit_max_log_lines = 200
-  let g:agit_ignore_spaces = 0
-
-  let g:agit_preset_views = {
-    \ 'default': [
-    \   {'name': 'log'},
-    \   {'name': 'stat',
-    \    'layout': 'botright vnew'},
-    \   {'name': 'diff',
-    \    'layout': 'belowright {winheight(".") * 3 / 4}new'}
-    \ ],
-    \ 'file': [
-    \   {'name': 'filelog'},
-    \   {'name': 'stat',
-    \    'layout': 'botright vnew'},
-    \   {'name': 'filediff',
-    \    'layout': 'belowright {winheight(".") * 3 / 4}new'}
-    \ ]}
-
-  let g:agit_diff_stat_cp932_pattern = [
-    \ 'B_dev/',
-    \ 'toB/'
-    \ ]
-'''
-
 # airblade/vim-gitgutter {{{2
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
@@ -99,6 +68,7 @@ hook_add = '''
   let g:gitgutter_signs                 = 1
   let g:gitgutter_highlight_lines       = 0
   let g:gitgutter_async                 = 1
+  let g:gitgutter_max_signs             = 1000
 
   set signcolumn=yes
 
@@ -109,42 +79,13 @@ hook_add = '''
     autocmd!
     autocmd ColorScheme * highlight GitGutterAdd    ctermfg=2 ctermbg=2
     autocmd ColorScheme * highlight GitGutterDelete ctermfg=1 ctermbg=235
-    autocmd ColorScheme * highlight GitGutterChange ctermfg=1 ctermbg=4
+    autocmd ColorScheme * highlight GitGutterChange ctermfg=1 ctermbg=1
   augroup END
 
   augroup gitgutter-custom
     autocmd!
     autocmd TextChanged,InsertLeave,WinEnter * GitGutter
     autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
-  augroup END
-'''
-
-# rhysd/committia.vim {{{2
-[[plugins]]
-repo = 'rhysd/committia.vim'
-hook_add = '''
-  let g:committia_open_only_vim_starting = 1
-  let g:committia_hooks = {}
-  function! g:committia_hooks.edit_open(info) abort
-    nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
-    nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
-  endfunction
-'''
-
-# jreybert/vimagit {{{2
-[[plugins]]
-repo = 'jreybert/vimagit'
-hook_add = '''
-  let g:magit_default_show_all_files = 2
-  let g:magit_default_fold_level     = 0
-  let g:magit_default_sections       = [
-    \ 'info', 'commit',
-    \ 'staged', 'unstaged', 'stash']
-
-  augroup magit-keymap
-    autocmd!
-    autocmd FileType magit nmap <buffer> <SPACE>gj <C-n>
-    autocmd FileType magit nmap <buffer> <SPACE>gk <C-p>
   augroup END
 '''
 
@@ -155,18 +96,6 @@ hook_add = '''
   let g:DiffUpdate      = 0
   let g:DiffPairVisible = 0
 '''
-
-# mattn/gist-vim {{{2
-[[plugins]]
-repo = 'mattn/gist-vim'
-hook_add = '''
-  let g:gist_update_on_write = 2
-  let g:gist_post_private    = 1
-'''
-
-# lambdalisue/gina.vim {{{2
-[[plugins]]
-repo = 'lambdalisue/gina.vim'
 
 #}}}1 END git plugins
 
@@ -285,7 +214,6 @@ repo = 'Shougo/dein.vim'
 # deresmos/nvim-term {{{2
 [[plugins]]
 repo = 'deresmos/nvim-term'
-if = '''has('nvim')'''
 hook_add = '''
   let g:nvimterm#enter_insert = 0
 '''
@@ -321,91 +249,9 @@ hook_add = '''
   call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
 '''
 
-# tyru/open-browser.vim {{{2
-[[plugins]]
-repo = 'tyru/open-browser.vim'
-hook_add = '''
-  if system('uname') == "Linux\n"
-    let g:openbrowser_browser_commands = [
-      \ {"name": "firefox",
-      \  "args": ["{browser}", "{uri}"]},
-    \ ]
-  endif
-'''
-
-# thinca/vim-qfreplace {{{2
-[[plugins]]
-repo = 'thinca/vim-qfreplace'
-
 # vim-scripts/L9 {{{2
 [[plugins]]
 repo = 'vim-scripts/L9'
-
-# easymotion/vim-easymotion {{{2
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
-hook_add = '''
-  let g:EasyMotion_do_mapping = 0
-  map f <Plug>(easymotion-bd-fl)
-  map t <Plug>(easymotion-bd-tl)
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-  nmap <SPACE>jj <Plug>(easymotion-overwin-f2)
-  omap <SPACE>jj <Plug>(easymotion-overwin-f2)
-  nmap <SPACE>jg <Plug>(easymotion-sn)
-  omap <SPACE>jg <Plug>(easymotion-tn)
-'''
-
-# scrooloose/nerdtree {{{2
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-  let g:NERDTreeMinimalUI = 1
-  let g:NERDTreeAutoDeleteBuffer = 1
-  let g:NERDTreeMapActivateNode = 'l'
-  let g:NERDTreeMapChangeRoot = 'L'
-  let g:NERDTreeMapUpdir = 'h'
-  let g:NERDTreeMapUpdirKeepOpen = 'H'
-  let g:NERDTreeMapOpenSplit = 's'
-  let g:NERDTreeMapOpenVSplit = 'v'
-  let g:NERDTreeMapOpenExpl = '<Nop>'
-  augroup nerdtree-keymap
-    autocmd!
-    autocmd FileType nerdtree nmap <buffer> dd md
-    autocmd FileType nerdtree nmap <buffer> DD mdy
-    autocmd FileType nerdtree nmap <buffer> o ma
-    autocmd FileType nerdtree nmap <buffer> i ml
-    autocmd FileType nerdtree nmap <buffer> cp mc
-    autocmd FileType nerdtree nmap <buffer> rn mm
-    autocmd FileType nerdtree nmap <buffer> vd mv
-  augroup END
-'''
-
-# deresmos/nerdtree-diff-plugin {{{2
-[[plugins]]
-repo = 'deresmos/nerdtree-diff-plugin'
-
-# deresmos/nerdtree-yp-plugin {{{2
-[[plugins]]
-repo = 'deresmos/nerdtree-yp-plugin'
-hook_add = '''
-  augroup nerdtree-yp-keymap
-    autocmd!
-    autocmd FileType nerdtree nmap <buffer> yy my
-    autocmd FileType nerdtree nmap <buffer> pp mp
-  augroup END
-'''
-
-# deresmos/nerdtree-dirdiff-plugin {{{2
-[[plugins]]
-repo = 'deresmos/nerdtree-dirdiff-plugin'
-hook_add = '''
-  augroup nerdtree-dirdiff-keymap
-    autocmd!
-    autocmd FileType nerdtree nmap <buffer> dt mt
-    autocmd FileType nerdtree nmap <buffer> dw mw
-  augroup END
-'''
 
 # mhinz/vim-startify {{{2
 [[plugins]]
@@ -439,36 +285,6 @@ let g:startify_custom_header = [
 \"    \\__,_| \\___||_|    \\___||___/(_)  \\_/  |_||_| |_| |_|",
 \ ]
 let g:startify_change_to_dir = 1
-'''
-
-# LeafCage/yankround.vim {{{2
-[[plugins]]
-repo = 'LeafCage/yankround.vim'
-hook_add = '''
-  nmap p <Plug>(yankround-p)
-  nmap P <Plug>(yankround-P)
-  nmap <C-p> <Plug>(yankround-prev)
-  nmap <C-n> <Plug>(yankround-next)
-  let g:yankround_max_history = 10
-  let g:yankround_use_region_hl = 1
-'''
-
-# kana/vim-smartinput {{{2
-[[plugins]]
-repo = 'kana/vim-smartinput'
-hook_add = '''
-  call smartinput#define_rule({
-  \   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
-  \   'char'     : '(',
-  \   'input'    : '():<Left><Left>',
-  \   'filetype' : ['python'],
-  \   })
-  call smartinput#define_rule({
-  \   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#.*:',
-  \   'char'     : '(',
-  \   'input'    : '()<Left>',
-  \   'filetype' : ['python'],
-  \   })
 '''
 
 # LeafCage/foldCC.vim {{{2
@@ -698,199 +514,9 @@ hook_add = '''
   \ }
 '''
 
-# junegunn/vim-easy-align {{{2
-[[plugins]]
-repo = 'junegunn/vim-easy-align'
-hook_add = '''
-  xmap ga <Plug>(EasyAlign)
-'''
-
-# haya14busa/vim-migemo # {{{2
-# yaourt cmigemo
-[[plugins]]
-repo = 'haya14busa/vim-migemo'
-
-# schickling/vim-bufonly # {{{2
-[[plugins]]
-repo = 'schickling/vim-bufonly'
-
-# qpkorr/vim-renamer {{{2
-[[plugins]]
-repo = 'qpkorr/vim-renamer'
-
-# fuenor/qfixhowm {{{2
-[[plugins]]
-repo = 'fuenor/qfixhowm'
-hook_add = '''
-  let g:QFixHowm_Key            = '<Nop>'
-  let g:howm_fileencoding       = 'utf-8'
-  let g:howm_fileformat         = 'unix'
-  let g:qfixmemo_diary          = '%Y/%m/%Y-%m-%d'
-  let g:QFixHowm_CalendarWinCmd = 'rightbelow'
-  let g:QFixHowm_CalendarCount  = 3
-  let g:QFixHowm_FileType       = 'qfix_memo'
-  let g:qfixmemo_template       = ['%TITLE% ']
-  let g:qfixmemo_use_addtime    = 0
-  let g:qfixmemo_use_updatetime = 0
-  let g:QFixHowm_SaveTime       = -1
-
-  let g:QFixHowm_RootDir         = '~/.howm'
-  let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
-  let g:qfixmemo_folding_pattern = '^=[^=]'
-
-  function! QFixMemoBufRead()
-    setlocal foldenable
-  endfunction
-
-  command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
-  nnoremap <silent> <SPACE>hpw :<C-u>HowmDir work<CR>
-  nnoremap <silent> <SPACE>hpm :<C-u>HowmDir main<CR>
-  nnoremap <silent> <SPACE>hpl :<C-u>call <SID>pullHowm()<CR>
-  nnoremap <silent> <SPACE>hps :<C-u>call <SID>pushHowm()<CR>
-
-  function! s:pullHowm() abort " {{{
-    execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir 'git pull origin master'
-  endfunction
-  " }}}
-  function! s:pushHowm() abort " {{{
-    execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir ' git add . && git commit -m "commit" && git push origin master'
-  endfunction
-  " }}}
-
-'''
-
-# haya14busa/incsearch.vim {{{2
-[[plugins]]
-repo = 'haya14busa/incsearch.vim'
-hook_add = '''
-  map /  <Plug>(incsearch-forward)
-  map g/ <Plug>(incsearch-stay)
-'''
-
-[[plugins]]
-repo = 'haya14busa/incsearch-fuzzy.vim'
-hook_add = '''
-  nmap <Space>z;   <Plug>(incsearch-fuzzy-/)
-  nmap <Space>zg;  <Plug>(incsearch-fuzzy-stay)
-  nmap <Space>zs;  <Plug>(incsearch-fuzzyspell-/)
-  nmap <Space>zsg; <Plug>(incsearch-fuzzyspell-stay)
-'''
-
-[[plugins]]
-repo = 'haya14busa/incsearch-migemo.vim'
-hook_add = '''
-  nmap <Space>m;  <Plug>(incsearch-migemo-/)
-  nmap <Space>mg; <Plug>(incsearch-migemo-stay)
-'''
-
 # mhinz/neovim-remote {{{2
 [[plugins]]
 repo = 'mhinz/neovim-remote'
-
-# mbbill/undotree {{{2
-[[plugins]]
-repo = 'mbbill/undotree'
-
-# thinca/vim-zenspace {{{2
-[[plugins]]
-repo = 'thinca/vim-zenspace'
-
-# cocopon/colorswatch.vim {{{2
-[[plugins]]
-repo = 'cocopon/colorswatch.vim'
-
-# guns/xterm-color-table.vim {{{2
-[[plugins]]
-repo = 'guns/xterm-color-table.vim'
-
-# AndrewRadev/switch.vim {{{2
-[[plugins]]
-repo = 'AndrewRadev/switch.vim'
-
-# t9md/vim-quickhl {{{2
-[[plugins]]
-repo = 't9md/vim-quickhl'
-hook_add = '''
-  nnoremap <Space>mp :QuickhlManualAdd<space>
-  nmap <Space>mt <Plug>(quickhl-manual-this)
-  xmap <Space>mt <Plug>(quickhl-manual-this)
-  nmap <Space>mT <Plug>(quickhl-manual-reset)
-  xmap <Space>mT <Plug>(quickhl-manual-reset)
-  nmap <Space>mc <Plug>(quickhl-cword-toggle)
-'''
-
-# hecal3/vim-leader-guide {{{2
-[[plugins]]
-repo = 'hecal3/vim-leader-guide'
-hook_add = '''
-  let g:lmap =  {} " {{{
-  let g:lmap = {
-  \   'f': {
-  \     'name': 'file',
-  \   },
-  \   'q': {
-  \     'name': 'quit and Qfreplace',
-  \   },
-  \   'd': {
-  \     'name': 'denite',
-  \   },
-  \   'b': {
-  \     'name': 'buffer',
-  \   },
-  \   'p': {
-  \     'name': 'project and paste',
-  \   },
-  \   'y': {
-  \     'name': 'yank',
-  \   },
-  \   't': {
-  \     'name': 'tab, tags, terminal and toggle',
-  \   },
-  \   'w': {
-  \     'name': 'window',
-  \   },
-  \   'g': {
-  \     'name': 'git',
-  \   },
-  \   'v': {
-  \     'name': 'fold',
-  \   },
-  \   's': {
-  \     'name': 'session and SeachBuffers',
-  \   },
-  \   'h': {
-  \     'name': 'howm',
-  \   },
-  \   'r': {
-  \     'name': 'reset, replace, rename and record',
-  \   },
-  \   'j': {
-  \     'name': 'etc',
-  \   },
-  \   'c': {
-  \     'name': 'commenter',
-  \   },
-  \   'o': {
-  \     'name': 'browser and markdown',
-  \   },
-  \   'm': {
-  \     'name': 'mark and program',
-  \   },
-  \   'u': {
-  \     'name': 'update and undo',
-  \   },
-  \   'a': {
-  \     'name': 'align',
-  \   },
-  \   'e': {
-  \     'name': 'linter',
-  \   },
-  \ }
-  " }}}
-
-  call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
-  nnoremap <silent> <Space>? :<C-u>LeaderGuide '<Space>'<CR>
-'''
 
 # tpope/vim-repeat {{{2
 [[plugins]]
@@ -899,10 +525,6 @@ repo = 'tpope/vim-repeat'
 # mattn/webapi-vim {{{2
 [[plugins]]
 repo = 'mattn/webapi-vim'
-
-# tpope/tpope-vim-abolish {{{2
-[[plugins]]
-repo = 'tpope/tpope-vim-abolish'
 
 # adelarsq/vim-matchit {{{2
 [[plugins]]
@@ -954,19 +576,38 @@ hook_add = '''
 [[plugins]]
 repo = 'andreshazard/vim-logreview'
 
+# Shougo/context_filetype.vim {{{2
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
 
+# sheerun/vim-polyglot {{{2
+[[plugins]]
+repo = 'sheerun/vim-polyglot'
+build = './build'
+hook_add = '''
+  augroup my-pug-augroup
+    autocmd!
+    " autocmd FileType pug setlocal syntax=css
+  augroup END
+'''
+
+# Shougo/neomru.vim {{{2
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+# Shougo/neoyank.vim {{{2
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
 #}}}1 END plugins
 
 # Programing plugins {{{1
 # deresmos/vim-snippets {{{2
 [[plugins]]
 repo = 'deresmos/vim-snippets'
-if = '''has('nvim')'''
 
 # w0rp/ale {{{2
 [[plugins]]
 repo = 'w0rp/ale'
-if ='''has('nvim')'''
 hook_add = '''
   nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
   augroup custom-ale
@@ -1069,7 +710,6 @@ hook_add = '''
 # thinca/vim-quickrun {{{2
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-if = '''has('nvim')'''
 hook_add = '''
   let g:quickrun_config={'_': {'split': ''}}
   let g:quickrun_config._={
@@ -1091,173 +731,4 @@ hook_add = '''
   \}
 '''
 
-# Chiel92/vim-autoformat {{{2
-[[plugins]]
-repo = 'Chiel92/vim-autoformat'
-if = '''has('nvim')'''
-hook_add = '''
-  let g:formatter_yapf_style = 'pep8'
-  let g:formatdef_csscomb    = '"csscomb"'
-  let g:formatters_css       = ['csscomb', 'cssbeautify']
-'''
-
-# AndrewRadev/linediff.vim {{{2
-[[plugins]]
-repo = 'AndrewRadev/linediff.vim'
-
-# chrisbra/SudoEdit.vim {{{2
-[[plugins]]
-repo = 'chrisbra/SudoEdit.vim'
-
-# maxwell-k/dbext.vim {{{2
-# [[plugins]]
-# repo = 'maxwell-k/dbext.vim'
-# hook_add = '''
-#   if filereadable(expand('~/.dbextrc'))
-#     execute 'source' expand('~/.dbextrc')
-#   endif
-#
-#   let g:dbext_default_buffer_lines = 25
-#
-#   nmap <Space>mdp <Plug>DBPromptForBufferParameters
-#   nmap <Space>mdsp :<C-u>DBSetOption profile=
-#   nmap <Space>mdsP :<C-u>DBSetOption passwd=
-#
-#   nmap <Space>mdlt <Plug>DBListTable<CR>
-#   nmap <Space>mdlv <Plug>DBListView
-#   nmap <Space>mdlp <Plug>DBListProcedure
-#
-#   nmap <Space>mdi <Plug>DBSelectFromTable
-#   nmap <Space>mdd <Plug>DBDescribeTable
-#   nmap <Space>mdh <Plug>DBHistory
-#   nmap <Space>mdI <Plug>DBSelectFromTableWithWhere
-#
-#   nmap <Space>mdr <Plug>DBExecSQLUnderCursor
-#   xmap <Space>mdr <Plug>DBExecVisualSQL
-# '''
-
-# KabbAmine/vCoolor.vim {{{2
-[[plugins]]
-repo = 'KabbAmine/vCoolor.vim'
-hook_add = '''
-  let g:vcoolor_disable_mappings = 1
-  let g:vcoolor_lowercase = 0
-  nnoremap <SPACE>ocp :VCoolor<CR>
-  nnoremap <SPACE>ocP :VCoolIns r<CR>
-'''
-
-# chrisbra/colorizer {{{2
-[[plugins]]
-repo = 'chrisbra/colorizer'
-if = '''has('nvim')'''
-hook_source = '''
-  let g:colorizer_auto_color = 0
-  let g:colorizer_auto_map = 0
-'''
-
-# will133/vim-dirdiff {{{2
-[[plugins]]
-repo = 'will133/vim-dirdiff'
-
-# MattesGroeger/vim-bookmarks {{{2
-[[plugins]]
-repo = 'MattesGroeger/vim-bookmarks'
-hook_add = '''
-  let g:bookmark_no_default_key_mappings = 1
-  let g:bookmark_auto_save_file          = g:vim_dir . '/.bookmarks'
-  let g:bookmark_location_list           = 1
-  let g:bookmark_sign                    = '//'
-  let g:bookmark_annotation_sign         = '//'
-
-  highlight default link BookmarkAnnotationSign BookmarkSign
-
-  nnoremap [Bookmark] <Nop>
-  nmap <Space>bm [Bookmark]
-
-  nmap <silent> [Bookmark]t <Plug>BookmarkToggle
-  nmap <silent> [Bookmark]a <Plug>BookmarkAnnotate
-  nmap <silent> [Bookmark]l <Plug>BookmarkShowAll
-  nmap <silent> [Bookmark]j <Plug>BookmarkNext
-  nmap <silent> [Bookmark]k <Plug>BookmarkPrev
-  nmap <silent> [Bookmark]C <Plug>BookmarkClear
-  nmap <silent> [Bookmark]X <Plug>BookmarkClearAll
-  nmap <silent> [Bookmark]jj <Plug>BookmarkMoveDown
-  nmap <silent> [Bookmark]kk <Plug>BookmarkMoveUp
-  nmap <silent> [Bookmark]g <Plug>BookmarkMoveToLine
-  nmap [Bookmark]S :BookmarkSave<space>
-  nmap [Bookmark]L :BookmarkLoad<space>
-'''
-
 # }}}1
-
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-[[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
-hook_add = '''
-  let g:indent_guides_guide_size            = 1
-  let g:indent_guides_start_level           = 2
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_enable_on_vim_startup = 0
-  nnoremap <silent> <Space>tsL :IndentGuidesToggle<CR>
-
-  let g:indent_guides_exclude_filetypes = [
-    \ 'help',
-    \ 'nerdtree',
-    \ 'tagbar',
-    \ 'nvim-term',
-    \ 'nvim-term-t',
-  \ ]
-
-'''
-
-[[plugins]]
-repo = 'rhysd/conflict-marker.vim'
-hook_add = '''
-  let g:conflict_marker_enable_mappings = 0
-
-  nmap <silent> <Space>gcj <Plug>(conflict-marker-next-hunk)
-  nmap <silent> <Space>gck <Plug>(conflict-marker-prev-hunk)
-  nmap <silent> <Space>gct <Plug>(conflict-marker-themselves)
-  nmap <silent> <Space>gco <Plug>(conflict-marker-ourselves)
-  nmap <silent> <Space>gcn <Plug>(conflict-marker-none)
-  nmap <silent> <Space>gcb <Plug>(conflict-marker-both)
-
-'''
-
-[[plugins]]
-repo = 'skywind3000/asyncrun.vim'
-hook_add = '''
-  function! s:asyncrun_after()
-    let defualt_cmd = 'copen | wincmd p'
-    let cmd = get(b:, 'asyncrun_after_cmd', v:null)
-    if cmd == v:null
-      let cmd = defualt_cmd
-    endif
-
-    execute cmd
-
-    " Reset asyncrun_after_cmd
-    if exists('b:asyncrun_after_cmd')
-      unlet b:asyncrun_after_cmd
-    endif
-
-  endfunction
-
-  augroup custom-asyncrun
-    autocmd!
-    autocmd User AsyncRunStart highlight! LightlineMiddle_active ctermbg=34
-    autocmd User AsyncRunStop highlight! link LightlineMiddle_active LightlineMiddle_normal | call s:asyncrun_after()
-  augroup END
-'''
-
-[[plugins]]
-repo = 'sheerun/vim-polyglot'
-build = './build'
-hook_add = '''
-  augroup my-pug-augroup
-    autocmd!
-    " autocmd FileType pug setlocal syntax=css
-  augroup END
-'''

@@ -221,7 +221,7 @@ nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
 nnoremap <silent> <SPACE>gb :Gblame<CR>
 
 " merginal keybind
-nnoremap <SPACE>gC :<C-u>MerginalToggle<CR>
+nnoremap <SPACE>gC :<C-u>call merginal#openMerginalBuffer()<CR>
 
 " vimagit keybind
 nnoremap <SPACE>gm :<C-u>Magit<CR>
