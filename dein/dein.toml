@@ -79,7 +79,7 @@ hook_add = '''
     autocmd!
     autocmd ColorScheme * highlight GitGutterAdd    ctermfg=2 ctermbg=2
     autocmd ColorScheme * highlight GitGutterDelete ctermfg=1 ctermbg=235
-    autocmd ColorScheme * highlight GitGutterChange ctermfg=1 ctermbg=1
+    autocmd ColorScheme * highlight GitGutterChange ctermfg=4 ctermbg=4
   augroup END
 
   augroup gitgutter-custom
