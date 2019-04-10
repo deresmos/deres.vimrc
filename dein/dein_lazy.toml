@@ -1084,10 +1084,6 @@ hook_source = '''
   let g:gist_post_private    = 1
 '''
 
-# lambdalisue/gina.vim {{{2
-[[plugins]]
-repo = 'lambdalisue/gina.vim'
-
 # tyru/open-browser.vim {{{2
 [[plugins]]
 repo = 'tyru/open-browser.vim'

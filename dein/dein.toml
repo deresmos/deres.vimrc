@@ -97,6 +97,10 @@ hook_add = '''
   let g:DiffPairVisible = 0
 '''
 
+# lambdalisue/gina.vim {{{2
+[[plugins]]
+repo = 'lambdalisue/gina.vim'
+
 #}}}1 END git plugins
 
 # operator plugins {{{1
@@ -309,7 +313,8 @@ hook_add = '''
   let g:lightline = {}
   let g:lightline = {
     \ 'colorscheme': 'wombat',
-    \ 'subseparator': {'left': '|', 'right': '|'},
+    \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+    \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
     \ 'mode_map': {'c': 'NORMAL'},
     \ 'active': {
     \   'left': [
