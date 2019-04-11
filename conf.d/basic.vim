@@ -20,7 +20,6 @@ endfunction
 "}}}
 
 "basic setting {{{1
-set undofile
 let &undodir = s:undo_dir
 call s:makeDirectory(&undodir)
 filetype plugin on
@@ -99,7 +98,6 @@ augroup END
 
 "fold setting{{{1
 set foldenable
-set foldmethod=marker
 set foldcolumn=0
 
 augroup foldmethod
@@ -149,21 +147,46 @@ call s:makeDirectory(&viewdir)
 set viewoptions-=options
 set viewoptions-=curdir
 
-function! s:loadview() "{{{
-  let filesize = getfsize(expand('%'))
-  " Skip upper 1M filesize
-  if filesize >= 1048576
-    return
+"Huge file support {{{1
+augroup huge-file
+  autocmd!
+  autocmd BufWritePost,BufWinLeave * call s:save_huge_file_action()
+  autocmd BufRead * call s:load_huge_file_action()
+augroup END
+
+" functions {{{
+function! s:is_huge_file() abort
+  if expand('%') ==? '' || &buftype ==? 'nofile'
+    return v:false
   endif
 
-  silent! loadview
-endfunction "}}}
+  " Upper 10M filesize is huge file.
+  let filesize = getfsize(expand('%'))
+  if filesize >= 10485760
+    return v:true
+  endif
 
-augroup auto-view
-  autocmd!
-  autocmd BufWritePost,BufWinLeave * if expand('%') != '' && &buftype !~ 'nofile' | silent! mkview | endif
-  autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | call s:loadview() | endif
-augroup END
+  return v:false
+endfunction
+
+function! s:load_huge_file_action() abort
+  if s:is_huge_file()
+    setlocal foldmethod=manual
+  else
+    silent! loadview
+    silent! setlocal undofile
+    setlocal foldmethod=marker
+  endif
+endfunction
+
+function! s:save_huge_file_action() abort
+  if s:is_huge_file()
+    return
+  else
+    silent! mkview
+  endif
+endfunction
+" }}}
 
 command! -nargs=0 ClearUndo call <sid>clearUndo()
 function! s:clearUndo() abort
