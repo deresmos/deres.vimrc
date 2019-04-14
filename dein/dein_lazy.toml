@@ -1573,3 +1573,20 @@ on_cmd = ['Subvert', 'S']
 hook_add = '''
   nnoremap <SPACE>/ :S/
 '''
+
+# omnisharp {{{2
+[[plugins]]
+repo = 'OmniSharp/omnisharp-vim'
+on_ft = ['cs']
+
+[[plugins]]
+repo = 'tpope/vim-dispatch'
+on_source = 'omnisharp-vim'
+
+[[plugins]]
+repo = 'Robzz/deoplete-omnisharp'
+on_ft = ['cs']
+hook_add = '''
+  let g:OmniSharp_server_use_mono = 1
+  let g:OmniSharp_server_type = 'roslyn'
+'''

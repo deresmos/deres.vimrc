@@ -642,6 +642,7 @@ hook_add = '''
     \ 'php': ['phpcs'],
     \ 'css': ['stylelint'],
     \ 'xhtml': ['tidy'],
+    \ 'cs': ['OmniSharp'],
     \ }
 
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
