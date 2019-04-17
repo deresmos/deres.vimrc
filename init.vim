@@ -380,12 +380,8 @@ endfunction
 nnoremap <SPACE>gD :GitDiffBetween<space>
 
 "O keybind {{{2
-nmap <SPACE>os <Plug>(openbrowser-smart-search)
-nnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
 nnoremap <silent> <SPACE>om :<C-u>MarkdownPreview<CR>
 
-xmap <SPACE>os <Plug>(openbrowser-smart-search)
-xnoremap <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
 xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
 
 nnoremap <SPACE>op :<C-u>call ShowOptions()<CR>

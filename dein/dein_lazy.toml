@@ -1087,6 +1087,12 @@ hook_source = '''
 # tyru/open-browser.vim {{{2
 [[plugins]]
 repo = 'tyru/open-browser.vim'
+on_map = '<Plug>(openbrowser-smart-'
+hook_add = '''
+  nmap <SPACE>os <Plug>(openbrowser-smart-search)
+  xmap <SPACE>os <Plug>(openbrowser-smart-search)
+  nnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
+'''
 hook_source = '''
   if system('uname') == "Linux\n"
     let g:openbrowser_browser_commands = [
@@ -1343,6 +1349,7 @@ hook_source = '''
 # rhysd/conflict-marker.vim {{{2
 [[plugins]]
 repo = 'rhysd/conflict-marker.vim'
+on_map = '<Plug>(conflict-marker-'
 hook_add = '''
   nmap <silent> <Space>gcj <Plug>(conflict-marker-next-hunk)
   nmap <silent> <Space>gck <Plug>(conflict-marker-prev-hunk)
@@ -1454,6 +1461,7 @@ repo = 'thinca/vim-zenspace'
 # t9md/vim-quickhl {{{2
 [[plugins]]
 repo = 't9md/vim-quickhl'
+on_map = '<Plug>(quickhl-'
 hook_add = '''
   nnoremap <Space>mp :QuickhlManualAdd<space>
   nmap <Space>mt <Plug>(quickhl-manual-this)
