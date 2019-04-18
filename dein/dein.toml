@@ -682,7 +682,7 @@ hook_add = '''
     \ 'python': [
     \   'isort',
     \   {buffer, lines -> {
-    \   'command': 'yapf -i --style pep8 %t',
+    \   'command': 'black %t',
     \   'read_temporary_file': 1}}
     \ ],
     \ 'markdown': [
