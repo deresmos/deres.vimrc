@@ -620,7 +620,7 @@ hook_add = '''
   let g:ale_echo_msg_error_str   = 'E'
   let g:ale_echo_msg_warning_str = 'W'
 
-  let g:ale_echo_msg_format   = '%s [%severity%] | %linter%'
+  let g:ale_echo_msg_format   = '[%severity%] %code%: %s | %linter%'
 
   function! AleStatus()
     if !get(b:, 'ale_enabled', 0) && !g:ale_enabled
@@ -648,6 +648,7 @@ hook_add = '''
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
   let g:ale_css_stylelint_options='-c stylelint'
   let g:ale_python_mypy_options='--ignore-missing-imports'
+  let g:ale_python_flake8_options='--ignore=E501'
 
   let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
   let g:ale_php_phpcs_standard='PSR2'
