@@ -138,9 +138,9 @@ hook_add = '''
     \ {'block' : ['{', '}'],
     \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
     \ {'block' : ["'", "'"],
-    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['s'] },
+    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['q'] },
     \ {'block' : ['"', '"'],
-    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['d'] }
+    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['Q'] }
     \ ]}
 '''
 
