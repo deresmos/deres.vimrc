@@ -320,66 +320,66 @@ hook_add = '''
     autocmd FileType defx call s:defx_my_settings()
   augroup END
 
-	function! s:defx_my_settings() abort
+  function! s:defx_my_settings() abort
     setlocal signcolumn=no
     setlocal listchars=
 
-	  " Define mappings
-	  nnoremap <silent><buffer><expr> yy defx#do_action('copy')
-	  nnoremap <silent><buffer><expr> dd defx#do_action('move')
-	  nnoremap <silent><buffer><expr> p defx#do_action('paste')
+    " Define mappings
+    nnoremap <silent><buffer><expr> yy defx#do_action('copy')
+    nnoremap <silent><buffer><expr> dd defx#do_action('move')
+    nnoremap <silent><buffer><expr> p defx#do_action('paste')
 
-	  nnoremap <silent><buffer><expr> <CR> defx#do_action('multi',
+    nnoremap <silent><buffer><expr> <CR> defx#do_action('multi',
       \ [['call', 'DefxPreCommand'], ['drop']])
-	  nnoremap <silent><buffer><expr> <C-M> defx#do_action('multi',
+    nnoremap <silent><buffer><expr> <C-M> defx#do_action('multi',
       \ [['call', 'DefxPreCommand'], ['drop']])
-	  nnoremap <silent><buffer><expr> l defx#do_action('open_or_close_tree')
-	  nnoremap <silent><buffer><expr> L defx#do_action('open')
-	  nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
-	  nnoremap <silent><buffer><expr> v defx#do_action('multi', 
+    nnoremap <silent><buffer><expr> l defx#do_action('open_or_close_tree')
+    nnoremap <silent><buffer><expr> L defx#do_action('open')
+    nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> v defx#do_action('multi',
       \ [['call', 'DefxPreCommand'], ['drop', 'vsplit']])
-	  nnoremap <silent><buffer><expr> <C-s> defx#do_action('multi', 
+    nnoremap <silent><buffer><expr> <C-s> defx#do_action('multi',
       \ [['call', 'DefxPreCommand'], ['drop', 'split']])
-	  nnoremap <silent><buffer><expr> t defx#do_action('multi', 
+    nnoremap <silent><buffer><expr> t defx#do_action('multi',
       \ [['call', 'DefxPreCommand'], ['drop', 'tabedit']])
-	  nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
-	  nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
+    nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
+    nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
 
-	  nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
-	  nnoremap <silent><buffer><expr> N defx#do_action('new_file')
-	  nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
-	  nnoremap <silent><buffer><expr> C
+    nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
+    nnoremap <silent><buffer><expr> C
       \ defx#do_action('toggle_columns', 'mark:indent:git:icons:filename')
 
-		" nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
-		" nnoremap <silent><buffer><expr> sf defx#do_action('toggle_sort', 'filename')
-		" nnoremap <silent><buffer><expr> ss defx#do_action('toggle_sort', 'size')
-		" nnoremap <silent><buffer><expr> se defx#do_action('toggle_sort', 'extension')
+    " nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
+    " nnoremap <silent><buffer><expr> sf defx#do_action('toggle_sort', 'filename')
+    " nnoremap <silent><buffer><expr> ss defx#do_action('toggle_sort', 'size')
+    " nnoremap <silent><buffer><expr> se defx#do_action('toggle_sort', 'extension')
 
-	  nnoremap <silent><buffer><expr> D defx#do_action('remove')
-	  nnoremap <silent><buffer><expr> r defx#do_action('rename')
-	  nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
-	  nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
-	  nnoremap <silent><buffer><expr> Y defx#do_action('yank_path')
-	  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-	  nnoremap <silent><buffer><expr> ; defx#do_action('repeat')
-	  nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
-	  nnoremap <silent><buffer><expr> q defx#do_action('quit')
-	  nnoremap <silent><buffer><expr> <Space><Space> defx#do_action('toggle_select') . 'j'
-	  nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
-	  nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
-	  nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
-	  nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+    nnoremap <silent><buffer><expr> D defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r defx#do_action('rename')
+    nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> Y defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> ; defx#do_action('repeat')
+    nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> q defx#do_action('quit')
+    nnoremap <silent><buffer><expr> <Space><Space> defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
+    nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
 
-		nnoremap <silent><buffer><expr> <SPACE>fg
+    nnoremap <silent><buffer><expr> <SPACE>fg
       \ defx#do_action('call', 'DefxDeniteGrep')
-		nnoremap <silent><buffer><expr> <SPACE>ff
+    nnoremap <silent><buffer><expr> <SPACE>ff
       \ defx#do_action('call', 'DefxDeniteFile')
-		nnoremap <silent><buffer><expr> ds
+    nnoremap <silent><buffer><expr> ds
       \ defx#do_action('call', 'DefxSetDiffSource')
-		nnoremap <silent><buffer><expr> dt
+    nnoremap <silent><buffer><expr> dt
       \ defx#do_action('call', 'DefxSetDiffTarget')
-		nnoremap <silent><buffer><expr> do
+    nnoremap <silent><buffer><expr> do
       \ defx#do_action('call', 'DefxOpenDiffDir')
 
     nmap <silent><buffer> <SPACE>gk <Plug>(defx-git-prev)
@@ -409,32 +409,32 @@ hook_add = '''
       execute 'DirDiff' g:defx_diff_source g:defx_diff_target
     endfunction
 
-		function! DefxDeniteGrep(context) abort
+    function! DefxDeniteGrep(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
       exec 'Denite grep -no-empty -path=' . dirpath
-		endfunction
+    endfunction
 
-		function! DefxDeniteFile(context) abort
+    function! DefxDeniteFile(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
       exec 'Denite file_rec -no-empty -mode=insert -path=' . dirpath
-		endfunction
+    endfunction
     " }}}
 
-	endfunction
+  endfunction
 
 '''
 hook_source = '''
 
-	call defx#custom#option('_', {
+  call defx#custom#option('_', {
     \ 'root_marker': ': ',
     \ 'buffer_name': 'defx',
     \ 'direction': 'topleft',
     \ 'split': 'vertical',
     \ 'columns': 'mark:indent:git:icons:filename:size:time',
     \ })
-	call defx#custom#option('defx-floating', {
+  call defx#custom#option('defx-floating', {
     \ 'split': 'floating',
     \ 'winrow': '1',
     \ 'winheight': &lines - 3,
@@ -442,14 +442,14 @@ hook_source = '''
     \ 'winwidth': '113',
     \ 'columns': 'mark:indent:git:icons:filename:size:time',
     \ })
-	call defx#custom#option('defx-tree', {
+  call defx#custom#option('defx-tree', {
     \ 'direction': 'topleft',
     \ 'split': 'vertical',
     \ 'winwidth': '35',
     \ 'columns': 'mark:indent:git:icons:filename',
     \ })
 
-	call defx#custom#column('filename', {
+  call defx#custom#column('filename', {
     \ 'directory_icon': '',
     \ 'opened_icon': '',
     \ 'root_icon': '',
@@ -758,12 +758,12 @@ on_ft = ['vue', 'toml']
 hook_source = '''
   let g:precious_enable_switch_CursorMoved_i = {'*': 0}
   let g:precious_enable_switch_CursorHold    = {'*': 0}
-	let g:precious_enable_switchers = {
-    \	'*':    {'setfiletype': 0},
-    \	'toml': {'setfiletype': 1},
-    \	'html': {'setfiletype': 1},
-    \	'vue':  {'setfiletype': 1},
-	\ }
+  let g:precious_enable_switchers = {
+    \ '*':    {'setfiletype': 0},
+    \ 'toml': {'setfiletype': 1},
+    \ 'html': {'setfiletype': 1},
+    \ 'vue':  {'setfiletype': 1},
+  \ }
 '''
 hook_post_source = '''
   augroup precious-augroup
@@ -836,7 +836,6 @@ hook_post_source = '''
 repo = 'Shougo/deol.nvim'
 on_cmd = 'Deol'
 hook_add = '''
-  
   nnoremap <silent> <SPACE>ttt :<C-u>call <SID>DeolFloating()<CR>
 
   function! s:DeolFloating() abort
@@ -844,8 +843,6 @@ hook_add = '''
       \ '-winrow=1 -winheight=' . string(&lines * 0.8)
       \ '-wincol=1 -winwidth=' . string(&columns)
   endfunction
-
-
 '''
 
 # t9md/vim-choosewin {{{1
