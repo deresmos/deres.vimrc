@@ -349,7 +349,7 @@ hook_add = '''
     nnoremap <silent><buffer><expr> N defx#do_action('new_file')
     nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
     nnoremap <silent><buffer><expr> C
-      \ defx#do_action('toggle_columns', 'mark:indent:git:icons:filename')
+      \ defx#do_action('toggle_columns', 'mark:indent:icons:filename')
 
     " nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
     " nnoremap <silent><buffer><expr> sf defx#do_action('toggle_sort', 'filename')
@@ -432,7 +432,7 @@ hook_source = '''
     \ 'buffer_name': 'defx',
     \ 'direction': 'topleft',
     \ 'split': 'vertical',
-    \ 'columns': 'mark:indent:git:icons:filename:size:time',
+    \ 'columns': 'mark:indent:icons:filename:size:time',
     \ })
   call defx#custom#option('defx-floating', {
     \ 'split': 'floating',
@@ -440,13 +440,13 @@ hook_source = '''
     \ 'winheight': &lines - 3,
     \ 'wincol': (&columns - 113) / 2,
     \ 'winwidth': '113',
-    \ 'columns': 'mark:indent:git:icons:filename:size:time',
+    \ 'columns': 'mark:indent:icons:filename:size:time',
     \ })
   call defx#custom#option('defx-tree', {
     \ 'direction': 'topleft',
     \ 'split': 'vertical',
     \ 'winwidth': '35',
-    \ 'columns': 'mark:indent:git:icons:filename',
+    \ 'columns': 'mark:indent:icons:filename',
     \ })
 
   call defx#custom#column('filename', {
@@ -457,25 +457,6 @@ hook_source = '''
     \ 'max_width': '80',
     \ })
 
-'''
-
-[[plugins]]
-repo = 'kristijanhusak/defx-git'
-on_source = 'defx.nvim'
-hook_source = '''
-
-  let g:defx_git#indicators = {
-    \ 'Modified'  : '✹',
-    \ 'Staged'    : '✚',
-    \ 'Untracked' : '✭',
-    \ 'Renamed'   : '➜',
-    \ 'Unmerged'  : '═',
-    \ 'Ignored'   : '☒',
-    \ 'Deleted'   : '✖',
-    \ 'Unknown'   : '?'
-    \ }
-
-  let g:defx_git#show_ignored = 0
 '''
 
 [[plugins]]
