@@ -351,7 +351,6 @@ hook_add = '''
     \   'modified': 'MyModified',
     \   'branchname': 'gina#component#repo#branch',
     \   'filename': 'MyFilename',
-    \   'filenamefull': 'MyFilenameFull',
     \   'lineinfo': 'MyLineInfo',
     \   'fileindent': 'MyFileIndent',
     \   'maxline': 'MaxLine',
@@ -430,7 +429,7 @@ hook_add = '''
   endfunction
 
   function! MyLineInfo() abort
-    return 'L' . line('.') . ':R' . printf('%03d', virtcol('$'))
+    return 'L' . line('.') . ':R' . printf('%03d', virtcol('.'))
   endfunction
 
   function! MyModified() abort
@@ -444,15 +443,11 @@ hook_add = '''
   function! MyFilename() abort
     let filename = (expand('%:p') == '') ? '[No Name]' : expand('%:p')
     let filename = substitute(filename, expand('$HOME'), '~', 'g')
-    if strlen(filename) > winwidth(0) * 0.75
+    if strlen(filename) > &columns * 0.75
       let filename = expand('%:t')
     endif
 
     return filename
-  endfunction
-
-  function! MyFilenameFull() abort
-    return '' != expand('%:p') ? expand('%:p') : '[No Name]'
   endfunction
 
   function! MyCurrentTag() abort
