@@ -222,9 +222,9 @@ hook_add = '''
   let g:nvimterm#enter_insert = 0
 '''
 
-# w0ng/vim-hybrid {{{2
+# cocopon/iceberg.vim {{{2
 [[plugins]]
-repo = 'w0ng/vim-hybrid'
+repo = 'cocopon/iceberg.vim'
 
 # kana/vim-submode {{{2
 [[plugins]]

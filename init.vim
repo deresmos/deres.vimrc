@@ -77,7 +77,7 @@ filetype plugin indent on
 execute 'source' g:conf_dir . '/color.vim'
 execute 'source' g:conf_dir . '/filetype.vim'
 
-colorscheme hybrid
+colorscheme iceberg
 set guicursor=n:blinkon1
 
 set scrollback=100000
