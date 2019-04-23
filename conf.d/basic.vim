@@ -172,18 +172,21 @@ endfunction
 function! s:load_huge_file_action() abort
   if s:is_huge_file()
     setlocal foldmethod=manual
+    silent doautocmd User HugeFileRead
   else
     silent! loadview
     silent! setlocal undofile
     setlocal foldmethod=marker
+    silent doautocmd User NormalFileRead
   endif
 endfunction
 
 function! s:save_huge_file_action() abort
   if s:is_huge_file()
-    return
+    silent doautocmd User HugeFileWritePost
   else
     silent! mkview
+    silent doautocmd User NormalFileWritePost
   endif
 endfunction
 " }}}
