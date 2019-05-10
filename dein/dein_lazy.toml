@@ -1433,6 +1433,7 @@ hook_source = '''
 # junegunn/vim-easy-align {{{2
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
+on_map = '<Plug>(EasyAlign'
 hook_add = '''
   xmap ga <Plug>(EasyAlign)
 '''
