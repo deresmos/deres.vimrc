@@ -187,6 +187,18 @@ hook_source = '''
     \ '<denite:do_action:qfreplace>',
     \ 'noremap')
 
+  call denite#custom#map(
+    \ 'normal',
+    \ '<C-j>',
+    \ '<denite:do_action:preview_scroll_down>',
+    \ 'noremap')
+
+  call denite#custom#map(
+    \ 'normal',
+    \ '<C-k>',
+    \ '<denite:do_action:preview_scroll_up>',
+    \ 'noremap')
+
   " }}}
 
   " custom color {{{
