@@ -205,7 +205,7 @@ hook_source = '''
 
   call SwitchMatherFuzzy()
 
-  call denite#custom#source('file_rec', 'matchers',
+  call denite#custom#source('file/rec', 'matchers',
     \ ['matcher_fuzzy', 'matcher_ignore_globs'])
   call denite#custom#source('file', 'matchers',
     \ ['matcher_fuzzy', 'matcher_ignore_globs'])
@@ -254,7 +254,7 @@ hook_add = '''
 
   function! s:switchMather(matcher) abort " {{{3
     let l:lists = [
-      \ 'file_rec', 'file', 'buffer', 'file_mru',
+      \ 'file/rec', 'file', 'buffer', 'file_mru',
       \ 'line', 'jump', 'change', 'tag', 'gitdiff_file', 'grep']
 
     for l:list in l:lists
@@ -275,7 +275,7 @@ hook_add = '''
       call denite#custom#var('grep', 'separator', ['--'])
       call denite#custom#var('grep', 'final_opts', [])
 
-      call denite#custom#var('file_rec', 'command',
+      call denite#custom#var('file/rec', 'command',
         \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
 
     elseif a:command ==# 'jvgrep'
@@ -295,7 +295,7 @@ hook_add = '''
       call denite#custom#var('grep', 'separator', ['--'])
       call denite#custom#var('grep', 'final_opts', [])
 
-      call denite#custom#var('file_rec', 'command',
+      call denite#custom#var('file/rec', 'command',
         \ ['rg', '--files', '--follow', '--hidden', '--no-heading'])
 
     elseif a:command ==# 'pt'
@@ -418,7 +418,7 @@ hook_add = '''
     function! DefxDeniteFile(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
-      exec 'Denite file_rec -no-empty -mode=insert -path=' . dirpath
+      exec 'Denite file/rec -no-empty -path=' . dirpath
     endfunction
     " }}}
 
