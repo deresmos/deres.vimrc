@@ -40,7 +40,7 @@ hook_source = '''
       \ denite#do_map('quit')
     nnoremap <silent><buffer><expr> i
       \ denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> <Space>
+    nnoremap <silent><buffer><expr> <Space><Space>
       \ denite#do_map('toggle_select').'j'
 
     " My mapping
@@ -64,6 +64,10 @@ hook_source = '''
       \ denite#do_map('do_action', '')
     nnoremap <silent><buffer><expr> fk
       \ denite#do_map('do_action', 'preview_scroll_up')
+    xnoremap <silent><buffer> <Space><Space>
+      \ :call denite#call_map('toggle_select')<CR>
+    nnoremap <silent><buffer><expr> *
+      \ denite#do_map('toggle_select_all')
 
     " denite-gitdiff
     nnoremap <silent><buffer><expr> dt
