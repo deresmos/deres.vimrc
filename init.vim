@@ -100,10 +100,10 @@ augroup END
 
 "space vim setting {{{1
 "F keybind {{{2
-nnoremap <silent> <SPACE>ff :Denite file/rec -path=`get(g:, 'denite_cwd', getcwd())` -mode=insert<CR>
+nnoremap <silent> <SPACE>ff :Denite file/rec -path=`get(g:, 'denite_cwd', getcwd())` -start-filter<CR>
 nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`<CR>
-nnoremap <silent> <SPACE>fr :Denite file/old -mode=insert<CR>
-nnoremap <silent> <SPACE>fl :Denite line -mode=insert<CR>
+nnoremap <silent> <SPACE>fr :Denite file/old -start-filter<CR>
+nnoremap <silent> <SPACE>fl :Denite line -start-filter<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 nnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep<CR>
 xnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`GetVisualWordEscape()`<CR>
@@ -141,8 +141,8 @@ nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
 nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
-nnoremap <silent> <SPACE>dt :Denite tag -mode=insert<CR>
-nnoremap <silent> <SPACE>dp :Denite dein -default-action=open -mode=insert<CR>
+nnoremap <silent> <SPACE>dt :Denite tag -start-filter<CR>
+nnoremap <silent> <SPACE>dp :Denite dein -default-action=open -start-filter<CR>
 nnoremap <SPACE>df :<C-u>DictionaryTranslate<space>
 nnoremap <SPACE>dF :<C-u>DictionaryTranslate<CR>
 
@@ -150,18 +150,18 @@ nnoremap <SPACE>dF :<C-u>DictionaryTranslate<CR>
 xnoremap <silent> <SPACE>ld :Linediff<CR>
 
 "B keybind{{{2
-nnoremap <silent> <SPACE>bb :Denite buffer -mode=insert<CR>
+nnoremap <silent> <SPACE>bb :Denite buffer -start-filter<CR>
 nnoremap <silent> <SPACE>bo :<C-u>BufOnly<CR>
 nnoremap <silent> <SPACE>bu :<C-u>call CloseUnloadedBuffers()<CR>
 nnoremap <silent> <SPACE>bl :<C-u>BuffergatorToggle<CR>
-nnoremap <silent> <SPACE>bf :DeniteBufferDir file/rec -mode=insert<CR>
+nnoremap <silent> <SPACE>bf :DeniteBufferDir file/rec -start-filter<CR>
 nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
 nnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep<CR>
 xnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep:::`GetVisualWordEscape()`<CR>
 nnoremap <silent> <SPACE>bG :DeniteBufferDir -no-empty grep:::`expand('<cword>')`<CR>
 
 "P keybind{{{2
-nnoremap <silent> <SPACE>pf :DeniteProjectDir file/rec -mode=insert -path=`expand('%:p:h')`<CR>
+nnoremap <silent> <SPACE>pf :DeniteProjectDir file/rec -start-filter -path=`expand('%:p:h')`<CR>
 nnoremap <silent> <SPACE>pF :DeniteProjectDir file -path=`expand('%:p:h')`<CR>
 nnoremap <silent> <SPACE>pg :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep<CR>
 xnoremap <silent> <SPACE>pg :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep:::`GetVisualWordEscape()`<CR>
@@ -273,7 +273,7 @@ nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
 " session keybind
 nnoremap <SPACE>ss :<C-u>SSave<Space>
 nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
-nnoremap <silent> <SPACE>sl :<C-u>Denite session -mode=insert<CR>
+nnoremap <silent> <SPACE>sl :<C-u>Denite session -start-filter<CR>
 nnoremap <SPACE>sd :<C-u>SDelete<Space>
 nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>
 nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>
