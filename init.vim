@@ -487,34 +487,6 @@ if has('nvim')
     autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mec <C-y>c
     " }}}
   augroup END " }}}
-
-  " terminal keybind {{{
-  function! s:term2() abort
-    exe 'NTermT'
-    exe 'NTermV'
-    exe 'stopinsert'
-  endfunction
-
-  function! s:term3() abort
-    exe 'NTermT'
-    exe 'NTermV'
-    exe 'NTermS'
-    exe 'stopinsert'
-  endfunction
-
-  nnoremap [Term] <Nop>
-  nmap <SPACE>to [Term]
-  nnoremap <silent> [Term]e :<C-u>NTerm<CR>
-  nnoremap <silent> [Term]v :<C-u>NTermV<CR>
-  nnoremap <silent> [Term]s :<C-u>NTermS<CR>
-  nnoremap <silent> [Term]t :<C-u>NTermT<CR>
-  nnoremap <silent> [Term]o :NTermToggle<CR>
-  nnoremap <silent> [Term]O :30NTermToggle<CR>
-  nnoremap <silent> [Term]2 :<C-u>call <SID>term2()<CR>
-  nnoremap <silent> [Term]3 :<C-u>call <SID>term3()<CR>
-  nnoremap <silent> [Term]d :<C-u>NTermDeletes<CR>
-  nnoremap <silent> [Term]D :<C-u>NTermDeleteAll<CR>
-  " }}}
 endif
 "}}}1
 
