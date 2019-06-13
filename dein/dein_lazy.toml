@@ -64,6 +64,12 @@ hook_source = '''
       \ :call denite#call_map('toggle_select')<CR>
     nnoremap <silent><buffer><expr> *
       \ denite#do_map('toggle_select_all')
+    nnoremap <silent><buffer><expr> Rm
+      \ denite#do_map('do_action', 'reset_mixed')
+    nnoremap <silent><buffer><expr> RRh
+      \ denite#do_map('do_action', 'reset_hard')
+    nnoremap <silent><buffer><expr> RRO
+      \ denite#do_map('do_action', 'reset_hard_orig_head')
 
     " denite-gitdiff
     nnoremap <silent><buffer><expr> dt
