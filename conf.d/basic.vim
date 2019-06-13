@@ -148,10 +148,19 @@ set viewoptions-=options
 set viewoptions-=curdir
 
 "Huge file support {{{1
+
+function! s:diff_mode()
+  if &diff
+    setlocal wrap
+    setlocal foldmethod=manual
+  endif
+endfunction
+
 augroup huge-file
   autocmd!
   autocmd BufWritePost,BufWinLeave * call s:save_huge_file_action()
   autocmd BufRead * call s:load_huge_file_action()
+  autocmd DiffUpdated * call s:diff_mode()
 augroup END
 
 " functions {{{
