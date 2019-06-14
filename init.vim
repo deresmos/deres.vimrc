@@ -83,10 +83,6 @@ set guicursor=n:blinkon1
 set scrollback=100000
 set inccommand=split
 
-augroup session-post
-  autocmd SessionLoadPost * NTermAutocmd
-augroup END
-
 set foldtext=FoldCCtext()
 "nerdtree setting{{{2
 augroup nerdtree
@@ -274,9 +270,10 @@ nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
 nnoremap <SPACE>ss :<C-u>SSave<Space>
 nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
 nnoremap <silent> <SPACE>sl :<C-u>Denite session -start-filter<CR>
+nnoremap <silent> <SPACE>sL :<C-u>SLoad workspace<CR>
 nnoremap <SPACE>sd :<C-u>SDelete<Space>
-nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>
-nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:silent! NTermDeleteAll<CR>:qa!<CR>
+nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>
+nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:qa!<CR>
 
 "H keybind{{{2
 nnoremap <silent> <SPACE>hc :<C-u>call qfixmemo#Calendar()<CR>

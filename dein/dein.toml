@@ -215,13 +215,6 @@ repo = 'itchyny/vim-cursorword'
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
-# deresmos/nvim-term {{{2
-[[plugins]]
-repo = 'deresmos/nvim-term'
-hook_add = '''
-  let g:nvimterm#enter_insert = 0
-'''
-
 # cocopon/iceberg.vim {{{2
 [[plugins]]
 repo = 'cocopon/iceberg.vim'

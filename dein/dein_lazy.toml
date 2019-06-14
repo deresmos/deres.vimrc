@@ -745,6 +745,7 @@ hook_add = '''
   nnoremap <silent> <SPACE>tv :<C-u>call <SID>deol_vsplit()<CR>
   nnoremap <silent> <SPACE>tt :<C-u>call <SID>deol_tab()<CR>
   nnoremap <silent> <SPACE>to :<C-u>call <SID>deol_bottom()<CR>
+  nnoremap <silent> <SPACE>te :<C-u>Deol<CR>
 
   function! s:deol_floating() abort
     exec 'Deol -split=floating'
