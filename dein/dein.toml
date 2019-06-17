@@ -214,6 +214,9 @@ repo = 'itchyny/vim-cursorword'
 # Shougo/dein.vim {{{2
 [[plugins]]
 repo = 'Shougo/dein.vim'
+hook_add = '''
+  let g:dein#auto_recache = 0
+'''
 
 # cocopon/iceberg.vim {{{2
 [[plugins]]
