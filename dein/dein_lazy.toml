@@ -740,6 +740,18 @@ hook_post_source = '''
 repo = 'Shougo/deol.nvim'
 on_cmd = 'Deol'
 hook_add = '''
+  function! s:setup_deol() abort
+    nnoremap <buffer> I i<C-a>
+    nnoremap <buffer> A a<C-e>
+    nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+    nnoremap <buffer> cc i<C-e><C-u>
+  endfunction
+
+  augroup deol-custom
+    autocmd!
+    autocmd FileType deol call s:setup_deol()
+  augroup END
+
   nnoremap <silent> <SPACE>tf :<C-u>call <SID>deol_floating()<CR>
   nnoremap <silent> <SPACE>ts :<C-u>call <SID>deol_split()<CR>
   nnoremap <silent> <SPACE>tv :<C-u>call <SID>deol_vsplit()<CR>
