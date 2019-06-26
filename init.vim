@@ -98,7 +98,7 @@ augroup END
 "F keybind {{{2
 nnoremap <silent> <SPACE>ff :Denite file/rec -path=`get(g:, 'denite_cwd', getcwd())` -start-filter<CR>
 nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`<CR>
-nnoremap <silent> <SPACE>fr :Denite file/old -start-filter<CR>
+nnoremap <silent> <SPACE>fr :Denite file_mru -start-filter<CR>
 nnoremap <silent> <SPACE>fl :Denite line -start-filter<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 nnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep<CR>
@@ -155,6 +155,7 @@ nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
 nnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep<CR>
 xnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep:::`GetVisualWordEscape()`<CR>
 nnoremap <silent> <SPACE>bG :DeniteBufferDir -no-empty grep:::`expand('<cword>')`<CR>
+nnoremap <silent> <SPACE>bt :Denite -no-empty deol<CR>
 
 "P keybind{{{2
 nnoremap <silent> <SPACE>pf :DeniteProjectDir file/rec -start-filter -path=`expand('%:p:h')`<CR>

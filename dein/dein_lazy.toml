@@ -335,13 +335,13 @@ hook_add = '''
     function! DefxDeniteGrep(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
-      exec 'Denite grep -no-empty -path=' . dirpath
+      exec 'Denite grep -no-empty -path=' . dirpath '-start-filter'
     endfunction
 
     function! DefxDeniteFile(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
-      exec 'Denite file/rec -no-empty -path=' . dirpath
+      exec 'Denite file/rec -no-empty -path=' . dirpath '-start-filter'
     endfunction
     " }}}
 
