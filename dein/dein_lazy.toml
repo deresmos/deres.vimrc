@@ -81,9 +81,9 @@ hook_source = '''
     nnoremap <silent><buffer><expr> dlm
       \ denite#do_map('do_action', 'openvdiff_local')
     nnoremap <silent><buffer><expr> fb
-      \ denite#do_map('do_action', 'branchlog')
+      \ denite#do_map('do_action', 'branch_log')
     nnoremap <silent><buffer><expr> fm
-      \ denite#do_map('do_action', 'mergelog')
+      \ denite#do_map('do_action', 'merge_log')
   endfunction
 
 	autocmd FileType denite-filter call s:denite_filter_my_settings()
