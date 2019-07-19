@@ -1238,6 +1238,7 @@ repo = 'will133/vim-dirdiff'
 # MattesGroeger/vim-bookmarks {{{2
 [[plugins]]
 repo = 'MattesGroeger/vim-bookmarks'
+on_map = '<Plug>Bookmark'
 hook_add = '''
   nnoremap [Bookmark] <Nop>
   nmap <Space>bm [Bookmark]
