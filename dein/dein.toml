@@ -17,8 +17,11 @@ repo = 'tpope/vim-fugitive'
 hook_add = '''
   augroup fugitive-keymap
     autocmd!
-    autocmd FileType gitcommit nmap <buffer> <SPACE>gj <C-n>
-    autocmd FileType gitcommit nmap <buffer> <SPACE>gk <C-p>
+    autocmd FileType fugitive nmap <buffer> <SPACE>gj <C-n>
+    autocmd FileType fugitive nmap <buffer> <SPACE>gk <C-p>
+    autocmd FileType fugitive nmap <buffer> <SPACE>vo <
+    autocmd FileType fugitive nmap <buffer> <SPACE>vc >
+    autocmd FileType fugitive nmap <buffer><silent> q :quit<CR>
   augroup END
 
   function! FugitiveCommitError(error, tmpfile)
