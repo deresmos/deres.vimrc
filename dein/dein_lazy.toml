@@ -816,8 +816,8 @@ hook_source = '''
   xmap <silent> <SPACE>mf <Plug>(coc-format-selected)
   nmap <silent> <SPACE>mF <Plug>(coc-fix-current)
   nmap <silent> <SPACE>mr <Plug>(coc-rename)
-  nmap <silent> <SPACE>ej <Plug>(coc-diagnostic-next)
-  nmap <silent> <SPACE>ek <Plug>(coc-diagnostic-prev)
+  " nmap <silent> <SPACE>ej <Plug>(coc-diagnostic-next)
+  " nmap <silent> <SPACE>ek <Plug>(coc-diagnostic-prev)
 
   autocmd CursorHold * silent call CocActionAsync('highlight')
   nnoremap <silent> <SPACE>md :call <SID>show_documentation()<CR>
