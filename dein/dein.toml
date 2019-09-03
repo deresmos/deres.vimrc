@@ -758,6 +758,7 @@ hook_add = '''
     nnoremap <buffer> A a<C-e>
     nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
     nnoremap <buffer> cc i<C-e><C-u>
+    nnoremap <buffer> q :<C-u>close<CR>
   endfunction
 
   augroup nvim-term-custom
