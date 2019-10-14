@@ -1246,6 +1246,7 @@ hook_source = '''
 # will133/vim-dirdiff {{{2
 [[plugins]]
 repo = 'will133/vim-dirdiff'
+rev = '7d588e7658d8a643241a379fe5bbd22071025090'
 
 # MattesGroeger/vim-bookmarks {{{2
 [[plugins]]
