@@ -752,6 +752,7 @@ hook_add = '''
 repo = 'deresmos/nvim-term'
 hook_add = '''
   let g:nvimterm#toggle_size = 30
+  let g:nvimterm#enter_insert = 0
 
   function! s:terminal_keymap() abort
     nnoremap <buffer> I i<C-a>
