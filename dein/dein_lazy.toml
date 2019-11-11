@@ -1552,3 +1552,15 @@ hook_add = '''
   let g:OmniSharp_server_use_mono = 1
   let g:OmniSharp_server_type = 'roslyn'
 '''
+
+# vial-http {{{2
+[[plugins]]
+repo = 'baverman/vial'
+on_ft = 'vial-http'
+
+[[plugins]]
+repo = 'baverman/vial-http'
+on_ft = 'vial-http'
+hook_add = '''
+  autocmd FileType vial-http nnoremap <buffer> <CR> :VialHttp<CR>
+'''
