@@ -24,7 +24,23 @@ if = '''has('python3')'''
 hook_source = '''
   call denite#custom#option('default', 'prompt', '>')
 
-  " Denite mappings
+  " menus {{{3
+  let s:menus = {}
+  let s:menus.dein = {'description': 'Dein menu'}
+  let s:_dein_commands = [
+    \ ['Dein: Update plugins', 'call dein#update()'],
+    \ ['Dein: Recache RuntimePath', 'call dein#recache_runtimepath()'],
+    \ ['Dein: Clear state', 'call dein#clear_state()']
+    \ ]
+  let s:menus.dein.command_candidates = s:_dein_commands
+
+  let s:menus.all = {'description': 'All commands'}
+  let s:menus.all.command_candidates = []
+    \ + s:_dein_commands
+
+  call denite#custom#var('menu', 'menus', s:menus)
+
+  " Denite mappings {{{3
   autocmd FileType denite call s:denite_my_settings()
   function! s:denite_my_settings() abort
     nnoremap <silent><buffer><expr> <CR>
@@ -92,7 +108,7 @@ hook_source = '''
       \ <Esc>q
 	endfunction
 
-  " custom mapping {{{
+  " custom mapping {{{3
   call denite#custom#map(
     \ 'normal',
     \ 'gj',
@@ -110,16 +126,14 @@ hook_source = '''
     \ '<C-n>',
     \ '../',
     \ 'noremap')
-  " }}}
 
-  " custom color {{{
+  " custom color {{{3
   call denite#custom#option('default', 'highlight_matched_char', 'Search')
   call denite#custom#option('default', 'highlight_mode_insert', 'DeniteCursorLine')
   call denite#custom#option('default', 'highlight_mode_normal', 'DeniteCursorLine')
   call denite#custom#option('default', 'mode', 'normal')
-  " }}}
 
-  " custom command {{{
+  " custom command {{{3
   if executable('rg')
     call SwitchGrepCommand('rg')
   elseif executable('pt')
@@ -140,8 +154,8 @@ hook_source = '''
     \ 'node_modules/', 'bower_components/', 'vendor/ruby',
     \ '.mypy_cache/',
     \ '.idea/', '.tags'])
-  "}}}
-  " https://qiita.com/hrsh7th@github/items/303d46ba13532c502828 {{{
+
+  " https://qiita.com/hrsh7th@github/items/303d46ba13532c502828 {{{3
   function! DeniteQfreplace(context)
     let qflist = []
     for target in a:context['targets']
@@ -157,7 +171,7 @@ hook_source = '''
   endfunction
 
   call denite#custom#action('file', 'qfreplace', function('DeniteQfreplace'))
-  " }}}
+  " 3}}}
 '''
 hook_add = '''
   let g:denite_cwd = ''
@@ -247,7 +261,7 @@ hook_add = '''
     setlocal signcolumn=no
     setlocal listchars=
 
-    " Define mappings
+    " mappings {{{3
     nnoremap <silent><buffer><expr> yy defx#do_action('copy')
     nnoremap <silent><buffer><expr> dd defx#do_action('move')
     nnoremap <silent><buffer><expr> p defx#do_action('paste')
@@ -310,7 +324,7 @@ hook_add = '''
     nmap <silent><buffer> <SPACE>gk <Plug>(defx-git-prev)
     nmap <silent><buffer> <SPACE>gj <Plug>(defx-git-next)
 
-    " functions {{{
+    " functions {{{3
     function! DefxSaveDeniteCWD(context) abort
       let defx_target_path = a:context.targets[0]
       let g:denite_cwd = defx_target_path
@@ -351,7 +365,6 @@ hook_add = '''
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
       exec 'Denite file/rec -no-empty -path=' . dirpath '-start-filter'
     endfunction
-    " }}}
 
   endfunction
 
