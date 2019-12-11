@@ -100,6 +100,10 @@ hook_source = '''
       \ denite#do_map('do_action', 'branch_log')
     nnoremap <silent><buffer><expr> fm
       \ denite#do_map('do_action', 'merge_log')
+    nnoremap <silent><buffer><expr> ge
+      \ denite#do_map('do_action', 'gedit')
+    nnoremap <silent><buffer><expr> gt
+      \ denite#do_map('do_action', 'tabgedit')
   endfunction
 
 	autocmd FileType denite-filter call s:denite_filter_my_settings()
@@ -357,12 +361,14 @@ hook_add = '''
     function! DefxDeniteGrep(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+      let g:denite_cwd = dirpath
       exec 'Denite grep -no-empty -path=' . dirpath '-start-filter'
     endfunction
 
     function! DefxDeniteFile(context) abort
       call DefxPreCommand(a:context)
       let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+      let g:denite_cwd = dirpath
       exec 'Denite file/rec -no-empty -path=' . dirpath '-start-filter'
     endfunction
 
