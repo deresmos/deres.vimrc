@@ -24,9 +24,6 @@ let &undodir = s:undo_dir
 call s:makeDirectory(&undodir)
 filetype plugin on
 
-set iskeyword+=$
-set iskeyword+=-
-
 set noshowmode
 if exists('&ambw')
   set ambiwidth=single
