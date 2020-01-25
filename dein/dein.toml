@@ -775,3 +775,8 @@ hook_add = '''
 '''
 
 # }}}1
+
+# compiler plugins {{{1
+# deresmos/pytest-vim-compiler {{{2
+[[plugins]]
+repo = 'deresmos/pytest-vim-compiler'
