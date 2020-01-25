@@ -591,12 +591,12 @@ repo = 'Shougo/neoyank.vim'
 [[plugins]]
 repo = 'google/vim-searchindex'
 hook_add = '''
-  map <silent> n  n<Plug>SearchIndex
-  map <silent> N  N<Plug>SearchIndex
-  map <silent> *  <Plug>ImprovedStar_*<Plug>SearchIndex
-  map <silent> #  <Plug>ImprovedStar_#<Plug>SearchIndex
-  map <silent> g* <Plug>ImprovedStar_g*<Plug>SearchIndex
-  map <silent> g# <Plug>ImprovedStar_g#<Plug>SearchIndex
+  " map <silent> n  n<Plug>SearchIndex
+  " map <silent> N  N<Plug>SearchIndex
+  " map <silent> *  <Plug>ImprovedStar_*<Plug>SearchIndex
+  " map <silent> #  <Plug>ImprovedStar_#<Plug>SearchIndex
+  " map <silent> g* <Plug>ImprovedStar_g*<Plug>SearchIndex
+  " map <silent> g# <Plug>ImprovedStar_g#<Plug>SearchIndex
 
   function! s:huge_file_read() abort
     nnoremap n n
