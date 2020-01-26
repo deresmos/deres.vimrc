@@ -526,13 +526,13 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo = 'mattn/webapi-vim'
 
-# adelarsq/vim-matchit {{{2
+# andymass/vim-matchup {{{2
 [[plugins]]
-repo = 'adelarsq/vim-matchit'
+repo = 'andymass/vim-matchup'
 hook_add = '''
-  augroup matchit-settings
+  augroup matchup_matchparen_highlight
     autocmd!
-    autocmd FileType wsh,vb,aspvbs let b:match_words="\\<function\\>:\\<end function\\>,\\<sub\\>:\\<end sub\\>,\\<with\\>:\\<end with\\>,\\<while\\>:\\<wend\\>,\\<for\\>:\\<next\\>,\\<on error resume next\\>:\\<on error\\>,\\<if\\>:\\<end if\\>"
+    autocmd ColorScheme * highlight MatchParen ctermfg=none
   augroup END
 '''
 
