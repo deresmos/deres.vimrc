@@ -23,4 +23,6 @@ ln -sf ${dir}/coc-settings.json $nvim_dir/
 ln -sf ${dir}/.ideavimrc $HOME/
 ln -sf ${dir}/init.vim $nvim_dir/
 ln -sf ${dir}/dein/dein.toml $nvim_dein_dir/
+ln -sf ${dir}/dein/dein_ft.toml $nvim_dein_dir/
 ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir/
+ln -sf ${dir}/dein/pluginrc/* $nvim_dein_dir/pluginrc/

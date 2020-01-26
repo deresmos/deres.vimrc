@@ -29,53 +29,43 @@ if !1 | finish | endif
 
 set shellslash
 set encoding=utf8
-"dein setting {{{1
-if has('unix') || has('mac')
-  let g:dein_dir = expand('~/.cache/nvim-dein')
-  let g:rc_dir   = expand('~/.config/nvim/dein')
-  let s:nvim_dir = expand('~/.config/nvim')
-  let g:conf_dir = expand('~/.vim/conf.d')
-elseif has('win64') || has('win32')
-  let g:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
-  let g:rc_dir   = expand($LOCALAPPDATA. '/nvim/dein')
-  let s:nvim_dir = expand($LOCALAPPDATA. '/nvim')
-  let g:conf_dir = expand($LOCALAPPDATA. '/nvim/conf.d')
-endif
 
-execute 'source' g:conf_dir . '/basic.vim'
-let s:dein_repo_dir = g:dein_dir. '/repos/github.com/Shougo/dein.vim'
+let g:is_windows = has('win64') || has('win32')
 
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+"Init path {{{1
+if g:is_windows 
+  let s:config_home = expand($LOCALAPPDATA)
+  let s:cache_home = expand($LOCALAPPDATA)
+  let s:vim_conf_path = expand('$HOME/.vim/conf.d')
+else
+  let s:config_home = $XDG_CONFIG_HOME
+  if !exists($XDG_CONFIG_HOME)
+    let s:config_home = expand('$HOME/.config')
   endif
-  execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
+
+  let s:cache_home = $XDG_CACHE_HOME
+  if !exists($XDG_CACHE_HOME)
+    let s:cache_home = expand('$HOME/.cache')
+  endif
+
+  let s:vim_conf_path = expand('$HOME/.vim')
 endif
 
-if dein#load_state(g:dein_dir)
-  call dein#begin(g:dein_dir)
+let g:dein_cache_path = expand(s:cache_home.'/nvim-dein')
+let g:dein_rc_path   = expand(s:config_home.'/nvim/dein')
+let g:dein_plugin_rc_path = expand(g:dein_rc_path.'/pluginrc')
+let s:nvim_rc_path = expand(s:config_home.'/nvim')
+let g:vim_conf_path = expand(s:vim_conf_path.'/conf.d')
 
-  let s:toml      = g:rc_dir. '/dein.toml'
-  let s:lazy_toml = g:rc_dir. '/dein_lazy.toml'
-
-  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  call dein#end()
-  call dein#save_state()
-endif
-
-if dein#check_install()
-  call dein#install()
-endif
+" Load basic.vim {{{1
+execute 'source' g:vim_conf_path.'/basic.vim'
+execute 'source' g:dein_plugin_rc_path.'/dein.vim'
 
 filetype plugin indent on
-"}}}1
 
-"vim setting {{{1
-execute 'source' g:conf_dir . '/color.vim'
-execute 'source' g:conf_dir . '/filetype.vim'
+"Vim setting {{{1
+execute 'source' g:vim_conf_path . '/color.vim'
+execute 'source' g:vim_conf_path . '/filetype.vim'
 
 colorscheme iceberg
 set guicursor=
@@ -86,17 +76,6 @@ set guicursor=
       \,sm:block-blinkwait175-blinkoff150-blinkon175
 set scrollback=100000
 set inccommand=split
-
-set foldtext=FoldCCtext()
-"nerdtree setting{{{2
-augroup nerdtree
-  autocmd!
-  autocmd VimLeavePre * NERDTreeClose
-  " autocmd User Startified NERDTree
-augroup END
-
-
-"}}}1
 
 "space vim setting {{{1
 "F keybind {{{2
@@ -117,7 +96,7 @@ function! s:saveFile(force) abort "{{{
 endfunction
 " }}}
 
-nnoremap <silent> <SPACE>ft :Defx -buffer-name=defx-tree<CR>
+nnoremap <silent> <SPACE>ft :Defx -winwidth=35 -columns=mark:indent:icons:filename<CR>
 nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating -toggle<CR>
 nnoremap <silent> <SPACE>fo :<C-u>call <SID>open_two_defx()<CR>
 
@@ -139,6 +118,7 @@ nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
 
 "D keybind{{{2
 nnoremap <silent> <SPACE>dl :Denite -resume<CR>
+nnoremap <silent> <SPACE>dm :Denite menu:all<CR>
 nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
 nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
 nnoremap <silent> <SPACE>dt :Denite tag -start-filter<CR>
@@ -421,36 +401,6 @@ nmap <SPACE>et <Plug>(ale_toggle)
 
 "nvim only keybind{{{2
 if has('nvim')
-  nnoremap <silent> <SPACE>m= :Autoformat<CR>
-
-  " program keybind {{{
-  nnoremap <silent> <SPACE>mcc :QuickRun<CR>
-  nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
-  nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
-  nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
-
-  xnoremap <silent> <SPACE>mcc :QuickRun<CR>
-  xnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
-  xnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
-  xnoremap <silent> <SPACE>mco :QuickRun -outputter file:
-
-  nnoremap <silent> <SPACE>mcl :lwindow<CR>
-
-  nnoremap <silent> <SPACE>mpi :<C-u>call deoplete#sources#padawan#InstallServer()<CR>
-
-  nnoremap <silent> <SPACE>msw :<C-u>Switch<CR>
-  nnoremap <silent> <SPACE>msW :<C-u>SwitchReverse<CR>
-  " }}}
-
-  augroup formatter " {{{
-    autocmd!
-
-    "python formatter
-    autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfy :silent !yapf -i --style "pep8" %<CR>:e!<CR>
-    autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfi :silent !isort %<CR>:e!<CR>
-    autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mf= :silent !autopep8 -i % && yapf -i --style "pep8" % && isort %<CR>:e!<CR>
-  augroup END "}}}
-
   augroup emmet " {{{
     autocmd!
 
@@ -492,8 +442,8 @@ if has('nvim')
 endif
 "}}}1
 
-if filereadable(expand('~/.vim/conf.d/custom.vim'))
-  execute 'source' '~/.vim/conf.d/custom.vim'
+if filereadable(expand(s:vim_conf_path.'/custom.vim'))
+  execute 'source' s:vim_conf_path.'/custom.vim'
 endif
 
 " Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{

@@ -15,22 +15,6 @@
   "signature.hideOnTextChange": false,
 
   "languageserver": {
-    "efm": {
-      "command": "efm-langserver",
-      "args": [],
-      "filetypes": [
-        "vim"
-      ]
-    },
-    "bash": {
-      "command": "bash-language-server",
-      "args": [
-        "start"
-      ],
-      "filetypes": [
-        "sh"
-      ]
-    }
   },
 
   "python.jediEnabled": true,

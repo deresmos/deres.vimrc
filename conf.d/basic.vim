@@ -12,7 +12,7 @@ let s:view_dir = g:vim_dir. '/view'
 let g:startify_session_dir = g:vim_dir. '/session'
 set sessionoptions=buffers,curdir,folds,help,winsize,tabpages,slash,unix
 
-function! s:makeDirectory(dir_path) abort "{{{
+function! MakeDirectory(dir_path) abort "{{{
   if !isdirectory(a:dir_path)
     call mkdir(a:dir_path, 'p')
   endif
@@ -21,7 +21,7 @@ endfunction
 
 "basic setting {{{1
 let &undodir = s:undo_dir
-call s:makeDirectory(&undodir)
+call MakeDirectory(&undodir)
 filetype plugin on
 
 set noshowmode
@@ -140,7 +140,7 @@ endfunction
 " Save fold settings.
 " Don't save options.
 let &viewdir = s:view_dir
-call s:makeDirectory(&viewdir)
+call MakeDirectory(&viewdir)
 set viewoptions-=options
 set viewoptions-=curdir
 

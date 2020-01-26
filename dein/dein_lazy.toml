@@ -21,168 +21,13 @@ on_source = 'denite.nvim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 if = '''has('python3')'''
-hook_source = '''
-  call denite#custom#option('default', 'prompt', '>')
-
-  " menus {{{3
-  let s:menus = {}
-  let s:menus.dein = {'description': 'Dein menu'}
-  let s:_dein_commands = [
-    \ ['Dein: Update plugins', 'call dein#update()'],
-    \ ['Dein: Recache RuntimePath', 'call dein#recache_runtimepath()'],
-    \ ['Dein: Clear state', 'call dein#clear_state()']
-    \ ]
-  let s:menus.dein.command_candidates = s:_dein_commands
-
-  let s:menus.all = {'description': 'All commands'}
-  let s:menus.all.command_candidates = []
-    \ + s:_dein_commands
-
-  call denite#custom#var('menu', 'menus', s:menus)
-
-  " Denite mappings {{{3
-  autocmd FileType denite call s:denite_my_settings()
-  function! s:denite_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR>
-      \ denite#do_map('do_action')
-    nnoremap <silent><buffer><expr> <C-m>
-      \ denite#do_map('do_action')
-
-    nnoremap <silent><buffer><expr> dd
-      \ denite#do_map('do_action', 'delete')
-    nnoremap <silent><buffer><expr> p
-      \ denite#do_map('do_action', 'preview')
-    nnoremap <silent><buffer><expr> q
-      \ denite#do_map('quit')
-    nnoremap <silent><buffer><expr> i
-      \ denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> <Space><Space>
-      \ denite#do_map('toggle_select').'j'
-
-    " My mapping
-    nnoremap <silent><buffer><expr> l
-      \ denite#do_map('do_action')
-    nnoremap <silent><buffer><expr> h
-      \ denite#do_map('restore_sources')
-    nnoremap <silent><buffer><expr> t
-      \ denite#do_map('do_action', 'tabopen')
-    nnoremap <silent><buffer><expr> s
-      \ denite#do_map('do_action', 'split')
-    nnoremap <silent><buffer><expr> v
-      \ denite#do_map('do_action', 'vsplit')
-    nnoremap <silent><buffer><expr> rp
-      \ denite#do_map('do_action', 'qfreplace')
-    nnoremap <silent><buffer><expr> <C-j>
-      \ denite#do_map('do_action', 'preview_scroll_down')
-    nnoremap <silent><buffer><expr> <C-k>
-      \ denite#do_map('do_action', 'preview_scroll_up')
-    xnoremap <silent><buffer> <Space><Space>
-      \ :call denite#call_map('toggle_select')<CR>
-    nnoremap <silent><buffer><expr> *
-      \ denite#do_map('toggle_select_all')
-    nnoremap <silent><buffer><expr> Rm
-      \ denite#do_map('do_action', 'reset_mixed')
-    nnoremap <silent><buffer><expr> RRh
-      \ denite#do_map('do_action', 'reset_hard')
-    nnoremap <silent><buffer><expr> RRO
-      \ denite#do_map('do_action', 'reset_hard_orig_head')
-
-    " denite-gitdiff
-    nnoremap <silent><buffer><expr> dt
-      \ denite#do_map('do_action', 'tabvdiff')
-    nnoremap <silent><buffer><expr> dlt
-      \ denite#do_map('do_action', 'tabvdiff_local')
-    nnoremap <silent><buffer><expr> dm
-      \ denite#do_map('do_action', 'openvdiff')
-    nnoremap <silent><buffer><expr> dlm
-      \ denite#do_map('do_action', 'openvdiff_local')
-    nnoremap <silent><buffer><expr> fb
-      \ denite#do_map('do_action', 'branch_log')
-    nnoremap <silent><buffer><expr> fm
-      \ denite#do_map('do_action', 'merge_log')
-    nnoremap <silent><buffer><expr> ge
-      \ denite#do_map('do_action', 'gedit')
-    nnoremap <silent><buffer><expr> gt
-      \ denite#do_map('do_action', 'tabgedit')
-  endfunction
-
-	autocmd FileType denite-filter call s:denite_filter_my_settings()
-	function! s:denite_filter_my_settings() abort
-	  imap <silent><buffer> fd
-      \ <Esc>q
-	endfunction
-
-  " custom mapping {{{3
-  call denite#custom#map(
-    \ 'normal',
-    \ 'gj',
-    \ '<denite:jump_to_next_by:path>',
-    \ 'noremap')
-
-  call denite#custom#map(
-    \ 'normal',
-    \ 'gk',
-    \ '<denite:jump_to_previous_by:path>',
-    \ 'noremap')
-
-  call denite#custom#map(
-    \ 'insert',
-    \ '<C-n>',
-    \ '../',
-    \ 'noremap')
-
-  " custom color {{{3
-  call denite#custom#option('default', 'highlight_matched_char', 'Search')
-  call denite#custom#option('default', 'highlight_mode_insert', 'DeniteCursorLine')
-  call denite#custom#option('default', 'highlight_mode_normal', 'DeniteCursorLine')
-  call denite#custom#option('default', 'mode', 'normal')
-
-  " custom command {{{3
-  if executable('rg')
-    call SwitchGrepCommand('rg')
-  elseif executable('pt')
-    call SwitchGrepCommand('pt')
-  endif
-
-  call SwitchMatherFuzzy()
-
-  call denite#custom#source('file/rec', 'matchers',
-    \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-  call denite#custom#source('file', 'matchers',
-    \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-
-  call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-    \ [ '*~', '*.o', '*.exe', '*.bak',
-    \ '.DS_Store', '*.pyc', '*.sw[po]',
-    \ '.hg/', '.git/', '.bzr/', '.svn/',
-    \ 'node_modules/', 'bower_components/', 'vendor/ruby',
-    \ '.mypy_cache/',
-    \ '.idea/', '.tags'])
-
-  " https://qiita.com/hrsh7th@github/items/303d46ba13532c502828 {{{3
-  function! DeniteQfreplace(context)
-    let qflist = []
-    for target in a:context['targets']
-      call add(qflist, {
-        \ 'filename': target['action__path'],
-        \ 'lnum': target['action__line'],
-        \ 'text': target['word'],
-      \ })
-    endfor
-
-    call setqflist(qflist)
-    call qfreplace#start('tabnew')
-  endfunction
-
-  call denite#custom#action('file', 'qfreplace', function('DeniteQfreplace'))
-  " 3}}}
-'''
+hook_source = ''' execute 'source' g:dein_plugin_rc_path."/denite.vim" '''
 hook_add = '''
   let g:denite_cwd = ''
   nnoremap <silent> <SPACE>ds :<C-u>call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
   nnoremap <silent> <SPACE>dS :<C-u>call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
 
-  nnoremap <silent> <SPACE>dr :<C-u>call SwitchGrepCommand('pt') <Bar> echo 'Changed grep cmd to [pt]'<CR>
+  nnoremap <silent> <SPACE>dr :<C-u>call SwitchGrepCommand('rg-sjis') <Bar> echo 'Changed grep cmd to [pt]'<CR>
   nnoremap <silent> <SPACE>dR :<C-u>call SwitchGrepCommand('rg') <Bar> echo 'Changed grep cmd to [rg]'<CR>
 
   function! SwitchMatherRegexp() abort " {{{3
@@ -227,10 +72,15 @@ hook_add = '''
       call denite#custom#var('grep', 'separator', [])
       call denite#custom#var('grep', 'final_opts', [])
 
-    elseif a:command ==# 'rg'
+    elseif a:command ==# 'rg' || a:command ==# 'rg-sjis'
       call denite#custom#var('grep', 'command', ['rg'])
-      call denite#custom#var('grep', 'default_opts',
-          \ ['--vimgrep', '--follow', '--hidden', '-S'])
+      if a:command ==# 'rg-sjis'
+        call denite#custom#var('grep', 'default_opts',
+            \ ['--vimgrep', '--follow', '--hidden', '-S', '-E', 'sjis'])
+      else
+        call denite#custom#var('grep', 'default_opts',
+            \ ['--vimgrep', '--follow', '--hidden', '-S'])
+      endif
       call denite#custom#var('grep', 'recursive_opts', [])
       call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
       call denite#custom#var('grep', 'separator', ['--'])
@@ -252,131 +102,80 @@ hook_add = '''
   " }}}3
 '''
 
+[plugins.ftplugin]
+denite = '''
+  nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> <C-m>
+    \ denite#do_map('do_action')
+
+  nnoremap <silent><buffer><expr> dd
+    \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+    \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+    \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space><Space>
+    \ denite#do_map('toggle_select').'j'
+
+  " My mapping
+  nnoremap <silent><buffer><expr> l
+    \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> h
+    \ denite#do_map('restore_sources')
+  nnoremap <silent><buffer><expr> t
+    \ denite#do_map('do_action', 'tabopen')
+  nnoremap <silent><buffer><expr> s
+    \ denite#do_map('do_action', 'split')
+  nnoremap <silent><buffer><expr> v
+    \ denite#do_map('do_action', 'vsplit')
+  nnoremap <silent><buffer><expr> rp
+    \ denite#do_map('do_action', 'qfreplace')
+  nnoremap <silent><buffer><expr> <C-j>
+    \ denite#do_map('do_action', 'preview_scroll_down')
+  nnoremap <silent><buffer><expr> <C-k>
+    \ denite#do_map('do_action', 'preview_scroll_up')
+  xnoremap <silent><buffer> <Space><Space>
+    \ :call denite#call_map('toggle_select')<CR>
+  nnoremap <silent><buffer><expr> *
+    \ denite#do_map('toggle_select_all')
+  nnoremap <silent><buffer><expr> Rm
+    \ denite#do_map('do_action', 'reset_mixed')
+  nnoremap <silent><buffer><expr> RRh
+    \ denite#do_map('do_action', 'reset_hard')
+  nnoremap <silent><buffer><expr> RRO
+    \ denite#do_map('do_action', 'reset_hard_orig_head')
+
+  " denite-gitdiff
+  nnoremap <silent><buffer><expr> dt
+    \ denite#do_map('do_action', 'tabvdiff')
+  nnoremap <silent><buffer><expr> dlt
+    \ denite#do_map('do_action', 'tabvdiff_local')
+  nnoremap <silent><buffer><expr> dm
+    \ denite#do_map('do_action', 'openvdiff')
+  nnoremap <silent><buffer><expr> dlm
+    \ denite#do_map('do_action', 'openvdiff_local')
+  nnoremap <silent><buffer><expr> fb
+    \ denite#do_map('do_action', 'branch_log')
+  nnoremap <silent><buffer><expr> fm
+    \ denite#do_map('do_action', 'merge_log')
+  nnoremap <silent><buffer><expr> ge
+    \ denite#do_map('do_action', 'gedit')
+  nnoremap <silent><buffer><expr> gt
+    \ denite#do_map('do_action', 'tabgedit')
+'''
+
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <Esc>q
+'''
+
 # defx.nvim {{{2
 [[plugins]]
 repo = 'Shougo/defx.nvim'
-hook_add = '''
-  augroup defx-custom
-    autocmd!
-    autocmd FileType defx call s:defx_my_settings()
-  augroup END
-
-  function! s:defx_my_settings() abort
-    setlocal signcolumn=no
-    setlocal listchars=
-
-    " mappings {{{3
-    nnoremap <silent><buffer><expr> yy defx#do_action('copy')
-    nnoremap <silent><buffer><expr> dd defx#do_action('move')
-    nnoremap <silent><buffer><expr> p defx#do_action('paste')
-
-    nnoremap <silent><buffer><expr> <CR> defx#do_action('multi',
-      \ [['call', 'DefxPreCommand'], ['drop']])
-    nnoremap <silent><buffer><expr> <C-M> defx#do_action('multi',
-      \ [['call', 'DefxPreCommand'], ['drop']])
-    nnoremap <silent><buffer><expr> l defx#do_action('open_or_close_tree')
-    nnoremap <silent><buffer><expr> L defx#do_action('open')
-    nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
-    nnoremap <silent><buffer><expr> v defx#do_action('multi',
-      \ [['call', 'DefxPreCommand'], ['drop', 'vsplit']])
-    nnoremap <silent><buffer><expr> <C-s> defx#do_action('multi',
-      \ [['call', 'DefxPreCommand'], ['drop', 'split']])
-    nnoremap <silent><buffer><expr> t defx#do_action('multi',
-      \ [['call', 'DefxPreCommand'], ['drop', 'tabedit']])
-    nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
-    nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
-
-    nnoremap <silent><buffer><expr> K defx#do_action('new_file')
-    " nnoremap <silent><buffer><expr> N defx#do_action('new_file')
-    nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
-    nnoremap <silent><buffer><expr> C
-      \ defx#do_action('toggle_columns', 'mark:indent:icons:filename')
-
-    " nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
-    " nnoremap <silent><buffer><expr> sf defx#do_action('toggle_sort', 'filename')
-    " nnoremap <silent><buffer><expr> ss defx#do_action('toggle_sort', 'size')
-    " nnoremap <silent><buffer><expr> se defx#do_action('toggle_sort', 'extension')
-
-    nnoremap <silent><buffer><expr> D defx#do_action('remove')
-    nnoremap <silent><buffer><expr> r defx#do_action('rename')
-    nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
-    nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
-    nnoremap <silent><buffer><expr> Y defx#do_action('yank_path')
-    nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-    nnoremap <silent><buffer><expr> ; defx#do_action('repeat')
-    nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
-    nnoremap <silent><buffer><expr> q defx#do_action('quit')
-    nnoremap <silent><buffer><expr> <Space><Space> defx#do_action('toggle_select') . 'j'
-    nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
-    nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
-    nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
-    nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
-
-    nnoremap <silent><buffer><expr> <SPACE>fg
-      \ defx#do_action('call', 'DefxDeniteGrep')
-    nnoremap <silent><buffer><expr> <SPACE>ff
-      \ defx#do_action('call', 'DefxDeniteFile')
-    nnoremap <silent><buffer><expr> ds
-      \ defx#do_action('call', 'DefxSetDiffSource')
-    nnoremap <silent><buffer><expr> dt
-      \ defx#do_action('call', 'DefxSetDiffTarget')
-    nnoremap <silent><buffer><expr> do
-      \ defx#do_action('call', 'DefxOpenDiffDir')
-    nnoremap <silent><buffer><expr> <SPACE>dcd
-      \ defx#do_action('call', 'DefxSaveDeniteCWD')
-
-    nmap <silent><buffer> <SPACE>gk <Plug>(defx-git-prev)
-    nmap <silent><buffer> <SPACE>gj <Plug>(defx-git-next)
-
-    " functions {{{3
-    function! DefxSaveDeniteCWD(context) abort
-      let defx_target_path = a:context.targets[0]
-      let g:denite_cwd = defx_target_path
-      echo 'Change denite_cwd' . defx_target_path
-    endfunction
-
-    function! DefxPreCommand(context) abort
-      if a:context.buffer_name == 'defx-floating'
-        quit
-      elseif a:context.buffer_name == 'defx-tree'
-        wincmd p
-      endif
-    endfunction
-
-    function! DefxSetDiffSource(context) abort
-      let g:defx_diff_source = a:context.targets[0]
-      echo 'Set diff source:' g:defx_diff_source
-    endfunction
-
-    function! DefxSetDiffTarget(context) abort
-      let g:defx_diff_target = a:context.targets[0]
-      echo 'Set diff target:' g:defx_diff_target
-    endfunction
-
-    function! DefxOpenDiffDir(...) abort
-      tabedit
-      execute 'DirDiff' g:defx_diff_source g:defx_diff_target
-    endfunction
-
-    function! DefxDeniteGrep(context) abort
-      call DefxPreCommand(a:context)
-      let dirpath = fnamemodify(a:context.targets[0], ':p:h')
-      let g:denite_cwd = dirpath
-      exec 'Denite grep -no-empty -path=' . dirpath '-start-filter'
-    endfunction
-
-    function! DefxDeniteFile(context) abort
-      call DefxPreCommand(a:context)
-      let dirpath = fnamemodify(a:context.targets[0], ':p:h')
-      let g:denite_cwd = dirpath
-      exec 'Denite file/rec -no-empty -path=' . dirpath '-start-filter'
-    endfunction
-
-  endfunction
-
-'''
 hook_source = '''
-
   call defx#custom#option('_', {
     \ 'root_marker': ': ',
     \ 'buffer_name': 'defx',
@@ -407,6 +206,118 @@ hook_source = '''
     \ 'max_width': '80',
     \ })
 
+'''
+[plugins.ftplugin]
+defx = '''
+  setlocal signcolumn=no
+  setlocal listchars=
+
+  " mappings {{{3
+  nnoremap <silent><buffer><expr> yy defx#do_action('copy')
+  nnoremap <silent><buffer><expr> dd defx#do_action('move')
+  nnoremap <silent><buffer><expr> p defx#do_action('paste')
+
+  nnoremap <silent><buffer><expr> <CR> defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop']])
+  nnoremap <silent><buffer><expr> <C-M> defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop']])
+  nnoremap <silent><buffer><expr> l defx#do_action('open_or_close_tree')
+  nnoremap <silent><buffer><expr> L defx#do_action('open')
+  nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> v defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop', 'vsplit']])
+  nnoremap <silent><buffer><expr> <C-s> defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop', 'split']])
+  nnoremap <silent><buffer><expr> t defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop', 'tabedit']])
+  nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
+  nnoremap <silent><buffer><expr> o defx#do_action('open_or_close_tree')
+
+  nnoremap <silent><buffer><expr> K defx#do_action('new_file')
+  " nnoremap <silent><buffer><expr> N defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> C
+    \ defx#do_action('toggle_columns', 'mark:indent:icons:filename')
+
+  " nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
+  " nnoremap <silent><buffer><expr> sf defx#do_action('toggle_sort', 'filename')
+  " nnoremap <silent><buffer><expr> ss defx#do_action('toggle_sort', 'size')
+  " nnoremap <silent><buffer><expr> se defx#do_action('toggle_sort', 'extension')
+
+  nnoremap <silent><buffer><expr> D defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r defx#do_action('rename')
+  nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> Y defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ; defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Space><Space> defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+
+  nnoremap <silent><buffer><expr> <SPACE>fg
+    \ defx#do_action('call', 'DefxDeniteGrep')
+  nnoremap <silent><buffer><expr> <SPACE>ff
+    \ defx#do_action('call', 'DefxDeniteFile')
+  nnoremap <silent><buffer><expr> ds
+    \ defx#do_action('call', 'DefxSetDiffSource')
+  nnoremap <silent><buffer><expr> dt
+    \ defx#do_action('call', 'DefxSetDiffTarget')
+  nnoremap <silent><buffer><expr> do
+    \ defx#do_action('call', 'DefxOpenDiffDir')
+  nnoremap <silent><buffer><expr> <SPACE>dcd
+    \ defx#do_action('call', 'DefxSaveDeniteCWD')
+
+  nmap <silent><buffer> <SPACE>gk <Plug>(defx-git-prev)
+  nmap <silent><buffer> <SPACE>gj <Plug>(defx-git-next)
+
+  " functions {{{3
+  function! DefxSaveDeniteCWD(context) abort
+    let defx_target_path = a:context.targets[0]
+    let g:denite_cwd = defx_target_path
+    echo 'Change denite_cwd' . defx_target_path
+  endfunction
+
+  function! DefxPreCommand(context) abort
+    if a:context.buffer_name == 'defx-floating'
+      quit
+    elseif a:context.buffer_name == 'defx-tree'
+      wincmd p
+    endif
+  endfunction
+
+  function! DefxSetDiffSource(context) abort
+    let g:defx_diff_source = a:context.targets[0]
+    echo 'Set diff source:' g:defx_diff_source
+  endfunction
+
+  function! DefxSetDiffTarget(context) abort
+    let g:defx_diff_target = a:context.targets[0]
+    echo 'Set diff target:' g:defx_diff_target
+  endfunction
+
+  function! DefxOpenDiffDir(...) abort
+    tabedit
+    execute 'DirDiff' g:defx_diff_source g:defx_diff_target
+  endfunction
+
+  function! DefxDeniteGrep(context) abort
+    call DefxPreCommand(a:context)
+    let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+    let g:denite_cwd = dirpath
+    exec 'Denite grep -no-empty -path=' . dirpath '-start-filter'
+  endfunction
+
+  function! DefxDeniteFile(context) abort
+    call DefxPreCommand(a:context)
+    let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+    let g:denite_cwd = dirpath
+    exec 'Denite file/rec -no-empty -path=' . dirpath '-start-filter'
+  endfunction
 '''
 
 [[plugins]]
@@ -481,7 +392,7 @@ hook_add = '''
   let g:UltiSnipsExpandTrigger       = "<C-l>"
   let g:UltiSnipsJumpForwardTrigger  = "<C-i>"
   let g:UltiSnipsJumpBackwardTrigger = "<C-o>"
-  let g:UltiSnipsSnippetsDir = g:dein_dir . "/repos/github.com/deresmos/vim-snippets/UltiSnips/"
+  let g:UltiSnipsSnippetsDir = g:dein_cache_path . "/repos/github.com/deresmos/vim-snippets/UltiSnips/"
 '''
 
 # elzr/vim-json {{{2
@@ -557,6 +468,44 @@ hook_source = '''
     \ 'sh': ['bash-language-server', 'start'],
   \ }
 '''
+
+# thinca/vim-quickrun {{{2
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+hook_add = '''
+  nnoremap <silent> <SPACE>mcc :QuickRun<CR>
+  nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
+  nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
+  nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
+
+  xnoremap <silent> <SPACE>mcc :QuickRun<CR>
+  xnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
+  xnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
+  xnoremap <silent> <SPACE>mco :QuickRun -outputter file:
+
+  nnoremap <silent> <SPACE>mcl :lwindow<CR>
+'''
+hook_source = '''
+  let g:quickrun_config={'_': {'split': ''}}
+  let g:quickrun_config._={
+    \ 'hook/time/enable': '1',
+    \ 'runner'    : 'vimproc',
+    \ 'runner/vimproc/updatetime' : 60,
+    \ 'outputter' : 'error',
+    \ 'outputter/error/success' : 'buffer',
+    \ 'outputter/error/error'   : 'quickfix',
+    \ 'outputter/buffer/split'  : ':botright 6sp',
+    \ 'outputter/buffer/close_on_empty' : 1,
+    \ 'outputter/buffer/running_mark': ''
+  \ }
+
+  let g:quickrun_config['python'] = {
+    \ 'type'    : 'python',
+    \ 'command' : 'python',
+    \ 'cmdopt'    : '-u',
+  \}
+'''
+
 # }}}1
 
 # Markdown plugins {{{1
@@ -580,6 +529,7 @@ on_ft = ['markdown','mkd']
 hook_source = '''
   let g:vim_markdown_conceal = 0
   let g:vim_markdown_new_list_item_indent = 2
+  let g:vim_markdown_folding_disabled = 1
 '''
 
 # }}}1
@@ -824,7 +774,7 @@ hook_add = '''
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 on_if = 'empty($DEOPLETE)'
-build = 'coc#util#install()'
+build = 'yarn install --frozen-lockfile'
 hook_source = '''
 
   nmap <silent> <SPACE>mgg <Plug>(coc-definition)
@@ -863,7 +813,8 @@ hook_source = '''
       \ coc-yaml
       \ coc-emmet
       \ coc-vetur
-      \ coc-yank
+      \ coc-marketplace
+      \ coc-sh
   endfunction
 
 '''
@@ -1099,6 +1050,13 @@ hook_source = '''
     autocmd FileType nerdtree nmap <buffer> rn mm
     autocmd FileType nerdtree nmap <buffer> vd mv
   augroup END
+
+  augroup nerdtree
+    autocmd!
+    autocmd VimLeavePre * NERDTreeClose
+    " autocmd User Startified NERDTree
+  augroup END
+
 '''
 
 # deresmos/nerdtree-diff-plugin {{{2
@@ -1157,6 +1115,11 @@ hook_add = '''
 # AndrewRadev/switch.vim {{{2
 [[plugins]]
 repo = 'AndrewRadev/switch.vim'
+on_cmd = ['Switch', 'SwitchReverse']
+hook_add = '''
+  nnoremap <silent> <SPACE>msw :<C-u>Switch<CR>
+  nnoremap <silent> <SPACE>msW :<C-u>SwitchReverse<CR>
+'''
 
 # hecal3/vim-leader-guide {{{2
 [[plugins]]
@@ -1236,6 +1199,9 @@ hook_source = '''
 # Chiel92/vim-autoformat {{{2
 [[plugins]]
 repo = 'Chiel92/vim-autoformat'
+hook_add = '''
+  nnoremap <silent> <SPACE>m= :Autoformat<CR>
+'''
 hook_source = '''
   let g:formatter_yapf_style = 'pep8'
   let g:formatdef_csscomb    = '"csscomb"'
