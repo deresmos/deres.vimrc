@@ -524,3 +524,7 @@ function! s:get_highlight_info()
     execute "highlight " . s:get_syn_name(s:get_syn_id(1))
 endfunction
 command! HighlightInfo call s:get_highlight_info()
+
+" Math map {{{2
+xnoremap <silent><SPACE>xs :!awk '{sum += $1} END {print sum}'<CR>
+xnoremap <silent><SPACE>xa :!awk '{sum += $1} END {print sum/NR}'<CR>
