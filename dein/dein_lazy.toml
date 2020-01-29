@@ -591,34 +591,6 @@ on_ft = 'go'
 
 # }}}1
 
-# joonty/vdebug.git # {{{2
-[[plugins]]
-repo = 'joonty/vdebug.git'
-if = '''has('python')'''
-on_ft = ['php', 'python']
-hook_source = '''
-    let g:vdebug_options = {
-      \ "port":          9001,
-      \ "timeout":       60,
-      \ "break_on_open": 1,
-      \ "ide_key":       ''
-    \ }
-
-    let g:vdebug_keymap = {
-      \ "run":               "<Space>dr",
-      \ "run_to_cursor":     "<Space>dt",
-      \ "step_over":         "<Space>dj",
-      \ "step_into":         "<Space>di",
-      \ "step_out":          "<Space>do",
-      \ "close":             "<Space>dc",
-      \ "detach":            "<Space>dd",
-      \ "set_breakpoint":    "<Space>dp",
-      \ "get_context":       "<Space>dg",
-      \ "eval_under_cursor": "<Space>de",
-      \ "eval_visual":       "<Space>dv",
-    \ }
-'''
-
 # }}}1
 
 # iloginow/vim-stylus # {{{1
@@ -1567,3 +1539,27 @@ hook_source = '''
 [[plugins]]
 repo = 'tpope/vim-dispatch'
 on_source = 'vim-test'
+
+
+# puremourning/vimspector {{{2
+[[plugins]]
+repo = 'puremourning/vimspector'
+on_ft = ['python', 'sh', 'javascript']
+build = './install_gadget.py --enable-python --enable-bash --enable-c --force-enable-node'
+hook_add = '''
+  nmap <silent> <SPACE>mdc <Plug>VimspectorContinue
+  nmap <silent> <SPACE>mdq <Plug>VimspectorStop
+  nmap <silent> <SPACE>mdR <Plug>VimspectorRestart
+  " nmap <silent> <SPACE>mdc <Plug>VimspectorPause
+  nmap <silent> <SPACE>mdp <Plug>VimspectorToggleBreakpoint
+  " nmap <silent> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
+  nmap <silent> <SPACE>mdo <Plug>VimspectorStepOver
+  nmap <silent> <SPACE>mdi <Plug>VimspectorStepInto
+  nmap <silent> <SPACE>mdn <Plug>VimspectorStepOut
+
+  nnoremap <silent> <SPACE>mdf :call vimspector#LaunchWithSettings({'configuration': 'python_file', 'Test': 'Python file debug'})<CR>
+  nnoremap <silent> <SPACE>mdQ :call vimspector#Reset()<CR>
+'''
+hook_source = '''
+  let g:vimspector_enable_mappings = 'HUMAN'
+'''

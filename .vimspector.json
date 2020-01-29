@@ -1,0 +1,68 @@
+{
+  "configurations": {
+    "python_file": {
+      "adapter": "vscode-python",
+      "configuration": {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "debugOptions": [],
+        "cwd": "${fileDirname}",
+        "program": "${file}"
+      },
+      "breakpoints": {
+        "exception": {
+          "caught": "Y",
+          "uncaught": "N"
+        }
+      }
+    },
+    "python_pytest": {
+      "adapter": "vscode-python",
+      "variables": {
+        "gitRootPath": {
+          "shell" : [ "git", "rev-parse", "--show-toplevel" ]
+        }
+      },
+      "configuration": {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${gitRootPath}",
+        "args": [
+          "-m",
+          "pytest",
+          "."
+        ],
+        "stopOnEntry": true,
+        "externalConsole": true,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "caught": "Y",
+          "uncaught": "N"
+        }
+      }
+    },
+    "bash_file": {
+      "adapter": "vscode-bash",
+      "configuration": {
+        "type": "bashdb",
+        "request": "launch",
+        "name": "Bash-Debug (simplest configuration)",
+        "program": "${file}",
+        "args": [],
+        "pathBash": "bash",
+        "pathBashdb": "bashdb",
+        "pathCat": "cat",
+        "pathMkfifo": "mkfifo",
+        "pathPkill": "pkill",
+        "showDebugOutput": true,
+        "trace": true
+      }
+    }
+  }
+}
