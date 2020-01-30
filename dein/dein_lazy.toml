@@ -1526,6 +1526,10 @@ hook_add = '''
 [[plugins]]
 repo = 'janko/vim-test'
 on_command = ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']
+hook_add = '''
+  nnoremap <silent><SPACE>mts :<C-u>TestSuite<CR>
+  nnoremap <silent><SPACE>mtf :<C-u>TestFile<CR>
+'''
 hook_source = '''
   let g:test#strategy = 'dispatch'
   let g:test#python#pytest#file_pattern = '.*'
