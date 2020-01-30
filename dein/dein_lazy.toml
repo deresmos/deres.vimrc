@@ -1543,7 +1543,8 @@ on_source = 'vim-test'
 
 # puremourning/vimspector {{{2
 [[plugins]]
-repo = 'puremourning/vimspector'
+repo = 'deresmos/vimspector'
+rev = 'feature/custom'
 on_ft = ['python', 'sh', 'javascript']
 build = './install_gadget.py --enable-python --enable-bash --enable-c --force-enable-node'
 hook_add = '''
@@ -1558,6 +1559,7 @@ hook_add = '''
   nmap <silent> <SPACE>mdn <Plug>VimspectorStepOut
 
   nnoremap <silent> <SPACE>mdf :call vimspector#LaunchWithSettings({'configuration': 'python_file', 'Test': 'Python file debug'})<CR>
+  nnoremap <silent> <SPACE>mdt :call vimspector#LaunchWithSettings({'configuration': 'python_pytest', 'Test': 'Python test debug'})<CR>
   nnoremap <silent> <SPACE>mdQ :call vimspector#Reset()<CR>
 '''
 hook_source = '''
