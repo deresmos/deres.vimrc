@@ -1,15 +1,19 @@
 {
   "adapters": {
     "vscode-node": {
+      "name": "node2",
+      "type": "node2",
       "command": [
         "node",
         "${gadgetDir}/vscode-node-debug2/out/src/nodeDebug.js"
-      ],
-      "name": "node2",
-      "type": "node2"
+      ]
     },
 
     "vscode-bash": {
+      "name": "bashdb",
+      "variables": {
+        "BASHDB_HOME": "${gadgetDir}/vscode-bash-debug/bashdb_dir"
+      },
       "command": [
         "node",
         "${gadgetDir}/vscode-bash-debug/out/bashDebug.js"
@@ -26,21 +30,16 @@
         "pathPkill": "pkill",
         "program": "${file}",
         "request": "launch",
-        "terminalKind": "integrated",
         "type": "bashdb"
-      },
-      "name": "bashdb",
-      "variables": {
-        "BASHDB_HOME": "${gadgetDir}/vscode-bash-debug/bashdb_dir"
       }
     },
 
     "vscode-python": {
+      "name": "vscode-python",
       "command": [
         "node",
         "${gadgetDir}/vscode-python/out/client/debugger/debugAdapter/main.js"
-      ],
-      "name": "vscode-python"
+      ]
     }
   },
 
@@ -60,7 +59,7 @@
       },
       "breakpoints": {
         "exception": {
-          "caught": "",
+          "raised": "N",
           "uncaught": "Y"
         }
       }
@@ -89,7 +88,7 @@
       },
       "breakpoints": {
         "exception": {
-          "caught": "",
+          "raised": "N",
           "uncaught": "Y"
         }
       }
@@ -99,16 +98,11 @@
       "adapter": "vscode-bash",
       "configuration": {
         "name": "Bash: Current File",
-        "type": "bashdb",
         "request": "launch",
+        "cwd": "${fileDirname}",
         "program": "${file}",
         "args": [],
-        "pathBash": "bash",
-        "pathBashdb": "bashdb",
-        "pathCat": "cat",
-        "pathMkfifo": "mkfifo",
-        "pathPkill": "pkill",
-        "showDebugOutput": true,
+        "externalConsole": false,
         "trace": true
       }
     },
@@ -127,7 +121,7 @@
       },
       "breakpoints": {
         "exception": {
-          "caught": "",
+          "all": "N",
           "uncaught": "Y"
         }
       }
