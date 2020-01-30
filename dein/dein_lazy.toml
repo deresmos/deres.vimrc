@@ -1573,9 +1573,9 @@ hook_source = '''
     " nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorPause
     nmap <silent><buffer> <SPACE>mdp <Plug>VimspectorToggleBreakpoint
     " nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
-    nmap <silent><buffer> <SPACE>mdo <Plug>VimspectorStepOver
+    nmap <silent><buffer> <SPACE>mdn <Plug>VimspectorStepOver
     nmap <silent><buffer> <SPACE>mdi <Plug>VimspectorStepInto
-    nmap <silent><buffer> <SPACE>mdn <Plug>VimspectorStepOut
+    nmap <silent><buffer> <SPACE>mdo <Plug>VimspectorStepOut
 
     nnoremap <silent><buffer> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
     xnoremap <silent><buffer> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
