@@ -1551,21 +1551,39 @@ repo = 'deresmos/vimspector'
 rev = 'feature/custom'
 on_ft = ['python', 'sh', 'javascript']
 build = './install_gadget.py --enable-python --enable-bash --enable-c --force-enable-node'
-hook_add = '''
-  nmap <silent> <SPACE>mdc <Plug>VimspectorContinue
-  nmap <silent> <SPACE>mdq <Plug>VimspectorStop
-  nmap <silent> <SPACE>mdR <Plug>VimspectorRestart
-  " nmap <silent> <SPACE>mdc <Plug>VimspectorPause
-  nmap <silent> <SPACE>mdp <Plug>VimspectorToggleBreakpoint
-  " nmap <silent> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
-  nmap <silent> <SPACE>mdo <Plug>VimspectorStepOver
-  nmap <silent> <SPACE>mdi <Plug>VimspectorStepInto
-  nmap <silent> <SPACE>mdn <Plug>VimspectorStepOut
-
-  nnoremap <silent> <SPACE>mdf :call vimspector#LaunchWithSettings({'configuration': 'python_file', 'Test': 'Python file debug'})<CR>
-  nnoremap <silent> <SPACE>mdt :call vimspector#LaunchWithSettings({'configuration': 'python_pytest', 'Test': 'Python test debug'})<CR>
-  nnoremap <silent> <SPACE>mdQ :call vimspector#Reset()<CR>
-'''
 hook_source = '''
   let g:vimspector_enable_mappings = 'HUMAN'
+
+  sign define vimspectorBP text=-> texthl=Error
+  sign define vimspectorPC text==> texthl=Normal
+  sign define vimspectorBPDisabled text=- texthl=Normal
+
+  function! s:run_file()
+    call vimspector#LaunchWithSettings({'configuration': &filetype.'_file'})
+  endfunction
+
+  function! s:run_test()
+    call vimspector#LaunchWithSettings({'configuration': &filetype.'_test'})
+  endfunction
+
+  function! s:vimspector() abort
+    nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorContinue
+    nmap <silent><buffer> <SPACE>mdq <Plug>VimspectorStop
+    nmap <silent><buffer> <SPACE>mdR <Plug>VimspectorRestart
+    " nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorPause
+    nmap <silent><buffer> <SPACE>mdp <Plug>VimspectorToggleBreakpoint
+    " nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
+    nmap <silent><buffer> <SPACE>mdo <Plug>VimspectorStepOver
+    nmap <silent><buffer> <SPACE>mdi <Plug>VimspectorStepInto
+    nmap <silent><buffer> <SPACE>mdn <Plug>VimspectorStepOut
+
+    nnoremap <silent><buffer> <SPACE>mdf :<C-u>call <SID>run_file()<CR>
+    nnoremap <silent><buffer> <SPACE>mdt :<C-u>call <SID>run_test()<CR>
+    nnoremap <silent><buffer> <SPACE>mdQ :<C-u>call vimspector#Reset()<CR>
+  endfunction
+
+  augroup custom_vimspector_mapper
+    autocmd!
+    autocmd FileType python,sh,javascript call <SID>vimspector()
+  augroup END
 '''

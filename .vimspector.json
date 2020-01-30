@@ -1,4 +1,49 @@
 {
+  "adapters": {
+    "vscode-node": {
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-node-debug2/out/src/nodeDebug.js"
+      ],
+      "name": "node2",
+      "type": "node2"
+    },
+
+    "vscode-bash": {
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-bash-debug/out/bashDebug.js"
+      ],
+      "configuration": {
+        "args": [],
+        "cwd": "${workspaceRoot}",
+        "env": {},
+        "pathBash": "bash",
+        "pathBashdb": "${BASHDB_HOME}/bashdb",
+        "pathBashdbLib": "${BASHDB_HOME}",
+        "pathCat": "cat",
+        "pathMkfifo": "mkfifo",
+        "pathPkill": "pkill",
+        "program": "${file}",
+        "request": "launch",
+        "terminalKind": "integrated",
+        "type": "bashdb"
+      },
+      "name": "bashdb",
+      "variables": {
+        "BASHDB_HOME": "${gadgetDir}/vscode-bash-debug/bashdb_dir"
+      }
+    },
+
+    "vscode-python": {
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-python/out/client/debugger/debugAdapter/main.js"
+      ],
+      "name": "vscode-python"
+    }
+  },
+
   "configurations": {
     "python_file": {
       "adapter": "vscode-python",
@@ -6,11 +51,12 @@
         "name": "Python: Current File",
         "type": "python",
         "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
         "stopOnEntry": true,
         "externalConsole": false,
-        "debugOptions": [],
-        "cwd": "${fileDirname}",
-        "program": "${file}"
+        "debugOptions": []
       },
       "breakpoints": {
         "exception": {
@@ -19,7 +65,8 @@
         }
       }
     },
-    "python_pytest": {
+
+    "python_test": {
       "adapter": "vscode-python",
       "variables": {
         "gitRootPath": {
@@ -27,7 +74,7 @@
         }
       },
       "configuration": {
-        "name": "Python: Current File",
+        "name": "Python: Test",
         "type": "python",
         "request": "launch",
         "cwd": "${gitRootPath}",
@@ -47,12 +94,13 @@
         }
       }
     },
-    "bash_file": {
+
+    "sh_file": {
       "adapter": "vscode-bash",
       "configuration": {
+        "name": "Bash: Current File",
         "type": "bashdb",
         "request": "launch",
-        "name": "Bash-Debug (simplest configuration)",
         "program": "${file}",
         "args": [],
         "pathBash": "bash",
@@ -62,6 +110,26 @@
         "pathPkill": "pkill",
         "showDebugOutput": true,
         "trace": true
+      }
+    },
+
+    "javascript_file": {
+      "adapter": "vscode-node",
+      "configuration": {
+        "name": "JavaScript: Current File",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
+        "protocol": "auto",
+        "stopOnEntry": true,
+        "externalConsole": false
+      },
+      "breakpoints": {
+        "exception": {
+          "caught": "",
+          "uncaught": "Y"
+        }
       }
     }
   }
