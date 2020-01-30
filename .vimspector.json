@@ -14,8 +14,8 @@
       },
       "breakpoints": {
         "exception": {
-          "caught": "Y",
-          "uncaught": "N"
+          "caught": "",
+          "uncaught": "Y"
         }
       }
     },
@@ -42,8 +42,8 @@
       },
       "breakpoints": {
         "exception": {
-          "caught": "Y",
-          "uncaught": "N"
+          "caught": "",
+          "uncaught": "Y"
         }
       }
     },
