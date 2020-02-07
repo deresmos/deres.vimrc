@@ -1499,10 +1499,6 @@ repo = 'OmniSharp/omnisharp-vim'
 on_ft = ['cs']
 
 [[plugins]]
-repo = 'tpope/vim-dispatch'
-on_source = 'omnisharp-vim'
-
-[[plugins]]
 repo = 'Robzz/deoplete-omnisharp'
 on_ft = ['cs']
 hook_add = '''
@@ -1510,16 +1506,28 @@ hook_add = '''
   let g:OmniSharp_server_type = 'roslyn'
 '''
 
-# vial-http {{{2
+# diepm/vim-rest-console {{{2
 [[plugins]]
-repo = 'baverman/vial'
-on_ft = 'vial-http'
+repo = 'diepm/vim-rest-console'
+on_ft = 'rest'
+hook_source = '''
+  let g:vrc_set_default_mapping = 0
 
-[[plugins]]
-repo = 'baverman/vial-http'
-on_ft = 'vial-http'
-hook_add = '''
-  autocmd FileType vial-http nnoremap <buffer> <CR> :VialHttp<CR>
+  let g:vrc_curl_opts = {
+    \ '--connect-timeout' : 15,
+    \ '-b': '/tmp/vim_rest_cookie',
+    \ '-c': '/tmp/vim_rest_cookie',
+    \ '-L': '',
+    \ '-i': '',
+    \ '-s': '',
+    \ '--max-time': 60,
+    \ '--ipv4': '',
+  \}
+
+'''
+[plugins.ftplugin]
+rest = '''
+  nnoremap <silent><buffer> <CR> :<C-u>call VrcQuery()<CR>
 '''
 
 # vim-test {{{2
