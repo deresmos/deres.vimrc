@@ -251,9 +251,9 @@ hook_add = '''
   call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
 '''
 
-# vim-scripts/L9 {{{2
+# welvinyu/L9 {{{2
 [[plugins]]
-repo = 'vim-scripts/L9'
+repo = 'welvinyu/L9'
 
 # mhinz/vim-startify {{{2
 [[plugins]]
