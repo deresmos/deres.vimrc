@@ -88,6 +88,8 @@ set background=dark
 set wrap
 set breakindent
 
+set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+
 augroup no-auto-commentout
   autocmd!
   autocmd FileType * setlocal formatoptions-=ro

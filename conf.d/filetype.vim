@@ -8,8 +8,8 @@ augroup custom-filetype
   autocmd FileType qf xnoremap <silent><buffer>d :call <SID>delEntry()<CR>
   autocmd FileType qf nnoremap <silent><buffer>u :call <SID>undoEntry()<CR>
 
-  autocmd FileType agit_diff,diff setlocal nofoldenable
-  autocmd FileType agit_diff,diff setlocal wrap
+  autocmd FileType agit_diff setlocal nofoldenable
+  autocmd FileType agit_diff setlocal wrap
 
   autocmd FileType sql if filereadable(expand('~/.vim/dict/sql.dict')) |
         \ setlocal dictionary=~/.vim/dict/sql.dict | endif
@@ -45,10 +45,36 @@ augroup custom-filetype
   autocmd TabLeave  * :call <SID>saveLastTab()
   autocmd TabClosed * :call <SID>tabNextLastTab()
 
-  autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+  autocmd BufWinEnter,DiffUpdated * call <SID>diffWindowSetting()
 augroup END
 
 "functions {{{1
+function! s:diffWindowSetting() "{{{2
+  if &diff ==# 0 || get(b:, 'diff_window_setting_enabled', 0)
+    return
+  endif
+
+  " Left Window
+  if winnr() ==# 1
+    call s:diffLeftWinHighlight()
+  endif
+
+  " Right Window
+  if winnr() ==# 2
+    call s:diffRightWinHighlight()
+  endif
+
+  let b:diff_window_setting_enabled = 1
+endfunction
+
+function! s:diffLeftWinHighlight() abort
+  setlocal winhighlight=DiffChange:DiffLeftChange,DiffText:DiffLeftText,DiffAdd:DiffLeftAdd,DiffDelete:DiffLeftDelete
+endfunction
+
+function! s:diffRightWinHighlight() abort
+  setlocal winhighlight=DiffChange:DiffRightChange,DiffText:DiffRightText,DiffAdd:DiffRightAdd,DiffDelete:DiffRightDelete
+endfunction
+
 function! s:BlameStatusOpenTab() abort "{{{2
   let l:hash = matchstr(getline('.'),'\x\+')
   silent tabedit Blame status

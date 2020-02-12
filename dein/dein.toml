@@ -95,8 +95,8 @@ hook_add = '''
 [[plugins]]
 repo = 'rickhowe/diffchar.vim'
 hook_add = '''
-  let g:DiffUpdate      = 0
-  let g:DiffPairVisible = 0
+  let g:DiffPairVisible = 1
+  let g:DiffExpr = 0
 '''
 
 # lambdalisue/gina.vim {{{2
