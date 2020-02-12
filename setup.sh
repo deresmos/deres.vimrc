@@ -6,10 +6,12 @@ vim_conf_dir=$HOME/.vim/conf.d
 conf_dir=$dir/conf.d
 nvim_dir=$HOME/.config/nvim
 nvim_dein_dir=$nvim_dir/dein
+nvim_dein_pluginrc_dir=$nvim_dein_dir/pluginrc
 
 # vim/deinディレクトリ作成
 [ -d $nvim_dein_dir ] || mkdir -p $nvim_dein_dir
 [ -d $vim_conf_dir ] || mkdir -p $vim_conf_dir
+[ -d $nvim_dein_pluginrc_dir ] || mkdir -p $nvim_dein_pluginrc_dir
 
 # オリジナルのvimrcを退避
 [ -f $HOME/.vimrc ] && ([ -f $HOME/.vimrc.ORIG ] || cp $HOME/.vimrc $HOME/.vimrc.ORIG)
@@ -26,4 +28,4 @@ ln -sf ${dir}/init.vim $nvim_dir/
 ln -sf ${dir}/dein/dein.toml $nvim_dein_dir/
 ln -sf ${dir}/dein/dein_ft.toml $nvim_dein_dir/
 ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir/
-ln -sf ${dir}/dein/pluginrc/* $nvim_dein_dir/pluginrc/
+ln -sf ${dir}/dein/pluginrc/* $nvim_dein_pluginrc_dir/
