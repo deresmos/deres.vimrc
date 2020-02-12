@@ -586,32 +586,6 @@ repo = 'Shougo/neomru.vim'
 # Shougo/neoyank.vim {{{2
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
-
-# google/vim-searchindex {{{2
-[[plugins]]
-repo = 'google/vim-searchindex'
-hook_add = '''
-  " map <silent> n  n<Plug>SearchIndex
-  " map <silent> N  N<Plug>SearchIndex
-  " map <silent> *  <Plug>ImprovedStar_*<Plug>SearchIndex
-  " map <silent> #  <Plug>ImprovedStar_#<Plug>SearchIndex
-  " map <silent> g* <Plug>ImprovedStar_g*<Plug>SearchIndex
-  " map <silent> g# <Plug>ImprovedStar_g#<Plug>SearchIndex
-
-  function! s:huge_file_read() abort
-    nnoremap n n
-    nnoremap N N
-    nnoremap * *
-    nnoremap # #
-    nnoremap g* g*
-    nnoremap g# g#
-  endfunction
-
-  augroup vim-searchindex
-    autocmd!
-    autocmd User HugeFileRead call s:huge_file_read()
-  augroup END
-'''
 #}}}1 END plugins
 
 # Programing plugins {{{1
