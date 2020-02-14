@@ -45,7 +45,7 @@ augroup custom-filetype
   autocmd TabLeave  * :call <SID>saveLastTab()
   autocmd TabClosed * :call <SID>tabNextLastTab()
 
-  autocmd BufWinEnter,DiffUpdated * call <SID>diffWindowSetting()
+  autocmd FilterWritePost * call <SID>diffWindowSetting()
 augroup END
 
 "functions {{{1
