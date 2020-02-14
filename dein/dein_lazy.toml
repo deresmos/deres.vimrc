@@ -119,6 +119,8 @@ denite = '''
     \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> <Space><Space>
     \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> <tab>
+    \ denite#do_map('choose_action')
 
   " My mapping
   nnoremap <silent><buffer><expr> l
@@ -126,7 +128,7 @@ denite = '''
   nnoremap <silent><buffer><expr> h
     \ denite#do_map('restore_sources')
   nnoremap <silent><buffer><expr> t
-    \ denite#do_map('do_action', 'tabopen')
+    \ denite#do_map('do_action', 'tabswitch')
   nnoremap <silent><buffer><expr> s
     \ denite#do_map('do_action', 'split')
   nnoremap <silent><buffer><expr> v
