@@ -88,7 +88,7 @@ set background=dark
 set wrap
 set breakindent
 
-set diffopt=filler,algorithm:histogram,indent-heuristic
+set diffopt=filler,algorithm:histogram,indent-heuristic,closeoff
 
 augroup no-auto-commentout
   autocmd!
