@@ -800,6 +800,9 @@ hook_source = '''
       \ coc-vetur
       \ coc-marketplace
       \ coc-sh
+      \ coc-vimlsp
+      \ coc-omnisharp
+      \ coc-calc
   endfunction
 
 '''
