@@ -530,3 +530,14 @@ command! HighlightInfo call s:get_highlight_info()
 " Math map {{{2
 xnoremap <silent><SPACE>xs :!awk '{sum += $1} END {print sum}'<CR>
 xnoremap <silent><SPACE>xa :!awk '{sum += $1} END {print sum/NR}'<CR>
+
+fun StartProfile()
+  profile start ~/.cache/profile.log
+  profile func *
+  profile file *
+endf
+
+fun StopProfile()
+  profile pause
+  noautocmd qall!
+endf
