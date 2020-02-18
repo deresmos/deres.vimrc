@@ -405,7 +405,7 @@ hook_add = '''
   let g:UltiSnipsExpandTrigger       = "<C-l>"
   let g:UltiSnipsJumpForwardTrigger  = "<C-i>"
   let g:UltiSnipsJumpBackwardTrigger = "<C-o>"
-  let g:UltiSnipsSnippetsDir = g:dein_cache_path . "/repos/github.com/deresmos/vim-snippets/UltiSnips/"
+  let g:UltiSnipsEditSplit = "vertical"
 '''
 
 # elzr/vim-json {{{2

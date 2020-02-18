@@ -596,9 +596,9 @@ repo = 'vim-scripts/LargeFile'
 #}}}1 END plugins
 
 # Programing plugins {{{1
-# deresmos/vim-snippets {{{2
+# honza/vim-snippets {{{2
 [[plugins]]
-repo = 'deresmos/vim-snippets'
+repo = 'honza/vim-snippets'
 
 # w0rp/ale {{{2
 [[plugins]]
