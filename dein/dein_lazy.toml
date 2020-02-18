@@ -1517,8 +1517,6 @@ hook_source = '''
 
   let g:vrc_curl_opts = {
     \ '--connect-timeout' : 15,
-    \ '-b': '/tmp/vim_rest_cookie',
-    \ '-c': '/tmp/vim_rest_cookie',
     \ '-L': '',
     \ '-i': '',
     \ '-s': '',
