@@ -12,6 +12,17 @@ hook_source = '''
 repo = 'deresmos/denite-gitdiff'
 on_source = 'denite.nvim'
 
+# neoclide/denite-git {{{2
+[[plugins]]
+repo = 'neoclide/denite-git'
+on_source = 'denite.nvim'
+hook_add = '''
+
+  nnoremap <silent> <SPACE>dgs :<C-u>Denite gitstatus -no-empty<CR>
+  nnoremap <silent> <SPACE>dgb :<C-u>Denite gitbranch -no-empty<CR>
+
+'''
+
 # deresmos/denite-gitdiff {{{2
 [[plugins]]
 repo = 'iyuuya/denite-ale'
