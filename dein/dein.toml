@@ -589,6 +589,10 @@ repo = 'Shougo/neomru.vim'
 # Shougo/neoyank.vim {{{2
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
+
+# vim-scripts/LargeFile {{{2
+[[plugins]]
+repo = 'vim-scripts/LargeFile'
 #}}}1 END plugins
 
 # Programing plugins {{{1
