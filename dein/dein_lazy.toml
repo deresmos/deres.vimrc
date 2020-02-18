@@ -573,23 +573,23 @@ on_ft = 'html'
 
 # Go plugins {{{1
 # fatih/vim-go # {{{2
-[[plugins]]
-repo = 'fatih/vim-go'
-on_ft = 'go'
-hook_source = '''
-  augroup vim-go-setting
-    autocmd!
-    autocmd FileType go setlocal completeopt-=preview
-  augroup END
-
-  let g:go_metalinter_autosave = 0
-'''
-
-# zchee/deoplete-go # {{{2
-[[plugins]]
-repo = 'zchee/deoplete-go'
-on_event = 'InsertEnter'
-on_ft = 'go'
+# [[plugins]]
+# repo = 'fatih/vim-go'
+# on_ft = 'go'
+# hook_source = '''
+#   augroup vim-go-setting
+#     autocmd!
+#     autocmd FileType go setlocal completeopt-=preview
+#   augroup END
+#
+#   let g:go_metalinter_autosave = 0
+# '''
+#
+# # zchee/deoplete-go # {{{2
+# [[plugins]]
+# repo = 'zchee/deoplete-go'
+# on_event = 'InsertEnter'
+# on_ft = 'go'
 
 # }}}1
 
