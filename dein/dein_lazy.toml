@@ -1589,6 +1589,10 @@ hook_source = '''
     call vimspector#LaunchWithSettings({'configuration': &filetype.'_test'})
   endfunction
 
+  function! s:run_execute()
+    call vimspector#LaunchWithSettings({'configuration': &filetype.'_execute'})
+  endfunction
+
   function! s:vimspector() abort
     nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorContinue
     nmap <silent><buffer> <SPACE>mdq <Plug>VimspectorStop
@@ -1605,6 +1609,7 @@ hook_source = '''
 
     nnoremap <silent><buffer> <SPACE>mdf :<C-u>call <SID>run_file()<CR>
     nnoremap <silent><buffer> <SPACE>mdt :<C-u>call <SID>run_test()<CR>
+    nnoremap <silent><buffer> <SPACE>mde :<C-u>call <SID>run_execute()<CR>
 
     nnoremap <silent> <SPACE>mdQ :<C-u>call vimspector#Reset()<CR>
   endfunction

@@ -68,20 +68,49 @@
     "python_test": {
       "adapter": "vscode-python",
       "variables": {
-        "gitRootPath": {
-          "shell" : [ "git", "rev-parse", "--show-toplevel" ]
+        "rootPath": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/root_path.sh" ]
         }
       },
       "configuration": {
         "name": "Python: Test",
         "type": "python",
         "request": "launch",
-        "cwd": "${gitRootPath}",
+        "cwd": "${rootPath}",
         "args": [
           "-m",
           "pytest",
           "."
         ],
+        "stopOnEntry": true,
+        "externalConsole": true,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "python_execute": {
+      "adapter": "vscode-python",
+      "variables": {
+        "ARGS": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/find_args.sh" ]
+        },
+        "rootPath": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/root_path.sh" ]
+        }
+      },
+      "configuration": {
+        "name": "Python: Test",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${rootPath}",
+        "program": "${ARGS}",
+        "args": [],
         "stopOnEntry": true,
         "externalConsole": true,
         "debugOptions": []
