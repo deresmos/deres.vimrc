@@ -36,7 +36,7 @@ let g:is_windows = has('win64') || has('win32')
 if g:is_windows 
   let s:config_home = expand($LOCALAPPDATA)
   let s:cache_home = expand($LOCALAPPDATA)
-  let s:vim_conf_path = expand('$HOME/.vim/conf.d')
+  let g:vim_rc_path = expand('$HOME/.vim')
 else
   let s:config_home = $XDG_CONFIG_HOME
   if !exists($XDG_CONFIG_HOME)
@@ -48,24 +48,24 @@ else
     let s:cache_home = expand('$HOME/.cache')
   endif
 
-  let s:vim_conf_path = expand('$HOME/.vim')
+  let g:vim_rc_path = expand('$HOME/.vim')
 endif
 
 let g:dein_cache_path = expand(s:cache_home.'/nvim-dein')
 let g:dein_rc_path   = expand(s:config_home.'/nvim/dein')
 let g:dein_plugin_rc_path = expand(g:dein_rc_path.'/pluginrc')
 let s:nvim_rc_path = expand(s:config_home.'/nvim')
-let g:vim_conf_path = expand(s:vim_conf_path.'/conf.d')
+let s:vim_conf_path = expand(g:vim_rc_path.'/conf.d')
 
 " Load basic.vim {{{1
-execute 'source' g:vim_conf_path.'/basic.vim'
+execute 'source' s:vim_conf_path.'/basic.vim'
 execute 'source' g:dein_plugin_rc_path.'/dein.vim'
 
 filetype plugin indent on
 
 "Vim setting {{{1
-execute 'source' g:vim_conf_path . '/color.vim'
-execute 'source' g:vim_conf_path . '/filetype.vim'
+execute 'source' s:vim_conf_path . '/color.vim'
+execute 'source' s:vim_conf_path . '/filetype.vim'
 
 colorscheme iceberg
 set guicursor=
