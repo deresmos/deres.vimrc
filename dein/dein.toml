@@ -607,7 +607,7 @@ hook_add = '''
   nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
   augroup custom-ale
     autocmd!
-    autocmd FileType python let b:ale_fix_on_save = 1
+    " autocmd FileType python let b:ale_fix_on_save = 1
   augroup END
 
   let g:ale_sign_column_always   = 1
@@ -645,6 +645,8 @@ hook_add = '''
     \ 'css': ['stylelint'],
     \ 'xhtml': ['tidy'],
     \ 'cs': ['OmniSharp'],
+    \ 'swift': ['swiftlint'],
+    \ 'kotlin': ['ktlint'],
     \ }
 
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
@@ -686,6 +688,11 @@ hook_add = '''
     \   'isort',
     \   {buffer, lines -> {
     \   'command': 'black %t',
+    \   'read_temporary_file': 1}}
+    \ ],
+    \ 'kotlin': [
+    \   {buffer, lines -> {
+    \   'command': 'ktlint -F %t',
     \   'read_temporary_file': 1}}
     \ ],
     \ 'markdown': [
