@@ -257,7 +257,7 @@ nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
 nnoremap <silent> <SPACE>sl :<C-u>Denite session -start-filter<CR>
 nnoremap <silent> <SPACE>sL :<C-u>SLoad workspace<CR>
 nnoremap <SPACE>sd :<C-u>SDelete<Space>
-nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>
+nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:cd ~<CR>
 nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:qa!<CR>
 
 "R keybind {{{2
