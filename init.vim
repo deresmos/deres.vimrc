@@ -260,21 +260,6 @@ nnoremap <SPACE>sd :<C-u>SDelete<Space>
 nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>
 nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:qa!<CR>
 
-"H keybind{{{2
-nnoremap <silent> <SPACE>hc :<C-u>call qfixmemo#Calendar()<CR>
-nnoremap <silent> <SPACE>hm :<C-u>tabnew<CR>:call qfixmemo#EditDiary('memo')<CR>
-nnoremap <silent> <SPACE>hs :<C-u>tabnew<CR>:call qfixmemo#EditDiary('schedule')<CR>
-nnoremap <silent> <SPACE>ht :<C-u>tabnew<CR>:call qfixmemo#EditDiary(g:qfixmemo_diary)<CR>
-nnoremap <silent> <SPACE>hg :<C-u>call qfixmemo#FGrep()<CR>
-nnoremap <silent> <SPACE>ha :<C-u>call qfixmemo#PairFile('%')<CR>
-nnoremap <silent> <SPACE>hid :<C-u>call qfixmemo#InsertDate('date')<CR>
-nnoremap <silent> <SPACE>hit :<C-u>call qfixmemo#InsertDate('time')<CR>
-nnoremap <silent> <SPACE>hlr :<C-u>call qfixmemo#ListMru()<CR>
-nnoremap <silent> <SPACE>hlt :<C-u>call qfixmemo#ListReminder('todo')<CR>
-nnoremap <silent> <SPACE>hls :<C-u>call qfixmemo#ListReminder('schedule')<CR>
-nnoremap <silent> <SPACE>hlc :<C-u>call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
-nnoremap <silent> <SPACE>hll :<C-u>call qfixmemo#ListRecentTimeStamp()<CR>
-
 "R keybind {{{2
 nnoremap <silent> <SPACE>rv :<C-u>silent! loadview<CR>
 nnoremap <silent> <SPACE>rn :<C-u>Renamer<CR>

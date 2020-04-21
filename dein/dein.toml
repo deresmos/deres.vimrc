@@ -259,6 +259,7 @@ repo = 'welvinyu/L9'
 [[plugins]]
 repo = 'mhinz/vim-startify'
 hook_add = '''
+let g:startify_disable_at_vimenter = 1
 let g:startify_files_number = 10
 let g:startify_custom_indices = ['a', 'b', 'c', 'd', 'f', 'g', 'i', 'm',
   \ 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z']
@@ -590,9 +591,6 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
 
-# vim-scripts/LargeFile {{{2
-[[plugins]]
-repo = 'vim-scripts/LargeFile'
 #}}}1 END plugins
 
 # Programing plugins {{{1
