@@ -803,6 +803,7 @@ hook_source = '''
       \ coc-vimlsp
       \ coc-omnisharp
       \ coc-calc
+      \ coc-markdownlint
   endfunction
 
 '''
