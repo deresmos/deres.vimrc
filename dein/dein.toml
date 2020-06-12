@@ -705,6 +705,7 @@ hook_add = '''
     \   'read_temporary_file': 1}}
     \ ],
     \ 'go': ['gofmt', 'goimports'],
+    \ 'svelte': ['prettier'],
     \ }
   " let g:ale_fix_on_save = 1
 
