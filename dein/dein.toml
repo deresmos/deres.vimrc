@@ -605,7 +605,7 @@ hook_add = '''
   nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
   augroup custom-ale
     autocmd!
-    " autocmd FileType python let b:ale_fix_on_save = 1
+    autocmd FileType go let b:ale_fix_on_save = 1
   augroup END
 
   let g:ale_sign_column_always   = 1
@@ -645,6 +645,7 @@ hook_add = '''
     \ 'cs': ['OmniSharp'],
     \ 'swift': ['swiftlint'],
     \ 'kotlin': ['ktlint'],
+    \ 'go': ['golangci-lint'],
     \ }
 
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
@@ -703,6 +704,7 @@ hook_add = '''
     \   'command': 'sqlformat --reindent --keywords upper -s %t | sql-formatter-cli -o %t',
     \   'read_temporary_file': 1}}
     \ ],
+    \ 'go': ['gofmt', 'goimports'],
     \ }
   " let g:ale_fix_on_save = 1
 
