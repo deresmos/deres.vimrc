@@ -594,9 +594,9 @@ repo = 'Shougo/neoyank.vim'
 #}}}1 END plugins
 
 # Programing plugins {{{1
-# honza/vim-snippets {{{2
+# deresmos/vim-snippets {{{2
 [[plugins]]
-repo = 'honza/vim-snippets'
+repo = 'deresmos/vim-snippets'
 
 # w0rp/ale {{{2
 [[plugins]]
