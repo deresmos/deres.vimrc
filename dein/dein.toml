@@ -706,6 +706,7 @@ hook_add = '''
     \ ],
     \ 'go': ['gofmt', 'goimports'],
     \ 'svelte': ['prettier'],
+    \ 'json': ['jq'],
     \ }
   " let g:ale_fix_on_save = 1
 

@@ -29,6 +29,8 @@ if exists('&ambw')
   set ambiwidth=single
 endif
 
+set updatetime=300
+
 set wildmenu
 set wildmode=list:longest,full
 set incsearch
@@ -178,7 +180,7 @@ function! s:is_huge_file() abort
 endfunction
 
 function! s:load_huge_file_action() abort
-  if s:is_huge_file()
+  if s:is_huge_file() == v:true
     setlocal foldmethod=manual
     silent doautocmd User HugeFileRead
   else

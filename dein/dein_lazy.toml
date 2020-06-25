@@ -619,15 +619,15 @@ hook_source = '''
 # osyo-manga/vim-precious # {{{1
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
-on_ft = ['vue', 'toml']
+on_ft = ['toml']
 hook_source = '''
   let g:precious_enable_switch_CursorMoved_i = {'*': 0}
   let g:precious_enable_switch_CursorHold    = {'*': 0}
   let g:precious_enable_switchers = {
     \ '*':    {'setfiletype': 0},
     \ 'toml': {'setfiletype': 1},
-    \ 'html': {'setfiletype': 1},
-    \ 'vue':  {'setfiletype': 1},
+    " \ 'html': {'setfiletype': 1},
+    " \ 'vue':  {'setfiletype': 1},
   \ }
 '''
 hook_post_source = '''
@@ -804,6 +804,7 @@ hook_source = '''
       \ coc-omnisharp
       \ coc-calc
       \ coc-markdownlint
+      \ coc-go
   endfunction
 
 '''

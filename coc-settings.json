@@ -15,6 +15,10 @@
   "signature.hideOnTextChange": false,
 
   "languageserver": {
+    "terraform": {
+        "command": "terraform-lsp",
+        "filetypes": ["terraform"]
+    }
   },
 
   "python.jediEnabled": true,
