@@ -75,7 +75,7 @@ set guicursor=
       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
       \,sm:block-blinkwait175-blinkoff150-blinkon175
 set scrollback=100000
-set inccommand=split
+" set inccommand=split
 
 "space vim setting {{{1
 "F keybind {{{2

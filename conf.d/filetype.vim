@@ -26,6 +26,9 @@ augroup custom-filetype
   autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal fileformat=dos
   autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal fileencoding=sjis
   autocmd BufNewFile *.asp,*.vbs,*.wsf setlocal tabstop=4 shiftwidth=4
+  autocmd BufNewFile *.asp setlocal filetype=aspvbs
+  autocmd BufNewFile *.rest setlocal filetype=rest
+  autocmd FileType rst setlocal filetype=rest
 
   autocmd FileType sql if
         \ &fileencoding ==# 'sjis' |

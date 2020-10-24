@@ -298,8 +298,8 @@ nnoremap <leader> <Nop>
 map <Space>; /
 map <Space>g; g/
 nnoremap <Space>+ /\C<LEFT><LEFT>
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
+nnoremap <C-o> <C-o>
+nnoremap <C-i> <C-i>
 nnoremap ; :
 nnoremap <C-j> <C-e>
 nnoremap <C-k> <C-y>

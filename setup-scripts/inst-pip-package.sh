@@ -15,3 +15,5 @@ pip install -U \
   sqlparse \
   pylint \
   mypy \
+  black \
+  pynvim \

@@ -506,8 +506,8 @@ hook_source = '''
     \ 'runner/vimproc/updatetime' : 60,
     \ 'outputter' : 'error',
     \ 'outputter/error/success' : 'buffer',
-    \ 'outputter/error/error'   : 'quickfix',
-    \ 'outputter/buffer/split'  : ':botright 6sp',
+    \ 'outputter/error/error'   : 'buffer',
+    \ 'outputter/buffer/split'  : ':botright 12sp',
     \ 'outputter/buffer/close_on_empty' : 1,
     \ 'outputter/buffer/running_mark': ''
   \ }
@@ -786,7 +786,8 @@ hook_source = '''
   endfunction
 
   function! CocCustomInstall() abort
-    CocInstall coc-python
+    CocInstall 
+      \ coc-python
       \ coc-snippets
       \ coc-json
       \ coc-css
@@ -796,6 +797,8 @@ hook_source = '''
       \ coc-tag
       \ coc-tslint
       \ coc-yaml
+
+    CocInstall 
       \ coc-emmet
       \ coc-vetur
       \ coc-marketplace
@@ -1238,8 +1241,8 @@ hook_add = '''
   nmap <silent> [Bookmark]k <Plug>BookmarkPrev
   nmap <silent> [Bookmark]C <Plug>BookmarkClear
   nmap <silent> [Bookmark]X <Plug>BookmarkClearAll
-  nmap <silent> [Bookmark]jj <Plug>BookmarkMoveDown
-  nmap <silent> [Bookmark]kk <Plug>BookmarkMoveUp
+  " nmap <silent> [Bookmark]jj <Plug>BookmarkMoveDown
+  " nmap <silent> [Bookmark]kk <Plug>BookmarkMoveUp
   nmap <silent> [Bookmark]g <Plug>BookmarkMoveToLine
   nmap [Bookmark]S :BookmarkSave<space>
   nmap [Bookmark]L :BookmarkLoad<space>
