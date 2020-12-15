@@ -96,8 +96,8 @@ function! s:saveFile(force) abort "{{{
 endfunction
 " }}}
 
-nnoremap <silent> <SPACE>ft :Defx -winwidth=35 -columns=mark:indent:icons:filename<CR>
-nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating -toggle<CR>
+nnoremap <silent> <SPACE>ft :Defx -buffer-name=defx-tree<CR>
+nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating<CR>
 nnoremap <silent> <SPACE>fo :<C-u>call <SID>open_two_defx()<CR>
 
 " functions {{{
