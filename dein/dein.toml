@@ -636,6 +636,18 @@ hook_add = '''
     return printf('E%d W%d', counts[0], counts[1])
   endfunction
 
+  function! s:parseCfnLint(line) abort
+    let words = split(a:line, ":")
+    return {"text": words[6], "lnum": words[1], "col": words[2], "type": "W"}
+  endfunction
+
+  call ale#linter#Define('yaml', {
+    \ 'name': 'cfn-lint',
+    \ 'executable': 'cfn-lint',
+    \ 'command': 'cfn-lint -f parseable %t',
+    \ 'callback': {buffer, lines -> map(lines, 's:parseCfnLint(v:val)')},
+    \ })
+  
   let g:ale_linters = {
     \ 'python': ['flake8', 'mypy', 'bandit'],
     \ 'javascript': ['eslint'],
@@ -646,6 +658,7 @@ hook_add = '''
     \ 'swift': ['swiftlint'],
     \ 'kotlin': ['ktlint'],
     \ 'go': ['golangci-lint'],
+    \ 'yaml': ['yamllint', 'cfn-lint'],
     \ }
 
   let g:ale_type_map = {'flake8': {'ES': 'WS'}}
