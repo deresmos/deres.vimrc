@@ -1447,8 +1447,8 @@ hook_add = '''
   nnoremap <silent> <SPACE>hs :<C-u>call <SID>HowmEditDiary('schedule')<CR>
   nnoremap <silent> <SPACE>ht :<C-u>call <SID>HowmEditDiary(g:qfixmemo_diary)<CR>
   nnoremap <silent> <SPACE>hf :<C-u>call <SID>HowmEditDiary('filetype/' . &filetype)<CR>
-  nnoremap <silent> <SPACE>ho :<C-u>call <SID>HowmEditDiary(input('Name: '))<CR>
-  nnoremap <silent> <SPACE>hlo :Denite file -path=`g:howm_dir`<CR>
+  nnoremap <silent> <SPACE>ho :<C-u>call <SID>HowmEditDiary('memo/'.input('Name: '))<CR>
+  nnoremap <silent> <SPACE>hlo :Denite file -path=`g:howm_dir`/memo<CR>
   nnoremap <silent> <SPACE>hg :<C-u>call qfixmemo#FGrep()<CR>
   nnoremap <silent> <SPACE>ha :<C-u>call qfixmemo#PairFile('%')<CR>
   nnoremap <silent> <SPACE>hid :<C-u>call qfixmemo#InsertDate('date')<CR>
