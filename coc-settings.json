@@ -6,7 +6,7 @@
   "suggest.maxPreviewWidth": 100,
   "suggest.snippetIndicator": " >>",
   "suggest.maxCompleteItemCount": 25,
-  "diagnostic.enable": true,
+  "diagnostic.enable": false,
   "diagnostic.virtualText": false,
   "diagnostic.virtualTextPrefix": " >> ",
   "diagnostic.checkCurrentLine": true,
@@ -26,6 +26,11 @@
   "python.linting.mypyEnabled": false,
   "python.linting.banditEnabled": false,
   "python.linting.pylintEnabled": false,
+  "powershell.integratedConsole.showOnStartup": false,
+
+  "markdownlint.onOpen": false,
+  "markdownlint.onChange": false,
+  "markdownlint.onSave": false,
 
   "codeLens.enable": false
 }
