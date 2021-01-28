@@ -31,155 +31,16 @@ on_source = 'denite.nvim'
 # Shougo/denite.nvim {{{2
 [[plugins]]
 repo = 'Shougo/denite.nvim'
-if = '''has('python3')'''
-hook_source = ''' execute 'source' g:dein_plugin_rc_path."/denite.vim" '''
-hook_add = '''
-  let g:denite_cwd = ''
-  nnoremap <silent> <SPACE>ds :<C-u>call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
-  nnoremap <silent> <SPACE>dS :<C-u>call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
-
-  nnoremap <silent> <SPACE>dr :<C-u>call SwitchGrepCommand('rg-sjis') <Bar> echo 'Changed grep cmd to [pt]'<CR>
-  nnoremap <silent> <SPACE>dR :<C-u>call SwitchGrepCommand('rg') <Bar> echo 'Changed grep cmd to [rg]'<CR>
-
-  function! SwitchMatherRegexp() abort " {{{3
-    call s:switchMather('matcher_regexp')
-  endfunction
-
-  function! SwitchMatherFuzzy() abort " {{{3
-    call s:switchMather('matcher_fuzzy')
-  endfunction
-
-  function! s:switchMather(matcher) abort " {{{3
-    let l:lists = [
-      \ 'file/rec', 'file', 'buffer', 'file_mru',
-      \ 'line', 'jump', 'change', 'tag', 'gitdiff_file', 'grep']
-
-    for l:list in l:lists
-      call denite#custom#source(l:list, 'matchers',
-        \ [a:matcher, 'matcher_ignore_globs'])
-    endfor
-
-    call denite#custom#source('gitdiff_log', 'matchers', [a:matcher])
-  endfunction
-
-  function! SwitchGrepCommand(command) abort " {{{3
-    if a:command ==# 'ag'
-      call denite#custom#var('grep', 'command', ['ag'])
-      call denite#custom#var('grep', 'default_opts',
-          \ ['--vimgrep', '--follow', '--hidden', '-S'])
-      call denite#custom#var('grep', 'recursive_opts', [])
-      call denite#custom#var('grep', 'pattern_opt', [])
-      call denite#custom#var('grep', 'separator', ['--'])
-      call denite#custom#var('grep', 'final_opts', [])
-
-      call denite#custom#var('file/rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
-
-    elseif a:command ==# 'jvgrep'
-      call denite#custom#var('grep', 'command', ['jvgrep'])
-      call denite#custom#var('grep', 'default_opts', ['-i'])
-      call denite#custom#var('grep', 'recursive_opts', ['-R'])
-      call denite#custom#var('grep', 'pattern_opt', [])
-      call denite#custom#var('grep', 'separator', [])
-      call denite#custom#var('grep', 'final_opts', [])
-
-    elseif a:command ==# 'rg' || a:command ==# 'rg-sjis'
-      call denite#custom#var('grep', 'command', ['rg'])
-      if a:command ==# 'rg-sjis'
-        call denite#custom#var('grep', 'default_opts',
-            \ ['--vimgrep', '--follow', '--hidden', '-S', '-E', 'sjis'])
-      else
-        call denite#custom#var('grep', 'default_opts',
-            \ ['--vimgrep', '--follow', '--hidden', '-S'])
-      endif
-      call denite#custom#var('grep', 'recursive_opts', [])
-      call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-      call denite#custom#var('grep', 'separator', ['--'])
-      call denite#custom#var('grep', 'final_opts', [])
-
-      call denite#custom#var('file/rec', 'command',
-        \ ['rg', '--files', '--follow', '--hidden', '--no-heading'])
-
-    elseif a:command ==# 'pt'
-      call denite#custom#var('grep', 'command', ['pt'])
-      call denite#custom#var('grep', 'default_opts',
-          \ ['--nogroup', '--nocolor', '--follow', '--hidden', '-S'])
-      call denite#custom#var('grep', 'recursive_opts', [])
-      call denite#custom#var('grep', 'pattern_opt', ['-e'])
-      call denite#custom#var('grep', 'separator', ['--'])
-      call denite#custom#var('grep', 'final_opts', [])
-        endif
-      endfunction
-  " }}}3
+hook_source = '''
+  execute "source" g:dein_plugin_rc_path."/denite/hook_source.vim"
 '''
-
+hook_add = '''
+  execute "source" g:dein_plugin_rc_path."/denite/hook_add.vim"
+'''
 [plugins.ftplugin]
 denite = '''
-  nnoremap <silent><buffer><expr> <CR>
-    \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> <C-m>
-    \ denite#do_map('do_action')
-
-  nnoremap <silent><buffer><expr> dd
-    \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-    \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q
-    \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i
-    \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space><Space>
-    \ denite#do_map('toggle_select').'j'
-  nnoremap <silent><buffer><expr> <tab>
-    \ denite#do_map('choose_action')
-
-  " My mapping
-  nnoremap <silent><buffer><expr> l
-    \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> h
-    \ denite#do_map('restore_sources')
-  nnoremap <silent><buffer><expr> t
-    \ denite#do_map('do_action', 'tabswitch')
-  nnoremap <silent><buffer><expr> s
-    \ denite#do_map('do_action', 'split')
-  nnoremap <silent><buffer><expr> v
-    \ denite#do_map('do_action', 'vsplit')
-  nnoremap <silent><buffer><expr> rp
-    \ denite#do_map('do_action', 'qfreplace')
-  nnoremap <silent><buffer><expr> <C-j>
-    \ denite#do_map('do_action', 'preview_scroll_down')
-  nnoremap <silent><buffer><expr> <C-k>
-    \ denite#do_map('do_action', 'preview_scroll_up')
-  xnoremap <silent><buffer> <Space><Space>
-    \ :call denite#call_map('toggle_select')<CR>
-  nnoremap <silent><buffer><expr> *
-    \ denite#do_map('toggle_select_all')
-  nnoremap <silent><buffer><expr> Rm
-    \ denite#do_map('do_action', 'reset_mixed')
-  nnoremap <silent><buffer><expr> RRh
-    \ denite#do_map('do_action', 'reset_hard')
-  nnoremap <silent><buffer><expr> RRO
-    \ denite#do_map('do_action', 'reset_hard_orig_head')
-
-  " denite-gitdiff
-  nnoremap <silent><buffer><expr> dt
-    \ denite#do_map('do_action', 'tabvdiff')
-  nnoremap <silent><buffer><expr> dlt
-    \ denite#do_map('do_action', 'tabvdiff_local')
-  nnoremap <silent><buffer><expr> dm
-    \ denite#do_map('do_action', 'openvdiff')
-  nnoremap <silent><buffer><expr> dlm
-    \ denite#do_map('do_action', 'openvdiff_local')
-  nnoremap <silent><buffer><expr> fb
-    \ denite#do_map('do_action', 'branch_log')
-  nnoremap <silent><buffer><expr> fm
-    \ denite#do_map('do_action', 'merge_log')
-  nnoremap <silent><buffer><expr> ge
-    \ denite#do_map('do_action', 'gedit')
-  nnoremap <silent><buffer><expr> gt
-    \ denite#do_map('do_action', 'tabgedit')
+  execute "source" g:dein_plugin_rc_path."/denite/maping.vim"
 '''
-
 denite-filter = '''
   imap <silent><buffer> fd
     \ <Esc>q
