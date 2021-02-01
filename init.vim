@@ -249,6 +249,8 @@ nnoremap <silent> <SPACE>gdF :<C-u>Denite gitdiff_log::::`expand('%:p')` -no-emp
 
 "V keybind{{{2
 nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
+nnoremap <SPACE>ve :<C-u>set virtualedit=all<CR>
+nnoremap <SPACE>vE :<C-u>set virtualedit=<CR>
 
 "S keybind{{{2
 " session keybind
