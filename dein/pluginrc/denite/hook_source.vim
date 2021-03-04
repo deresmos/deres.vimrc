@@ -79,3 +79,10 @@ function! DeniteQfreplace(context)
 endfunction
 
 call denite#custom#action('file', 'qfreplace', function('DeniteQfreplace'))
+
+" denite-gitdiff gitgutter {{{1
+function! DeniteGitGutterBase(context)
+  let g:gitgutter_diff_base = a:context['targets'][0]['target_revision']
+endfunction
+
+call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGutterBase'))

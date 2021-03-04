@@ -29,6 +29,8 @@ nnoremap <silent><buffer><expr> v
   \ denite#do_map('do_action', 'vsplit')
 nnoremap <silent><buffer><expr> rp
   \ denite#do_map('do_action', 'qfreplace')
+nnoremap <silent><buffer><expr> sg
+  \ denite#do_map('do_action', 'gitgutter_base')
 nnoremap <silent><buffer><expr> <C-j>
   \ denite#do_map('do_action', 'preview_scroll_down')
 nnoremap <silent><buffer><expr> <C-k>

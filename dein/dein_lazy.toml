@@ -43,7 +43,7 @@ denite = '''
 '''
 denite-filter = '''
   imap <silent><buffer> fd
-    \ <Esc>q
+    \ <ENTER>
 '''
 
 # defx.nvim {{{2
