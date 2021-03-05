@@ -538,6 +538,8 @@ hook_add = '''
     autocmd!
     autocmd ColorScheme * highlight MatchParen ctermfg=none
   augroup END
+
+  let g:matchup_matchparen_offscreen = {'method': 'popup'}
 '''
 
 # machakann/vim-highlightedyank {{{2

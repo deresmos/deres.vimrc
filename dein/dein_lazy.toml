@@ -1529,3 +1529,12 @@ hook_source = '''
     autocmd FileType python,sh,javascript call <SID>vimspector()
   augroup END
 '''
+
+# sk1418/HowMuch {{{2
+[[plugins]]
+repo = 'sk1418/HowMuch'
+on_map = '<Plug>VimCalc'
+hook_add = '''
+  xmap <Space>=r <Plug>VimCalcReplace
+  xmap <Space>=s <Plug>VimCalcReplaceWithSum
+'''
