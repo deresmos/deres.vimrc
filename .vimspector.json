@@ -136,6 +136,62 @@
       }
     },
 
+    "go_file": {
+      "adapter": "vscode-go",
+      "configuration": {
+        "name": "Go: Current File",
+        "mode": "debug",
+        "dlvToolPath": "/Users/tomoki.tamura/.goenv/shims/dlv",
+        "type": "go",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "go_test": {
+      "adapter": "vscode-go",
+      "variables": {
+        "ARGS": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/find_args.sh" ]
+        },
+        "rootPath": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/root_path.sh" ]
+        }
+      },
+      "configuration": {
+        "name": "Go: Current File",
+        "mode": "test",
+        "dlvToolPath": "/Users/tomoki.tamura/.goenv/shims/dlv",
+        "type": "go",
+        "request": "launch",
+        "program": "${ARGS}",
+        "cwd": "${rootPath}",
+        "args": [
+          "-test.v"
+        ],
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
     "javascript_file": {
       "adapter": "vscode-node",
       "configuration": {

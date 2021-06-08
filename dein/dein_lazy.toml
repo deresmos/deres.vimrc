@@ -1480,10 +1480,9 @@ on_source = 'vim-test'
 
 # puremourning/vimspector {{{2
 [[plugins]]
-repo = 'deresmos/vimspector'
-rev = 'feature/custom'
-on_ft = ['python', 'sh', 'javascript']
-build = './install_gadget.py --enable-python --enable-bash --enable-c --force-enable-node'
+repo = 'puremourning/vimspector'
+on_ft = ['python', 'sh', 'javascript', 'go']
+build = './install_gadget.py --enable-python --enable-bash --enable-c --force-enable-node --enable-go'
 hook_source = '''
   let g:vimspector_enable_mappings = 'HUMAN'
 
@@ -1514,6 +1513,9 @@ hook_source = '''
     nmap <silent><buffer> <SPACE>mdi <Plug>VimspectorStepInto
     nmap <silent><buffer> <SPACE>mdo <Plug>VimspectorStepOut
 
+    nmap <silent><buffer> <SPACE>mdu <Plug>VimspectorUpFrame
+    nmap <silent><buffer> <SPACE>mdd <Plug>VimspectorDownFrame
+
     nnoremap <silent><buffer> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
     xnoremap <silent><buffer> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
 
@@ -1526,7 +1528,7 @@ hook_source = '''
 
   augroup custom_vimspector_mapper
     autocmd!
-    autocmd FileType python,sh,javascript call <SID>vimspector()
+    autocmd FileType python,sh,javascript,go call <SID>vimspector()
   augroup END
 '''
 
