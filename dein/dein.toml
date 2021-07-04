@@ -271,9 +271,9 @@ repo = 'thinca/vim-textobj-between'
 [[plugins]]
 repo = 'bronson/vim-visual-star-search'
 
-# itchyny/vim-cursorword {{{2
+# cursorline {{{2
 [[plugins]]
-repo = 'itchyny/vim-cursorword'
+repo = 'yamatsum/nvim-cursorline'
 
 # }}}1 END oparator plugins
 
@@ -605,18 +605,6 @@ hook_add = '''
   augroup END
 
   let g:matchup_matchparen_offscreen = {'method': 'popup'}
-'''
-
-# machakann/vim-highlightedyank {{{2
-[[plugins]]
-repo = 'machakann/vim-highlightedyank'
-hook_add = '''
-  let g:highlightedyank_highlight_duration = 500
-
-  augroup HighlightedYankColorScheme
-    autocmd!
-    autocmd ColorScheme * highlight HighlightedyankRegion ctermfg=none ctermbg=237 cterm=bold
-  augroup END
 '''
 
 # deresmos/vim-spatab {{{2

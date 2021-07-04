@@ -82,6 +82,11 @@ set guicursor=
 set scrollback=100000
 " set inccommand=split
 
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({higroup = "Search", timeout=500})
+augroup END
+
 "space vim setting {{{1
 "F keybind {{{2
 nnoremap <silent> <SPACE>ff :Denite file/rec -path=`get(g:, 'denite_cwd', getcwd())` -start-filter<CR>
