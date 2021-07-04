@@ -1,3 +1,88 @@
+# Git plugins {{{1
+[[plugins]]
+repo = 'tpope/vim-rhubarb'
+on_command = 'GBrowse'
+
+[[plugins]]
+repo = 'rhysd/git-messenger.vim'
+on_cmd = 'GitMessenger'
+on_map = '<Plug>(git-messenger'
+hook_add = '''
+
+  nmap <SPACE>gid <Plug>(git-messenger)
+  nmap <SPACE>giD <Plug>(git-messenger-into-popup)
+
+'''
+hook_post_source = '''
+
+  highlight link gitmessengerPopupNormal NormalFloat
+
+'''
+
+[[plugins]]
+repo = 'sindrets/diffview.nvim'
+on_command = ['DiffviewOpen']
+hook_add = '''
+  nnoremap <silent><Space>gdv <cmd>DiffviewOpen<CR>
+'''
+
+# LSP plugins {{{1
+[[plugins]]
+repo = 'folke/trouble.nvim'
+on_command = 'Trouble'
+hook_source = '''
+lua << EOF
+  require("trouble").setup{}
+EOF
+'''
+
+# Indent plugins {{{1
+[[plugins]]
+repo = 'lukas-reineke/indent-blankline.nvim'
+on_command = 'IndentBlanklineToggle'
+hook_add = '''
+  let g:indent_blankline_show_first_indent_level = v:false
+  let g:indent_blankline_show_trailing_blankline_indent = v:false
+  let g:indent_blankline_char = '│'
+  let g:indent_blankline_char_highlight_list = ['Error', 'Function']
+'''
+
+# Completion plugins {{{1
+[[plugins]]
+repo = 'hrsh7th/nvim-compe'
+on_lua = 'compe'
+on_event = 'InsertEnter'
+hook_source = '''
+  set completeopt=menuone,noselect
+  let g:compe = {}
+  let g:compe.enabled = v:true
+  let g:compe.source = {
+    \ 'path': v:true,
+    \ 'buffer': v:true,
+    \ 'calc': v:true,
+    \ 'nvim_lsp': v:true,
+    \ 'nvim_lua': v:true,
+    \ }
+'''
+
+[[plugins]]
+repo = 'onsails/lspkind-nvim'
+on_lua = 'lspkind'
+on_source = 'nvim-compe'
+hook_source = '''
+lua << EOF
+  require('lspkind').init({
+      with_text = true,
+      preset = 'default',
+      symbol_map = {},
+  })
+EOF
+'''
+
+[[plugins]]
+repo = 'ray-x/lsp_signature.nvim'
+on_lua = 'lsp_signature'
+
 # common plugins {{{1
 # rafi/vim-denite-session {{{2
 [[plugins]]
@@ -219,55 +304,6 @@ hook_source = '''
   let g:defx_icons_default_icon = ''
 '''
 
-# Shougo/deoplete.nvim {{{2
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-on_if = '$DEOPLETE'
-on_event = 'InsertEnter'
-hook_source = '''
-
-  let g:deoplete#enable_at_startup  = 1
-  set completeopt+=noinsert
-  set completeopt-=preview
-
-  call deoplete#custom#source('buffer', 'min_pattern_length', 1)
-  call deoplete#custom#source('tag', 'rank', 1)
-  call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
-
-  call deoplete#custom#var('omni', 'input_patterns', {
-    \ 'stylus': ['\w+', '\w+[):; ]?\s+\w*', '[@!]'],
-    \ 'vue':    ['\w+', '\w+[):;]?\s+\w*', '[@!]'],
-    \ 'css':    ['\w+', '\w+[):;]?\s*\w*', '[@!]'],
-  \ })
-
-  call deoplete#custom#var('omni', 'functions', {
-    \ 'stylus': ['stylcomplete#CompleteStyl'],
-    \ 'css':    ['csscomplete#CompleteCSS'],
-  \ })
-
-'''
-
-# ncm2/float-preview.nvim {{{2
-[[plugins]]
-repo = 'ncm2/float-preview.nvim'
-on_source = 'deoplete.nvim'
-on_if = '$DEOPLETE'
-hook_source = '''
-
-  let g:float_preview#docked = 0
-  let g:float_preview#max_width = 200
-  let g:float_preview#max_height = 200
-
-'''
-
-# ujihisa/neco-look {{{2
-[[plugins]]
-repo = 'ujihisa/neco-look'
-on_source = 'deoplete.nvim'
-hook_source = '''
-  call deoplete#custom#source('look', 'rank', 1)
-'''
-
 # SirVer/ultisnips {{{2
 [[plugins]]
 repo = 'SirVer/ultisnips'
@@ -322,40 +358,11 @@ hook_source = '''
   augroup END
 '''
 
-# autozimu/LanguageClient-neovim # {{{2
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-build = 'bash install.sh'
-on_if = '$DEOPLETE'
-hook_source = '''
-
-  function! s:lsp()
-    nnoremap <buffer><silent> <Space>mgg :call LanguageClient_textDocument_definition()<CR>
-    nnoremap <buffer><silent> <Space>mr  :call LanguageClient_textDocument_rename()<CR>
-    nnoremap <buffer><silent> <Space>md  :call LanguageClient_textDocument_hover()<CR>
-    nnoremap <buffer><silent> <Space>mu  :call LanguageClient_textDocument_references()<CR>
-  endfunction
-
-  augroup my-lsp-cmd
-    autocmd!
-    autocmd FileType vue,javascript,python,php,css,sh :call s:lsp()
-  augroup END
-
-  let g:LanguageClient_diagnosticsEnable = 0
-  let g:LanguageClient_serverCommands = {
-    \ 'vue': ['vls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'python': ['pyls'],
-    \ 'php': ['intelephense', '--stdio'],
-    \ 'css': ['css-languageserver', '--stdio'],
-    \ 'sh': ['bash-language-server', 'start'],
-  \ }
-'''
 
 # thinca/vim-quickrun {{{2
 [[plugins]]
 repo = 'thinca/vim-quickrun'
+on_command = 'QuickRun'
 hook_add = '''
   nnoremap <silent> <SPACE>mcc :QuickRun<CR>
   nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
@@ -467,12 +474,6 @@ on_ft = 'html'
 #   let g:go_metalinter_autosave = 0
 # '''
 #
-# # zchee/deoplete-go # {{{2
-# [[plugins]]
-# repo = 'zchee/deoplete-go'
-# on_event = 'InsertEnter'
-# on_ft = 'go'
-
 # }}}1
 
 # }}}1
@@ -529,43 +530,6 @@ hook_add = '''
 [[plugins]]
 repo = 'hjson/vim-hjson'
 on_ft = ['hjson']
-
-# Shougo/echodoc.vim # {{{1
-[[plugins]]
-repo = 'Shougo/echodoc.vim'
-on_source = 'deoplete.nvim'
-hook_add = '''
-
-  let g:echodoc#enable_at_startup = 1
-  let g:echodoc#type = 'virtual'
-
-'''
-
-# Shougo/neco-vim # {{{1
-[[plugins]]
-repo = 'Shougo/neco-vim'
-on_ft = 'vim'
-
-[[plugins]]
-repo = 'neoclide/coc-neco'
-on_ft = 'vim'
-
-# rhysd/git-messenger.vim # {{{1
-[[plugins]]
-repo = 'rhysd/git-messenger.vim'
-on_cmd = 'GitMessenger'
-on_map = '<Plug>(git-messenger'
-hook_add = '''
-
-  nmap <SPACE>gid <Plug>(git-messenger)
-  nmap <SPACE>giD <Plug>(git-messenger-into-popup)
-
-'''
-hook_post_source = '''
-
-  highlight link gitmessengerPopupNormal NormalFloat
-
-'''
 
 # Shougo/deol {{{1
 [[plugins]]
@@ -626,70 +590,10 @@ hook_add = '''
 
 '''
 
-# neoclide/coc.nvim {{{1
-[[plugins]]
-repo = 'neoclide/coc.nvim'
-on_if = 'empty($DEOPLETE)'
-build = 'yarn install --frozen-lockfile'
-hook_source = '''
-
-  nmap <silent> <SPACE>mgg <Plug>(coc-definition)
-  " nmap <silent> gy <Plug>(coc-type-definition)
-  " nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> <SPACE>mu <Plug>(coc-references)
-  nmap <silent> <SPACE>mf <Plug>(coc-format)
-  xmap <silent> <SPACE>mf <Plug>(coc-format-selected)
-  nmap <silent> <SPACE>mF <Plug>(coc-fix-current)
-  nmap <silent> <SPACE>mr <Plug>(coc-rename)
-  " nmap <silent> <SPACE>ej <Plug>(coc-diagnostic-next)
-  " nmap <silent> <SPACE>ek <Plug>(coc-diagnostic-prev)
-
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-  nnoremap <silent> <SPACE>md :call <SID>show_documentation()<CR>
-  nnoremap <silent> <SPACE>ms :call CocActionAsync('showSignatureHelp')<CR>
-
-  function! s:show_documentation()
-    if &filetype == 'vim'
-      execute 'h '.expand('<cword>')
-    else
-      call CocActionAsync('doHover')
-    endif
-  endfunction
-
-  function! CocCustomInstall() abort
-    CocInstall 
-      \ coc-python
-      \ coc-snippets
-      \ coc-json
-      \ coc-css
-      \ coc-html
-      \ coc-tsserver
-      \ coc-phpls
-      \ coc-tag
-      \ coc-tslint
-      \ coc-yaml
-
-    CocInstall 
-      \ coc-emmet
-      \ coc-vetur
-      \ coc-marketplace
-      \ coc-sh
-      \ coc-vimlsp
-      \ coc-omnisharp
-      \ coc-calc
-      \ coc-markdownlint
-      \ coc-go
-  endfunction
-
-'''
-
-[[plugins]]
-repo = 'neoclide/coc-denite'
-on_source = 'coc.nvim'
-
 # liuchengxu/vista.vim {{{1
 [[plugins]]
 repo = 'liuchengxu/vista.vim'
+on_command = 'Vista'
 hook_source = '''
 
   let g:vista_echo_cursor_strategy = "floating_win"
@@ -1126,26 +1030,6 @@ hook_source = '''
   let g:bookmark_annotation_sign         = '//'
 
   highlight default link BookmarkAnnotationSign BookmarkSign
-'''
-
-# nathanaelkane/vim-indent-guides {{{2
-[[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
-hook_add = '''
-  nnoremap <silent> <Space>tsL :<C-u>IndentGuidesToggle<CR>
-'''
-hook_source = '''
-  let g:indent_guides_guide_size            = 1
-  let g:indent_guides_start_level           = 2
-  let g:indent_guides_enable_on_vim_startup = 0
-
-  let g:indent_guides_exclude_filetypes = [
-    \ 'help',
-    \ 'nerdtree',
-    \ 'tagbar',
-    \ 'nvim-term',
-    \ 'nvim-term-t',
-  \ ]
 '''
 
 # rhysd/conflict-marker.vim {{{2

@@ -34,10 +34,12 @@ function! MyHighlights()
   highlight DiffRightDelete       ctermfg=236  ctermbg=236
 
   " Normal
-  highlight DiffChange       ctermfg=none ctermbg=none
-  highlight DiffText         ctermfg=none ctermbg=28
-  highlight DiffAdd          ctermfg=none ctermbg=28
-  highlight DiffDelete       ctermfg=52   ctermbg=52
+  highlight DiffChange       ctermfg=none ctermbg=none guifg=none guibg=none
+  highlight DiffText         ctermfg=none ctermbg=28 guifg=none guibg=#004000
+  " right?
+  highlight DiffAdd          ctermfg=none ctermbg=28 guifg=none guibg=#004000
+  " left?
+  highlight DiffDelete       ctermfg=52   ctermbg=52 guifg=#400000 guibg=#400000
 
   highlight GitGutterAddLine    ctermfg=none ctermbg=22
   highlight GitGutterChangeLine ctermfg=none ctermbg=53

@@ -68,6 +68,11 @@ execute 'source' s:vim_conf_path . '/color.vim'
 execute 'source' s:vim_conf_path . '/filetype.vim'
 
 colorscheme iceberg
+if exists('+termguicolors')
+  set termguicolors
+endif
+
+let g:vimsyn_embed='lPr'
 set guicursor=
       \n-v-c:block
       \,i-ci-ve:ver25

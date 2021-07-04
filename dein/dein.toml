@@ -1,3 +1,74 @@
+# LSP plugins {{{1
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+hook_post_source = '''
+lua << EOF
+  local on_attach = function (client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+    local opts = { noremap=true, silent=true }
+    buf_set_keymap('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
+    buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<Space>mh', '<cmd>lua require("lspsaga.hover").render_hover_doc()<CR>', opts)
+    buf_set_keymap('n', '<Space>ca', '<cmd>lua require("lspsaga.code_action").code_action()<CR>', opts)
+    buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
+
+    -- not work?
+    buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
+    buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
+
+    require'lsp_signature'.on_attach({
+      bind = true,
+      doc_lines = 10,
+      floating_window = true,
+      fix_pos = true,
+      hint_enable = true,
+      hint_prefix = "> ",
+      hint_scheme = "String",
+      use_lspsaga = false,
+      hi_parameter = "Search",
+      max_height = 12,
+      max_width = 120,
+      handler_opts = {
+        border = "shadow"
+      },
+      extra_trigger_chars = {}
+    })
+  end
+
+  local nvim_lsp = require("lspconfig")
+  nvim_lsp.pyright.setup{ on_attach = on_attach }
+  nvim_lsp.vimls.setup{ on_attach = on_attach }
+  nvim_lsp.gopls.setup{ on_attach = on_attach }
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+EOF
+
+  " vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  "   vim.lsp.diagnostic.on_publish_diagnostics, {
+  "     virtual_text = false,
+  "   }
+  " )
+'''
+
+[[plugins]]
+repo = 'kabouzeid/nvim-lspinstall'
+hook_post_source = '''
+lua << EOF
+  require'lspinstall'.setup()
+EOF
+'''
+
+[[plugins]]
+repo = 'glepnir/lspsaga.nvim'
+hook_post_source = '''
+lua << EOF
+  require'lspsaga'.init_lsp_saga()
+EOF
+
+'''
 # git plugins {{{1
 # rhysd/committia.vim {{{2
 [[plugins]]
@@ -61,8 +132,8 @@ fugitive = '''
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
-  let g:gitgutter_sign_added            = '+'
-  let g:gitgutter_sign_modified         = '~'
+  let g:gitgutter_sign_added            = '│'
+  let g:gitgutter_sign_modified         = '│'
   let g:gitgutter_sign_removed          = '__'
   let g:gitgutter_sign_modified_removed = '~_'
   let g:gitgutter_map_keys              = 0
@@ -79,9 +150,9 @@ hook_add = '''
 
   augroup gitgutter-highlight-custom
     autocmd!
-    autocmd ColorScheme * highlight GitGutterAdd    ctermfg=2 ctermbg=2
-    autocmd ColorScheme * highlight GitGutterDelete ctermfg=1 ctermbg=235
-    autocmd ColorScheme * highlight GitGutterChange ctermfg=4 ctermbg=4
+    autocmd ColorScheme * highlight GitGutterAdd    ctermfg=2
+    autocmd ColorScheme * highlight GitGutterDelete ctermfg=1
+    autocmd ColorScheme * highlight GitGutterChange ctermfg=4
   augroup END
 
   augroup gitgutter-custom
@@ -217,7 +288,7 @@ repo = 'itchyny/vim-cursorword'
 [[plugins]]
 repo = 'Shougo/dein.vim'
 hook_add = '''
-  let g:dein#auto_recache = 0
+  let g:dein#auto_recache = v:true
 '''
 
 # cocopon/iceberg.vim {{{2
@@ -761,3 +832,9 @@ hook_add = '''
 # deresmos/pytest-vim-compiler {{{2
 [[plugins]]
 repo = 'deresmos/pytest-vim-compiler'
+
+[[plugins]]
+repo = 'kyazdani42/nvim-web-devicons'
+
+[[plugins]]
+repo = 'pseewald/vim-anyfold'
