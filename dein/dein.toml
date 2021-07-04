@@ -44,7 +44,6 @@ lua << EOF
   lsp_install.setup()
   local servers = lsp_install.installed_servers()
   for _, server in pairs(servers) do
-    print(server)
     nvim_lsp[server].setup{ on_attach = on_attach }
   end
 
