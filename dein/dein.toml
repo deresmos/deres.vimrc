@@ -14,6 +14,8 @@ lua << EOF
     buf_set_keymap('n', '<Space>ca', '<cmd>lua require("lspsaga.code_action").code_action()<CR>', opts)
     buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
+    buf_set_keymap('n', '<Space>ek', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>', opts)
+    buf_set_keymap('n', '<Space>ej', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>', opts)
 
     -- not work?
     buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
@@ -47,7 +49,13 @@ lua << EOF
     nvim_lsp[server].setup{ on_attach = on_attach }
   end
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+   vim.lsp.diagnostic.on_publish_diagnostics, {
+     virtual_text = false,
+     signs = false,
+   }
+  )
+
 EOF
 '''
 
@@ -55,10 +63,38 @@ EOF
 repo = 'kabouzeid/nvim-lspinstall'
 
 [[plugins]]
-repo = 'glepnir/lspsaga.nvim'
+# repo = 'glepnir/lspsaga.nvim'
+repo = 'jasonrhansen/lspsaga.nvim'
+rev = 'finder-preview-fixes'
 hook_add = '''
 lua << EOF
-  require'lspsaga'.init_lsp_saga()
+  require'lspsaga'.init_lsp_saga({
+    use_saga_diagnostic_sign = false,
+    dianostic_header_icon = '   ',
+    code_action_icon = ' ',
+    code_action_prompt = {
+      enable = true,
+      sign = true,
+      sign_priority = 20,
+      virtual_text = true,
+    },
+    finder_definition_icon = '  ',
+    finder_reference_icon = '  ',
+    max_preview_lines = 15,
+    finder_action_keys = {
+      open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>'
+    },
+    code_action_keys = {
+      quit = 'q',exec = '<CR>'
+    },
+    rename_action_keys = {
+      quit = '<C-c>',exec = '<CR>'
+    },
+    definition_preview_icon = '  ',
+    border_style = "single",
+    rename_prompt_prefix = '➤',
+    server_filetype_map = {},
+  })
 EOF
 
 '''

@@ -50,6 +50,13 @@ function! MyHighlights()
   highlight link ALEVirtualTextStyleError WarningMsg
   highlight link ALEVirtualTextStyleWarning WarningMsg
   highlight link ALEVirtualTextWarning WarningMsg
+
+  highlight LspDiagnosticsUnderlineError       guifg=none guibg=#800000
+  highlight LspDiagnosticsUnderlineWarning     guifg=none guibg=#808000
+  highlight LspDiagnosticsUnderlineInformation guifg=none guibg=#008000
+  highlight LspDiagnosticsUnderlineHint        guifg=none
+
+  highlight HopNextKey guifg=none guibg=#800000
 endfunction
 
 augroup MyHighlight

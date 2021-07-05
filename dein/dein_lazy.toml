@@ -83,6 +83,32 @@ EOF
 repo = 'ray-x/lsp_signature.nvim'
 on_lua = 'lsp_signature'
 
+# Motions {{{1
+[[plugins]]
+repo = 'phaazon/hop.nvim'
+on_comamnd = ['HopChar2']
+hook_add = '''
+  nnoremap <silent> <Space>jj <cmd>HopChar2<CR>
+'''
+hook_source = '''
+lua << EOF
+  require'hop'.setup()
+EOF
+'''
+
+# Colors {{{1
+[[plugins]]
+repo = 'norcalli/nvim-colorizer.lua'
+on_command = ['ColorizerToggle']
+hook_add = '''
+  nnoremap <silent> <Space>tct <cmd>ColorizerToggle<CR>
+'''
+hook_source = '''
+lua << EOF
+  require'colorizer'.setup()
+EOF
+'''
+
 # common plugins {{{1
 # rafi/vim-denite-session {{{2
 [[plugins]]
@@ -1074,19 +1100,6 @@ hook_add = '''
   augroup END
 '''
 
-# chrisbra/colorizer {{{2
-[[plugins]]
-repo = 'chrisbra/colorizer'
-on_cmd = ['ColorToggle']
-hook_add = '''
-  nnoremap <silent> <Space>tct :<C-u>ColorToggle<CR>
-'''
-hook_source = '''
-  let g:colorizer_auto_color = 0
-  let g:colorizer_auto_map = 0
-'''
-
-
 # maxwell-k/dbext.vim {{{2
 # [[plugins]]
 # repo = 'maxwell-k/dbext.vim'
@@ -1233,24 +1246,6 @@ hook_add = '''
   let g:QFixHowm_RootDir         = '~/.howm'
   let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
   let g:qfixmemo_folding_pattern = '^=[^=]'
-'''
-
-# easymotion/vim-easymotion {{{2
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
-on_map = '<Plug>(easymotion-'
-hook_add = '''
-  map f <Plug>(easymotion-bd-fl)
-  map t <Plug>(easymotion-bd-tl)
-  nmap <SPACE>jj <Plug>(easymotion-overwin-f2)
-  omap <SPACE>jj <Plug>(easymotion-overwin-f2)
-  nmap <SPACE>jg <Plug>(easymotion-sn)
-  omap <SPACE>jg <Plug>(easymotion-tn)
-'''
-hook_source = '''
-  let g:EasyMotion_do_mapping = 0
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
 '''
 
 # LeafCage/yankround.vim {{{2
