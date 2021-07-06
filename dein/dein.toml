@@ -164,7 +164,7 @@ hook_add = '''
   let g:gitgutter_sign_added            = '│'
   let g:gitgutter_sign_modified         = '│'
   let g:gitgutter_sign_removed          = '__'
-  let g:gitgutter_sign_modified_removed = '~_'
+  let g:gitgutter_sign_modified_removed = '│'
   let g:gitgutter_map_keys              = 0
   let g:gitgutter_enabled               = 1
   let g:gitgutter_signs                 = 1
@@ -177,19 +177,52 @@ hook_add = '''
   nnoremap <SPACE>gob :<C-u>let g:gitgutter_diff_base =<space>
   nnoremap <silent><SPACE>goB :<C-u>let g:gitgutter_diff_base = ''<CR>
 
-  augroup gitgutter-highlight-custom
-    autocmd!
-    autocmd ColorScheme * highlight GitGutterAdd    ctermfg=2
-    autocmd ColorScheme * highlight GitGutterDelete ctermfg=1
-    autocmd ColorScheme * highlight GitGutterChange ctermfg=4
-  augroup END
-
   augroup gitgutter-custom
     autocmd!
     autocmd TextChanged,InsertLeave,WinEnter * GitGutter
     autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
   augroup END
 '''
+
+# [[plugins]]
+# repo = 'lewis6991/gitsigns.nvim'
+# hook_add = '''
+#   nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk()<CR>
+#   nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.nextkhunk()<CR>
+#   nnoremap <silent> <SPACE>gp <cmd>lua require'gitsigns'.preview_hunk()<CR>
+#   nnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk()<CR>
+#   xnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+#   nnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk()<CR>
+#   xnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+#
+# lua << EOF
+#   require('gitsigns').setup {
+#     signs = {
+#       add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+#       change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+#       delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+#       topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+#       changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+#     },
+#     numhl = false,
+#     linehl = false,
+#     keymaps = {},
+#     watch_index = {
+#       interval = 1000,
+#       follow_files = true
+#     },
+#     current_line_blame = false,
+#     current_line_blame_delay = 1000,
+#     current_line_blame_position = 'eol',
+#     sign_priority = 6,
+#     update_debounce = 100,
+#     status_formatter = nil,
+#     word_diff = false,
+#     use_decoration_api = true,
+#     use_internal_diff = true,
+#   }
+# EOF
+# '''
 
 # rickhowe/diffchar.vim {{{2
 [[plugins]]
@@ -308,7 +341,7 @@ repo = 'bronson/vim-visual-star-search'
 
 # cursorline {{{2
 [[plugins]]
-repo = 'yamatsum/nvim-cursorline'
+repo = 'itchyny/vim-cursorword'
 
 # }}}1 END oparator plugins
 
@@ -565,21 +598,21 @@ hook_add = '''
   endfunction
 
   function! MyGitGutter() abort
-    if ! exists('*GitGutterGetHunkSummary')
-      \ || ! get(g:, 'gitgutter_enabled', 0)
-      \ || winwidth(0) <= s:medium_width
-    endif
-
-    let symbols = ['+','~', '-']
-    let hunks = GitGutterGetHunkSummary()
-    let ret = []
-    for i in [0, 1, 2]
-      if hunks[i] > 0
-        call add(ret, symbols[i] . hunks[i])
-      endif
-    endfor
-
-    return join(ret, ' ')
+    " if ! exists('*GitGutterGetHunkSummary')
+    "   \ || ! get(g:, 'gitgutter_enabled', 0)
+    "   \ || winwidth(0) <= s:medium_width
+    " endif
+    "
+    " let symbols = ['+','~', '-']
+    " let hunks = GitGutterGetHunkSummary()
+    " let ret = []
+    " for i in [0, 1, 2]
+    "   if hunks[i] > 0
+    "     call add(ret, symbols[i] . hunks[i])
+    "   endif
+    " endfor
+    "
+    return ''
   endfunction
 
   function! MyFileIndent() abort

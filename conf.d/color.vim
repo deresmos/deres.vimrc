@@ -4,46 +4,44 @@ function! MyHighlights()
     highlight IncSearch        ctermfg=197  ctermbg=235  cterm=bold,underline
   endif
 
-  highlight Folded           ctermfg=34   ctermbg=235  cterm=bold
-  highlight LineNr           ctermfg=242  ctermbg=235
-  highlight CursorLineNr     ctermfg=221  ctermbg=235
-  highlight TagbarSignature  ctermfg=none ctermfg=251
-  highlight ZenSpace         ctermfg=none ctermbg=203
-  highlight DeniteCursorLine ctermfg=none ctermbg=237
-  highlight String           ctermfg=108  ctermbg=none
-  highlight Function         ctermfg=73   ctermbg=none
-  highlight Conditional      ctermfg=197  ctermbg=none
-  highlight Number           ctermfg=166  ctermbg=none
-  highlight Boolean          ctermfg=197  ctermbg=none
-  highlight Statement        ctermfg=173  ctermbg=none
-  highlight vimHighlight     ctermfg=166  ctermbg=none
-  highlight VertSplit        ctermfg=244  ctermbg=none
-  highlight IndentGuidesOdd  ctermbg=236
+  " highlight Folded           ctermfg=34   ctermbg=235  cterm=bold
+  " highlight LineNr           ctermfg=242  ctermbg=235
+  " highlight CursorLineNr     ctermfg=221  ctermbg=235
+  " highlight TagbarSignature  ctermfg=none ctermfg=251
+  " highlight ZenSpace         ctermfg=none ctermbg=203
+  " highlight DeniteCursorLine ctermfg=none ctermbg=237
+  " highlight String           ctermfg=108  ctermbg=none
+  " highlight Function         ctermfg=73   ctermbg=none
+  " highlight Conditional      ctermfg=197  ctermbg=none
+  " highlight Number           ctermfg=166  ctermbg=none
+  " highlight Boolean          ctermfg=197  ctermbg=none
+  " highlight Statement        ctermfg=173  ctermbg=none
+  " highlight vimHighlight     ctermfg=166  ctermbg=none
+  " highlight VertSplit        ctermfg=244  ctermbg=none
+  " highlight IndentGuidesOdd  ctermbg=236
   highlight NormalFloat      ctermfg=none ctermbg=233
 
   " Left
-  highlight DiffLeftChange       ctermfg=none ctermbg=52
-  highlight DiffLeftText         ctermfg=none ctermbg=52
-  highlight DiffLeftAdd          ctermfg=none ctermbg=52
-  highlight DiffLeftDelete       ctermfg=236  ctermbg=236
+  highlight DiffLeftChange       ctermfg=none ctermbg=52 guifg=none guibg=#400000
+  highlight DiffLeftText         ctermfg=none ctermbg=52 guifg=none    guibg=#400000
+  highlight DiffLeftAdd          ctermfg=none ctermbg=52 guifg=none guibg=#400000
+  highlight DiffLeftDelete       ctermfg=236  ctermbg=236 guifg=#161831 guibg=#161831
 
   " Right
-  highlight DiffRightChange       ctermfg=none ctermbg=22
-  highlight DiffRightText         ctermfg=none ctermbg=22
-  highlight DiffRightAdd          ctermfg=none ctermbg=22
-  highlight DiffRightDelete       ctermfg=236  ctermbg=236
+  highlight DiffRightChange       ctermfg=none ctermbg=22 guifg=none guibg=#001000
+  highlight DiffRightText         ctermfg=none ctermbg=22 guifg=none guibg=#004000
+  highlight DiffRightAdd          ctermfg=none ctermbg=22 guifg=none guibg=#004000
+  highlight DiffRightDelete       ctermfg=236  ctermbg=236 guifg=#161831 guibg=#161831
 
   " Normal
-  highlight DiffChange       ctermfg=none ctermbg=none guifg=none guibg=none
-  highlight DiffText         ctermfg=none ctermbg=28 guifg=none guibg=#004000
-  " right?
-  highlight DiffAdd          ctermfg=none ctermbg=28 guifg=none guibg=#004000
-  " left?
-  highlight DiffDelete       ctermfg=52   ctermbg=52 guifg=#400000 guibg=#400000
+  highlight DiffChange ctermfg=none ctermbg=none guifg=none    guibg=none
+  highlight DiffText   ctermfg=none ctermbg=28   guifg=none    guibg=#004000
+  highlight DiffAdd    ctermfg=none ctermbg=28   guifg=none    guibg=#004000
+  highlight DiffDelete ctermfg=52   ctermbg=52   guifg=#400000 guibg=#400000
 
-  highlight GitGutterAddLine    ctermfg=none ctermbg=22
-  highlight GitGutterChangeLine ctermfg=none ctermbg=53
-  highlight GitGutterDeleteLine ctermfg=52   ctermbg=52
+  highlight GitGutterAdd    ctermfg=none ctermbg=22 guifg=#008000 guibg=#1e2132
+  highlight GitGutterChange ctermfg=none ctermbg=53 guifg=#808000 guibg=#1e2132
+  highlight GitGutterDelete ctermfg=52   ctermbg=52 guifg=#800000 guibg=#1e2132
 
   highlight link ALEVirtualTextError WarningMsg
   highlight link ALEVirtualTextInfo WarningMsg
