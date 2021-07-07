@@ -49,6 +49,15 @@ lua << EOF
     nvim_lsp[server].setup{ on_attach = on_attach }
   end
 
+  __definition = vim.lsp.handlers["textDocument/definition"]
+
+  lsp_handlers = {}
+  lsp_handlers.location_vsplit = function(...)
+    vim.cmd("vsplit")
+    __definition(...)
+  end
+  -- vim.lsp.handlers["textDocument/definition"] = lsp_handlers.location_vsplit
+
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
    vim.lsp.diagnostic.on_publish_diagnostics, {
      virtual_text = false,
