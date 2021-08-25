@@ -601,3 +601,213 @@ function! s:updateTranslateWindow() abort
     call s:setTranslateResult('en', 'ja')
   endif
 endfunction "}}}
+
+lua << EOF
+
+lualine_config = {}
+lualine_config.width_small = 50
+
+lualine_config.indent_type = function()
+  if vim.fn.winwidth(0) < lualine_config.width_small then
+    return ''
+  end
+
+  return vim.fn["spatab#GetDetectName"]()
+end
+
+lualine_config.current_function = function()
+  return vim.b.lsp_current_function
+end
+
+lualine_config.file_fullpath = function()
+  return vim.fn.expand("%:p")
+end
+
+lualine_config.file_of_lines = function()
+  return vim.fn.line("$")
+end
+
+lualine_config.diagnostics = function()
+  local counter = {}
+  counter.error = vim.lsp.diagnostic.get_count(0, 'Error')
+  counter.warning = vim.lsp.diagnostic.get_count(0, 'Warning')
+  counter.info = vim.lsp.diagnostic.get_count(0, 'Information')
+  counter.hint = vim.lsp.diagnostic.get_count(0, 'Hint')
+
+  local s = ""
+  if counter.error ~= 0 then
+    s = s .. " E" .. counter.error
+  end
+
+  if counter.warning ~= 0 then
+    s = s .. " W" .. counter.warning
+  end
+
+  if counter.info ~= 0 then
+    s = s .. " I" .. counter.info
+  end
+
+  if counter.hint ~= 0 then
+    s = s .. " H" .. counter.hint
+  end
+
+  return s
+end
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'onedark',
+    section_separators = {'', ''},
+    component_separators = {'', ''},
+    disabled_filetypes = {}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {
+      {
+        'diff',
+        colored = true,
+        color_added = '#00A000',
+        color_modified = '#A0A000',
+        color_removed = '#A00000',
+        symbols = {added = '+', modified = '~', removed = '-'}
+      },
+      lualine_config.current_function,
+    },
+    lualine_x = {
+      lualine_config.diagnostics,
+      'encoding',
+      lualine_config.indent_type,
+      'fileformat',
+      'filetype',
+    },
+    lualine_y = {},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{
+      {
+        'filename',
+        file_status = true,
+        path = 2
+      }
+    }},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  tabline = {},
+  extensions = {},
+}
+
+EOF
+
+
+command! Profile call s:command_profile()
+function! s:command_profile() abort
+  profile start ~/profile.txt
+  profile func *
+  profile file *
+endfunction
+
+
+lua << EOF
+Tabline = {}
+
+Tabline.Main = function()
+  local titles = {}
+  for i = 1, vim.fn.tabpagenr("$") do
+    tab = ""
+    if i == vim.fn.tabpagenr() then
+      tab = tab .. '%#TabLineSel#'
+    else
+      tab = tab .. '%#TabLine#'
+    end
+    titles[#titles + 1] = tab .. Tabline._tabLabel(i)
+  end
+
+  local sep = "%#TablineSeparator# "
+  local tabpages = table.concat(titles, sep)
+
+  local s = ""
+  s = s .. tabpages
+  s = s .. "%#TabLineFill#"
+  s = s .. "%=%#TabLineLast#" .. Tabline.lastLabel()
+
+  return s
+end
+
+Tabline._tabLabel = function(n)
+  local buflist = vim.fn.tabpagebuflist(n)
+  local winnr = vim.fn.tabpagewinnr(n)
+  return Tabline.tabLabel(buflist[winnr])
+end
+
+Tabline.fileNameFilter = function(fileName, maxLength, nested)
+  nested = nested or 0
+
+  if nested > 2 then
+    return string.sub(fileName, 30)
+  end
+
+  if fileName == "" then
+    return "[No Name]"
+  end
+
+  if #fileName >= maxLength then
+    nested = nested + 1
+    return Tabline.fileNameFilter(vim.fn.fnamemodify(fileName, ":p:t"), maxLength, nested)
+  end
+
+  return fileName
+end
+
+Tabline.tabLabel = function(n)
+  maxLength = 30
+  bufname = vim.fn.bufname(n)
+  bufname = Tabline.fileNameFilter(bufname, maxLength)
+  spaceLength = math.floor((maxLength - #bufname) / 2)
+
+  s = ""
+  if spaceLength > 0 then
+    for i = 1, spaceLength do
+      s = s .. " "
+    end
+    s = s .. bufname
+    for i = 1, spaceLength do
+      s = s .. " "
+    end
+  else
+    s = bufname
+  end
+
+  return s
+end
+
+Tabline.lastLabel = function(n)
+  maxLine = "L:" .. vim.fn.line("$")
+  fileFullPath = vim.fn.expand("%:p")
+  if #fileFullPath > 80 then
+    fileFullPath = string.sub(fileFullPath, 80)
+  end
+  lastLabels = {maxLine, fileFullPath}
+
+  local sep = ":"
+  local lastLabel = table.concat(lastLabels, sep)
+
+  return lastLabel
+end
+
+function ShowTable(h)
+  for k, v in pairs(h) do
+    print( k, v )
+  end
+end
+
+EOF
+
+set tabline=%!v:lua.Tabline.Main()

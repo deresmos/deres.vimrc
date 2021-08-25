@@ -21,6 +21,10 @@ function! MyHighlights()
   " highlight IndentGuidesOdd  ctermbg=236
   highlight NormalFloat      ctermfg=none ctermbg=233
 
+  highlight TabLineSel guifg=none guibg=#1e2142 gui=bold
+  highlight TabLine guifg=none guibg=#2f3137
+  highlight TablineLast guifg=#9a9ca5 guibg=#161821
+
   " Left
   highlight DiffLeftChange       ctermfg=none ctermbg=52 guifg=none guibg=#400000
   highlight DiffLeftText         ctermfg=none ctermbg=52 guifg=none    guibg=#400000
