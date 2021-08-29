@@ -1,12 +1,12 @@
 # Git plugins {{{1
 [[plugins]]
 repo = 'tpope/vim-rhubarb'
-on_command = 'GBrowse'
+on_cmd = ['GBrowse']
 
 [[plugins]]
 repo = 'rhysd/git-messenger.vim'
-on_cmd = 'GitMessenger'
-on_map = '<Plug>(git-messenger'
+on_cmd = ['GitMessenger']
+on_map = ['<Plug>(git-messenger']
 hook_add = '''
 
   nmap <SPACE>gid <Plug>(git-messenger)
@@ -21,7 +21,7 @@ hook_post_source = '''
 
 [[plugins]]
 repo = 'sindrets/diffview.nvim'
-on_command = ['DiffviewOpen']
+on_cmd = ['DiffviewOpen']
 hook_add = '''
   nnoremap <silent><Space>gdv <cmd>DiffviewOpen<CR>
 '''
@@ -29,7 +29,7 @@ hook_add = '''
 # LSP plugins {{{1
 [[plugins]]
 repo = 'folke/trouble.nvim'
-on_command = 'Trouble'
+on_cmd = ['Trouble']
 hook_source = '''
 lua << EOF
   require("trouble").setup{}
@@ -39,7 +39,7 @@ EOF
 # Indent plugins {{{1
 [[plugins]]
 repo = 'lukas-reineke/indent-blankline.nvim'
-on_command = 'IndentBlanklineToggle'
+on_cmd = ['IndentBlanklineToggle']
 hook_add = '''
   let g:indent_blankline_show_first_indent_level = v:false
   let g:indent_blankline_show_trailing_blankline_indent = v:false
@@ -50,8 +50,8 @@ hook_add = '''
 # Completion plugins {{{1
 [[plugins]]
 repo = 'hrsh7th/nvim-compe'
-on_lua = 'compe'
-on_event = 'InsertEnter'
+on_lua = ['compe']
+on_event = ['InsertEnter']
 hook_source = '''
   set completeopt=menuone,noselect
   let g:compe = {}
@@ -67,8 +67,8 @@ hook_source = '''
 
 [[plugins]]
 repo = 'onsails/lspkind-nvim'
-on_lua = 'lspkind'
-on_source = 'nvim-compe'
+on_lua = ['lspkind']
+on_source = ['nvim-compe']
 hook_source = '''
 lua << EOF
   require('lspkind').init({
@@ -81,7 +81,7 @@ EOF
 
 [[plugins]]
 repo = 'ray-x/lsp_signature.nvim'
-on_lua = 'lsp_signature'
+on_lua = ['lsp_signature']
 
 # Motions {{{1
 [[plugins]]
@@ -99,7 +99,7 @@ EOF
 # Colors {{{1
 [[plugins]]
 repo = 'norcalli/nvim-colorizer.lua'
-on_command = ['ColorizerToggle']
+on_cmd = ['ColorizerToggle']
 hook_add = '''
   nnoremap <silent> <Space>tct <cmd>ColorizerToggle<CR>
 '''
@@ -113,7 +113,7 @@ EOF
 # rafi/vim-denite-session {{{2
 [[plugins]]
 repo = 'rafi/vim-denite-session'
-on_source = 'denite.nvim'
+on_source = ['denite.nvim']
 hook_source = '''
   call denite#custom#var('session', 'path', g:startify_session_dir)
 '''
@@ -121,12 +121,12 @@ hook_source = '''
 # deresmos/denite-gitdiff {{{2
 [[plugins]]
 repo = 'deresmos/denite-gitdiff'
-on_source = 'denite.nvim'
+on_source = ['denite.nvim']
 
 # neoclide/denite-git {{{2
 [[plugins]]
 repo = 'neoclide/denite-git'
-on_source = 'denite.nvim'
+on_source = ['denite.nvim']
 hook_add = '''
 
   nnoremap <silent> <SPACE>dgs :<C-u>Denite gitstatus -no-empty<CR>
@@ -137,7 +137,7 @@ hook_add = '''
 # deresmos/denite-gitdiff {{{2
 [[plugins]]
 repo = 'iyuuya/denite-ale'
-on_source = 'denite.nvim'
+on_source = ['denite.nvim']
 
 # Shougo/denite.nvim {{{2
 [[plugins]]
@@ -317,7 +317,7 @@ defx = '''
 
 [[plugins]]
 repo = 'kristijanhusak/defx-icons'
-on_source = 'defx.nvim'
+on_source = ['defx.nvim']
 hook_source = '''
   let g:defx_icons_enable_syntax_highlight = 1
   let g:defx_icons_parent_icon = ''
@@ -333,7 +333,7 @@ hook_source = '''
 # SirVer/ultisnips {{{2
 [[plugins]]
 repo = 'SirVer/ultisnips'
-on_event = 'InsertEnter'
+on_event = ['InsertEnter']
 hook_add = '''
   let g:UltiSnipsExpandTrigger       = "<C-l>"
   let g:UltiSnipsJumpForwardTrigger  = "<C-i>"
@@ -344,7 +344,7 @@ hook_add = '''
 # elzr/vim-json {{{2
 [[plugins]]
 repo = 'elzr/vim-json'
-on_ft = 'json'
+on_ft = ['json']
 hook_source = '''
   let g:vim_json_syntax_conceal = 0
 '''
@@ -352,7 +352,7 @@ hook_source = '''
 # tpope/vim-endwise # {{{2
 [[plugins]]
 repo = 'tpope/vim-endwise'
-on_event = 'InsertEnter'
+on_event = ['InsertEnter']
 
 # metakirby5/codi.vim # {{{2
 [[plugins]]
@@ -388,7 +388,7 @@ hook_source = '''
 # thinca/vim-quickrun {{{2
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-on_command = 'QuickRun'
+on_cmd = ['QuickRun']
 hook_add = '''
   nnoremap <silent> <SPACE>mcc :QuickRun<CR>
   nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
@@ -469,12 +469,12 @@ on_ft = ['html', 'xhtml']
 # hail2u/vim-css3-syntax # {{{2
 [[plugins]]
 repo = 'hail2u/vim-css3-syntax'
-on_ft = 'css'
+on_ft = ['css']
 
 # vim-scripts/CSSMinister # {{{2
 [[plugins]]
 repo = 'vim-scripts/CSSMinister'
-on_ft = 'css'
+on_ft = ['css']
 hook_add = '''
   nnoremap <SPACE>cth :<C-u>ToHex<CR>
   nnoremap <SPACE>ctr :<C-u>ToRGB<CR>
@@ -483,7 +483,7 @@ hook_add = '''
 # othree/html5.vim # {{{2
 [[plugins]]
 repo = 'othree/html5.vim'
-on_ft = 'html'
+on_ft = ['html']
 # }}}1
 
 # Go plugins {{{1
@@ -560,7 +560,7 @@ on_ft = ['hjson']
 # Shougo/deol {{{1
 [[plugins]]
 repo = 'Shougo/deol.nvim'
-on_cmd = 'Deol'
+on_cmd = ['Deol']
 hook_add = '''
   function! s:setup_deol() abort
     nnoremap <buffer> I i<C-a>
@@ -607,7 +607,7 @@ hook_add = '''
 # t9md/vim-choosewin {{{1
 [[plugins]]
 repo = 't9md/vim-choosewin'
-on_map = '<Plug>(choosewin'
+on_map = ['<Plug>(choosewin']
 hook_add = '''
 
   nmap <SPACE>wc <Plug>(choosewin)
@@ -619,7 +619,7 @@ hook_add = '''
 # liuchengxu/vista.vim {{{1
 [[plugins]]
 repo = 'liuchengxu/vista.vim'
-on_command = 'Vista'
+on_cmd = ['Vista']
 hook_source = '''
 
   let g:vista_echo_cursor_strategy = "floating_win"
@@ -776,7 +776,7 @@ hook_source = '''
 # jreybert/vimagit {{{2
 [[plugins]]
 repo = 'jreybert/vimagit'
-on_cmd = 'Magit'
+on_cmd = ['Magit']
 hook_source = '''
   let g:magit_default_show_all_files = 2
   let g:magit_default_fold_level     = 0
@@ -802,7 +802,7 @@ hook_source = '''
 # tyru/open-browser.vim {{{2
 [[plugins]]
 repo = 'tyru/open-browser.vim'
-on_map = '<Plug>(openbrowser-smart-'
+on_map = ['<Plug>(openbrowser-smart-']
 hook_add = '''
   nmap <SPACE>os <Plug>(openbrowser-smart-search)
   xmap <SPACE>os <Plug>(openbrowser-smart-search)
@@ -856,12 +856,12 @@ hook_source = '''
 # deresmos/nerdtree-diff-plugin {{{2
 [[plugins]]
 repo = 'deresmos/nerdtree-diff-plugin'
-on_source = 'nerdtree'
+on_source = ['nerdtree']
 
 # deresmos/nerdtree-yp-plugin {{{2
 [[plugins]]
 repo = 'deresmos/nerdtree-yp-plugin'
-on_source = 'nerdtree'
+on_source = ['nerdtree']
 hook_source = '''
   augroup nerdtree-yp-keymap
     autocmd!
@@ -873,7 +873,7 @@ hook_source = '''
 # deresmos/nerdtree-dirdiff-plugin {{{2
 [[plugins]]
 repo = 'deresmos/nerdtree-dirdiff-plugin'
-on_source = 'nerdtree'
+on_source = ['nerdtree']
 hook_source = '''
   augroup nerdtree-dirdiff-keymap
     autocmd!
@@ -1030,7 +1030,7 @@ rev = '7d588e7658d8a643241a379fe5bbd22071025090'
 # MattesGroeger/vim-bookmarks {{{2
 [[plugins]]
 repo = 'MattesGroeger/vim-bookmarks'
-on_map = '<Plug>Bookmark'
+on_map = ['<Plug>Bookmark']
 hook_add = '''
   nnoremap [Bookmark] <Nop>
   nmap <Space>bm [Bookmark]
@@ -1061,7 +1061,7 @@ hook_source = '''
 # rhysd/conflict-marker.vim {{{2
 [[plugins]]
 repo = 'rhysd/conflict-marker.vim'
-on_map = '<Plug>(conflict-marker-'
+on_map = ['<Plug>(conflict-marker-']
 hook_add = '''
   nmap <silent> <Space>gcj <Plug>(conflict-marker-next-hunk)
   nmap <silent> <Space>gck <Plug>(conflict-marker-prev-hunk)
@@ -1130,7 +1130,7 @@ hook_add = '''
 # kana/vim-smartinput {{{2
 [[plugins]]
 repo = 'kana/vim-smartinput'
-on_event = 'InsertEnter'
+on_event = ['InsertEnter']
 hook_source = '''
   call smartinput#define_rule({
   \   'at'       : '^\s*\%(\<def\>\|\<if\>\|\<for\>\|\<while\>\|\<class\>\|\<with\>\)\s*\w\+.*\%#',
@@ -1149,7 +1149,7 @@ hook_source = '''
 # junegunn/vim-easy-align {{{2
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
-on_map = '<Plug>(EasyAlign'
+on_map = ['<Plug>(EasyAlign']
 hook_add = '''
   xmap ga <Plug>(EasyAlign)
 '''
@@ -1161,7 +1161,7 @@ repo = 'thinca/vim-zenspace'
 # t9md/vim-quickhl {{{2
 [[plugins]]
 repo = 't9md/vim-quickhl'
-on_map = '<Plug>(quickhl-'
+on_map = ['<Plug>(quickhl-']
 hook_add = '''
   nnoremap <Space>mp :QuickhlManualAdd<space>
   nmap <Space>mt <Plug>(quickhl-manual-this)
@@ -1251,7 +1251,7 @@ hook_add = '''
 # LeafCage/yankround.vim {{{2
 [[plugins]]
 repo = 'LeafCage/yankround.vim'
-on_map = '<Plug>(yankround-'
+on_map = ['<Plug>(yankround-']
 hook_add = '''
   nmap p <Plug>(yankround-p)
   nmap P <Plug>(yankround-P)
@@ -1266,7 +1266,7 @@ hook_source = '''
 # haya14busa/incsearch.vim {{{2
 [[plugins]]
 repo = 'haya14busa/incsearch.vim'
-on_map = '<Plug>(incsearch-'
+on_map = ['<Plug>(incsearch-']
 hook_add = '''
   map /  <Plug>(incsearch-forward)
   map g/ <Plug>(incsearch-stay)
@@ -1274,7 +1274,7 @@ hook_add = '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-fuzzy.vim'
-on_map = '<Plug>(incsearch-fuzzy'
+on_map = ['<Plug>(incsearch-fuzzy']
 hook_add = '''
   nmap <Space>z;   <Plug>(incsearch-fuzzy-/)
   nmap <Space>zg;  <Plug>(incsearch-fuzzy-stay)
@@ -1284,7 +1284,7 @@ hook_add = '''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-migemo.vim'
-on_map = '<Plug>(incsearch-migemo'
+on_map = ['<Plug>(incsearch-migemo']
 hook_add = '''
   nmap <Space>m;  <Plug>(incsearch-migemo-/)
   nmap <Space>mg; <Plug>(incsearch-migemo-stay)
@@ -1314,7 +1314,7 @@ hook_add = '''
 # diepm/vim-rest-console {{{2
 [[plugins]]
 repo = 'diepm/vim-rest-console'
-on_ft = 'rest'
+on_ft = ['rest']
 hook_source = '''
   let g:vrc_set_default_mapping = 0
   let g:vrc_auto_format_uhex    = 1
@@ -1337,7 +1337,7 @@ rest = '''
 # vim-test {{{2
 [[plugins]]
 repo = 'janko/vim-test'
-on_command = ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']
+on_cmd = ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit']
 hook_add = '''
   nnoremap <silent><SPACE>mts :<C-u>TestSuite<CR>
   nnoremap <silent><SPACE>mtf :<C-u>TestFile<CR>
@@ -1354,7 +1354,7 @@ hook_source = '''
 
 [[plugins]]
 repo = 'tpope/vim-dispatch'
-on_source = 'vim-test'
+on_source = ['vim-test']
 
 
 # puremourning/vimspector {{{2
@@ -1414,7 +1414,7 @@ hook_source = '''
 # sk1418/HowMuch {{{2
 [[plugins]]
 repo = 'sk1418/HowMuch'
-on_map = '<Plug>VimCalc'
+on_map = ['<Plug>VimCalc']
 hook_add = '''
   xmap <Space>=r <Plug>VimCalcReplace
   xmap <Space>=s <Plug>VimCalcReplaceWithSum
@@ -1423,7 +1423,7 @@ hook_add = '''
 # liuchengxu/vim-clap {{{2
 [[plugins]]
 repo = 'liuchengxu/vim-clap'
-on_command = ['Clap']
+on_cmd = ['Clap']
 build = 'Clap install-binary'
 hook_add = '''
   let g:clap_layout = {
@@ -1431,8 +1431,6 @@ hook_add = '''
     \ }
   let g:clap_preview_direction = 'UD'
   let g:clap_enable_icon = v:true
-'''
-hook_add = '''
   let g:clap_layout = { 'relative': 'editor' }
 
   function! FinderHandler(cmd, opts) abort
@@ -1501,7 +1499,7 @@ hook_source = '''
 
 [[plugins]]
 repo = 'hokorobi/vim-clap-sessions'
-on_source = 'vim-clap'
+on_source = ['vim-clap']
 hook_add = '''
   let g:clap_session_dir = g:startify_session_dir
 '''
