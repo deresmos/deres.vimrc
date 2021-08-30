@@ -1,0 +1,7 @@
+fugitive = '''
+  nmap <buffer> <SPACE>gj <C-n>
+  nmap <buffer> <SPACE>gk <C-p>
+  nmap <buffer> <SPACE>vo <
+  nmap <buffer> <SPACE>vc >
+  nmap <buffer><silent> q :quit<CR>
+'''

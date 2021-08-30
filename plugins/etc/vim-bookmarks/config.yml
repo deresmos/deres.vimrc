@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/MattesGroeger/vim-bookmarks"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>Bookmark"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

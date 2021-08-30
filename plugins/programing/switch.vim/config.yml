@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/AndrewRadev/switch.vim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Switch
+    - SwitchReverse
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

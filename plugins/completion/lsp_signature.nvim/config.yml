@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/ray-x/lsp_signature.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua:
+      - lsp_signature
+    on_event: ~
+    on_source: ~

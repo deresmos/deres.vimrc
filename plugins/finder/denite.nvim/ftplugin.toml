@@ -1,0 +1,7 @@
+denite = '''
+  execute "source" g:dein_plugin_rc_path."/denite/maping.vim"
+'''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
+'''

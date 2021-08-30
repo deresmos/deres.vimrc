@@ -1,0 +1,1 @@
+  nnoremap <SPACE>/ :S/

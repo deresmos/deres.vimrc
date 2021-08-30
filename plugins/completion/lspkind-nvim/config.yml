@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/onsails/lspkind-nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua:
+      - lspkind
+    on_event: ~
+    on_source:
+      - nvim-compe

@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/rhysd/conflict-marker.vim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>(conflict-marker-"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

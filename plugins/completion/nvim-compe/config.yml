@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/hrsh7th/nvim-compe"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua:
+      - compe
+    on_event:
+      - InsertEnter
+    on_source: ~

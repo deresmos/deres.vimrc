@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/kyazdani42/nvim-web-devicons"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

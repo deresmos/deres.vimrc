@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/t9md/vim-choosewin"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>(choosewin"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~
