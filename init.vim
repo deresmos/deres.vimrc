@@ -653,6 +653,7 @@ lualine_config.diagnostics = function()
 
   return s
 end
+local gps = require("nvim-gps")
 
 require'lualine'.setup {
   options = {
@@ -675,6 +676,7 @@ require'lualine'.setup {
         symbols = {added = '+', modified = '~', removed = '-'}
       },
       lualine_config.current_function,
+      { gps.get_location, condition = gps.is_available},
     },
     lualine_x = {
       lualine_config.diagnostics,

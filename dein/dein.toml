@@ -885,6 +885,26 @@ let g:vim_textobj_parameter_mapping = 'a'
 repo = 'bronson/vim-visual-star-search'
 
 [[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+build = ':TSUpdate'
+
+[[plugins]]
+repo = 'SmiteshP/nvim-gps'
+on_lua = ['nvim-gps']
+hook_add = '''
+lua << EOF
+require("nvim-gps").setup({
+  icons = {
+    ["class-name"] = ' ',
+    ["function-name"] = ' ',
+    ["method-name"] = ' ',
+  },
+  separator = ' > ',
+})
+EOF
+'''
+
+[[plugins]]
 repo = 'ray-x/lsp_signature.nvim'
 on_lua = ['lsp_signature']
 
