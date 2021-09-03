@@ -792,7 +792,7 @@ Tabline.lastLabel = function(n)
   maxLine = "L:" .. vim.fn.line("$")
   fileFullPath = vim.fn.expand("%:p")
   if #fileFullPath > 80 then
-    fileFullPath = string.sub(fileFullPath, 80)
+    fileFullPath = string.sub(fileFullPath, 0, 80)
   end
   lastLabels = {maxLine, fileFullPath}
 
