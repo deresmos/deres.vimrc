@@ -6,7 +6,7 @@ config:
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true
   dein:
     ftplugin: false
     on_lua: ~

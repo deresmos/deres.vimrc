@@ -90,6 +90,8 @@ set background=dark
 set wrap
 set breakindent
 
+set signcolumn=yes
+
 set diffopt=filler,algorithm:histogram,indent-heuristic,closeoff
 
 augroup no-auto-commentout

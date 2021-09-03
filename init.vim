@@ -226,22 +226,22 @@ nnoremap <SPACE>gl :<C-u>Agit<CR>
 nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 
 " gitgutter keybind
-nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
-nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
-nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
+" nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
+" nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
+" nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
 nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push -v origin HEAD<CR>
 nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
 nnoremap <silent> <SPACE>gPL :<C-u>AsyncRun -cwd=<root> git pull --all<CR>
 nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
-nnoremap <silent> <SPACE>gu <Nop>
-nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
-nnoremap <silent> <SPACE>ga <Nop>
-nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
-nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
-nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
-nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
-nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
-nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
+" nnoremap <silent> <SPACE>gu <Nop>
+" nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
+" nnoremap <silent> <SPACE>ga <Nop>
+" nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
+" nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+" nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+" nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+" nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+" nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
 
 nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
 nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
