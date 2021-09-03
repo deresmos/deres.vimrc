@@ -1,4 +1,7 @@
 lua << EOF
+  local lsp_status = require('lsp-status')
+  lsp_status.register_progress()
+
   local on_attach = function (client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
@@ -17,6 +20,7 @@ lua << EOF
     buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
     buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
 
+    lsp_status.on_attach(client, bufnr)
     require'lsp_signature'.on_attach({
       bind = true,
       doc_lines = 10,
