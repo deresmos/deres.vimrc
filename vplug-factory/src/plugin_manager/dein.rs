@@ -9,6 +9,7 @@ use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 use toml;
+use log::debug;
 
 #[derive(Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct DeinToml {
@@ -118,7 +119,7 @@ impl DeinPlugin {
 
         let yml = PluginConfig::from_yaml(basepath.join("config.yml").to_str().unwrap()).unwrap();
         if !yml.config.enable {
-            println!("Disable plugin: {}", yml.config.url);
+            debug!("Disable plugin: {}", yml.config.url);
             return None;
         }
 

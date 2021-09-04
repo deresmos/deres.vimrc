@@ -5,26 +5,42 @@ mod plugin_config;
 mod plugin_manager;
 mod template_creator;
 
+use crate::template_creator::TemplateCreator;
 use anyhow::Result;
 use clap::{AppSettings, Clap};
+use env_logger;
+use log::error;
 use migration::config::PluginConfigMigrator;
 use plugin_manager::dein;
-use crate::template_creator::TemplateCreator;
 
 fn main() -> Result<()> {
+    env_logger::init();
+
     let opts: Opts = Opts::parse();
     match opts.subcmd {
         SubCommand::Create(o) => {
             let creator = TemplateCreator::new(o.basedir);
             creator.create(&o.name, &o.tag)?;
         }
-        SubCommand::MakeDein(o) => {
-            let maker = dein::DeinMaker::new(o.plugins_dir);
-            maker.make(o.output_dir).unwrap();
-        }
-        SubCommand::FromDein(o) => {
-            dein::load_dein_toml(&o.toml_path).unwrap();
-        }
+        SubCommand::Make(o) => match &*o.plugin_manager {
+            "dein" => {
+                let maker = dein::DeinMaker::new(o.plugins_dir);
+                maker.make(o.output_dir).unwrap();
+            }
+            _ => {
+                error!("'{}' plugin manager not support", o.plugin_manager);
+                std::process::exit(0);
+            }
+        },
+        SubCommand::From(o) => match &*o.plugin_manager {
+            "dein" => {
+                dein::load_dein_toml(&o.filepath).unwrap();
+            }
+            _ => {
+                error!("'{}' plugin manager not support", o.plugin_manager);
+                std::process::exit(0);
+            }
+        },
         SubCommand::MigrateConfig(o) => {
             let migrator = PluginConfigMigrator::new(o.plugins_dir);
             migrator.migrate().unwrap();
@@ -35,22 +51,23 @@ fn main() -> Result<()> {
 }
 
 #[derive(Clap)]
-#[clap(version = "1.0", author = "deresmos <deresmos@gmail.com>")]
+#[clap(version = "1.0")]
 #[clap(setting = AppSettings::ColoredHelp)]
 struct Opts {
     #[clap(subcommand)]
     subcmd: SubCommand,
 }
+
 #[derive(Clap)]
 enum SubCommand {
     /// create plugin template
     Create(CreateOpts),
 
     /// make dein
-    MakeDein(MakeDeinOpts),
+    Make(MakeOpts),
 
     /// from dein toml
-    FromDein(FromDeinOpts),
+    From(FromOpts),
 
     /// migrate config.yml
     MigrateConfig(MigrateConfigOpts),
@@ -72,21 +89,29 @@ struct CreateOpts {
 }
 
 #[derive(Clap)]
-struct MakeDeinOpts {
-    /// plugin name
+struct MakeOpts {
+    /// output dir
     #[clap(name = "output_dir")]
     output_dir: String,
 
-    /// basedir
+    /// plugins basedir
     #[clap(short, long, default_value = "plugins")]
     plugins_dir: String,
+
+    /// plugin manger name
+    #[clap(short = 'm', long, default_value = "dein")]
+    plugin_manager: String,
 }
 
 #[derive(Clap)]
-struct FromDeinOpts {
-    /// plugin name
-    #[clap(name = "toml_path")]
-    toml_path: String,
+struct FromOpts {
+    /// file path
+    #[clap(name = "filepath")]
+    filepath: String,
+
+    /// plugin manger name
+    #[clap(short = 'm', long, default_value = "dein")]
+    plugin_manager: String,
 }
 
 #[derive(Clap)]
