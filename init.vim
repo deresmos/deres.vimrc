@@ -211,9 +211,9 @@ nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
 
 "G keybind{{{2
 " fugitive keybind
-nnoremap <silent> <SPACE>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <SPACE>gs :<C-u>Git<CR>
 nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
-nnoremap <silent> <SPACE>gb :Gblame<CR>
+nnoremap <silent> <SPACE>gb :<C-u>Git blame<CR>
 
 " merginal keybind
 nnoremap <SPACE>gC :<C-u>call merginal#openMerginalBuffer()<CR>
