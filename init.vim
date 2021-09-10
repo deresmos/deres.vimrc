@@ -757,7 +757,7 @@ Tabline.Main = function()
   local s = ""
   s = s .. tabpages
   s = s .. "%#TabLineFill#"
-  s = s .. "%=%#TabLineLast#" .. Tabline.lastLabel()
+  s = s .. "%=%#TabLineLast#   " .. Tabline.lastLabel()
 
   return s
 end
@@ -765,7 +765,7 @@ end
 Tabline._tabLabel = function(n)
   local buflist = vim.fn.tabpagebuflist(n)
   local winnr = vim.fn.tabpagewinnr(n)
-  return Tabline.tabLabel(buflist[winnr])
+  return " " .. n .. "." ..  Tabline.tabLabel(buflist[winnr])
 end
 
 Tabline.fileNameFilter = function(fileName, maxLength, nested)
@@ -788,7 +788,7 @@ Tabline.fileNameFilter = function(fileName, maxLength, nested)
 end
 
 Tabline.tabLabel = function(n)
-  maxLength = 30
+  maxLength = 29
   bufname = vim.fn.bufname(n)
   bufname = Tabline.fileNameFilter(bufname, maxLength)
   spaceLength = math.floor((maxLength - #bufname) / 2)
@@ -812,8 +812,8 @@ end
 Tabline.lastLabel = function(n)
   maxLine = "L:" .. vim.fn.line("$")
   fileFullPath = vim.fn.expand("%:p")
-  if #fileFullPath > 80 then
-    fileFullPath = string.sub(fileFullPath, 0, 80)
+  if #fileFullPath > 120 then
+    fileFullPath = string.sub(fileFullPath, 0, 120)
   end
   lastLabels = {maxLine, fileFullPath}
 
