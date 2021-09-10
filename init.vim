@@ -628,7 +628,29 @@ lualine_config.file_of_lines = function()
 end
 
 lualine_config.git_diff_status = function()
-  return vim.b.gitsigns_status
+  if vim.b.gitsigns_status then
+    return vim.b.gitsigns_status
+  end
+
+  local hunks = vim.fn["GitGutterGetHunkSummary"]()
+  local status = {
+    added = hunks[1],
+    changed = hunks[2],
+    removed = hunks[3],
+  }
+
+  local added, changed, removed = status.added, status.changed, status.removed
+  local status_txt = {}
+  if added   and added   > 0 then
+    table.insert(status_txt, '%#GitAddText#+'..added)
+  end
+  if changed and changed > 0 then
+    table.insert(status_txt, '%#GitChangeText#~'..changed)
+  end
+  if removed and removed > 0 then
+    table.insert(status_txt, '%#GitDeleteText#-'..removed)
+  end
+  return table.concat(status_txt, ' ')
 end
 
 lualine_config.diagnostics = function()
@@ -688,13 +710,13 @@ require'lualine'.setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {{
+    lualine_c = {
       {
         'filename',
         file_status = true,
         path = 2
       }
-    }},
+    },
     lualine_x = {'location'},
     lualine_y = {},
     lualine_z = {},

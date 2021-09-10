@@ -695,84 +695,42 @@ fugitive = '''
 '''
 
 [[plugins]]
-repo = 'lewis6991/gitsigns.nvim'
+repo = 'airblade/vim-gitgutter'
 hook_add = '''
-nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk()<CR>
-nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.next_hunk()<CR>
-nnoremap <silent> <SPACE>gp <cmd>lua require'gitsigns'.preview_hunk()<CR>
+nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
+nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
+nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
 nnoremap <silent> <SPACE>gu <Nop>
-nnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk()<CR>
-xnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
 nnoremap <silent> <SPACE>ga <Nop>
-nnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk()<CR>
-xnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
-nnoremap <silent> <SPACE>gtt <cmd>lua require'gitsigns'.toggle_signs()<CR>
+nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
+nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
 
-augroup gitsigns-custom
+let g:gitgutter_sign_added            = '│'
+let g:gitgutter_sign_modified         = '│'
+let g:gitgutter_sign_removed          = '__'
+let g:gitgutter_sign_modified_removed = '│'
+let g:gitgutter_map_keys              = 0
+let g:gitgutter_enabled               = 1
+let g:gitgutter_signs                 = 1
+let g:gitgutter_highlight_lines       = 0
+let g:gitgutter_async                 = 1
+let g:gitgutter_max_signs             = 1000
+
+set signcolumn=yes
+
+nnoremap <SPACE>gob :<C-u>let g:gitgutter_diff_base =<space>
+nnoremap <silent><SPACE>goB :<C-u>let g:gitgutter_diff_base = ''<CR>
+
+augroup gitgutter-custom
   autocmd!
-  autocmd WinEnter * Gitsigns refresh
+  autocmd TextChanged,InsertLeave,WinEnter * GitGutter
+  autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
 augroup END
-
-lua << EOF
-  require('gitsigns').setup {
-    signs = {
-      add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-      change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-      delete       = {hl = 'GitSignsDelete', text = '__', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-      topdelete    = {hl = 'GitSignsDelete', text = '‾‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-      changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-    },
-    signcolumn = true,
-    numhl      = false,
-    linehl     = false,
-    keymaps = {},
-    watch_index = {
-      interval = 1000,
-      follow_files = true
-    },
-    attach_to_untracked = true,
-    current_line_blame = false,
-    current_line_blame_opts = {
-      virt_text = true,
-      virt_text_pos = 'eol',
-      delay = 1000,
-    },
-    current_line_blame_formatter_opts = {
-      relative_time = false
-    },
-    sign_priority = 6,
-    update_debounce = 100,
-    status_formatter = function(status)
-      local added, changed, removed = status.added, status.changed, status.removed
-      local status_txt = {}
-      if added   and added   > 0 then
-        table.insert(status_txt, '%#GitSignsAdd#+'..added)
-      end
-      if changed and changed > 0 then
-        table.insert(status_txt, '%#GitSignsChange#~'..changed)
-      end
-      if removed and removed > 0 then
-        table.insert(status_txt, '%#GitSignsDelete#-'..removed)
-      end
-      return table.concat(status_txt, ' ')
-    end,
-    max_file_length = 10000,
-    preview_config = {
-      border = 'single',
-      style = 'minimal',
-      relative = 'cursor',
-      row = 0,
-      col = 1
-    },
-    diff_opts = {
-      internal = true,
-    },
-    word_diff = false,
-    yadm = {
-      enable = false
-    },
-  }
-EOF
 '''
 
 [[plugins]]

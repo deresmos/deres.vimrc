@@ -1,3 +1,16 @@
+nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
+nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
+nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
+nnoremap <silent> <SPACE>gu <Nop>
+nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
+nnoremap <silent> <SPACE>ga <Nop>
+nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
+nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
+
 let g:gitgutter_sign_added            = '│'
 let g:gitgutter_sign_modified         = '│'
 let g:gitgutter_sign_removed          = '__'
