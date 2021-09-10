@@ -19,8 +19,8 @@ lua << EOF
     signs = {
       add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
       change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-      delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-      topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+      delete       = {hl = 'GitSignsDelete', text = '__', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+      topdelete    = {hl = 'GitSignsDelete', text = '‾‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
       changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
     },
     signcolumn = true,
@@ -43,7 +43,20 @@ lua << EOF
     },
     sign_priority = 6,
     update_debounce = 100,
-    status_formatter = nil,
+    status_formatter = function(status)
+      local added, changed, removed = status.added, status.changed, status.removed
+      local status_txt = {}
+      if added   and added   > 0 then
+        table.insert(status_txt, '%#GitSignsAdd#+'..added)
+      end
+      if changed and changed > 0 then
+        table.insert(status_txt, '%#GitSignsChange#~'..changed)
+      end
+      if removed and removed > 0 then
+        table.insert(status_txt, '%#GitSignsDelete#-'..removed)
+      end
+      return table.concat(status_txt, ' ')
+    end,
     max_file_length = 10000,
     preview_config = {
       border = 'single',
@@ -52,7 +65,9 @@ lua << EOF
       row = 0,
       col = 1
     },
-    use_internal_diff = true,
+    diff_opts = {
+      internal = true,
+    },
     word_diff = false,
     yadm = {
       enable = false

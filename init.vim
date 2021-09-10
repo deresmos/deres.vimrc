@@ -627,6 +627,10 @@ lualine_config.file_of_lines = function()
   return vim.fn.line("$")
 end
 
+lualine_config.git_diff_status = function()
+  return vim.b.gitsigns_status
+end
+
 lualine_config.diagnostics = function()
   local counter = {}
   counter.error = vim.lsp.diagnostic.get_count(0, 'Error')
@@ -667,14 +671,7 @@ require'lualine'.setup {
     lualine_a = {'mode'},
     lualine_b = {'branch'},
     lualine_c = {
-      {
-        'diff',
-        colored = true,
-        color_added = '#00A000',
-        color_modified = '#A0A000',
-        color_removed = '#A00000',
-        symbols = {added = '+', modified = '~', removed = '-'}
-      },
+      lualine_config.git_diff_status,
       lualine_config.current_function,
       { gps.get_location, condition = gps.is_available},
     },
