@@ -662,15 +662,15 @@ lualine_config.diagnostics = function()
 
   local s = ""
   if counter.error ~= 0 then
-    s = s .. " E" .. counter.error
+    s = s .. " %#GitDeleteText#E" .. counter.error
   end
 
   if counter.warning ~= 0 then
-    s = s .. " W" .. counter.warning
+    s = s .. " %#GitChangeText#W" .. counter.warning
   end
 
   if counter.info ~= 0 then
-    s = s .. " I" .. counter.info
+    s = s .. " %#GitAddText#I" .. counter.info
   end
 
   if counter.hint ~= 0 then

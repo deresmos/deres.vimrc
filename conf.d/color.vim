@@ -47,9 +47,9 @@ function! MyHighlights()
   highlight GitGutterChange ctermfg=none ctermbg=53 guifg=#808000 guibg=#1e2132
   highlight GitGutterDelete ctermfg=52   ctermbg=52 guifg=#800000 guibg=#1e2132
 
-  highlight GitAddText    ctermfg=none ctermbg=none guifg=#008000 guibg=#2c323d
-  highlight GitChangeText ctermfg=none ctermbg=none guifg=#808000 guibg=#2c323d
-  highlight GitDeleteText ctermfg=52   ctermbg=none guifg=#800000 guibg=#2c323d
+  highlight GitAddText    ctermfg=none ctermbg=none guifg=#00e000 guibg=#2c323d
+  highlight GitChangeText ctermfg=none ctermbg=none guifg=#e0e000 guibg=#2c323d
+  highlight GitDeleteText ctermfg=52   ctermbg=none guifg=#e00000 guibg=#2c323d
 
   highlight link ALEVirtualTextError WarningMsg
   highlight link ALEVirtualTextInfo WarningMsg
