@@ -627,6 +627,14 @@ lualine_config.file_of_lines = function()
   return vim.fn.line("$")
 end
 
+lualine_config.git_branch = function()
+  return vim.fn["gina#component#repo#branch"]()
+end
+
+lualine_config.mode = function()
+  return vim.api.nvim_get_mode().mode
+end
+
 lualine_config.git_diff_status = function()
   if vim.b.gitsigns_status then
     return vim.b.gitsigns_status
@@ -690,8 +698,8 @@ require'lualine'.setup {
     disabled_filetypes = {}
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch'},
+    lualine_a = {lualine_config.mode},
+    lualine_b = {lualine_config.git_branch},
     lualine_c = {
       lualine_config.git_diff_status,
       lualine_config.current_function,
@@ -765,7 +773,8 @@ end
 Tabline._tabLabel = function(n)
   local buflist = vim.fn.tabpagebuflist(n)
   local winnr = vim.fn.tabpagewinnr(n)
-  return " " .. n .. "." ..  Tabline.tabLabel(buflist[winnr])
+  -- return " " .. n .. "." ..  Tabline.tabLabel(buflist[winnr])
+  return "  " .. n .. "  "
 end
 
 Tabline.fileNameFilter = function(fileName, maxLength, nested)
