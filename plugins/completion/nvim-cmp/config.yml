@@ -1,16 +1,16 @@
 ---
 config:
-  url: "https://github.com/hrsh7th/nvim-compe"
+  url: "https://github.com/hrsh7th/nvim-cmp"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true
   dein:
     ftplugin: false
     on_lua:
-      - compe
+      - cmp
     on_event:
       - InsertEnter
     on_source: ~

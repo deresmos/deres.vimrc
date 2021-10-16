@@ -100,6 +100,9 @@ impl DeinPlugin {
         if self.on_ft.is_some() {
             return true;
         }
+        if self.on_source.is_some() {
+            return true;
+        }
 
         if self.hook_source.is_some() {
             return true;

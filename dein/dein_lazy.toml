@@ -276,6 +276,17 @@ EOF
 '''
 
 [[plugins]]
+repo = 'hokorobi/vim-clap-sessions'
+on_source = ['vim-clap']
+hook_add = '''
+  let g:clap_session_dir = g:startify_session_dir
+'''
+
+[[plugins]]
+repo = 'iyuuya/denite-ale'
+on_source = ['denite.nvim']
+
+[[plugins]]
 repo = 'liuchengxu/vim-clap'
 on_cmd = ['Clap']
 build = 'Clap install-binary'
@@ -365,6 +376,10 @@ hook_source = '''
   let g:defx_icons_mark_icon = '-'
   let g:defx_icons_default_icon = ''
 '''
+
+[[plugins]]
+repo = 'deresmos/nerdtree-diff-plugin'
+on_source = ['nerdtree']
 
 [[plugins]]
 repo = 'deresmos/nerdtree-dirdiff-plugin'
@@ -550,10 +565,6 @@ call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGu
 '''
 
 [plugins.ftplugin]
-denite-filter = '''
-  imap <silent><buffer> fd
-    \ <ENTER>
-'''
 denite = '''
   nnoremap <silent><buffer><expr> <CR>
     \ denite#do_map('do_action')
@@ -621,6 +632,10 @@ denite = '''
   nnoremap <silent><buffer><expr> gt
     \ denite#do_map('do_action', 'tabgedit')
 '''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
+'''
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
@@ -650,6 +665,20 @@ hook_source = '''
     autocmd VimLeavePre * NERDTreeClose
     " autocmd User Startified NERDTree
   augroup END
+
+'''
+
+[[plugins]]
+repo = 'deresmos/denite-gitdiff'
+on_source = ['denite.nvim']
+
+[[plugins]]
+repo = 'neoclide/denite-git'
+on_source = ['denite.nvim']
+hook_add = '''
+
+  nnoremap <silent> <SPACE>dgs :<C-u>Denite gitstatus -no-empty<CR>
+  nnoremap <silent> <SPACE>dgb :<C-u>Denite gitbranch -no-empty<CR>
 
 '''
 
@@ -1250,6 +1279,10 @@ hook_source = '''
 '''
 
 [[plugins]]
+repo = 'tpope/vim-dispatch'
+on_source = ['vim-test']
+
+[[plugins]]
 repo = 'deresmos/agit.vim'
 hook_source = '''
 augroup agit-keymap
@@ -1406,7 +1439,7 @@ on_ft = [
 [[plugins]]
 repo = 'onsails/lspkind-nvim'
 on_lua = ['lspkind']
-on_source = ['nvim-compe']
+on_source = ['nvim-cmp']
 hook_source = '''
 lua << EOF
   require('lspkind').init({
@@ -1418,21 +1451,45 @@ EOF
 '''
 
 [[plugins]]
-repo = 'hrsh7th/nvim-compe'
-on_lua = ['compe']
+repo = 'hrsh7th/nvim-cmp'
+on_lua = ['cmp']
 on_event = ['InsertEnter']
 hook_source = '''
-set completeopt=menuone,noselect
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.source = {
-  \ 'path': {'ignored_filetypes': ['clap_input', 'denite-filter']},
-  \ 'buffer': {'ignored_filetypes': ['clap_input', 'denite-filter']},
-  \ 'calc': v:true,
-  \ 'nvim_lsp': v:true,
-  \ 'nvim_lua': v:true,
-  \ }
+lua << EOF
+  local cmp = require'cmp'
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["UltiSnips#Anon"](args.body)
+      end,
+    },
+    mapping = {
+      ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+      ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+      { name = 'path' },
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
+      { name = 'calc' },
+      { name = 'nvim_lua' },
+    }
+  })
+EOF
 '''
+
+[[plugins]]
+repo = 'hrsh7th/cmp-buffer'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'hrsh7th/cmp-nvim-lua'
+on_source = ['nvim-cmp']
 
 [[plugins]]
 repo = 'Robzz/deoplete-omnisharp'
@@ -1441,6 +1498,14 @@ hook_add = '''
   let g:OmniSharp_server_use_mono = 1
   let g:OmniSharp_server_type = 'roslyn'
 '''
+
+[[plugins]]
+repo = 'hrsh7th/cmp-path'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'hrsh7th/cmp-calc'
+on_source = ['nvim-cmp']
 
 [[plugins]]
 repo = 'OmniSharp/omnisharp-vim'

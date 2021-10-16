@@ -203,18 +203,17 @@ lua << EOF
   local lsp_install = require("lspinstall")
   local nvim_lsp = require("lspconfig")
 
+  local lsp_install = require("lspinstall")
+  local nvim_lsp = require("lspconfig")
+  local comp = require('cmp_nvim_lsp')
+
   lsp_install.setup()
   local servers = lsp_install.installed_servers()
   for _, server in pairs(servers) do
-    nvim_lsp[server].setup{ on_attach = on_attach }
-  end
-
-  __definition = vim.lsp.handlers["textDocument/definition"]
-
-  lsp_handlers = {}
-  lsp_handlers.location_vsplit = function(...)
-    vim.cmd("vsplit")
-    __definition(...)
+    nvim_lsp[server].setup{
+      on_attach = on_attach,
+      capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+  }
   end
   -- vim.lsp.handlers["textDocument/definition"] = lsp_handlers.location_vsplit
 
@@ -279,17 +278,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'hokorobi/vim-clap-sessions'
-on_source = ['vim-clap']
-hook_add = '''
-  let g:clap_session_dir = g:startify_session_dir
-'''
-
-[[plugins]]
-repo = 'iyuuya/denite-ale'
-on_source = ['denite.nvim']
-
-[[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
 on_lua = ['telescope']
 hook_add = '''
@@ -339,24 +327,6 @@ lua << EOF
     }
   }
 EOF
-'''
-
-[[plugins]]
-repo = 'deresmos/nerdtree-diff-plugin'
-on_source = ['nerdtree']
-
-[[plugins]]
-repo = 'deresmos/denite-gitdiff'
-on_source = ['denite.nvim']
-
-[[plugins]]
-repo = 'neoclide/denite-git'
-on_source = ['denite.nvim']
-hook_add = '''
-
-  nnoremap <silent> <SPACE>dgs :<C-u>Denite gitstatus -no-empty<CR>
-  nnoremap <silent> <SPACE>dgb :<C-u>Denite gitbranch -no-empty<CR>
-
 '''
 
 [[plugins]]
@@ -645,10 +615,6 @@ hook_add = '''
 repo = 'mattn/webapi-vim'
 
 [[plugins]]
-repo = 'tpope/vim-dispatch'
-on_source = ['vim-test']
-
-[[plugins]]
 repo = 'tpope/vim-fugitive'
 hook_add = '''
 function! FugitiveCommitError(error, tmpfile)
@@ -880,6 +846,9 @@ EOF
 [[plugins]]
 repo = 'ray-x/lsp_signature.nvim'
 on_lua = ['lsp_signature']
+
+[[plugins]]
+repo = 'hrsh7th/cmp-nvim-lsp'
 
 [[plugins]]
 repo = 'will133/vim-dirdiff'
