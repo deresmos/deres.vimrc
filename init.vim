@@ -141,7 +141,7 @@ xnoremap <silent> <SPACE>ld :Linediff<CR>
 
 "B keybind{{{2
 " nnoremap <silent> <SPACE>bb :Denite buffer -start-filter<CR>
-nnoremap <silent> <SPACE>bo :<C-u>BufOnly<CR>
+nnoremap <silent> <SPACE>bo :<C-u>BufOnly!<CR>
 nnoremap <silent> <SPACE>bu :<C-u>call CloseUnloadedBuffers()<CR>
 nnoremap <silent> <SPACE>bl :<C-u>BuffergatorToggle<CR>
 " nnoremap <silent> <SPACE>bf :DeniteBufferDir file/rec -start-filter<CR>
