@@ -47,3 +47,29 @@ impl TemplateCreator {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{TemplateCreator};
+    use std::path::Path;
+    use std::fs;
+    use scopeguard::defer;
+
+    #[test]
+    fn create() {
+        let tag = "tag";
+        let name = "name";
+        let creator = TemplateCreator::new("./".into());
+        creator.create(name, tag).unwrap();
+        defer!(fs::remove_dir_all(format!("{}", tag)).unwrap());
+
+        for filename in vec!["add.vim", "preload.vim", "postload.vim"] {
+            let filepath = format!("./{}/{}/{}", tag, name, filename);
+            let path = Path::new(&filepath);
+
+            assert!(path.is_file());
+        }
+
+        
+    }
+}
