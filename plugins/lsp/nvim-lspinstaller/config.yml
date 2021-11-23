@@ -1,12 +1,12 @@
 ---
 config:
-  url: "https://github.com/kabouzeid/nvim-lspinstall"
+  url: "https://github.com/williamboman/nvim-lsp-installer"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true
   dein:
     ftplugin: false
     on_lua: ~
