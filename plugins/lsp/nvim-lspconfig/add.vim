@@ -40,22 +40,17 @@ lua << EOF
     })
   end
 
-  local lsp_install = require("lspinstall")
-  local nvim_lsp = require("lspconfig")
-
-  local lsp_install = require("lspinstall")
-  local nvim_lsp = require("lspconfig")
+  local lsp_installer = require("nvim-lsp-installer")
   local comp = require('cmp_nvim_lsp')
 
-  lsp_install.setup()
-  local servers = lsp_install.installed_servers()
-  for _, server in pairs(servers) do
-    nvim_lsp[server].setup{
+  lsp_installer.on_server_ready(function(server)
+    local opts = {
       on_attach = on_attach,
       capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-  }
-  end
-  -- vim.lsp.handlers["textDocument/definition"] = lsp_handlers.location_vsplit
+    }
+
+    server:setup(opts)
+  end)
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
    vim.lsp.diagnostic.on_publish_diagnostics, {

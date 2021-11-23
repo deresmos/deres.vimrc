@@ -7,7 +7,8 @@ mod template_creator;
 
 use crate::template_creator::TemplateCreator;
 use anyhow::Result;
-use clap::{AppSettings, Clap};
+extern crate clap;
+use clap::Parser;
 use env_logger;
 use log::error;
 use migration::config::PluginConfigMigrator;
@@ -50,15 +51,15 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 #[clap(version = "1.0")]
-#[clap(setting = AppSettings::ColoredHelp)]
+// #[clap(setting = AppSettings::ColoredHelp)]
 struct Opts {
     #[clap(subcommand)]
     subcmd: SubCommand,
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 enum SubCommand {
     /// create plugin template
     Create(CreateOpts),
@@ -73,7 +74,7 @@ enum SubCommand {
     MigrateConfig(MigrateConfigOpts),
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct CreateOpts {
     /// plugin name
     #[clap(name = "name")]
@@ -88,7 +89,7 @@ struct CreateOpts {
     basedir: String,
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct MakeOpts {
     /// output dir
     #[clap(name = "output_dir")]
@@ -103,7 +104,7 @@ struct MakeOpts {
     plugin_manager: String,
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct FromOpts {
     /// file path
     #[clap(name = "filepath")]
@@ -114,7 +115,7 @@ struct FromOpts {
     plugin_manager: String,
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 struct MigrateConfigOpts {
     /// basedir
     #[clap(short, long, default_value = "plugins")]

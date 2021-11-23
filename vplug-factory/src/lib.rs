@@ -26,5 +26,6 @@ pub fn find_plugin_path(path: &Path) -> Result<Vec<String>> {
         };
     }
 
+    dir_paths.sort();
     Ok(dir_paths)
 }
