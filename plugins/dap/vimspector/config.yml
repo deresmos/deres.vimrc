@@ -10,7 +10,7 @@ config:
   commands: ~
   maps: ~
   do: "./install_gadget.py --enable-python --enable-bash --enable-c --force-enable-node --enable-go"
-  enable: true
+  enable: false
   dein:
     ftplugin: false
     on_lua: ~

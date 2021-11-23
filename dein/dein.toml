@@ -6,6 +6,151 @@ repo = 'ray-x/lsp_signature.nvim'
 on_lua = ['lsp_signature']
 
 [[plugins]]
+repo = 'mfussenegger/nvim-dap'
+hook_add = '''
+function! s:dap_setup() abort
+  nmap <silent><buffer> <SPACE>mdc <cmd>lua require'dap'.continue()<CR>
+  nmap <silent><buffer> <SPACE>mdC <cmd>lua require'dap'.run_last()<CR>
+  nmap <silent><buffer> <SPACE>mdq <cmd>lua require'dap'.stop()<CR>
+  " nmap <silent><buffer> <SPACE>mdR <Plug>VimspectorRestart
+  " nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorPause
+  nmap <silent><buffer> <SPACE>mdp <cmd>lua require'dap'.toggle_breakpoint()<CR>
+  " nmap <silent><buffer> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
+  nmap <silent><buffer> <SPACE>mdn <cmd>lua require'dap'.step_over()<CR>
+  nmap <silent><buffer> <SPACE>mdi <cmd>lua require'dap'.step_into()<CR>
+  nmap <silent><buffer> <SPACE>mdo <cmd>lua require'dap'.step_out()<CR>
+  nmap <silent><buffer> <SPACE>mdb <cmd>lua require'dap'.step_back()<CR>
+
+  nmap <silent><buffer> <SPACE>mdu <cmd>lua require'dap'.up()<CR>
+  nmap <silent><buffer> <SPACE>mdd <cmd>lua require'dap'.down()<CR>
+
+  " nnoremap <silent><buffer> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
+  " xnoremap <silent><buffer> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
+
+  " nnoremap <silent><buffer> <SPACE>mdf :<C-u>call <SID>run_file()<CR>
+  " nnoremap <silent><buffer> <SPACE>mdt :<C-u>call <SID>run_test()<CR>
+  " nnoremap <silent><buffer> <SPACE>mde :<C-u>call <SID>run_execute()<CR>
+
+  nnoremap <silent><buffer> <SPACE>mdQ <cmd>lua require'dap'.terminate()<CR>
+
+  nnoremap <silent><buffer> <SPACE>mdT <cmd>lua require'dapui'.toggle()<CR>
+endfunction
+
+augroup custom_dap
+  autocmd!
+  autocmd FileType go,python call <SID>dap_setup()
+augroup END
+'''
+
+[[plugins]]
+repo = 'leoluz/nvim-dap-go'
+hook_add = '''
+lua require('dap-go').setup()
+
+lua << EOF
+  local dap = require('dap')
+  dap.configurations.go = {
+    {
+      type = "go",
+      name = "Debug",
+      request = "launch",
+      program = "${file}",
+    },
+    {
+      type = "go",
+      name = "Debug file",
+      request = "launch",
+      mode = "test",
+      program = "${file}",
+    },
+    {
+      type = "go",
+      name = "Debug test suite",
+      request = "launch",
+      mode = "test",
+      program = "${workspaceFolder}",
+    } 
+  }
+
+EOF
+'''
+
+[[plugins]]
+repo = 'mfussenegger/nvim-dap-python'
+hook_add = '''
+lua << EOF
+require('dap-python').setup('python')
+EOF
+'''
+
+[[plugins]]
+repo = 'rcarriga/nvim-dap-ui'
+hook_add = '''
+lua << EOF
+require("dapui").setup({
+  icons = { expanded = "▾", collapsed = "▸" },
+  mappings = {
+    expand = { "<CR>", "<C-m>" },
+    open = "o",
+    remove = "d",
+    edit = "e",
+    repl = "r",
+  },
+  sidebar = {
+    -- You can change the order of elements in the sidebar
+    elements = {
+      -- Provide as ID strings or tables with "id" and "size" keys
+      {
+        id = "scopes",
+        size = 0.35, -- Can be float or integer > 1
+      },
+      { id = "watches", size = 0.25 },
+      { id = "stacks", size = 0.25 },
+      { id = "breakpoints", size = 0.15 },
+    },
+    size = 40,
+    position = "left", -- Can be "left", "right", "top", "bottom"
+  },
+  tray = {
+    elements = { "repl" },
+    size = 10,
+    position = "bottom", -- Can be "left", "right", "top", "bottom"
+  },
+  floating = {
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil, -- Floats will be treated as percentage of your screen.
+    border = "single", -- Border style. Can be "single", "double" or "rounded"
+    mappings = {
+      close = { "q", "<Esc>" },
+    },
+  },
+  windows = { indent = 1 },
+})
+EOF
+'''
+
+[[plugins]]
+repo = 'theHamsta/nvim-dap-virtual-text'
+hook_add = '''
+lua << EOF
+require("nvim-dap-virtual-text").setup {
+    enabled = true,                     -- enable this plugin (the default)
+    enabled_commands = true,            -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
+    highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
+    highlight_new_as_changed = false,   -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+    show_stop_reason = true,            -- show stop reason when stopped for exceptions
+    commented = false,                  -- prefix virtual text with comment string
+    -- experimental features:
+    virt_text_pos = 'eol',              -- position of virtual text, see `:h nvim_buf_set_extmark()`
+    all_frames = false,                 -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+    virt_lines = false,                 -- show virtual lines instead of virtual text (will flicker!)
+    virt_text_win_col = nil             -- position the virtual text at a fixed window column (starting from the first text column) ,
+                                        -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
+}
+EOF
+'''
+
+[[plugins]]
 repo = 'rickhowe/diffchar.vim'
 hook_add = '''
 let g:DiffPairVisible = 1
