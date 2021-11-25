@@ -616,6 +616,10 @@ lualine_config.indent_type = function()
 end
 
 lualine_config.current_function = function()
+  if not vim.b.lsp_current_function then
+    return ""
+  end
+
   return vim.b.lsp_current_function
 end
 
