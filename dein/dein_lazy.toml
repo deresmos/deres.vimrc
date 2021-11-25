@@ -491,6 +491,13 @@ hook_source = '''
 '''
 
 [[plugins]]
+repo = 'dhruvasagar/vim-zoom'
+on_map = ['<Plug>(zoom']
+hook_add = '''
+nmap <silent> <Space>wz <Plug>(zoom-toggle)
+'''
+
+[[plugins]]
 repo = 'LeafCage/yankround.vim'
 on_map = ['<Plug>(yankround-']
 hook_add = '''
