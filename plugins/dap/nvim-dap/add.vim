@@ -4,6 +4,7 @@ nmap <silent> <SPACE>mdq <cmd>lua require'dap'.stop()<CR>
 " nmap <silent> <SPACE>mdR <Plug>VimspectorRestart
 " nmap <silent> <SPACE>mdc <Plug>VimspectorPause
 nmap <silent> <SPACE>mdp <cmd>lua require'dap'.toggle_breakpoint()<CR>
+nmap <silent> <SPACE>mdP <cmd>lua require'dap.breakpoints'.clear()<CR>
 " nmap <silent> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
 nmap <silent> <SPACE>mdn <cmd>lua require'dap'.step_over()<CR>
 nmap <silent> <SPACE>mdi <cmd>lua require'dap'.step_into()<CR>
@@ -12,8 +13,6 @@ nmap <silent> <SPACE>mdb <cmd>lua require'dap'.step_back()<CR>
 
 nmap <silent> <SPACE>mdu <cmd>lua require'dap'.up()<CR>
 nmap <silent> <SPACE>mdd <cmd>lua require'dap'.down()<CR>
-
-nmap <silent> <SPACE>mdl <cmd>lua require'dap'.run_to_cursor()<CR>
 
 " nnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
 " xnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>

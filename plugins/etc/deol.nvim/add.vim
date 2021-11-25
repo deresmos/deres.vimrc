@@ -10,7 +10,7 @@
     autocmd FileType deol call s:setup_deol()
   augroup END
 
-  nnoremap <silent> <SPACE>tf :<C-u>call <SID>deol_floating()<CR>
+  " nnoremap <silent> <SPACE>tf :<C-u>call <SID>deol_floating()<CR>
   " nnoremap <silent> <SPACE>ts :<C-u>call <SID>deol_split()<CR>
   " nnoremap <silent> <SPACE>tv :<C-u>call <SID>deol_vsplit()<CR>
   " nnoremap <silent> <SPACE>tt :<C-u>call <SID>deol_tab()<CR>

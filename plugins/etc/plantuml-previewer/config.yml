@@ -1,9 +1,10 @@
 ---
 config:
-  url: "https://github.com/glepnir/lspsaga.nvim"
+  url: "https://github.com/weirongxu/plantuml-previewer.vim"
   rev: ~
   filetypes: ~
-  commands: ~
+  commands:
+    - PlantumlOpen
   maps: ~
   do: ~
   enable: true

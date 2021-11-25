@@ -14,6 +14,7 @@ nmap <silent> <SPACE>mdq <cmd>lua require'dap'.stop()<CR>
 " nmap <silent> <SPACE>mdR <Plug>VimspectorRestart
 " nmap <silent> <SPACE>mdc <Plug>VimspectorPause
 nmap <silent> <SPACE>mdp <cmd>lua require'dap'.toggle_breakpoint()<CR>
+nmap <silent> <SPACE>mdP <cmd>lua require'dap.breakpoints'.clear()<CR>
 " nmap <silent> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
 nmap <silent> <SPACE>mdn <cmd>lua require'dap'.step_over()<CR>
 nmap <silent> <SPACE>mdi <cmd>lua require'dap'.step_into()<CR>
@@ -22,8 +23,6 @@ nmap <silent> <SPACE>mdb <cmd>lua require'dap'.step_back()<CR>
 
 nmap <silent> <SPACE>mdu <cmd>lua require'dap'.up()<CR>
 nmap <silent> <SPACE>mdd <cmd>lua require'dap'.down()<CR>
-
-nmap <silent> <SPACE>mdl <cmd>lua require'dap'.run_to_cursor()<CR>
 
 " nnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
 " xnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
@@ -380,6 +379,55 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'akinsho/toggleterm.nvim'
+hook_add = '''
+nnoremap <silent> <SPACE>to :ToggleTerm direction=horizontal size=20<CR>
+nnoremap <silent> <SPACE>tf :ToggleTerm direction=float size=20<CR>
+
+function! s:setup_term() abort
+  nnoremap <buffer> I i<C-a>
+  nnoremap <buffer> A a<C-e>
+  nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+  nnoremap <buffer> cc i<C-e><C-u>
+  nnoremap <buffer> q :<C-u>quit<CR>
+endfunction
+
+augroup term-custom
+  autocmd!
+  autocmd TermOpen term://* call s:setup_term()
+augroup END
+
+lua << EOF
+require("toggleterm").setup{
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 20
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  -- open_mapping = [[<c-\>]],
+  -- hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = 'horizontal',
+  close_on_exit = false,
+  shell = vim.o.shell,
+  float_opts = {
+    border = 'curved',
+    highlights = {
+      border = "Normal",
+      background = "Normal",
+    },
+  },
+}
+EOF
+'''
+
+[[plugins]]
 repo = 'mbbill/undotree'
 
 [[plugins]]
@@ -647,8 +695,7 @@ repo = 'idanarye/vim-merginal'
 repo = 'nvim-lua/lsp-status.nvim'
 
 [[plugins]]
-repo = 'jasonrhansen/lspsaga.nvim'
-rev = 'finder-preview-fixes'
+repo = 'glepnir/lspsaga.nvim'
 hook_add = '''
 lua << EOF
   require'lspsaga'.init_lsp_saga({
@@ -659,7 +706,7 @@ lua << EOF
       enable = true,
       sign = true,
       sign_priority = 20,
-      virtual_text = true,
+      virtual_text = false,
     },
     finder_definition_icon = '  ',
     finder_reference_icon = '  ',

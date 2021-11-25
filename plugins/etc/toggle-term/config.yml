@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/glepnir/lspsaga.nvim"
+  url: "https://github.com/akinsho/toggleterm.nvim"
   rev: ~
   filetypes: ~
   commands: ~
