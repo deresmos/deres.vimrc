@@ -83,7 +83,7 @@ lua << EOF
       name = "Debug test suite",
       request = "launch",
       mode = "test",
-      program = "${workspaceFolder}",
+      program = "./${relativeFileDirname}",
     },
     go_test_nearest = function()
       require'dap-go'.debug_test()
