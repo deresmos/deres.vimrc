@@ -93,7 +93,7 @@ lua << EOF
       name = "Debug test suite",
       request = "launch",
       mode = "test",
-      program = "${workspaceFolder}",
+      program = "./${relativeFileDirname}",
     },
     go_test_nearest = function()
       require'dap-go'.debug_test()
@@ -1122,22 +1122,6 @@ hook_add = '''
 
 [[plugins]]
 repo = 'deresmos/vim-snippets'
-
-[[plugins]]
-repo = 'SmiteshP/nvim-gps'
-on_lua = ['nvim-gps']
-hook_add = '''
-lua << EOF
-require("nvim-gps").setup({
-  icons = {
-    ["class-name"] = ' ',
-    ["function-name"] = ' ',
-    ["method-name"] = ' ',
-  },
-  separator = ' > ',
-})
-EOF
-'''
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'

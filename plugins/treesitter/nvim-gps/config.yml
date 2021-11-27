@@ -6,7 +6,7 @@ config:
   commands: ~
   maps: ~
   do: ~
-  enable: true
+  enable: false
   dein:
     ftplugin: false
     on_lua: ["nvim-gps"]
