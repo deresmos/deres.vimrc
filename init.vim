@@ -639,8 +639,8 @@ end
 
 lualine_config.git_branch = function()
   local branch = vim.fn["gina#component#repo#branch"]()
-  if not branch then
-    return ""
+  if branch == "" then
+    return ""
   end
 
   return " " .. branch
@@ -665,13 +665,13 @@ lualine_config.git_diff_status = function()
   local added, changed, removed = status.added, status.changed, status.removed
   local status_txt = {}
   if added   and added   > 0 then
-    table.insert(status_txt, '%#GitAddText#+'..added)
+    table.insert(status_txt, '+'..added)
   end
   if changed and changed > 0 then
-    table.insert(status_txt, '%#GitChangeText#~'..changed)
+    table.insert(status_txt, '~'..changed)
   end
   if removed and removed > 0 then
-    table.insert(status_txt, '%#GitDeleteText#-'..removed)
+    table.insert(status_txt, '-'..removed)
   end
   return table.concat(status_txt, ' ')
 end
@@ -703,17 +703,45 @@ lualine_config.diagnostics = function()
   return s
 end
 
+function custom_theme()
+  local colors = {
+    blue   = '#61afef',
+    green  = '#98c379',
+    purple = '#c678dd',
+    red1   = '#e06c75',
+    red2   = '#be5046',
+    yellow = '#e5c07b',
+    fg     = '#abb2bf',
+    bg     = '#060811',
+    gray1  = '#5c6370',
+    gray2  = '#163821',
+    gray3  = '#3e4452',
+  }
+
+  local normal = { fg = colors.fg, bg = colors.bg }
+  return {
+    normal = {
+      a = normal,
+      b = normal,
+      c = normal,
+    },
+    inactive = {
+      c = { fg = colors.gray1, bg = colors.bg },
+    },
+  }
+end
+
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'onedark',
+    theme = custom_theme(),
     component_separators = '',
     section_separators = '',
     disabled_filetypes = {'defx'},
     always_divide_middle = true
   },
   sections = {
-    lualine_a = {lualine_config.mode},
+    lualine_a = {},
     lualine_b = {lualine_config.git_branch},
     lualine_c = {
       lualine_config.git_diff_status,
@@ -736,10 +764,11 @@ require'lualine'.setup {
       {
         'filename',
         file_status = true,
-        path = 2
+        path = 1,
+        shorting_target = 0,
       }
     },
-    lualine_x = {'location'},
+    lualine_x = {},
     lualine_y = {},
     lualine_z = {},
   },
