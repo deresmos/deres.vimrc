@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/andreshazard/vim-logreview"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

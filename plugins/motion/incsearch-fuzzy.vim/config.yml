@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/haya14busa/incsearch-fuzzy.vim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>(incsearch-fuzzy"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

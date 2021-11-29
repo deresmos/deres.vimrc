@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/sk1418/HowMuch"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>VimCalc"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

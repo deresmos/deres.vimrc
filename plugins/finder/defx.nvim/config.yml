@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/Shougo/defx.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: true
+    on_lua: ~
+    on_event: ~
+    on_source: ~

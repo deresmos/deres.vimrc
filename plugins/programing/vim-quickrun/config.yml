@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/thinca/vim-quickrun"
+  rev: ~
+  filetypes: ~
+  commands:
+    - QuickRun
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

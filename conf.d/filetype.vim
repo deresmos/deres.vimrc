@@ -113,7 +113,7 @@ function! s:saveLastTab() abort "{{{2
 endfunction
 
 function! s:tabNextLastTab() abort "{{{2
-  echomsg tabpagenr('$')
+  " echomsg tabpagenr('$')
   if tabpagenr('$') > 1 && tabpagenr('$') >= g:lasttab_num
     exec 'tabnext' g:lasttab_num
   endif

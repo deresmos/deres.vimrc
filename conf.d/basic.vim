@@ -90,6 +90,8 @@ set background=dark
 set wrap
 set breakindent
 
+set signcolumn=yes
+
 set diffopt=filler,algorithm:histogram,indent-heuristic,closeoff
 
 augroup no-auto-commentout
@@ -335,6 +337,8 @@ nnoremap <silent> <SPACE>fq :wq<CR>
 "Q keybind{{{2
 nnoremap <silent> <SPACE>qq :qa<CR>
 nnoremap <silent> <SPACE>qQ :qa!<CR>
+nnoremap <silent> <SPACE>qj <cmd>cn<CR>
+nnoremap <silent> <SPACE>qk <cmd>cp<CR>
 
 "B keybind{{{2
 nnoremap <silent> <SPACE>bd :bdelete<CR>

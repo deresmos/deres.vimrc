@@ -1,0 +1,19 @@
+---
+config:
+  url: "https://github.com/janko/vim-test"
+  rev: ~
+  filetypes: ~
+  commands:
+    - TestNearest
+    - TestFile
+    - TestSuite
+    - TestLast
+    - TestVisit
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

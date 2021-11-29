@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/osyo-manga/vim-precious"
+  rev: ~
+  filetypes:
+    - toml
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

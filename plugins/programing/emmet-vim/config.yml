@@ -1,0 +1,18 @@
+---
+config:
+  url: "https://github.com/mattn/emmet-vim"
+  rev: ~
+  filetypes:
+    - css
+    - html
+    - xhtml
+    - php
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

@@ -21,6 +21,10 @@ function! MyHighlights()
   " highlight IndentGuidesOdd  ctermbg=236
   highlight NormalFloat      ctermfg=none ctermbg=233
 
+  highlight TabLineSel guifg=none guibg=#1e2142 gui=bold
+  highlight TabLine guifg=none guibg=#2f3137
+  highlight TablineLast guifg=#9a9ca5 guibg=#161821
+
   " Left
   highlight DiffLeftChange       ctermfg=none ctermbg=52 guifg=none guibg=#400000
   highlight DiffLeftText         ctermfg=none ctermbg=52 guifg=none    guibg=#400000
@@ -42,6 +46,10 @@ function! MyHighlights()
   highlight GitGutterAdd    ctermfg=none ctermbg=22 guifg=#008000 guibg=#1e2132
   highlight GitGutterChange ctermfg=none ctermbg=53 guifg=#808000 guibg=#1e2132
   highlight GitGutterDelete ctermfg=52   ctermbg=52 guifg=#800000 guibg=#1e2132
+
+  highlight GitAddText    ctermfg=none ctermbg=none guifg=#00e000 guibg=#2c323d
+  highlight GitChangeText ctermfg=none ctermbg=none guifg=#e0e000 guibg=#2c323d
+  highlight GitDeleteText ctermfg=52   ctermbg=none guifg=#e00000 guibg=#2c323d
 
   highlight link ALEVirtualTextError WarningMsg
   highlight link ALEVirtualTextInfo WarningMsg

@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/rafi/vim-denite-session"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source:
+      - denite.nvim

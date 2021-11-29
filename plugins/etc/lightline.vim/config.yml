@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/itchyny/lightline.vim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: false
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

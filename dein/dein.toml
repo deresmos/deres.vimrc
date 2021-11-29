@@ -1,403 +1,524 @@
-# LSP plugins {{{1
 [[plugins]]
-repo = 'neovim/nvim-lspconfig'
+repo = 'hrsh7th/cmp-nvim-lsp'
+
+[[plugins]]
+repo = 'ray-x/lsp_signature.nvim'
+on_lua = ['lsp_signature']
+
+[[plugins]]
+repo = 'mfussenegger/nvim-dap'
+hook_add = '''
+nmap <silent> <SPACE>mdc <cmd>lua require'dap'.continue()<CR>
+nmap <silent> <SPACE>mdC <cmd>lua require'dap'.run_last()<CR>
+nmap <silent> <SPACE>mdq <cmd>lua require'dap'.stop()<CR>
+" nmap <silent> <SPACE>mdR <Plug>VimspectorRestart
+" nmap <silent> <SPACE>mdc <Plug>VimspectorPause
+nmap <silent> <SPACE>mdp <cmd>lua require'dap'.toggle_breakpoint()<CR>
+nmap <silent> <SPACE>mdP <cmd>lua require'dap.breakpoints'.clear()<CR>
+" nmap <silent> <SPACE>mdc <Plug>VimspectorAddFunctionBreakpoint
+nmap <silent> <SPACE>mdn <cmd>lua require'dap'.step_over()<CR>
+nmap <silent> <SPACE>mdi <cmd>lua require'dap'.step_into()<CR>
+nmap <silent> <SPACE>mdo <cmd>lua require'dap'.step_out()<CR>
+nmap <silent> <SPACE>mdb <cmd>lua require'dap'.step_back()<CR>
+
+nmap <silent> <SPACE>mdu <cmd>lua require'dap'.up()<CR>
+nmap <silent> <SPACE>mdd <cmd>lua require'dap'.down()<CR>
+nmap <silent> <SPACE>mdl <cmd>lua require'dap'.list_breakpoints()<CR>
+
+" nnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
+" xnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
+
+nnoremap <silent> <SPACE>mdf <cmd>lua Dap.run_file()<CR>
+nnoremap <silent> <SPACE>mdt <cmd>lua Dap.run_test()<CR>
+nnoremap <silent> <SPACE>mdm <cmd>lua Dap.run_test_nearest()<CR>
+
+nnoremap <silent> <SPACE>mdQ <cmd>call <SID>dapTerminate()<CR>
+
+nnoremap <silent> <SPACE>mdT <cmd>lua require'dapui'.toggle()<CR>
+nnoremap <silent> <SPACE>mdF <cmd>call <SID>openFloatWin()<CR>
+
+function! s:dapTerminate() abort
+  lua require'dap'.terminate()
+  lua require'dapui'.close()
+  lua require'nvim-dap-virtual-text'.refresh()
+  tabclose
+endfunction
+
+function! s:openFloatWin() abort
+lua << EOF
+  local filetype = vim.bo.filetype
+  local name = filetype:gsub("dapui_", "")
+  for i, value in ipairs({"scopes", "watches", "breakpoints", "stacks", "repl"}) do
+    if name == value then
+      require'dapui'.float_element(name, {enter=true})
+      break
+    end
+  end
+EOF
+endfunction
+
+
+lua << EOF
+  local dap = require('dap')
+  dap.listeners.before['event_initialized']['custom'] = function(session, body)
+    vim.cmd('tabedit')
+    require'dapui'.open()
+  end
+
+  dap.listeners.before['event_terminated']['custom'] = function(session, body)
+    print('Session terminated')
+    require'dapui'.close()
+    require'nvim-dap-virtual-text'.refresh()
+    vim.cmd('tabclose')
+  end
+
+  Dap = {}
+
+  Dap.configuration = {
+    go_file={
+      type = "go",
+      name = "Debug file",
+      request = "launch",
+      program = "${file}",
+    },
+    go_test_file={
+      type = "go",
+      name = "Debug test file",
+      request = "launch",
+      mode = "test",
+      program = "${file}",
+    },
+    go_test={
+      type = "go",
+      name = "Debug test suite",
+      request = "launch",
+      mode = "test",
+      program = "./${relativeFileDirname}",
+    },
+    go_test_nearest = function()
+      require'dap-go'.debug_test()
+    end,
+  }
+
+  function Dap.run(run_type)
+    local filetype = vim.bo.filetype
+    local configuration = Dap.configuration[filetype .. "_" .. run_type]
+    if not configuration then
+      print("This filetype is not supported.")
+      return
+    end
+
+    if type(configuration) == 'function' then
+      configuration()
+    else
+      require'dap'.run(configuration)
+    end
+  end
+
+  function Dap.run_file()
+    Dap.run("file")
+  end
+
+  function Dap.run_test()
+    Dap.run("test")
+  end
+
+  function Dap.run_test_file()
+    Dap.run("test_file")
+  end
+
+  function Dap.run_test_nearest()
+    Dap.run("test_nearest")
+  end
+EOF
+'''
+
+[[plugins]]
+repo = 'leoluz/nvim-dap-go'
+hook_add = '''
+lua require('dap-go').setup()
+
+lua << EOF
+  local dap = require('dap')
+  dap.configurations.go = {
+    {
+      type = "go",
+      name = "Debug",
+      request = "launch",
+      program = "${file}",
+    },
+    {
+      type = "go",
+      name = "Debug file",
+      request = "launch",
+      mode = "test",
+      program = "${file}",
+    },
+    {
+      type = "go",
+      name = "Debug test suite",
+      request = "launch",
+      mode = "test",
+      program = "${workspaceFolder}",
+    } 
+  }
+
+EOF
+'''
+
+[[plugins]]
+repo = 'mfussenegger/nvim-dap-python'
 hook_add = '''
 lua << EOF
-  local on_attach = function (client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+require('dap-python').setup('python')
+EOF
+'''
 
-    local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
-    buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<Space>mh', '<cmd>lua require("lspsaga.hover").render_hover_doc()<CR>', opts)
-    buf_set_keymap('n', '<Space>ca', '<cmd>lua require("lspsaga.code_action").code_action()<CR>', opts)
-    buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
-    buf_set_keymap('n', '<Space>ek', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>', opts)
-    buf_set_keymap('n', '<Space>ej', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>', opts)
-
-    -- not work?
-    buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
-    buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
-
-    require'lsp_signature'.on_attach({
-      bind = true,
-      doc_lines = 10,
-      floating_window = true,
-      fix_pos = true,
-      hint_enable = true,
-      hint_prefix = "> ",
-      hint_scheme = "String",
-      use_lspsaga = false,
-      hi_parameter = "Search",
-      max_height = 12,
-      max_width = 120,
-      handler_opts = {
-        border = "shadow"
+[[plugins]]
+repo = 'rcarriga/nvim-dap-ui'
+hook_add = '''
+lua << EOF
+require("dapui").setup({
+  icons = { expanded = "▾", collapsed = "▸" },
+  mappings = {
+    expand = { "<CR>", "<C-m>" },
+    open = "o",
+    remove = "d",
+    edit = "e",
+    repl = "r",
+  },
+  sidebar = {
+    -- You can change the order of elements in the sidebar
+    elements = {
+      -- Provide as ID strings or tables with "id" and "size" keys
+      {
+        id = "scopes",
+        size = 0.35, -- Can be float or integer > 1
       },
-      extra_trigger_chars = {}
-    })
-  end
-
-  local lsp_install = require("lspinstall")
-  local nvim_lsp = require("lspconfig")
-
-  lsp_install.setup()
-  local servers = lsp_install.installed_servers()
-  for _, server in pairs(servers) do
-    nvim_lsp[server].setup{ on_attach = on_attach }
-  end
-
-  __definition = vim.lsp.handlers["textDocument/definition"]
-
-  lsp_handlers = {}
-  lsp_handlers.location_vsplit = function(...)
-    vim.cmd("vsplit")
-    __definition(...)
-  end
-  -- vim.lsp.handlers["textDocument/definition"] = lsp_handlers.location_vsplit
-
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-   vim.lsp.diagnostic.on_publish_diagnostics, {
-     virtual_text = false,
-     signs = false,
-   }
-  )
-
+      { id = "watches", size = 0.25 },
+      { id = "stacks", size = 0.25 },
+      { id = "breakpoints", size = 0.15 },
+    },
+    size = 40,
+    position = "left", -- Can be "left", "right", "top", "bottom"
+  },
+  tray = {
+    elements = { "repl" },
+    size = 10,
+    position = "bottom", -- Can be "left", "right", "top", "bottom"
+  },
+  floating = {
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil, -- Floats will be treated as percentage of your screen.
+    border = "single", -- Border style. Can be "single", "double" or "rounded"
+    mappings = {
+      close = { "q", "<Esc>" },
+    },
+  },
+  windows = { indent = 1 },
+})
 EOF
 '''
 
 [[plugins]]
-repo = 'kabouzeid/nvim-lspinstall'
-
-[[plugins]]
-# repo = 'glepnir/lspsaga.nvim'
-repo = 'jasonrhansen/lspsaga.nvim'
-rev = 'finder-preview-fixes'
+repo = 'theHamsta/nvim-dap-virtual-text'
 hook_add = '''
 lua << EOF
-  require'lspsaga'.init_lsp_saga({
-    use_saga_diagnostic_sign = false,
-    dianostic_header_icon = '   ',
-    code_action_icon = ' ',
-    code_action_prompt = {
-      enable = true,
-      sign = true,
-      sign_priority = 20,
-      virtual_text = true,
-    },
-    finder_definition_icon = '  ',
-    finder_reference_icon = '  ',
-    max_preview_lines = 15,
-    finder_action_keys = {
-      open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>'
-    },
-    code_action_keys = {
-      quit = 'q',exec = '<CR>'
-    },
-    rename_action_keys = {
-      quit = '<C-c>',exec = '<CR>'
-    },
-    definition_preview_icon = '  ',
-    border_style = "single",
-    rename_prompt_prefix = '➤',
-    server_filetype_map = {},
-  })
+require("nvim-dap-virtual-text").setup {
+    enabled = true,                     -- enable this plugin (the default)
+    enabled_commands = true,            -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
+    highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
+    highlight_new_as_changed = false,   -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+    show_stop_reason = true,            -- show stop reason when stopped for exceptions
+    commented = false,                  -- prefix virtual text with comment string
+    -- experimental features:
+    virt_text_pos = 'eol',              -- position of virtual text, see `:h nvim_buf_set_extmark()`
+    all_frames = false,                 -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+    virt_lines = false,                 -- show virtual lines instead of virtual text (will flicker!)
+    virt_text_win_col = nil             -- position the virtual text at a fixed window column (starting from the first text column) ,
+                                        -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
+}
 EOF
-
-'''
-# git plugins {{{1
-# rhysd/committia.vim {{{2
-[[plugins]]
-repo = 'rhysd/committia.vim'
-hook_add = '''
-  let g:committia_open_only_vim_starting = 1
-  let g:committia_hooks = {}
-  function! g:committia_hooks.edit_open(info) abort
-    nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
-    nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
-  endfunction
 '''
 
-# tpope/vim-fugitive {{{2
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-hook_add = '''
-  function! FugitiveCommitError(error, tmpfile)
-    if a:error =~? 'pre-commit'
-      call s:applyQflist(a:tmpfile)
-    endif
-  endfunction
-
-  function! s:applyQflist(tmpfile)
-    let errors = []
-    let contents = readfile(a:tmpfile)
-
-    let filepath = ''
-    for content in contents
-      if empty(content)
-        continue
-      endif
-
-      if content =~? '^/' && filereadable(content)
-        let filepath = content
-        continue
-      endif
-
-      if content =~? '\v\s*[0-9]+:[0-9]+'
-        let csp = split(content)
-        call add(errors, filepath . ':' . csp[0] . ':' . join(csp[2:-2], ' ') . '. [' . csp[-1] . ']')
-      endif
-    endfor
-
-    setlocal errorformat=%f:%l:%c:%m
-    cgetexpr join(errors, "\n")
-    q
-    copen
-  endfunction
-'''
-[plugins.ftplugin]
-fugitive = '''
-  nmap <buffer> <SPACE>gj <C-n>
-  nmap <buffer> <SPACE>gk <C-p>
-  nmap <buffer> <SPACE>vo <
-  nmap <buffer> <SPACE>vc >
-  nmap <buffer><silent> q :quit<CR>
-'''
-
-# airblade/vim-gitgutter {{{2
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-hook_add = '''
-  let g:gitgutter_sign_added            = '│'
-  let g:gitgutter_sign_modified         = '│'
-  let g:gitgutter_sign_removed          = '__'
-  let g:gitgutter_sign_modified_removed = '│'
-  let g:gitgutter_map_keys              = 0
-  let g:gitgutter_enabled               = 1
-  let g:gitgutter_signs                 = 1
-  let g:gitgutter_highlight_lines       = 0
-  let g:gitgutter_async                 = 1
-  let g:gitgutter_max_signs             = 1000
-
-  set signcolumn=yes
-
-  nnoremap <SPACE>gob :<C-u>let g:gitgutter_diff_base =<space>
-  nnoremap <silent><SPACE>goB :<C-u>let g:gitgutter_diff_base = ''<CR>
-
-  augroup gitgutter-custom
-    autocmd!
-    autocmd TextChanged,InsertLeave,WinEnter * GitGutter
-    autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
-  augroup END
-'''
-
-# [[plugins]]
-# repo = 'lewis6991/gitsigns.nvim'
-# hook_add = '''
-#   nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk()<CR>
-#   nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.nextkhunk()<CR>
-#   nnoremap <silent> <SPACE>gp <cmd>lua require'gitsigns'.preview_hunk()<CR>
-#   nnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk()<CR>
-#   xnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
-#   nnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk()<CR>
-#   xnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
-#
-# lua << EOF
-#   require('gitsigns').setup {
-#     signs = {
-#       add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-#       change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-#       delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-#       topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-#       changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-#     },
-#     numhl = false,
-#     linehl = false,
-#     keymaps = {},
-#     watch_index = {
-#       interval = 1000,
-#       follow_files = true
-#     },
-#     current_line_blame = false,
-#     current_line_blame_delay = 1000,
-#     current_line_blame_position = 'eol',
-#     sign_priority = 6,
-#     update_debounce = 100,
-#     status_formatter = nil,
-#     word_diff = false,
-#     use_decoration_api = true,
-#     use_internal_diff = true,
-#   }
-# EOF
-# '''
-
-# rickhowe/diffchar.vim {{{2
 [[plugins]]
 repo = 'rickhowe/diffchar.vim'
 hook_add = '''
-  let g:DiffPairVisible = 1
-  let g:DiffExpr = 0
+let g:DiffPairVisible = 1
+let g:DiffExpr = 0
 '''
 
-# lambdalisue/gina.vim {{{2
 [[plugins]]
-repo = 'lambdalisue/gina.vim'
+repo = 'AndrewRadev/linediff.vim'
 
-#}}}1 END git plugins
-
-# operator plugins {{{1
-# kana/vim-operator-user {{{2
 [[plugins]]
-repo = 'kana/vim-operator-user'
+repo = 'will133/vim-dirdiff'
+rev = '7d588e7658d8a643241a379fe5bbd22071025090'
+
+[[plugins]]
+repo = 'welvinyu/L9'
+
+[[plugins]]
+repo = 'chrisbra/SudoEdit.vim'
+
+[[plugins]]
+repo = 'skywind3000/asyncrun.vim'
 hook_add = '''
-  nmap R <Nop>
-  nmap R <Plug>(operator-replace)
-  xmap R <Nop>
-  xmap R <Plug>(operator-replace)
-  nmap s <Nop>
-  xmap s <Nop>
+  function! s:asyncrun_after()
+    let defualt_cmd = 'copen | wincmd p'
+    let cmd = get(b:, 'asyncrun_after_cmd', v:null)
+    if cmd == v:null
+      let cmd = defualt_cmd
+    endif
 
-  nmap <silent>sa <Plug>(operator-surround-append)
-  nmap <silent>sd <Plug>(operator-surround-delete)
-  nmap <silent>sr <Plug>(operator-surround-replace)
-  nmap <silent>sc <Plug>(operator-camelize)gv
-  nmap <silent>sC <Plug>(operator-decamelize)gv
-  nmap <silent>se <Plug>(operator-html-escape)
-  nmap <silent>sE <Plug>(operator-html-unescape)
+    execute cmd
 
-  xmap <silent>sa <Plug>(operator-surround-append)
-  xmap <silent>sd <Plug>(operator-surround-delete)
-  xmap <silent>sr <Plug>(operator-surround-replace)
-  xmap <silent>sc <Plug>(operator-camelize)gv
-  xmap <silent>sC <Plug>(operator-decamelize)gv
-  xmap <silent>se <Plug>(operator-html-escape)
-  xmap <silent>sE <Plug>(operator-html-unescape)
+    " Reset asyncrun_after_cmd
+    if exists('b:asyncrun_after_cmd')
+      unlet b:asyncrun_after_cmd
+    endif
+  endfunction
 
-  let g:operator#surround#blocks = {
-    \ '-' : [
-    \ {'block' : ['(', ')'],
-    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['b'] },
-    \ {'block' : ['{', '}'],
-    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
-    \ {'block' : ["'", "'"],
-    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['q'] },
-    \ {'block' : ['"', '"'],
-    \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['Q'] }
-    \ ]}
+  augroup custom-asyncrun
+    autocmd!
+    autocmd User AsyncRunStart highlight! LightlineMiddle_active ctermbg=34
+    autocmd User AsyncRunStop highlight! link LightlineMiddle_active LightlineMiddle_normal | call s:asyncrun_after()
+  augroup END
 '''
 
-# kana/vim-operator-replace {{{2
 [[plugins]]
-repo = 'kana/vim-operator-replace'
+repo = 'rbgrouleff/bclose.vim'
 
-# rhysd/vim-operator-surround {{{2
 [[plugins]]
-repo = 'rhysd/vim-operator-surround'
-
-# tyru/operator-camelize.vim {{{2
-[[plugins]]
-repo = 'tyru/operator-camelize.vim'
-
-# sgur/vim-textobj-parameter {{{2
-[[plugins]]
-repo = 'sgur/vim-textobj-parameter'
+repo = 'cocopon/colorswatch.vim'
 hook_add = '''
-  let g:vim_textobj_parameter_mapping = 'a'
-'''
-
-# kana/vim-textobj-entire {{{2
-[[plugins]]
-repo = 'kana/vim-textobj-entire'
-
-# tyru/operator-html-escape.vim {{{2
-[[plugins]]
-repo = 'tyru/operator-html-escape.vim'
-
-# t9md/vim-textmanip {{{2
-[[plugins]]
-repo = 't9md/vim-textmanip'
-hook_add = '''
-  xmap <Space>d <Plug>(textmanip-duplicate-down)
-  xmap <Space>D <Plug>(textmanip-duplicate-up)
-
-  xmap <C-j> <Plug>(textmanip-move-down)
-  xmap <C-k> <Plug>(textmanip-move-up)
-  xmap <C-h> <Plug>(textmanip-move-left)
-  xmap <C-l> <Plug>(textmanip-move-right)
-'''
-
-# kana/vim-textobj-user {{{2
-[[plugins]]
-repo = 'kana/vim-textobj-user'
-hook_add = '''
-  omap al <Plug>(textobj-indent-a)
-  xmap al <Plug>(textobj-indent-a)
-  omap il <Plug>(textobj-indent-i)
-  xmap il <Plug>(textobj-indent-i)
+  nmap <silent> <SPACE>ocw :ColorSwatchGenerate<CR>
 '''
 
 [[plugins]]
-repo = 'kana/vim-textobj-indent'
+repo = 'Shougo/context_filetype.vim'
 
-[[plugins]]
-repo = 'thinca/vim-textobj-between'
-
-# bronson/vim-visual-star-search {{{2
-[[plugins]]
-repo = 'bronson/vim-visual-star-search'
-
-# cursorline {{{2
-[[plugins]]
-repo = 'itchyny/vim-cursorword'
-
-# }}}1 END oparator plugins
-
-# plugins {{{1
-# Shougo/dein.vim {{{2
 [[plugins]]
 repo = 'Shougo/dein.vim'
 hook_add = '''
   let g:dein#auto_recache = v:true
 '''
 
-# cocopon/iceberg.vim {{{2
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+hook_add = '''
+  set foldtext=FoldCCtext()
+  let g:foldCCtext_maxchars = 79
+  let g:foldCCtext_head     = 'v:folddashes . " "'
+  let g:foldCCtext_tail     = 'printf(" %s [ %4d lines ]",
+    \ v:folddashes, v:foldend-v:foldstart+1)'
+  let g:foldCCnavi_maxchars = 60
+'''
+
 [[plugins]]
 repo = 'cocopon/iceberg.vim'
 
-# kana/vim-submode {{{2
 [[plugins]]
-repo = 'kana/vim-submode'
+repo = 'hoob3rt/lualine.nvim'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]
+repo = 'mhinz/neovim-remote'
+
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+
+[[plugins]]
+repo = 'deresmos/nvim-term'
 hook_add = '''
-  call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
-  call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
-  call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
-  call submode#map('windowmove', 'n', '', 'l', '<C-w>l')
-  call submode#map('windowmove', 'n', '', 'h', '<C-w>h')
-  call submode#map('windowmove', 'n', '', 'J', '<C-w>J')
-  call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
-  call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
-  call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
+  let g:nvimterm#toggle_size = 30
+  let g:nvimterm#enter_insert = 0
 
-  call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
-  call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
-  call submode#map('bufmove', 'n', '', 'h', '<C-w><')
-  call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
-  call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
+  function! s:terminal_keymap() abort
+    nnoremap <buffer> I i<C-a>
+    nnoremap <buffer> A a<C-e>
+    nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+    nnoremap <buffer> cc i<C-e><C-u>
+    nnoremap <buffer> q :<C-u>close<CR>
+  endfunction
 
-  call submode#enter_with('tabmove', 'n', '', '<SPACE>tt', '<Nop>')
-  call submode#map('tabmove', 'n', '', 'l', ':tabnext<CR>')
-  call submode#map('tabmove', 'n', '', 'h', ':tabprevious<CR>')
-  call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
-  call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
+  augroup nvim-term-custom
+    autocmd!
+    autocmd FileType nvim-term,nvim-term-t call s:terminal_keymap()
+  augroup END
+
+  nnoremap <silent> <SPACE>ts :NTermS<CR>
+  nnoremap <silent> <SPACE>tv :NTermV<CR>
+  nnoremap <silent> <SPACE>tt :NTermT<CR>
+  nnoremap <silent> <SPACE>to :NTermToggle<CR>
+  nnoremap <silent> <SPACE>te :NTerm<CR>
 '''
 
-# welvinyu/L9 {{{2
 [[plugins]]
-repo = 'welvinyu/L9'
+repo = 'kyazdani42/nvim-web-devicons'
 
-# mhinz/vim-startify {{{2
+[[plugins]]
+repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
+repo = 'nvim-lua/popup.nvim'
+
+[[plugins]]
+repo = 'fuenor/qfixhowm'
+hook_add = '''
+
+  " functions {{{
+  function! s:HowmEditDiary(filename) abort
+    tabnew
+    call qfixmemo#EditDiary(a:filename)
+  endfunction
+
+  function! s:pullHowm() abort
+    execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir 'git pull origin master'
+  endfunction
+
+  function! s:pushHowm() abort
+    execute 'AsyncRun -cwd=' . g:QFixHowm_RootDir ' git add . && git commit -m "commit" && git push origin master'
+  endfunction
+
+  function! QFixMemoBufRead()
+    setlocal foldenable
+  endfunction
+
+  " }}}
+
+  " map {{{
+  nnoremap <silent> <SPACE>hc :<C-u>call qfixmemo#Calendar()<CR>
+  nnoremap <silent> <SPACE>hm :<C-u>call <SID>HowmEditDiary('memo')<CR>
+  nnoremap <silent> <SPACE>hs :<C-u>call <SID>HowmEditDiary('schedule')<CR>
+  nnoremap <silent> <SPACE>ht :<C-u>call <SID>HowmEditDiary(g:qfixmemo_diary)<CR>
+  nnoremap <silent> <SPACE>hf :<C-u>call <SID>HowmEditDiary('filetype/' . &filetype)<CR>
+  nnoremap <silent> <SPACE>ho :<C-u>call <SID>HowmEditDiary('memo/'.input('Name: '))<CR>
+  nnoremap <silent> <SPACE>hlo :Denite file -path=`g:howm_dir`/memo<CR>
+  nnoremap <silent> <SPACE>hg :<C-u>call qfixmemo#FGrep()<CR>
+  nnoremap <silent> <SPACE>ha :<C-u>call qfixmemo#PairFile('%')<CR>
+  nnoremap <silent> <SPACE>hid :<C-u>call qfixmemo#InsertDate('date')<CR>
+  nnoremap <silent> <SPACE>hit :<C-u>call qfixmemo#InsertDate('time')<CR>
+  nnoremap <silent> <SPACE>hlr :<C-u>call qfixmemo#ListMru()<CR>
+  nnoremap <silent> <SPACE>hlt :<C-u>call qfixmemo#ListReminder('todo')<CR>
+  nnoremap <silent> <SPACE>hls :<C-u>call qfixmemo#ListReminder('schedule')<CR>
+  nnoremap <silent> <SPACE>hlc :<C-u>call qfixmemo#ListFile(g:qfixmemo_diary)<CR>
+  nnoremap <silent> <SPACE>hlf :<C-u>call qfixmemo#ListFile('filetype/*')<CR>
+  nnoremap <silent> <SPACE>hlw :<C-u>call qfixmemo#ListFile('wiki/*')<CR>
+  nnoremap <silent> <SPACE>hll :<C-u>call qfixmemo#ListRecentTimeStamp()<CR>
+
+  command! -nargs=1 HowmDir let g:howm_dir = g:QFixHowm_RootDir.'/'.<q-args>|echo 'Switched' <q-args>
+  nnoremap <silent> <SPACE>hpw :<C-u>HowmDir work<CR>
+  nnoremap <silent> <SPACE>hpm :<C-u>HowmDir main<CR>
+  nnoremap <silent> <SPACE>hpl :<C-u>call <SID>pullHowm()<CR>
+  nnoremap <silent> <SPACE>hps :<C-u>call <SID>pushHowm()<CR>
+  " }}}
+
+  let g:QFixHowm_MenuKey        = 0
+  let g:QFixHowm_Key            = '<Nop>'
+  let g:howm_fileencoding       = 'utf-8'
+  let g:howm_fileformat         = 'unix'
+  let g:qfixmemo_diary          = '%Y/%m/%Y-%m-%d'
+  let g:QFixHowm_CalendarWinCmd = 'rightbelow'
+  let g:QFixHowm_CalendarCount  = 3
+  let g:QFixHowm_FileType       = 'qfix_memo'
+  let g:qfixmemo_template       = ['%TITLE% ']
+  let g:qfixmemo_use_addtime    = 0
+  let g:qfixmemo_use_updatetime = 0
+  let g:QFixHowm_SaveTime       = -1
+  let g:QFixHowm_Wiki           = 1
+  let g:QFixHowm_WikiDir        = 'wiki'
+  let g:QFixHowm_Menufile       = 'menu.howm'
+  let g:QFixHowm_MenuCloseOnJump = 1
+
+  let g:QFixHowm_RootDir         = '~/.howm'
+  let g:howm_dir                 = g:QFixHowm_RootDir . '/main'
+  let g:qfixmemo_folding_pattern = '^=[^=]'
+'''
+
+[[plugins]]
+repo = 'akinsho/toggleterm.nvim'
+hook_add = '''
+nnoremap <silent> <SPACE>to :ToggleTerm direction=horizontal size=20<CR>
+nnoremap <silent> <SPACE>tf :ToggleTerm direction=float size=20<CR>
+
+function! s:setup_term() abort
+  nnoremap <buffer> I i<C-a>
+  nnoremap <buffer> A a<C-e>
+  nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
+  nnoremap <buffer> cc i<C-e><C-u>
+  nnoremap <buffer> q :<C-u>quit<CR>
+endfunction
+
+augroup term-custom
+  autocmd!
+  autocmd TermOpen term://* call s:setup_term()
+augroup END
+
+lua << EOF
+require("toggleterm").setup{
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 20
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  -- open_mapping = [[<c-\>]],
+  -- hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = 'horizontal',
+  close_on_exit = false,
+  shell = vim.o.shell,
+  float_opts = {
+    border = 'curved',
+    highlights = {
+      border = "Normal",
+      background = "Normal",
+    },
+  },
+}
+EOF
+'''
+
+[[plugins]]
+repo = 'mbbill/undotree'
+
+[[plugins]]
+repo = 'pseewald/vim-anyfold'
+
+[[plugins]]
+repo = 'schickling/vim-bufonly'
+
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
+[[plugins]]
+repo = 'andreshazard/vim-logreview'
+
+[[plugins]]
+repo = 'thinca/vim-qfreplace'
+
+[[plugins]]
+repo = 'qpkorr/vim-renamer'
+
+[[plugins]]
+repo = 'deresmos/vim-spatab'
+hook_add = '''
+  let g:spatab_count_mode = 1
+
+  augroup vim-spatab
+    autocmd!
+    autocmd BufReadPost * STDetect
+  augroup END
+'''
+
 [[plugins]]
 repo = 'mhinz/vim-startify'
 hook_add = '''
@@ -436,478 +557,50 @@ let g:startify_custom_header = [
 let g:startify_change_to_dir = 1
 '''
 
-# LeafCage/foldCC.vim {{{2
 [[plugins]]
-repo = 'LeafCage/foldCC.vim'
+repo = 'kana/vim-submode'
 hook_add = '''
-  set foldtext=FoldCCtext()
-  let g:foldCCtext_maxchars = 79
-  let g:foldCCtext_head     = 'v:folddashes . " "'
-  let g:foldCCtext_tail     = 'printf(" %s [ %4d lines ]",
-    \ v:folddashes, v:foldend-v:foldstart+1)'
-  let g:foldCCnavi_maxchars = 60
+  call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
+  call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
+  call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
+  call submode#map('windowmove', 'n', '', 'l', '<C-w>l')
+  call submode#map('windowmove', 'n', '', 'h', '<C-w>h')
+  call submode#map('windowmove', 'n', '', 'J', '<C-w>J')
+  call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
+  call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
+  call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
+
+  call submode#enter_with('bufmove', 'n', '', '<SPACE>wr', '<Nop>')
+  call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
+  call submode#map('bufmove', 'n', '', 'h', '<C-w><')
+  call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
+  call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
+
+  call submode#enter_with('tabmove', 'n', '', '<SPACE>tt', '<Nop>')
+  call submode#map('tabmove', 'n', '', 'l', ':tabnext<CR>')
+  call submode#map('tabmove', 'n', '', 'h', ':tabprevious<CR>')
+  call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
+  call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
 '''
 
-# itchyny/lightline.vim {{{2
 [[plugins]]
-repo = 'itchyny/lightline.vim'
-hook_add = '''
-  let s:small_width = 50
-  let s:medium_width = 70
-  let s:large_width = 100
+repo = 'thinca/vim-zenspace'
 
-  let g:lightline = {}
-  let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
-    \ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
-    \ 'mode_map': {'c': 'NORMAL'},
-    \ 'active': {
-    \   'left': [
-    \     ['mode', 'paste', 'readonly'],
-    \     ['branchname', 'gitgutter'],
-    \     ['currenttag', 'vista'],
-    \   ],
-    \   'right': [
-    \     ['lineinfo'],
-    \     ['fileindent', 'charcode', 'fileformat', 'fileencoding', 'filetype'],
-    \     ['ale'],
-    \   ]
-    \ },
-    \ 'inactive': {
-    \   'left': [
-    \     [''],
-    \     ['filename'],
-    \   ],
-    \   'right': [
-    \     [''],
-    \     ['number', ''],
-    \   ]
-    \ },
-    \ 'tabline': {
-    \   'left': [
-    \     ['tabs'],
-    \   ],
-    \   'right': [
-    \     ['filename'],
-    \     ['number', 'maxline'],
-    \   ]
-    \ },
-    \ 'component_function': {
-    \   'modified': 'MyModified',
-    \   'branchname': 'gina#component#repo#branch',
-    \   'filename': 'MyFilename',
-    \   'lineinfo': 'MyLineInfo',
-    \   'fileindent': 'MyFileIndent',
-    \   'maxline': 'MaxLine',
-    \   'fileformat': 'MyFileformat',
-    \   'filetype': 'MyFiletype',
-    \   'fileencoding': 'MyFileencoding',
-    \   'mode': 'MyMode',
-    \   'gitgutter': 'MyGitGutter',
-    \   'ale': 'AleStatus',
-    \   'currenttag': 'MyCurrentTag',
-    \   'vista': 'NearestMethodOrFunction',
-    \ },
-    \ 'component_expand': {
-    \   'readonly': 'MyReadonly',
-    \   'tabs': 'lightline#tabs',
-    \ },
-    \ 'component_type': {
-    \   'readonly': 'error',
-    \   'tabs': 'tabsel',
-    \ },
-    \ 'component': {
-    \   'number': 'w%{winnr()}:b%n',
-    \ },
-    \ 'tab_component_function': {
-    \   'tabfilename_active':   'MyTabFilenameActive',
-    \   'tabfilename_inactive': 'MyTabFilenameInactive',
-    \   'tabmodified':          'MyTabModified',
-    \ },
-    \ 'tab': {
-    \   'active':   ['tabfilename_active',   'tabmodified'],
-    \   'inactive': ['tabfilename_inactive', 'modified'],
-    \ },
-  \ }
-
-  function! NearestMethodOrFunction() abort
-    return get(b:, 'vista_nearest_method_or_function', '')
-  endfunction
-
-  function! s:MyTabFilename(n, length) abort
-    let l:buflist = tabpagebuflist(a:n)
-    let l:winnr = tabpagewinnr(a:n)
-    let l:filename = expand('#' . l:buflist[l:winnr - 1] . ':t')
-    return l:filename !=# '' ? l:filename[0:a:length] : '[No Name]'
-  endfunction
-
-  function! MyTabFilenameActive(n) abort
-    return a:n
-  endfunction
-
-  function! MyTabFilenameInactive(n) abort
-    return a:n
-  endfunction
-
-  let s:p = g:lightline#colorscheme#wombat#palette
-  let s:tabsel = [['#d0d0d0', '#242424', 252, 235]]
-  let s:p.normal.right = [['#444444 ', '#8ac6f2', 238, 117], ['#d0d0d0', '#585858', 252, 240]]
-  let s:p.insert.right = [['#444444 ', '#95e454', 238, 119], ['#d0d0d0', '#585858', 252, 240]]
-  let s:p.visual.right = [['#444444 ', '#f2c68a', 238, 216], ['#d0d0d0', '#585858', 252, 240]]
-  let s:p.tabline.right = [['#d0d0d0', '#585858', 252, 240]]
-  let s:p.tabline.left = [['#767676', '#242424', 243, 235]]
-  let s:p.tabline.tabsel = s:tabsel
-  let g:lightline#colorscheme#wombat#palette = s:p
-
-  function! MaxLine() abort
-    return 'L:' . line('$')
-  endfunction
-
-  function! MyTabModified(n) abort
-    let s:p = g:lightline#colorscheme#wombat#palette
-    let s:p.tabline.tabsel = &modified ? [['#5fff00', '#242424', 82, 235]] : s:tabsel
-    let g:lightline#colorscheme#wombat#palette = s:p
-
-    call lightline#colorscheme()
-
-    return ''
-  endfunction
-
-  function! MyLineInfo() abort
-    return 'L' . line('.') . ':R' . printf('%03d', virtcol('.'))
-  endfunction
-
-  function! MyModified() abort
-    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-  endfunction
-
-  function! MyReadonly() abort
-    return &readonly ? 'Readonly' : ''
-  endfunction
-
-  function! MyFilename() abort
-    let filename = (expand('%:p') == '') ? '[No Name]' : expand('%:p')
-    let filename = substitute(filename, expand('$HOME'), '~', 'g')
-    if strlen(filename) > &columns * 0.75
-      let filename = expand('%:t')
-    endif
-
-    return filename
-  endfunction
-
-  function! MyCurrentTag() abort
-    if !exists('*tagbar#currenttag')
-      return ''
-    endif
-
-    let l:_ = winwidth(0) > s:large_width ? tagbar#currenttag('%s', '') : ''
-    let l:_ = l:_[:40]
-    return l:_
-  endfunction
-
-  function! MyGitGutter() abort
-    " if ! exists('*GitGutterGetHunkSummary')
-    "   \ || ! get(g:, 'gitgutter_enabled', 0)
-    "   \ || winwidth(0) <= s:medium_width
-    " endif
-    "
-    " let symbols = ['+','~', '-']
-    " let hunks = GitGutterGetHunkSummary()
-    " let ret = []
-    " for i in [0, 1, 2]
-    "   if hunks[i] > 0
-    "     call add(ret, symbols[i] . hunks[i])
-    "   endif
-    " endfor
-    "
-    return ''
-  endfunction
-
-  function! MyFileIndent() abort
-    return winwidth(0) > s:small_width ? spatab#GetDetectName() : ''
-  endfunction
-
-  function! MyFileformat() abort
-    return winwidth(0) > s:small_width ? &fileformat : ''
-  endfunction
-
-  function! MyFiletype() abort
-    return winwidth(0) > s:medium_width ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-  endfunction
-
-  function! MyFileencoding() abort
-    return winwidth(0) > s:small_width ? (strlen(&fenc) ? &fenc : &enc) : ''
-  endfunction
-
-  function! MyMode() abort
-    return lightline#mode()
-  endfunction
-'''
-
-# scrooloose/nerdcommenter {{{2
-[[plugins]]
-repo = 'scrooloose/nerdcommenter'
-hook_add = '''
-  let g:NERDCommentEmptyLines      = 1
-  let g:NERDTrimTrailingWhitespace = 1
-  let g:NERDSpaceDelims            = 1
-  let g:NERDCompactSexyComs        = 1
-  let g:NERDDefaultAlign           = 'left'
-
-  let g:NERDCustomDelimiters = {
-      \ 'wsh': { 'left': "'" },
-  \ }
-'''
-
-# mhinz/neovim-remote {{{2
-[[plugins]]
-repo = 'mhinz/neovim-remote'
-
-# tpope/vim-repeat {{{2
-[[plugins]]
-repo = 'tpope/vim-repeat'
-
-# mattn/webapi-vim {{{2
 [[plugins]]
 repo = 'mattn/webapi-vim'
 
-# andymass/vim-matchup {{{2
 [[plugins]]
-repo = 'andymass/vim-matchup'
+repo = 'francoiscabrol/ranger.vim'
 hook_add = '''
-  augroup matchup_matchparen_highlight
-    autocmd!
-    autocmd ColorScheme * highlight MatchParen ctermfg=none
-  augroup END
-
-  let g:matchup_matchparen_offscreen = {'method': 'popup'}
+  let g:ranger_replace_netrw = 0
+  nnoremap <silent> <SPACE>ra :RangerCurrentFile<CR>
+  nnoremap <silent> <SPACE>rA :RangerWorkingDirectory<CR>
 '''
-
-# deresmos/vim-spatab {{{2
-[[plugins]]
-repo = 'deresmos/vim-spatab'
-hook_add = '''
-  let g:spatab_count_mode = 1
-
-  augroup vim-spatab
-    autocmd!
-    autocmd BufReadPost * STDetect
-  augroup END
-'''
-
-# andreshazard/vim-logreview {{{2
-[[plugins]]
-repo = 'andreshazard/vim-logreview'
-
-# Shougo/context_filetype.vim {{{2
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-# sheerun/vim-polyglot {{{2
-[[plugins]]
-repo = 'sheerun/vim-polyglot'
-build = './build'
-hook_add = '''
-  augroup my-pug-augroup
-    autocmd!
-    " autocmd FileType pug setlocal syntax=css
-  augroup END
-'''
-
-# Shougo/neomru.vim {{{2
-[[plugins]]
-repo = 'Shougo/neomru.vim'
-
-# Shougo/neoyank.vim {{{2
-[[plugins]]
-repo = 'Shougo/neoyank.vim'
-
-#}}}1 END plugins
-
-# Programing plugins {{{1
-# deresmos/vim-snippets {{{2
-[[plugins]]
-repo = 'deresmos/vim-snippets'
-
-# w0rp/ale {{{2
-[[plugins]]
-repo = 'w0rp/ale'
-hook_add = '''
-  nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
-  augroup custom-ale
-    autocmd!
-    autocmd FileType go let b:ale_fix_on_save = 1
-  augroup END
-
-  let g:ale_sign_column_always   = 1
-  let g:ale_lint_on_insert_leave = 1
-  let g:ale_lint_on_text_changed = 'normal'
-  let g:ale_enabled              = 0
-  let g:ale_virtualtext_cursor   = 1
-  let g:ale_virtualtext_prefix   = ' >> '
-
-  let g:ale_sign_error           = '>>'
-  let g:ale_sign_warning         = '>>'
-  let g:ale_echo_msg_error_str   = 'E'
-  let g:ale_echo_msg_warning_str = 'W'
-
-  let g:ale_echo_msg_format   = '[%severity%] %code%: %s | %linter%'
-
-  function! AleStatus()
-    if !get(b:, 'ale_enabled', 0) && !g:ale_enabled
-      return ''
-    endif
-
-    let counts = ale#statusline#Count(bufnr(''))
-
-    if !counts['total']
-      return 'OK'
-    endif
-
-    return printf('E%d W%d', counts[0], counts[1])
-  endfunction
-
-  function! s:parseCfnLint(line) abort
-    let words = split(a:line, ":")
-    return {"text": words[6], "lnum": words[1], "col": words[2], "type": "W"}
-  endfunction
-
-  call ale#linter#Define('yaml', {
-    \ 'name': 'cfn-lint',
-    \ 'executable': 'cfn-lint',
-    \ 'command': 'cfn-lint -f parseable %t',
-    \ 'callback': {buffer, lines -> map(lines, 's:parseCfnLint(v:val)')},
-    \ })
-  
-  let g:ale_linters = {
-    \ 'python': ['flake8', 'mypy', 'bandit'],
-    \ 'javascript': ['eslint'],
-    \ 'php': ['phpcs'],
-    \ 'css': ['stylelint'],
-    \ 'xhtml': ['tidy'],
-    \ 'cs': ['OmniSharp'],
-    \ 'swift': ['swiftlint'],
-    \ 'kotlin': ['ktlint'],
-    \ 'go': ['golangci-lint'],
-    \ 'yaml': ['yamllint', 'cfn-lint'],
-    \ }
-
-  let g:ale_type_map = {'flake8': {'ES': 'WS'}}
-  let g:ale_css_stylelint_options='-c stylelint'
-  let g:ale_python_mypy_options='--ignore-missing-imports'
-  let g:ale_python_flake8_options='--ignore=E501'
-
-  let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
-  let g:ale_php_phpcs_standard='PSR2'
-  let g:ale_linter_aliases = {'xhtml': 'html'}
-
-  let g:ale_fixers = {
-    \ 'html': [
-    \   {buffer, lines -> {
-    \   'command': 'tidy -config ~/.tidy_fix %s'}}
-    \ ],
-    \ 'xhtml': [
-    \   {buffer, lines -> {
-    \   'command': 'tidy -config ~/.tidy_fix %s'}}
-    \ ],
-    \ 'javascript': [
-    \   {buffer, lines -> {
-    \   'command': 'eslint --config ~/.eslintrc.js --fix %t',
-    \   'read_temporary_file': 1}}
-    \ ],
-    \ 'css': [
-    \   {buffer, lines -> {
-    \   'command': 'stylelint -c stylelint --fix %t',
-    \   'read_temporary_file': 1}},
-    \   {buffer, lines -> {
-    \   'command': 'csscomb -c ~/.csscomb.json %s'}}
-    \ ],
-    \ 'php': [
-    \   {buffer, lines -> {
-    \   'command': 'phpcbf --standard=PSR2 %t',
-    \   'read_temporary_file': 1}}
-    \ ],
-    \ 'python': [
-    \   'isort',
-    \   {buffer, lines -> {
-    \   'command': 'black %t',
-    \   'read_temporary_file': 1}}
-    \ ],
-    \ 'kotlin': [
-    \   {buffer, lines -> {
-    \   'command': 'ktlint -F %t',
-    \   'read_temporary_file': 1}}
-    \ ],
-    \ 'markdown': [
-    \   {buffer, lines -> {
-    \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
-    \   'read_temporary_file': 1}}
-    \ ],
-    \ 'sql': [
-    \   {buffer, lines -> {
-    \   'command': 'sqlformat --reindent --keywords upper -s %t | sql-formatter-cli -o %t',
-    \   'read_temporary_file': 1}}
-    \ ],
-    \ 'go': ['gofmt', 'goimports'],
-    \ 'svelte': ['prettier'],
-    \ 'json': ['jq'],
-    \ }
-  " let g:ale_fix_on_save = 1
-
-  highlight link ALEWarningSign SpellCap
-'''
-
-# deresmos/nvim-term {{{2
-[[plugins]]
-repo = 'deresmos/nvim-term'
-hook_add = '''
-  let g:nvimterm#toggle_size = 30
-  let g:nvimterm#enter_insert = 0
-
-  function! s:terminal_keymap() abort
-    nnoremap <buffer> I i<C-a>
-    nnoremap <buffer> A a<C-e>
-    nnoremap <buffer> dd i<C-e><C-u><C-\><C-n>
-    nnoremap <buffer> cc i<C-e><C-u>
-    nnoremap <buffer> q :<C-u>close<CR>
-  endfunction
-
-  augroup nvim-term-custom
-    autocmd!
-    autocmd FileType nvim-term,nvim-term-t call s:terminal_keymap()
-  augroup END
-
-  nnoremap <silent> <SPACE>ts :NTermS<CR>
-  nnoremap <silent> <SPACE>tv :NTermV<CR>
-  nnoremap <silent> <SPACE>tt :NTermT<CR>
-  nnoremap <silent> <SPACE>to :NTermToggle<CR>
-  nnoremap <silent> <SPACE>te :NTerm<CR>
-'''
-
-# }}}1
-
-# compiler plugins {{{1
-# deresmos/pytest-vim-compiler {{{2
-[[plugins]]
-repo = 'deresmos/pytest-vim-compiler'
-
-[[plugins]]
-repo = 'kyazdani42/nvim-web-devicons'
-
-[[plugins]]
-repo = 'pseewald/vim-anyfold'
-
-[[plugins]]
-repo = 'nvim-lua/popup.nvim'
-
-[[plugins]]
-repo = 'nvim-lua/plenary.nvim'
 
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
-on_lua = 'telescope'
-hook_add  = '''
+on_lua = ['telescope']
+hook_add = '''
 lua << EOF
   require('telescope').setup{
     defaults = {
@@ -939,7 +632,6 @@ lua << EOF
       file_sorter =  require'telescope.sorters'.get_fuzzy_file,
       file_ignore_patterns = {},
       generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-      shorten_path = true,
       winblend = 0,
       border = {},
       borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
@@ -956,3 +648,481 @@ lua << EOF
   }
 EOF
 '''
+
+[[plugins]]
+repo = 'rhysd/committia.vim'
+hook_add = '''
+let g:committia_open_only_vim_starting = 1
+let g:committia_hooks = {}
+function! g:committia_hooks.edit_open(info) abort
+  nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
+  nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
+endfunction
+'''
+
+[[plugins]]
+repo = 'lambdalisue/gina.vim'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+hook_add = '''
+function! FugitiveCommitError(error, tmpfile)
+  if a:error =~? 'pre-commit'
+    call s:applyQflist(a:tmpfile)
+  endif
+endfunction
+
+function! s:applyQflist(tmpfile)
+  let errors = []
+  let contents = readfile(a:tmpfile)
+
+  let filepath = ''
+  for content in contents
+    if empty(content)
+      continue
+    endif
+
+    if content =~? '^/' && filereadable(content)
+      let filepath = content
+      continue
+    endif
+
+    if content =~? '\v\s*[0-9]+:[0-9]+'
+      let csp = split(content)
+      call add(errors, filepath . ':' . csp[0] . ':' . join(csp[2:-2], ' ') . '. [' . csp[-1] . ']')
+    endif
+  endfor
+
+  setlocal errorformat=%f:%l:%c:%m
+  cgetexpr join(errors, "\n")
+  q
+  copen
+endfunction
+'''
+
+[plugins.ftplugin]
+fugitive = '''
+  nmap <buffer> <SPACE>gj <C-n>
+  nmap <buffer> <SPACE>gk <C-p>
+  nmap <buffer> <SPACE>vo <
+  nmap <buffer> <SPACE>vc >
+  nmap <buffer><silent> q :quit<CR>
+'''
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
+nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
+nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
+nnoremap <silent> <SPACE>gu <Nop>
+nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
+nnoremap <silent> <SPACE>ga <Nop>
+nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
+nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
+
+let g:gitgutter_sign_added            = '│'
+let g:gitgutter_sign_modified         = '│'
+let g:gitgutter_sign_removed          = '__'
+let g:gitgutter_sign_modified_removed = '│'
+let g:gitgutter_map_keys              = 0
+let g:gitgutter_enabled               = 1
+let g:gitgutter_signs                 = 1
+let g:gitgutter_highlight_lines       = 0
+let g:gitgutter_async                 = 1
+let g:gitgutter_max_signs             = 1000
+
+set signcolumn=yes
+
+nnoremap <SPACE>gob :<C-u>let g:gitgutter_diff_base =<space>
+nnoremap <silent><SPACE>goB :<C-u>let g:gitgutter_diff_base = ''<CR>
+
+augroup gitgutter-custom
+  autocmd!
+  autocmd TextChanged,InsertLeave,WinEnter * GitGutter
+  autocmd FileType nvim-term*,nerdtree,tagbar setlocal signcolumn=no
+augroup END
+'''
+
+[[plugins]]
+repo = 'idanarye/vim-merginal'
+
+[[plugins]]
+repo = 'nvim-lua/lsp-status.nvim'
+
+[[plugins]]
+repo = 'glepnir/lspsaga.nvim'
+hook_add = '''
+lua << EOF
+  require'lspsaga'.init_lsp_saga({
+    use_saga_diagnostic_sign = false,
+    dianostic_header_icon = '   ',
+    code_action_icon = ' ',
+    code_action_prompt = {
+      enable = true,
+      sign = true,
+      sign_priority = 20,
+      virtual_text = false,
+    },
+    finder_definition_icon = '  ',
+    finder_reference_icon = '  ',
+    max_preview_lines = 15,
+    finder_action_keys = {
+      open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>'
+    },
+    code_action_keys = {
+      quit = 'q',exec = '<CR>'
+    },
+    rename_action_keys = {
+      quit = '<C-c>',exec = '<CR>'
+    },
+    definition_preview_icon = '  ',
+    border_style = "single",
+    rename_prompt_prefix = '➤',
+    server_filetype_map = {},
+  })
+EOF
+
+'''
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+hook_add = '''
+lua << EOF
+  local lsp_status = require('lsp-status')
+  lsp_status.register_progress()
+
+  local on_attach = function (client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+    local opts = { noremap=true, silent=true }
+    buf_set_keymap('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
+    buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<Space>mh', '<cmd>lua require("lspsaga.hover").render_hover_doc()<CR>', opts)
+    buf_set_keymap('n', '<Space>ca', '<cmd>lua require("lspsaga.code_action").code_action()<CR>', opts)
+    buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
+    buf_set_keymap('n', '<Space>ek', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>', opts)
+    buf_set_keymap('n', '<Space>ej', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>', opts)
+
+    -- not work?
+    buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
+    buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
+
+    lsp_status.on_attach(client, bufnr)
+    require'lsp_signature'.on_attach({
+      bind = true,
+      doc_lines = 10,
+      floating_window = true,
+      fix_pos = true,
+      hint_enable = true,
+      hint_prefix = "> ",
+      hint_scheme = "String",
+      use_lspsaga = false,
+      hi_parameter = "Search",
+      max_height = 12,
+      max_width = 120,
+      handler_opts = {
+        border = "shadow"
+      },
+      extra_trigger_chars = {}
+    })
+  end
+
+  local lsp_installer = require("nvim-lsp-installer")
+  local comp = require('cmp_nvim_lsp')
+
+  lsp_installer.on_server_ready(function(server)
+    local opts = {
+      on_attach = on_attach,
+      capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    }
+
+    server:setup(opts)
+  end)
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+   vim.lsp.diagnostic.on_publish_diagnostics, {
+     virtual_text = false,
+     signs = false,
+   }
+  )
+
+EOF
+'''
+
+[[plugins]]
+repo = 'williamboman/nvim-lsp-installer'
+
+[[plugins]]
+repo = 'tyru/operator-camelize.vim'
+
+[[plugins]]
+repo = 'tyru/operator-html-escape.vim'
+
+[[plugins]]
+repo = 'andymass/vim-matchup'
+hook_add = '''
+  augroup matchup_matchparen_highlight
+    autocmd!
+    autocmd ColorScheme * highlight MatchParen ctermfg=none
+  augroup END
+
+  let g:matchup_matchparen_offscreen = {'method': 'popup'}
+'''
+
+[[plugins]]
+repo = 'haya14busa/vim-migemo'
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+
+[[plugins]]
+repo = 'kana/vim-operator-user'
+hook_add = '''
+nmap R <Nop>
+nmap R <Plug>(operator-replace)
+xmap R <Nop>
+xmap R <Plug>(operator-replace)
+nmap s <Nop>
+xmap s <Nop>
+
+nmap <silent>sa <Plug>(operator-surround-append)
+nmap <silent>sd <Plug>(operator-surround-delete)
+nmap <silent>sr <Plug>(operator-surround-replace)
+nmap <silent>sc <Plug>(operator-camelize)gv
+nmap <silent>sC <Plug>(operator-decamelize)gv
+nmap <silent>se <Plug>(operator-html-escape)
+nmap <silent>sE <Plug>(operator-html-unescape)
+
+xmap <silent>sa <Plug>(operator-surround-append)
+xmap <silent>sd <Plug>(operator-surround-delete)
+xmap <silent>sr <Plug>(operator-surround-replace)
+xmap <silent>sc <Plug>(operator-camelize)gv
+xmap <silent>sC <Plug>(operator-decamelize)gv
+xmap <silent>se <Plug>(operator-html-escape)
+xmap <silent>sE <Plug>(operator-html-unescape)
+
+let g:operator#surround#blocks = {
+  \ '-' : [
+  \ {'block' : ['(', ')'],
+  \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['b'] },
+  \ {'block' : ['{', '}'],
+  \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['B'] },
+  \ {'block' : ["'", "'"],
+  \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['q'] },
+  \ {'block' : ['"', '"'],
+  \ 'motionwise' : ['char', 'line', 'block'], 'keys' : ['Q'] }
+  \ ]}
+'''
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 't9md/vim-textmanip'
+hook_add = '''
+xmap <Space>d <Plug>(textmanip-duplicate-down)
+xmap <Space>D <Plug>(textmanip-duplicate-up)
+
+xmap <C-j> <Plug>(textmanip-move-down)
+xmap <C-k> <Plug>(textmanip-move-up)
+xmap <C-h> <Plug>(textmanip-move-left)
+xmap <C-l> <Plug>(textmanip-move-right)
+'''
+
+[[plugins]]
+repo = 'thinca/vim-textobj-between'
+
+[[plugins]]
+repo = 'kana/vim-textobj-entire'
+
+[[plugins]]
+repo = 'kana/vim-textobj-indent'
+
+[[plugins]]
+repo = 'sgur/vim-textobj-parameter'
+hook_add = '''
+let g:vim_textobj_parameter_mapping = 'a'
+'''
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+hook_add = '''
+omap al <Plug>(textobj-indent-a)
+xmap al <Plug>(textobj-indent-a)
+omap il <Plug>(textobj-indent-i)
+xmap il <Plug>(textobj-indent-i)
+'''
+
+[[plugins]]
+repo = 'bronson/vim-visual-star-search'
+
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
+augroup custom-ale
+  autocmd!
+  autocmd FileType go let b:ale_fix_on_save = 1
+augroup END
+
+let g:ale_sign_column_always   = 1
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_enabled              = 0
+let g:ale_virtualtext_cursor   = 1
+let g:ale_virtualtext_prefix   = ' >> '
+
+let g:ale_sign_error           = '>>'
+let g:ale_sign_warning         = '>>'
+let g:ale_echo_msg_error_str   = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+
+let g:ale_echo_msg_format   = '[%severity%] %code%: %s | %linter%'
+
+function! AleStatus()
+  if !get(b:, 'ale_enabled', 0) && !g:ale_enabled
+    return ''
+  endif
+
+  let counts = ale#statusline#Count(bufnr(''))
+
+  if !counts['total']
+    return 'OK'
+  endif
+
+  return printf('E%d W%d', counts[0], counts[1])
+endfunction
+
+function! s:parseCfnLint(line) abort
+  let words = split(a:line, ":")
+  return {"text": words[6], "lnum": words[1], "col": words[2], "type": "W"}
+endfunction
+
+call ale#linter#Define('yaml', {
+  \ 'name': 'cfn-lint',
+  \ 'executable': 'cfn-lint',
+  \ 'command': 'cfn-lint -f parseable %t',
+  \ 'callback': {buffer, lines -> map(lines, 's:parseCfnLint(v:val)')},
+  \ })
+
+let g:ale_linters = {
+  \ 'python': ['flake8', 'mypy', 'bandit'],
+  \ 'javascript': ['eslint'],
+  \ 'php': ['phpcs'],
+  \ 'css': ['stylelint'],
+  \ 'xhtml': ['tidy'],
+  \ 'cs': ['OmniSharp'],
+  \ 'swift': ['swiftlint'],
+  \ 'kotlin': ['ktlint'],
+  \ 'go': ['golangci-lint'],
+  \ 'yaml': ['yamllint', 'cfn-lint'],
+  \ }
+
+let g:ale_type_map = {'flake8': {'ES': 'WS'}}
+let g:ale_css_stylelint_options='-c stylelint'
+let g:ale_python_mypy_options='--ignore-missing-imports'
+let g:ale_python_flake8_options='--ignore=E501'
+
+let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
+let g:ale_php_phpcs_standard='PSR2'
+let g:ale_linter_aliases = {'xhtml': 'html'}
+
+let g:ale_fixers = {
+  \ 'html': [
+  \   {buffer, lines -> {
+  \   'command': 'tidy -config ~/.tidy_fix %s'}}
+  \ ],
+  \ 'xhtml': [
+  \   {buffer, lines -> {
+  \   'command': 'tidy -config ~/.tidy_fix %s'}}
+  \ ],
+  \ 'javascript': [
+  \   {buffer, lines -> {
+  \   'command': 'eslint --config ~/.eslintrc.js --fix %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'css': [
+  \   {buffer, lines -> {
+  \   'command': 'stylelint -c stylelint --fix %t',
+  \   'read_temporary_file': 1}},
+  \   {buffer, lines -> {
+  \   'command': 'csscomb -c ~/.csscomb.json %s'}}
+  \ ],
+  \ 'php': [
+  \   {buffer, lines -> {
+  \   'command': 'phpcbf --standard=PSR2 %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'python': [
+  \   'isort',
+  \   {buffer, lines -> {
+  \   'command': 'black %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'kotlin': [
+  \   {buffer, lines -> {
+  \   'command': 'ktlint -F %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'markdown': [
+  \   {buffer, lines -> {
+  \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'sql': [
+  \   {buffer, lines -> {
+  \   'command': 'sqlformat --reindent --keywords upper -s %t | sql-formatter-cli -o %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'go': ['gofmt', 'goimports'],
+  \ 'svelte': ['prettier'],
+  \ 'json': ['jq'],
+  \ }
+" let g:ale_fix_on_save = 1
+
+highlight link ALEWarningSign SpellCap
+'''
+
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+hook_add = '''
+let g:NERDCommentEmptyLines      = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDSpaceDelims            = 1
+let g:NERDCompactSexyComs        = 1
+let g:NERDDefaultAlign           = 'left'
+
+let g:NERDCustomDelimiters = {
+    \ 'wsh': { 'left': "'" },
+\ }
+'''
+
+[[plugins]]
+repo = 'deresmos/pytest-vim-compiler'
+
+[[plugins]]
+repo = 'sheerun/vim-polyglot'
+build = './build'
+hook_add = '''
+  augroup my-pug-augroup
+    autocmd!
+    " autocmd FileType pug setlocal syntax=css
+  augroup END
+'''
+
+[[plugins]]
+repo = 'deresmos/vim-snippets'
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+build = ':TSUpdate'

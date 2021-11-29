@@ -141,7 +141,7 @@ xnoremap <silent> <SPACE>ld :Linediff<CR>
 
 "B keybind{{{2
 " nnoremap <silent> <SPACE>bb :Denite buffer -start-filter<CR>
-nnoremap <silent> <SPACE>bo :<C-u>BufOnly<CR>
+nnoremap <silent> <SPACE>bo :<C-u>BufOnly!<CR>
 nnoremap <silent> <SPACE>bu :<C-u>call CloseUnloadedBuffers()<CR>
 nnoremap <silent> <SPACE>bl :<C-u>BuffergatorToggle<CR>
 " nnoremap <silent> <SPACE>bf :DeniteBufferDir file/rec -start-filter<CR>
@@ -211,9 +211,9 @@ nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
 
 "G keybind{{{2
 " fugitive keybind
-nnoremap <silent> <SPACE>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <SPACE>gs :<C-u>Git<CR>
 nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
-nnoremap <silent> <SPACE>gb :Gblame<CR>
+nnoremap <silent> <SPACE>gb :<C-u>Git blame<CR>
 
 " merginal keybind
 nnoremap <SPACE>gC :<C-u>call merginal#openMerginalBuffer()<CR>
@@ -226,22 +226,22 @@ nnoremap <SPACE>gl :<C-u>Agit<CR>
 nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 
 " gitgutter keybind
-nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
-nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
-nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
+" nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
+" nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
+" nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
 nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push -v origin HEAD<CR>
 nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
 nnoremap <silent> <SPACE>gPL :<C-u>AsyncRun -cwd=<root> git pull --all<CR>
 nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
-nnoremap <silent> <SPACE>gu <Nop>
-nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
-nnoremap <silent> <SPACE>ga <Nop>
-nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
-nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
-nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
-nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
-nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
-nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
+" nnoremap <silent> <SPACE>gu <Nop>
+" nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
+" nnoremap <silent> <SPACE>ga <Nop>
+" nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
+" nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+" nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+" nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+" nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+" nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
 
 nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
 nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
@@ -601,3 +601,286 @@ function! s:updateTranslateWindow() abort
     call s:setTranslateResult('en', 'ja')
   endif
 endfunction "}}}
+
+lua << EOF
+
+lualine_config = {}
+lualine_config.width_small = 50
+
+lualine_config.indent_type = function()
+  if vim.fn.winwidth(0) < lualine_config.width_small then
+    return ''
+  end
+
+  return vim.fn["spatab#GetDetectName"]()
+end
+
+lualine_config.current_function = function()
+  local current_func = vim.b.lsp_current_function
+  if not current_func then
+    return ""
+  end
+
+  winwidth = vim.fn.winwidth("$")
+  if string.len(current_func) > winwidth - 50 then
+    return ""
+  end
+  
+  return current_func
+end
+
+lualine_config.file_fullpath = function()
+  return vim.fn.expand("%:p")
+end
+
+lualine_config.file_of_lines = function()
+  return vim.fn.line("$")
+end
+
+lualine_config.git_branch = function()
+  local branch = vim.fn["gina#component#repo#branch"]()
+  if branch == "" then
+    return ""
+  end
+
+  return " " .. branch
+end
+
+lualine_config.mode = function()
+  return vim.api.nvim_get_mode().mode
+end
+
+lualine_config.git_diff_status = function()
+  if vim.b.gitsigns_status then
+    return vim.b.gitsigns_status
+  end
+
+  local hunks = vim.fn["GitGutterGetHunkSummary"]()
+  local status = {
+    added = hunks[1],
+    changed = hunks[2],
+    removed = hunks[3],
+  }
+
+  local added, changed, removed = status.added, status.changed, status.removed
+  local status_txt = {}
+  if added   and added   > 0 then
+    table.insert(status_txt, '+'..added)
+  end
+  if changed and changed > 0 then
+    table.insert(status_txt, '~'..changed)
+  end
+  if removed and removed > 0 then
+    table.insert(status_txt, '-'..removed)
+  end
+  return table.concat(status_txt, ' ')
+end
+
+lualine_config.diagnostics = function()
+  local counter = {}
+  counter.error = vim.lsp.diagnostic.get_count(0, 'Error')
+  counter.warning = vim.lsp.diagnostic.get_count(0, 'Warning')
+  counter.info = vim.lsp.diagnostic.get_count(0, 'Information')
+  counter.hint = vim.lsp.diagnostic.get_count(0, 'Hint')
+
+  local s = ""
+  if counter.error ~= 0 then
+    s = s .. " %#GitDeleteText#E" .. counter.error
+  end
+
+  if counter.warning ~= 0 then
+    s = s .. " %#GitChangeText#W" .. counter.warning
+  end
+
+  if counter.info ~= 0 then
+    s = s .. " %#GitAddText#I" .. counter.info
+  end
+
+  if counter.hint ~= 0 then
+    s = s .. " H" .. counter.hint
+  end
+
+  return s
+end
+
+function custom_theme()
+  local colors = {
+    blue   = '#61afef',
+    green  = '#98c379',
+    purple = '#c678dd',
+    red1   = '#e06c75',
+    red2   = '#be5046',
+    yellow = '#e5c07b',
+    fg     = '#abb2bf',
+    bg     = '#060811',
+    gray1  = '#5c6370',
+    gray2  = '#163821',
+    gray3  = '#3e4452',
+  }
+
+  local normal = { fg = colors.fg, bg = colors.bg }
+  return {
+    normal = {
+      a = normal,
+      b = normal,
+      c = normal,
+    },
+    inactive = {
+      c = { fg = colors.gray1, bg = colors.bg },
+    },
+  }
+end
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = custom_theme(),
+    component_separators = '',
+    section_separators = '',
+    disabled_filetypes = {'defx'},
+    always_divide_middle = true
+  },
+  sections = {
+    lualine_a = {},
+    lualine_b = {lualine_config.git_branch},
+    lualine_c = {
+      lualine_config.git_diff_status,
+      lualine_config.current_function,
+    },
+    lualine_x = {
+      lualine_config.diagnostics,
+      'encoding',
+      lualine_config.indent_type,
+      'fileformat',
+      'filetype',
+    },
+    lualine_y = {},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {
+      {
+        'filename',
+        file_status = true,
+        path = 1,
+        shorting_target = 0,
+      }
+    },
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  tabline = {},
+  extensions = {},
+}
+
+EOF
+
+
+command! Profile call s:command_profile()
+function! s:command_profile() abort
+  profile start ~/profile.txt
+  profile func *
+  profile file *
+endfunction
+
+
+lua << EOF
+Tabline = {}
+
+Tabline.Main = function()
+  local titles = {}
+  for i = 1, vim.fn.tabpagenr("$") do
+    tab = ""
+    if i == vim.fn.tabpagenr() then
+      tab = tab .. '%#TabLineSel#'
+    else
+      tab = tab .. '%#TabLine#'
+    end
+    titles[#titles + 1] = tab .. Tabline._tabLabel(i)
+  end
+
+  local sep = "%#TablineSeparator# "
+  local tabpages = table.concat(titles, sep)
+
+  local s = ""
+  s = s .. tabpages
+  s = s .. "%#TabLineFill#"
+  s = s .. "%=%#TabLineLast#   " .. Tabline.lastLabel()
+
+  return s
+end
+
+Tabline._tabLabel = function(n)
+  local buflist = vim.fn.tabpagebuflist(n)
+  local winnr = vim.fn.tabpagewinnr(n)
+  -- return " " .. n .. "." ..  Tabline.tabLabel(buflist[winnr])
+  return "  " .. n .. "  "
+end
+
+Tabline.fileNameFilter = function(fileName, maxLength, nested)
+  nested = nested or 0
+
+  if nested > 2 then
+    return string.sub(fileName, 30)
+  end
+
+  if fileName == "" then
+    return "[No Name]"
+  end
+
+  if #fileName >= maxLength then
+    nested = nested + 1
+    return Tabline.fileNameFilter(vim.fn.fnamemodify(fileName, ":p:t"), maxLength, nested)
+  end
+
+  return fileName
+end
+
+Tabline.tabLabel = function(n)
+  maxLength = 29
+  bufname = vim.fn.bufname(n)
+  bufname = Tabline.fileNameFilter(bufname, maxLength)
+  spaceLength = math.floor((maxLength - #bufname) / 2)
+
+  s = ""
+  if spaceLength > 0 then
+    for i = 1, spaceLength do
+      s = s .. " "
+    end
+    s = s .. bufname
+    for i = 1, spaceLength do
+      s = s .. " "
+    end
+  else
+    s = bufname
+  end
+
+  return s
+end
+
+Tabline.lastLabel = function(n)
+  maxLine = "L:" .. vim.fn.line("$")
+  fileFullPath = vim.fn.expand("%:p")
+  if #fileFullPath > 120 then
+    fileFullPath = string.sub(fileFullPath, 0, 120)
+  end
+  lastLabels = {maxLine, fileFullPath}
+
+  local sep = ":"
+  local lastLabel = table.concat(lastLabels, sep)
+
+  return lastLabel
+end
+
+function ShowTable(h)
+  for k, v in pairs(h) do
+    print( k, v )
+  end
+end
+
+EOF
+
+set tabline=%!v:lua.Tabline.Main()

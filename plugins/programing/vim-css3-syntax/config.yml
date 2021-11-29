@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/hail2u/vim-css3-syntax"
+  rev: ~
+  filetypes:
+    - css
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

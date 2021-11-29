@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/tpope/vim-endwise"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event:
+      - InsertEnter
+    on_source: ~

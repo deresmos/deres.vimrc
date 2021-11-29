@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/rhysd/git-messenger.vim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - GitMessenger
+  maps:
+    - "<Plug>(git-messenger"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~
