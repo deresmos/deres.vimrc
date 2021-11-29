@@ -616,11 +616,17 @@ lualine_config.indent_type = function()
 end
 
 lualine_config.current_function = function()
-  if not vim.b.lsp_current_function then
+  local current_func = vim.b.lsp_current_function
+  if not current_func then
     return ""
   end
 
-  return vim.b.lsp_current_function
+  winwidth = vim.fn.winwidth("$")
+  if string.len(current_func) > winwidth - 50 then
+    return ""
+  end
+  
+  return current_func
 end
 
 lualine_config.file_fullpath = function()
@@ -632,7 +638,12 @@ lualine_config.file_of_lines = function()
 end
 
 lualine_config.git_branch = function()
-  return vim.fn["gina#component#repo#branch"]()
+  local branch = vim.fn["gina#component#repo#branch"]()
+  if not branch then
+    return ""
+  end
+
+  return " " .. branch
 end
 
 lualine_config.mode = function()
@@ -696,9 +707,10 @@ require'lualine'.setup {
   options = {
     icons_enabled = true,
     theme = 'onedark',
-    section_separators = {'', ''},
-    component_separators = {'', ''},
-    disabled_filetypes = {}
+    component_separators = '',
+    section_separators = '',
+    disabled_filetypes = {'defx'},
+    always_divide_middle = true
   },
   sections = {
     lualine_a = {lualine_config.mode},
