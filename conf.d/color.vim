@@ -51,6 +51,10 @@ function! MyHighlights()
   highlight GitChangeText ctermfg=none ctermbg=none guifg=#e0e000 guibg=#2c323d
   highlight GitDeleteText ctermfg=52   ctermbg=none guifg=#e00000 guibg=#2c323d
 
+  highlight StatusLineInfoText    guifg=#00e000 guibg=#060811
+  highlight StatusLineWarningText guifg=#e0e000 guibg=#060811
+  highlight StatusLineErrorText guifg=#e00000 guibg=#060811
+
   highlight link ALEVirtualTextError WarningMsg
   highlight link ALEVirtualTextInfo WarningMsg
   highlight link ALEVirtualTextStyleError WarningMsg

@@ -665,13 +665,13 @@ lualine_config.git_diff_status = function()
   local added, changed, removed = status.added, status.changed, status.removed
   local status_txt = {}
   if added   and added   > 0 then
-    table.insert(status_txt, '+'..added)
+    table.insert(status_txt, '%#StatusLineInfoText#+'..added)
   end
   if changed and changed > 0 then
-    table.insert(status_txt, '~'..changed)
+    table.insert(status_txt, '%#StatusLineWarningText#~'..changed)
   end
   if removed and removed > 0 then
-    table.insert(status_txt, '-'..removed)
+    table.insert(status_txt, '%#StatusLineErrorText#-'..removed)
   end
   return table.concat(status_txt, ' ')
 end
@@ -685,15 +685,15 @@ lualine_config.diagnostics = function()
 
   local s = ""
   if counter.error ~= 0 then
-    s = s .. " %#GitDeleteText#E" .. counter.error
+    s = s .. " %#StatusLineErrorText#" .. counter.error
   end
 
   if counter.warning ~= 0 then
-    s = s .. " %#GitChangeText#W" .. counter.warning
+    s = s .. " %#StatusLineWarningText#" .. counter.warning
   end
 
   if counter.info ~= 0 then
-    s = s .. " %#GitAddText#I" .. counter.info
+    s = s .. " %#StatusLineInfoText#" .. counter.info
   end
 
   if counter.hint ~= 0 then
@@ -735,15 +735,16 @@ require'lualine'.setup {
   options = {
     icons_enabled = true,
     theme = custom_theme(),
-    component_separators = '',
+    component_separators = { left = '', right = ''},
     section_separators = '',
     disabled_filetypes = {'defx'},
     always_divide_middle = true
   },
   sections = {
     lualine_a = {},
-    lualine_b = {lualine_config.git_branch},
+    lualine_b = {},
     lualine_c = {
+      lualine_config.git_branch,
       lualine_config.git_diff_status,
       lualine_config.current_function,
     },
@@ -752,10 +753,14 @@ require'lualine'.setup {
       'encoding',
       lualine_config.indent_type,
       'fileformat',
-      'filetype',
+      {
+        'filetype',
+        colored = true,
+        icon_only = true,
+      },
     },
     lualine_y = {},
-    lualine_z = {'location'}
+    lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
