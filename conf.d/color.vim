@@ -66,7 +66,6 @@ function! MyHighlights()
   highlight LspDiagnosticsUnderlineInformation guifg=none guibg=#008000
   highlight LspDiagnosticsUnderlineHint        guifg=none
 
-  highlight HopNextKey guifg=none guibg=#800000
 endfunction
 
 augroup MyHighlight

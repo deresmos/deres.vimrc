@@ -135,6 +135,10 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'ellisonleao/glow.nvim'
+on_cmd = ['Glow']
+
+[[plugins]]
 repo = 'lukas-reineke/indent-blankline.nvim'
 on_cmd = ['IndentBlanklineToggle']
 hook_add = '''
@@ -1191,6 +1195,10 @@ augroup END
 '''
 
 [[plugins]]
+repo = 'weilbith/nvim-code-action-menu'
+on_cmd = ['CodeActionMenu']
+
+[[plugins]]
 repo = 'folke/trouble.nvim'
 on_cmd = ['Trouble']
 hook_source = '''
@@ -1207,17 +1215,6 @@ on_ft = [
     'html',
     'xhtml',
 ]
-
-[[plugins]]
-repo = 'phaazon/hop.nvim'
-hook_add = '''
-  nnoremap <silent> <Space>jj <cmd>HopChar2<CR>
-'''
-hook_source = '''
-lua << EOF
-  require'hop'.setup()
-EOF
-'''
 
 [[plugins]]
 repo = 'haya14busa/incsearch-fuzzy.vim'
@@ -1527,5 +1524,6 @@ let g:test#strategy = 'dap'
 repo = 'liuchengxu/vista.vim'
 on_cmd = ['Vista']
 hook_source = '''
-let g:vista_echo_cursor_strategy = "floating_win"
+let g:vista_echo_cursor = 0
+let g:vista_sidebar_width = 40
 '''

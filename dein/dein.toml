@@ -319,6 +319,12 @@ hook_add = '''
 repo = 'cocopon/iceberg.vim'
 
 [[plugins]]
+repo = 'lewis6991/impatient.nvim'
+hook_add = '''
+lua require'impatient'
+'''
+
+[[plugins]]
 repo = 'hoob3rt/lualine.nvim'
 
 [[plugins]]
@@ -804,11 +810,14 @@ lua << EOF
     buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
     buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', '<Space>mh', '<cmd>lua require("lspsaga.hover").render_hover_doc()<CR>', opts)
-    buf_set_keymap('n', '<Space>ca', '<cmd>lua require("lspsaga.code_action").code_action()<CR>', opts)
+    buf_set_keymap('n', '<Space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
-    buf_set_keymap('n', '<Space>ek', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>', opts)
-    buf_set_keymap('n', '<Space>ej', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>', opts)
+    buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+
+    buf_set_keymap('n', '<Space>mic', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
+    buf_set_keymap('n', '<Space>moc', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
 
     -- not work?
     buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
@@ -828,7 +837,7 @@ lua << EOF
       max_height = 12,
       max_width = 120,
       handler_opts = {
-        border = "shadow"
+        border = "rounded"
       },
       extra_trigger_chars = {}
     })
@@ -858,6 +867,13 @@ EOF
 
 [[plugins]]
 repo = 'williamboman/nvim-lsp-installer'
+
+[[plugins]]
+repo = 'phaazon/hop.nvim'
+hook_add = '''
+nnoremap <silent> <Space>jj <cmd>HopChar2<CR>
+require'hop'.setup()
+'''
 
 [[plugins]]
 repo = 'tyru/operator-camelize.vim'

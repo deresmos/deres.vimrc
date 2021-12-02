@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/ellisonleao/glow.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Glow
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~
