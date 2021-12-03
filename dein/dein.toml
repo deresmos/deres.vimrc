@@ -872,7 +872,7 @@ repo = 'williamboman/nvim-lsp-installer'
 repo = 'phaazon/hop.nvim'
 hook_add = '''
 nnoremap <silent> <Space>jj <cmd>HopChar2<CR>
-require'hop'.setup()
+lua require'hop'.setup()
 '''
 
 [[plugins]]
