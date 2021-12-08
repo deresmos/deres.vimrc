@@ -761,7 +761,7 @@ repo = 'idanarye/vim-merginal'
 repo = 'nvim-lua/lsp-status.nvim'
 
 [[plugins]]
-repo = 'glepnir/lspsaga.nvim'
+repo = 'tami5/lspsaga.nvim'
 hook_add = '''
 lua << EOF
   require'lspsaga'.init_lsp_saga({
@@ -802,6 +802,7 @@ lua << EOF
   local lsp_status = require('lsp-status')
   lsp_status.register_progress()
 
+  float_border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
   local on_attach = function (client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
@@ -810,11 +811,11 @@ lua << EOF
     buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
     buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', '<Space>mh', '<cmd>lua require("lspsaga.hover").render_hover_doc()<CR>', opts)
-    buf_set_keymap('n', '<Space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', '<Space>mca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
-    buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.lsp.diagnostic.goto_prev({float = {border = float_border}})<CR>', opts)
+    buf_set_keymap('n', '<Space>ej', '<cmd>lua vim.lsp.diagnostic.goto_next({float = {border = float_border}})<CR>', opts)
 
     buf_set_keymap('n', '<Space>mic', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
     buf_set_keymap('n', '<Space>moc', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
@@ -857,7 +858,7 @@ lua << EOF
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
    vim.lsp.diagnostic.on_publish_diagnostics, {
-     virtual_text = false,
+     virtual_text = true,
      signs = false,
    }
   )
@@ -873,6 +874,15 @@ repo = 'phaazon/hop.nvim'
 hook_add = '''
 nnoremap <silent> <Space>jj <cmd>HopChar2<CR>
 lua require'hop'.setup()
+
+lua << EOF
+vim.api.nvim_set_keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
+vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+EOF
 '''
 
 [[plugins]]

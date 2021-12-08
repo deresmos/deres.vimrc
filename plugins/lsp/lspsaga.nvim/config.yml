@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/glepnir/lspsaga.nvim"
+  url: "https://github.com/tami5/lspsaga.nvim"
   rev: ~
   filetypes: ~
   commands: ~

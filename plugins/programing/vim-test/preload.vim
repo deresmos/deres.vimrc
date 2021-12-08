@@ -58,4 +58,4 @@ end
 EOF
 
 let g:test#custom_strategies = {'dap': function('DapStrategy')}
-let g:test#strategy = 'dap'
+" let g:test#strategy = 'dap'

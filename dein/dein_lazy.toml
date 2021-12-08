@@ -1201,10 +1201,40 @@ on_cmd = ['CodeActionMenu']
 [[plugins]]
 repo = 'folke/trouble.nvim'
 on_cmd = ['Trouble']
+hook_add = '''
+nnoremap [Trouble] <Nop>
+nmap <silent><Space>tl [Trouble]
+
+nnoremap [Trouble]w <cmd>TroubleToggle lsp_workspace_diagnostics<CR>
+nnoremap [Trouble]d <cmd>TroubleToggle lsp_document_diagnostics<CR>
+nnoremap [Trouble]q <cmd>TroubleToggle quickfix<CR>
+nnoremap [Trouble]l <cmd>TroubleToggle loclist<CR>
+nnoremap [Trouble]r <cmd>TroubleToggle lsp_references<CR>
+'''
 hook_source = '''
 lua << EOF
   require("trouble").setup{
     auto_open = false,
+    auto_preview = false,
+    action_keys = {
+      close = "q",
+      cancel = "<esc>",
+      refresh = "r",
+      jump = {"<cr>", "<tab>"},
+      open_split = { "<c-s>" },
+      open_vsplit = { "<c-v>" },
+      open_tab = { "<c-t>" },
+      jump_close = {"o"},
+      toggle_mode = "m",
+      toggle_preview = "P",
+      hover = "K",
+      preview = "p",
+      close_folds = {"zM", "zm"},
+      open_folds = {"zR", "zr"},
+      toggle_fold = {"zA", "za"},
+      previous = "k",
+      next = "j"
+    },
   }
 EOF
 '''
@@ -1517,7 +1547,7 @@ end
 EOF
 
 let g:test#custom_strategies = {'dap': function('DapStrategy')}
-let g:test#strategy = 'dap'
+" let g:test#strategy = 'dap'
 '''
 
 [[plugins]]
