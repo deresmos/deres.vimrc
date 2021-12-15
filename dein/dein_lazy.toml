@@ -883,10 +883,6 @@ call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGu
 '''
 
 [plugins.ftplugin]
-denite-filter = '''
-  imap <silent><buffer> fd
-    \ <ENTER>
-'''
 denite = '''
   nnoremap <silent><buffer><expr> <CR>
     \ denite#do_map('do_action')
@@ -953,6 +949,10 @@ denite = '''
     \ denite#do_map('do_action', 'gedit')
   nnoremap <silent><buffer><expr> gt
     \ denite#do_map('do_action', 'tabgedit')
+'''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
 '''
 
 [[plugins]]
@@ -1203,10 +1203,10 @@ repo = 'folke/trouble.nvim'
 on_cmd = ['Trouble']
 hook_add = '''
 nnoremap [Trouble] <Nop>
-nmap <silent><Space>tl [Trouble]
+nmap <silent><Space>l [Trouble]
 
-nnoremap [Trouble]w <cmd>TroubleToggle lsp_workspace_diagnostics<CR>
-nnoremap [Trouble]d <cmd>TroubleToggle lsp_document_diagnostics<CR>
+nnoremap [Trouble]w <cmd>TroubleToggle workspace_diagnostics<CR>
+nnoremap [Trouble]d <cmd>TroubleToggle document_diagnostics<CR>
 nnoremap [Trouble]q <cmd>TroubleToggle quickfix<CR>
 nnoremap [Trouble]l <cmd>TroubleToggle loclist<CR>
 nnoremap [Trouble]r <cmd>TroubleToggle lsp_references<CR>
