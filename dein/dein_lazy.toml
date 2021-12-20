@@ -1504,7 +1504,7 @@ endfunction
 lua << EOF
 Dap.vim_test_strategy = {
   go = function(cmd)
-    local run_option = string.match(cmd, "-run '([^ ]+)'")
+    local test_func = string.match(cmd, "-run '([^ ]+)'")
     local path = string.match(cmd, "[^ ]+$")
     path = string.gsub(path, "/%.%.%.", "")
 
@@ -1517,9 +1517,9 @@ Dap.vim_test_strategy = {
       args = {},
     }
 
-    if run_option then
+    if test_func then
       table.insert(configuration.args, "-test.run")
-      table.insert(configuration.args, run_option)
+      table.insert(configuration.args, test_func)
     end
 
     if path == nil or path == "." then

@@ -20,7 +20,7 @@ require("dapui").setup({
       { id = "stacks", size = 0.25 },
       { id = "breakpoints", size = 0.15 },
     },
-    size = 40,
+    size = 55,
     position = "left", -- Can be "left", "right", "top", "bottom"
   },
   tray = {
@@ -38,4 +38,9 @@ require("dapui").setup({
   },
   windows = { indent = 1 },
 })
+
+
+vim.fn.sign_define('DapBreakpoint', {text='●', texthl='GitGutterDelete', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='▶', texthl='GitGutterAdd', linehl='', numhl=''})
+
 EOF
