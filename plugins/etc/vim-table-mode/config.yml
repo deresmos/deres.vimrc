@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/dhruvasagar/vim-table-mode"
+  rev: ~
+  filetypes: ~
+  commands:
+    - "TableModeToggle"
+    - "Tableize"
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

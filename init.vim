@@ -678,10 +678,10 @@ end
 
 lualine_config.diagnostics = function()
   local counter = {}
-  counter.error = vim.lsp.diagnostic.get_count(0, 'Error')
-  counter.warning = vim.lsp.diagnostic.get_count(0, 'Warning')
-  counter.info = vim.lsp.diagnostic.get_count(0, 'Information')
-  counter.hint = vim.lsp.diagnostic.get_count(0, 'Hint')
+  counter.error = vim.diagnostic.get(0, 'Error')
+  counter.warning = vim.diagnostic.get(0, 'Warning')
+  counter.info = vim.diagnostic.get(0, 'Information')
+  counter.hint = vim.diagnostic.get(0, 'Hint')
 
   local s = ""
   if counter.error ~= 0 then
@@ -738,7 +738,8 @@ require'lualine'.setup {
     component_separators = { left = '', right = ''},
     section_separators = '',
     disabled_filetypes = {'defx'},
-    always_divide_middle = true
+    always_divide_middle = true,
+    globalstatus=true,
   },
   sections = {
     lualine_a = {},

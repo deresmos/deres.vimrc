@@ -159,6 +159,11 @@ function! s:diff_mode()
   endif
 endfunction
 
+if executable('rg')
+    let &grepprg = 'rg --vimgrep --hidden'
+    set grepformat=%f:%l:%c:%m
+endif
+
 augroup huge-file
   autocmd!
   autocmd BufWritePost,BufWinLeave * call s:save_huge_file_action()

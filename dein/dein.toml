@@ -630,14 +630,16 @@ lua << EOF
       initial_mode = "insert",
       selection_strategy = "reset",
       sorting_strategy = "ascending",
-      layout_strategy = "horizontal",
+      layout_strategy = "vertical",
       layout_config = {
         horizontal = {
           mirror = false,
           prompt_position = "top",
         },
         vertical = {
-          mirror = false,
+          mirror = true,
+          width = 0.7,
+          prompt_position = "top",
         },
       },
       file_sorter =  require'telescope.sorters'.get_fuzzy_file,
@@ -654,8 +656,13 @@ lua << EOF
       qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
 
       -- Developer configurations: Not meant for general override
-      buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-    }
+      buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+      mappings = {
+        n = {
+          ["q"] = require'telescope.actions'.close,
+        },
+      },
+    },
   }
 EOF
 '''
@@ -761,6 +768,12 @@ augroup END
 
 [[plugins]]
 repo = 'idanarye/vim-merginal'
+
+[[plugins]]
+repo = 'j-hui/fidget.nvim'
+hook_add = '''
+lua require'fidget'.setup{}
+'''
 
 [[plugins]]
 repo = 'nvim-lua/lsp-status.nvim'
@@ -879,15 +892,13 @@ repo = 'phaazon/hop.nvim'
 hook_add = '''
 nnoremap <silent> <Space>jj <cmd>HopChar2<CR>
 lua require'hop'.setup()
+'''
 
-lua << EOF
-vim.api.nvim_set_keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('o', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
-vim.api.nvim_set_keymap('o', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
-vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-EOF
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+  map f <Plug>(easymotion-bd-fl)
+  map t <Plug>(easymotion-bd-tl)
 '''
 
 [[plugins]]
@@ -1157,3 +1168,137 @@ repo = 'deresmos/vim-snippets'
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
 build = ':TSUpdate'
+
+[[plugins]]
+repo = 'Shougo/ddu.vim'
+hook_add = '''
+call ddu#custom#patch_global({
+    \   'ui': 'ff',
+    \   'sources': [
+    \     {'name': 'file', 'params': {}},
+    \     {'name': 'file_rec', 'params': {}},
+    \   ] ,
+    \   'sourceOptions': {
+    \     '_': {
+    \       'matchers': ['matcher_substring'],
+    \     },
+    \   },
+    \   'sourceParams' : {
+    \     'rg' : {
+    \       'args': ['--column', '--no-heading', '--color', 'never'],
+    \     },
+    \   },
+    \   'kindOptions': {
+    \     'file': {
+    \       'defaultAction': 'open',
+    \     },
+    \   }
+    \ })
+
+autocmd FileType ddu-ff call s:ddu_my_settings()
+function! s:ddu_my_settings() abort
+  nnoremap <buffer><silent> <CR>
+        \ <Cmd>call ddu#ui#ff#do_action('itemAction')<CR>
+  nnoremap <buffer><silent> <Space>
+        \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
+  nnoremap <buffer><silent> i
+        \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
+  nnoremap <buffer><silent> q
+        \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
+  nnoremap <buffer><silent> p
+        \ <Cmd>call ddu#ui#ff#do_action('preview')<CR>
+  nnoremap <buffer><silent> <Tab>
+        \ <Cmd>call ddu#ui#ff#do_action('choseAction')<CR>
+endfunction
+
+autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
+function! s:ddu_filter_my_settings() abort
+  inoremap <buffer><silent> <CR>
+  \ <Esc><Cmd>close<CR>
+  nnoremap <buffer><silent> <CR>
+  \ <Cmd>close<CR>
+  nnoremap <buffer><silent> q
+  \ <Cmd>close<CR>
+endfunction
+
+'''
+
+[[plugins]]
+repo = 'vim-denops/denops.vim'
+
+[[plugins]]
+repo = 'Shougo/ddu-ui-ff'
+
+[[plugins]]
+repo = 'Shougo/ddu-source-file_rec'
+[[plugins]]
+repo = 'Shougo/ddu-filter-matcher_substring'
+[[plugins]]
+repo = 'shun/ddu-source-buffer'
+[[plugins]]
+repo = 'shun/ddu-source-rg'
+[[plugins]]
+repo = 'Shougo/ddu-source-file_old'
+[[plugins]]
+repo = 'gamoutatsumi/ddu-source-nvim-lsp'
+[[plugins]]
+repo = 'Shougo/ddu-source-line'
+
+
+[[plugins]]
+repo = 'brooth/far.vim'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+hook_add = '''
+  nnoremap <silent> <SPACE>pf <cmd>GFiles<CR>
+'''
+
+[[plugins]]
+repo = '~/.fzf'
+
+# [[plugins]]
+# repo = 'Shougo/ddc.vim'
+# hook_add = '''
+#   call ddc#custom#patch_global('completionMenu', 'pum.vim')
+#   call ddc#custom#patch_global('sources', [
+#    \ 'around',
+#    \ 'nvim-lsp',
+#    \ 'file'
+#    \ ])
+#   call ddc#custom#patch_global('sourceOptions', {
+#    \ '_': {
+#    \   'matchers': ['matcher_head'],
+#    \   'sorters': ['sorter_rank'],
+#    \   'converters': ['converter_remove_overlap'],
+#    \ },
+#    \ 'around': {'mark': 'Around'},
+#    \ 'nvim-lsp': {
+#    \   'mark': 'lsp',
+#    \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+#    \ },
+#    \ 'file': {
+#    \   'mark': 'file',
+#    \   'isVolatile': v:true,
+#    \   'forceCompletionPattern': '\S/\S*'
+#    \ }})
+#   call ddc#enable()
+# '''
+#
+# [[plugins]]
+# repo = 'Shougo/pum.vim'
+# [[plugins]]
+# repo = 'Shougo/ddc-around'
+# [[plugins]]
+# repo = 'LumaKernel/ddc-file'
+# [[plugins]]
+# repo = 'Shougo/ddc-matcher_head'
+# [[plugins]]
+# repo = 'Shougo/ddc-sorter_rank'
+# [[plugins]]
+# repo = 'Shougo/ddc-converter_remove_overlap'
+# [[plugins]]
+# repo = 'Shougo/ddc-nvim-lsp'
+
+[[plugins]]
+repo = 'rcarriga/vim-ultest'
