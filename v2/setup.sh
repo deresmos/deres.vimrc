@@ -21,3 +21,6 @@ nvim_dein_dir=$nvim_dir/dein
 ln -sf ${dir}/vimrc $HOME/.vimrc
 ln -sf ${dir}/vimrc $vim_conf_dir/
 ln -sf ${dir}/init.vim $nvim_dir/
+
+ln -sf ${dir}/dein/dein.toml $nvim_dein_dir/
+ln -sf ${dir}/dein/dein_lazy.toml $nvim_dein_dir/
