@@ -1,1 +1,602 @@
+[[plugins]]
+repo = 'hrsh7th/cmp-nvim-lsp'
 
+[[plugins]]
+repo = 'hrsh7th/cmp-nvim-lsp-signature-help'
+on_lua = ['lsp_signature']
+
+[[plugins]]
+repo = 'ray-x/lsp_signature.nvim'
+on_lua = ['lsp_signature']
+
+[[plugins]]
+repo = 'hoob3rt/lualine.nvim'
+hook_add = '''
+lua << EOF
+
+lualine_config = {}
+lualine_config.width_small = 50
+
+lualine_config.indent_type = function()
+  if vim.fn.winwidth(0) < lualine_config.width_small then
+    return ''
+  end
+
+  return vim.fn["spatab#GetDetectName"]()
+end
+
+lualine_config.current_function = function()
+  local current_func = vim.b.lsp_current_function
+  if not current_func then
+    return ""
+  end
+
+  winwidth = vim.fn.winwidth("$")
+  if string.len(current_func) > winwidth - 50 then
+    return ""
+  end
+  
+  return current_func
+end
+
+lualine_config.file_fullpath = function()
+  return vim.fn.expand("%:p")
+end
+
+lualine_config.file_of_lines = function()
+  return vim.fn.line("$")
+end
+
+lualine_config.git_branch = function()
+  local branch = vim.fn["gina#component#repo#branch"]()
+  if branch == "" then
+    return ""
+  end
+
+  return " " .. branch
+end
+
+lualine_config.mode = function()
+  return vim.api.nvim_get_mode().mode
+end
+
+lualine_config.git_diff_status = function()
+  if vim.b.gitsigns_status then
+    return vim.b.gitsigns_status
+  end
+
+  local hunks = vim.fn["GitGutterGetHunkSummary"]()
+  local status = {
+    added = hunks[1],
+    changed = hunks[2],
+    removed = hunks[3],
+  }
+
+  local added, changed, removed = status.added, status.changed, status.removed
+  local status_txt = {}
+  if added   and added   > 0 then
+    table.insert(status_txt, '%#StatusLineInfoText#+'..added)
+  end
+  if changed and changed > 0 then
+    table.insert(status_txt, '%#StatusLineWarningText#~'..changed)
+  end
+  if removed and removed > 0 then
+    table.insert(status_txt, '%#StatusLineErrorText#-'..removed)
+  end
+  return table.concat(status_txt, ' ')
+end
+
+lualine_config.diagnostics = function()
+  local counter = {}
+  counter.error = vim.diagnostic.get(0, 'Error')
+  counter.warning = vim.diagnostic.get(0, 'Warning')
+  counter.info = vim.diagnostic.get(0, 'Information')
+  counter.hint = vim.diagnostic.get(0, 'Hint')
+
+  local s = ""
+  if counter.error ~= 0 then
+    s = s .. " %#StatusLineErrorText#" .. counter.error
+  end
+
+  if counter.warning ~= 0 then
+    s = s .. " %#StatusLineWarningText#" .. counter.warning
+  end
+
+  if counter.info ~= 0 then
+    s = s .. " %#StatusLineInfoText#" .. counter.info
+  end
+
+  if counter.hint ~= 0 then
+    s = s .. " H" .. counter.hint
+  end
+
+  return s
+end
+
+function custom_theme()
+  local colors = {
+    blue   = '#61afef',
+    green  = '#98c379',
+    purple = '#c678dd',
+    red1   = '#e06c75',
+    red2   = '#be5046',
+    yellow = '#e5c07b',
+    fg     = '#abb2bf',
+    bg     = '#060811',
+    gray1  = '#5c6370',
+    gray2  = '#163821',
+    gray3  = '#3e4452',
+  }
+
+  local normal = { fg = colors.fg, bg = colors.bg }
+  return {
+    normal = {
+      a = normal,
+      b = normal,
+      c = normal,
+    },
+    inactive = {
+      c = { fg = colors.gray1, bg = colors.bg },
+    },
+  }
+end
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = custom_theme(),
+    component_separators = { left = '', right = ''},
+    section_separators = '',
+    disabled_filetypes = {'defx'},
+    always_divide_middle = true,
+    globalstatus=true,
+  },
+  sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {
+      lualine_config.git_branch,
+      lualine_config.git_diff_status,
+      -- lualine_config.current_function,
+      {
+        "aerial",
+        sep = ' > ',
+        depth = nil,
+        dense = true,
+        dense_sep = '.',
+      },
+    },
+    lualine_x = {
+      lualine_config.diagnostics,
+      'encoding',
+      lualine_config.indent_type,
+      'fileformat',
+      {
+        'filetype',
+        colored = true,
+        icon_only = true,
+      },
+    },
+    lualine_y = {},
+    lualine_z = {}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {
+      {
+        'filename',
+        file_status = true,
+        path = 1,
+        shorting_target = 0,
+      }
+    },
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  tabline = {},
+  extensions = {},
+}
+
+EOF
+'''
+
+[[plugins]]
+repo = 'EdenEast/nightfox.nvim'
+hook_add = '''
+colorscheme nightfox
+'''
+
+[[plugins]]
+repo = 'kyazdani42/nvim-web-devicons'
+
+[[plugins]]
+repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
+repo = 'francoiscabrol/ranger.vim'
+hook_add = '''
+  let g:ranger_replace_netrw = 0
+  nnoremap <silent> <SPACE>ra :RangerCurrentFile<CR>
+  nnoremap <silent> <SPACE>rA :RangerWorkingDirectory<CR>
+'''
+
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
+on_lua = ['telescope']
+hook_add = '''
+lua << EOF
+  require('telescope').setup{
+    defaults = {
+      vimgrep_arguments = {
+        'rg',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case'
+      },
+      prompt_prefix = "> ",
+      selection_caret = "> ",
+      entry_prefix = "  ",
+      initial_mode = "insert",
+      selection_strategy = "reset",
+      sorting_strategy = "ascending",
+      layout_strategy = "horizontal",
+      layout_config = {
+        horizontal = {
+          mirror = false,
+          prompt_position = "top",
+        },
+        vertical = {
+          mirror = false,
+        },
+      },
+      file_sorter =  require'telescope.sorters'.get_fuzzy_file,
+      file_ignore_patterns = {},
+      generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+      winblend = 0,
+      border = {},
+      borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+      color_devicons = true,
+      use_less = true,
+      set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
+      file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
+      grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
+      qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+
+      -- Developer configurations: Not meant for general override
+      buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+    }
+  }
+EOF
+'''
+
+[[plugins]]
+repo = 'lambdalisue/gina.vim'
+
+[[plugins]]
+repo = 'ruifm/gitlinker.nvim'
+hook_add = '''
+lua << EOF
+require'gitlinker'.setup({
+  opts = {
+    remote = nil,
+    add_current_line_on_normal_mode = true,
+    action_callback = require'gitlinker.actions'.copy_to_clipboard,
+    print_url = true,
+  },
+  callbacks = {
+        ['github.com'] = require'gitlinker.hosts'.get_github_type_url,
+        ['bitbucket.org'] = require'gitlinker.hosts'.get_bitbucket_type_url,
+
+  },
+  mappings = '<leader>gy'
+})
+EOF
+'''
+
+[[plugins]]
+repo = 'lewis6991/gitsigns.nvim'
+hook_add = '''
+nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk()<CR>
+nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.next_hunk()<CR>
+nnoremap <silent> <SPACE>gp <cmd>lua require'gitsigns'.preview_hunk()<CR>
+nnoremap <silent> <SPACE>gu <Nop>
+nnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk()<CR>
+xnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+nnoremap <silent> <SPACE>ga <Nop>
+nnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk()<CR>
+xnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+nnoremap <silent> <SPACE>gtt <cmd>lua require'gitsigns'.toggle_signs()<CR>
+
+lua << EOF
+  require('gitsigns').setup {
+    -- signs = {
+    --   add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    --   change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    --   delete       = {hl = 'GitSignsDelete', text = '__', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    --   topdelete    = {hl = 'GitSignsDelete', text = '‾‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    --   changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    -- },
+    signcolumn = true,
+    numhl      = false,
+    linehl     = false,
+    keymaps = {},
+    watch_gitdir = {
+      interval = 1000,
+      follow_files = true
+    },
+    attach_to_untracked = true,
+    current_line_blame = false,
+    current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'eol',
+      delay = 1000,
+    },
+    current_line_blame_formatter_opts = {
+      relative_time = false
+    },
+    sign_priority = 6,
+    update_debounce = 100,
+    status_formatter = function(status)
+      local added, changed, removed = status.added, status.changed, status.removed
+      local status_txt = {}
+      if added   and added   > 0 then
+        table.insert(status_txt, '%#GitSignsAdd#+'..added)
+      end
+      if changed and changed > 0 then
+        table.insert(status_txt, '%#GitSignsChange#~'..changed)
+      end
+      if removed and removed > 0 then
+        table.insert(status_txt, '%#GitSignsDelete#-'..removed)
+      end
+      return table.concat(status_txt, ' ')
+    end,
+    max_file_length = 10000,
+    preview_config = {
+      border = 'single',
+      style = 'minimal',
+      relative = 'cursor',
+      row = 0,
+      col = 1
+    },
+    diff_opts = {
+      internal = true,
+    },
+    word_diff = false,
+    yadm = {
+      enable = false
+    },
+  }
+EOF
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+hook_add = '''
+function! FugitiveCommitError(error, tmpfile)
+  if a:error =~? 'pre-commit'
+    call s:applyQflist(a:tmpfile)
+  endif
+endfunction
+
+function! s:applyQflist(tmpfile)
+  let errors = []
+  let contents = readfile(a:tmpfile)
+
+  let filepath = ''
+  for content in contents
+    if empty(content)
+      continue
+    endif
+
+    if content =~? '^/' && filereadable(content)
+      let filepath = content
+      continue
+    endif
+
+    if content =~? '\v\s*[0-9]+:[0-9]+'
+      let csp = split(content)
+      call add(errors, filepath . ':' . csp[0] . ':' . join(csp[2:-2], ' ') . '. [' . csp[-1] . ']')
+    endif
+  endfor
+
+  setlocal errorformat=%f:%l:%c:%m
+  cgetexpr join(errors, "\n")
+  q
+  copen
+endfunction
+'''
+
+[plugins.ftplugin]
+fugitive = '''
+  nmap <buffer> <SPACE>gj <C-n>
+  nmap <buffer> <SPACE>gk <C-p>
+  nmap <buffer> <SPACE>vo <
+  nmap <buffer> <SPACE>vc >
+  nmap <buffer><silent> q :quit<CR>
+'''
+
+[[plugins]]
+repo = 'j-hui/fidget.nvim'
+hook_add = '''
+lua require'fidget'.setup{}
+'''
+
+[[plugins]]
+repo = 'nvim-lua/lsp-status.nvim'
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
+hook_add = '''
+lua << EOF
+  local border = {
+        {"╭", "FloatBorder"},
+        {"─", "FloatBorder"},
+        {"╮", "FloatBorder"},
+        {"│", "FloatBorder"},
+        {"╯", "FloatBorder"},
+        {"─", "FloatBorder"},
+        {"╰", "FloatBorder"},
+        {"│", "FloatBorder"},
+  }
+  local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or border
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  end
+
+  local lsp_status = require('lsp-status')
+  lsp_status.register_progress()
+
+  float_border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+  local on_attach = function (client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+    local opts = { noremap=true, silent=true }
+    buf_set_keymap('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    -- buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
+    buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<Space>mh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', '<Space>mca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    -- buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
+    buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', '<Space>ej', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+
+    buf_set_keymap('n', '<Space>mic', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
+    buf_set_keymap('n', '<Space>moc', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
+
+    -- not work?
+    -- buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
+    -- buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
+
+    lsp_status.on_attach(client, bufnr)
+    require'lsp_signature'.on_attach({
+      bind = true,
+      doc_lines = 10,
+      floating_window = true,
+      fix_pos = true,
+      hint_enable = true,
+      hint_prefix = "> ",
+      hint_scheme = "String",
+      use_lspsaga = false,
+      hi_parameter = "Search",
+      max_height = 12,
+      max_width = 120,
+      handler_opts = {
+        border = "rounded"
+      },
+      extra_trigger_chars = {}
+    })
+  end
+
+  local lsp_installer = require("nvim-lsp-installer")
+  local comp = require('cmp_nvim_lsp')
+
+  lsp_installer.on_server_ready(function(server)
+    local opts = {
+      on_attach = on_attach,
+      capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    }
+
+    server:setup(opts)
+  end)
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+   vim.lsp.diagnostic.on_publish_diagnostics, {
+     virtual_text = true,
+     signs = false,
+   }
+  )
+EOF
+'''
+
+[[plugins]]
+repo = 'williamboman/nvim-lsp-installer'
+
+[[plugins]]
+repo = 'stevearc/aerial.nvim'
+hook_add = '''
+lua << EOF
+-- Call the setup function to change the default behavior
+require("aerial").setup({
+  backends = { "treesitter", "lsp", "markdown" },
+  close_behavior = "auto",
+  default_bindings = true,
+  default_direction = "prefer_right",
+  disable_max_lines = 10000,
+  disable_max_size = 10000000,
+  filter_kind = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Function",
+    "Interface",
+    "Module",
+    "Method",
+    "Struct",
+    "Variable",
+  },
+  highlight_mode = "split_width",
+  highlight_closest = true,
+  highlight_on_hover = false,
+  highlight_on_jump = 300,
+  icons = {},
+  ignore = {
+    unlisted_buffers = true,
+    filetypes = {},
+    buftypes = "special",
+    wintypes = "special",
+  },
+  link_folds_to_tree = false,
+  link_tree_to_folds = true,
+  manage_folds = false,
+  max_width = { 40, 0.2 },
+  width = nil,
+  min_width = 30,
+  nerd_font = "auto",
+  on_attach = nil,
+  open_automatic = false,
+  placement_editor_edge = false,
+  post_jump_cmd = "normal! zz",
+  close_on_select = false,
+  show_guides = false,
+  update_events = "TextChanged,InsertLeave",
+  guides = {
+    mid_item = "├─",
+    last_item = "└─",
+    nested_top = "│ ",
+    whitespace = "  ",
+  },
+  float = {
+    border = "rounded",
+    relative = "editor",
+    max_height = 0.9,
+    height = nil,
+    min_height = { 8, 0.5 },
+    override = function(conf)
+      return conf
+    end,
+  },
+  lsp = {
+    diagnostics_trigger_update = true,
+    update_when_errors = true,
+    update_delay = 300,
+  },
+  treesitter = {
+    update_delay = 300,
+  },
+  markdown = {
+    update_delay = 300,
+  },
+})
+'''
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+build = ':TSUpdate'

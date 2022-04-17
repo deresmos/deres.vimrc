@@ -21,4 +21,4 @@ pip: FORCE
 	bash ./setup-scripts/inst-pip-package.sh
 
 make-dein: FORCE
-	cd ./vplug-factory && cargo run make -p ../plugins ../dein
+	cd ../vplug-factory && cargo run make -p ../v2/plugins ../v2/dein

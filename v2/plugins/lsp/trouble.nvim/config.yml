@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/folke/trouble.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Trouble
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~
