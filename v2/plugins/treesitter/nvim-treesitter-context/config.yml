@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/romgrk/nvim-treesitter-context"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ":TSUpdate"
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

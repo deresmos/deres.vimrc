@@ -30,3 +30,7 @@ function! s:applyQflist(tmpfile)
   q
   copen
 endfunction
+
+nnoremap <silent> <SPACE>gs <cmd>Git<CR>
+nnoremap <silent> <SPACE>gv <cmd>Gvdiff<CR>
+nnoremap <silent> <SPACE>gb <cmd>Git blame<CR>

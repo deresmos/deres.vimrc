@@ -1,0 +1,17 @@
+---
+config:
+  url: "https://github.com/metakirby5/codi.vim"
+  rev: ~
+  filetypes:
+    - python
+    - javascript
+    - php
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

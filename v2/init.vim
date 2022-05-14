@@ -59,13 +59,13 @@ augroup END
 " nnoremap <silent> <SPACE>ff :Denite file/rec -path=`get(g:, 'denite_cwd', getcwd())` -start-filter<CR>
 " nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`<CR>
 " nnoremap <silent> <SPACE>fr :Denite file_mru -start-filter<CR>
-nnoremap <silent> <SPACE>fl :Denite line -start-filter<CR>
-nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
+" nnoremap <silent> <SPACE>fl :Denite line -start-filter<CR>
+" nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
 " nnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep<CR>
-xnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`GetVisualWordEscape()`<CR>
+" xnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`GetVisualWordEscape()`<CR>
 " nnoremap <silent> <SPACE>fG :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`expand('<cword>')`<CR>
-nnoremap <silent> <SPACE>fs :<C-u>call <SID>saveFile(0)<CR>
-nnoremap <silent> <SPACE>fS :<C-u>call <SID>saveFile(1)<CR>
+nnoremap <silent> <SPACE>fs :w<CR>
+nnoremap <silent> <SPACE>fS :w!<CR>
 
 function! s:saveFile(force) abort "{{{
   let l:cmd = &readonly ? 'SudoWrite' : a:force ? 'w!' : 'w'
@@ -73,9 +73,9 @@ function! s:saveFile(force) abort "{{{
 endfunction
 " }}}
 
-nnoremap <silent> <SPACE>ft :Defx -buffer-name=defx-tree<CR>
-nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating<CR>
-nnoremap <silent> <SPACE>fo :<C-u>call <SID>open_two_defx()<CR>
+" nnoremap <silent> <SPACE>ft :Defx -buffer-name=defx-tree<CR>
+" nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating<CR>
+" nnoremap <silent> <SPACE>fo :<C-u>call <SID>open_two_defx()<CR>
 
 " functions {{{
 function! s:open_two_defx() abort
@@ -94,8 +94,8 @@ endfunction
 nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
 
 "D keybind{{{2
-nnoremap <silent> <SPACE>dl :Denite -resume<CR>
-nnoremap <silent> <SPACE>dm :Denite menu:all<CR>
+" nnoremap <silent> <SPACE>dl :Denite -resume<CR>
+" nnoremap <silent> <SPACE>dm :Denite menu:all<CR>
 nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
 nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
 nnoremap <silent> <SPACE>dt :Denite tag -start-filter<CR>
@@ -150,8 +150,8 @@ function! s:ExecuteCtags() abort "{{{
 endfunction "}}}
 
 nnoremap <silent> <SPACE>tg :<C-u>call <SID>ExecuteCtags()<CR>
-nnoremap <silent> <SPACE>tb :<C-u>TagbarOpen fj<CR>
-nnoremap <silent> <SPACE>tB :<C-u>call tagbar#ToggleWindow() <Bar> call tagbar#ToggleWindow()<CR>
+" nnoremap <silent> <SPACE>tb :<C-u>TagbarOpen fj<CR>
+" nnoremap <silent> <SPACE>tB :<C-u>call tagbar#ToggleWindow() <Bar> call tagbar#ToggleWindow()<CR>
 
 function! s:setNumber() abort "{{{
   if &relativenumber
@@ -178,28 +178,28 @@ nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
 
 "G keybind{{{2
 " fugitive keybind
-nnoremap <silent> <SPACE>gs :<C-u>Git<CR>
-nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
-nnoremap <silent> <SPACE>gb :<C-u>Git blame<CR>
+" nnoremap <silent> <SPACE>gs :<C-u>Git<CR>
+" nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
+" nnoremap <silent> <SPACE>gb :<C-u>Git blame<CR>
 
 " merginal keybind
-nnoremap <SPACE>gC :<C-u>call merginal#openMerginalBuffer()<CR>
+" nnoremap <SPACE>gC :<C-u>call merginal#openMerginalBuffer()<CR>
 
 " vimagit keybind
-nnoremap <SPACE>gm :<C-u>Magit<CR>
+" nnoremap <SPACE>gm :<C-u>Magit<CR>
 
 " agit keybind
-nnoremap <SPACE>gl :<C-u>Agit<CR>
-nnoremap <SPACE>gf :<C-u>AgitFile<CR>
+" nnoremap <SPACE>gl :<C-u>Agit<CR>
+" nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 
 " gitgutter keybind
 " nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
 " nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
 " nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
-nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push -v origin HEAD<CR>
-nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
-nnoremap <silent> <SPACE>gPL :<C-u>AsyncRun -cwd=<root> git pull --all<CR>
-nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
+" nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push -v origin HEAD<CR>
+" nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
+" nnoremap <silent> <SPACE>gPL :<C-u>AsyncRun -cwd=<root> git pull --all<CR>
+" nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
 " nnoremap <silent> <SPACE>gu <Nop>
 " nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
 " nnoremap <silent> <SPACE>ga <Nop>
@@ -210,12 +210,12 @@ nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
 " nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
 " nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
 
-nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
-nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
-nnoremap <silent> <SPACE>gip :<C-u>Gist --private<CR>
-nnoremap <silent> <SPACE>giP :<C-u>Gist --public<CR>
-nnoremap <silent> <SPACE>gia :<C-u>Gist --anonymous<CR>
-nnoremap <SPACE>gis :<C-u>Gist --description<space>
+" nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
+" nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
+" nnoremap <silent> <SPACE>gip :<C-u>Gist --private<CR>
+" nnoremap <silent> <SPACE>giP :<C-u>Gist --public<CR>
+" nnoremap <silent> <SPACE>gia :<C-u>Gist --anonymous<CR>
+" nnoremap <SPACE>gis :<C-u>Gist --description<space>
 
 nnoremap <silent> <SPACE>gdb :<C-u>Denite gitdiff_file -no-empty<CR>
 nnoremap <silent> <SPACE>gdB :<C-u>Denite gitdiff_file:: -no-empty<CR>
@@ -253,23 +253,23 @@ nnoremap <silent> <Space>jv :Vaffle<CR>
 nnoremap <silent> <Space>js :Startify<CR>
 
 "C keybind {{{2
-nmap <SPACE>cn <plug>NERDCommenterNested
-nmap <SPACE>cy <plug>NERDCommenterYank
-nmap <SPACE>cm <plug>NERDCommenterMinimal
-nmap <SPACE>cc <plug>NERDCommenterToggle
-nmap <SPACE>cs <plug>NERDCommenterSexy
-nmap <SPACE>ci <plug>NERDCommenterToEOL
-nmap <SPACE>cA <plug>NERDCommenterAppend
-nmap <SPACE>cx <plug>NERDCommenterAltDelims
-
-xmap <SPACE>cn <plug>NERDCommenterNested
-xmap <SPACE>cy <plug>NERDCommenterYank
-xmap <SPACE>cm <plug>NERDCommenterMinimal
-xmap <SPACE>cc <plug>NERDCommenterToggle
-xmap <SPACE>cs <plug>NERDCommenterSexy
-xmap <SPACE>ci <plug>NERDCommenterToEOL
-xmap <SPACE>cA <plug>NERDCommenterAppend
-xmap <SPACE>cx <plug>NERDCommenterAltDelims
+" nmap <SPACE>cn <plug>NERDCommenterNested
+" nmap <SPACE>cy <plug>NERDCommenterYank
+" nmap <SPACE>cm <plug>NERDCommenterMinimal
+" nmap <SPACE>cc <plug>NERDCommenterToggle
+" nmap <SPACE>cs <plug>NERDCommenterSexy
+" nmap <SPACE>ci <plug>NERDCommenterToEOL
+" nmap <SPACE>cA <plug>NERDCommenterAppend
+" nmap <SPACE>cx <plug>NERDCommenterAltDelims
+"
+" xmap <SPACE>cn <plug>NERDCommenterNested
+" xmap <SPACE>cy <plug>NERDCommenterYank
+" xmap <SPACE>cm <plug>NERDCommenterMinimal
+" xmap <SPACE>cc <plug>NERDCommenterToggle
+" xmap <SPACE>cs <plug>NERDCommenterSexy
+" xmap <SPACE>ci <plug>NERDCommenterToEOL
+" xmap <SPACE>cA <plug>NERDCommenterAppend
+" xmap <SPACE>cx <plug>NERDCommenterAltDelims
 
 nnoremap <SPACE>cd :<C-u>lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
 

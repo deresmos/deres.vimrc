@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/will133/vim-dirdiff"
+  rev: 7d588e7658d8a643241a379fe5bbd22071025090
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~
