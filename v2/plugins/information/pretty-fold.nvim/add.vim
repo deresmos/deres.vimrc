@@ -10,7 +10,7 @@ require('pretty-fold').setup({
          function(config) return config.fill_char:rep(3) end
       }
    },
-   fill_char = '-',
+   fill_char = ' ',
    remove_fold_markers = true,
    keep_indentation = true,
    -- Possible values:

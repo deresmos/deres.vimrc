@@ -74,10 +74,10 @@ end
 
 lualine_config.diagnostics = function()
   local counter = {}
-  counter.error = vim.diagnostic.get(0, 'Error')
-  counter.warning = vim.diagnostic.get(0, 'Warning')
-  counter.info = vim.diagnostic.get(0, 'Information')
-  counter.hint = vim.diagnostic.get(0, 'Hint')
+  counter.error = vim.diagnostic.get(0, {severity = vim.diagnostic.severity.ERROR})
+  counter.warning = vim.diagnostic.get(0, {severity = vim.diagnostic.severity.WARN})
+  counter.info = vim.diagnostic.get(0, {severity = vim.diagnostic.severity.INFO})
+  counter.hint = vim.diagnostic.get(0, {severity = vim.diagnostic.severity.HINT})
 
   local s = ""
   if counter.error ~= 0 then
@@ -153,7 +153,7 @@ require'lualine'.setup {
       },
     },
     lualine_x = {
-      lualine_config.diagnostics,
+      'diagnostics',
       'encoding',
       lualine_config.indent_type,
       'fileformat',
