@@ -2,10 +2,6 @@
 repo = 'hrsh7th/cmp-nvim-lsp'
 
 [[plugins]]
-repo = 'hrsh7th/cmp-nvim-lsp-signature-help'
-on_lua = ['lsp_signature']
-
-[[plugins]]
 repo = 'ray-x/lsp_signature.nvim'
 on_lua = ['lsp_signature']
 
@@ -309,6 +305,21 @@ colorscheme nightfox
 '''
 
 [[plugins]]
+repo = 'klen/nvim-config-local'
+hook_add = '''
+lua << EOF
+    require('config-local').setup {
+      config_files = { ".vimrc.lua", ".vimrc" },
+      hashfile = vim.fn.stdpath("cache") .. "/config-local",
+      autocommands_create = true,
+      commands_create = true,
+      silent = false,
+      lookup_parents = true,
+    }
+EOF
+'''
+
+[[plugins]]
 repo = 'deresmos/nvim-term'
 hook_add = '''
   let g:nvimterm#toggle_size = 30
@@ -468,10 +479,20 @@ nnoremap <silent> <SPACE>udt <cmd>UndotreeToggle<CR>
 '''
 
 [[plugins]]
+repo = 'mildred/vim-bufmru'
+hook_add = '''
+nnoremap <silent><Space>bp <cmd>BufMRUNext<CR>
+nnoremap <silent><Space>bn <cmd>BufMRUPrev<CR>
+'''
+
+[[plugins]]
 repo = 'schickling/vim-bufonly'
 hook_add = '''
 nnoremap <silent> <SPACE>bO <cmd>BufOnly!<CR>
 '''
+
+[[plugins]]
+repo = 'tpope/vim-dispatch'
 
 [[plugins]]
 repo = 'RRethy/vim-illuminate'

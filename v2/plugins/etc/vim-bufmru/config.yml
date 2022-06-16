@@ -1,15 +1,14 @@
 ---
 config:
-  url: "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
+  url: "https://github.com/mildred/vim-bufmru"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true
   dein:
     ftplugin: false
-    on_lua:
-      - lsp_signature
+    on_lua: ~
     on_event: ~
     on_source: ~
