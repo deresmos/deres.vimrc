@@ -7,6 +7,10 @@ repo = 'hrsh7th/cmp-calc'
 on_source = ['nvim-cmp']
 
 [[plugins]]
+repo = 'rcarriga/cmp-dap'
+on_source = ['nvim-cmp']
+
+[[plugins]]
 repo = 'hrsh7th/cmp-nvim-lua'
 on_source = ['nvim-cmp']
 
@@ -486,10 +490,6 @@ call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGu
 '''
 
 [plugins.ftplugin]
-denite-filter = '''
-  imap <silent><buffer> fd
-    \ <ENTER>
-'''
 denite = '''
   nnoremap <silent><buffer><expr> <CR>
     \ denite#do_map('do_action')
@@ -556,6 +556,10 @@ denite = '''
     \ denite#do_map('do_action', 'gedit')
   nnoremap <silent><buffer><expr> gt
     \ denite#do_map('do_action', 'tabgedit')
+'''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
 '''
 
 [[plugins]]

@@ -619,7 +619,10 @@ nnoremap <silent> <SPACE>ff <cmd>lua require'telescope.builtin'.find_files()<CR>
 nnoremap <silent> <SPACE>bf <cmd>lua require'telescope.builtin'.find_files({cwd = vim.fn.expand('%:p:h')})<CR>
 nnoremap <silent> <SPACE>pf <cmd>lua require'telescope.builtin'.git_files()<CR>
 
+nnoremap <silent> <SPACE>bb <cmd>lua require'telescope.builtin'.buffers()<CR>
+
 nnoremap <silent> <SPACE>fg <cmd>lua require'telescope.builtin'.live_grep()<CR>
+nnoremap <silent> <SPACE>bg <cmd>lua require'telescope.builtin'.live_grep({cwd = vim.fn.expand('%:p:h')})<CR>
 nnoremap <silent> <SPACE>pg <cmd>lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <silent> <SPACE>fr <cmd>lua require'telescope.builtin'.resume()<CR>
 '''
