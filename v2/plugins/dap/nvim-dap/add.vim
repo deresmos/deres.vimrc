@@ -22,17 +22,10 @@ nnoremap <silent> <SPACE>mdf <cmd>lua Dap.run_file()<CR>
 nnoremap <silent> <SPACE>mdt <cmd>lua Dap.run_test()<CR>
 nnoremap <silent> <SPACE>mdm <cmd>lua Dap.run_test_nearest()<CR>
 
-nnoremap <silent> <SPACE>mdQ <cmd>call <SID>dapTerminate()<CR>
+nnoremap <silent> <SPACE>mdQ <cmd>lua require'dap'.terminate()<CR>
 
 nnoremap <silent> <SPACE>mdT <cmd>lua require'dapui'.toggle()<CR>
 nnoremap <silent> <SPACE>mdF <cmd>call <SID>openFloatWin()<CR>
-
-function! s:dapTerminate() abort
-  lua require'dap'.terminate()
-  lua require'dapui'.close()
-  lua require'nvim-dap-virtual-text'.refresh()
-  tabclose
-endfunction
 
 function! s:openFloatWin() abort
 lua << EOF

@@ -53,6 +53,8 @@ lua << EOF
           ["<C-u>"] = false,
           ["<C-Up>"] = actions.cycle_history_prev,
           ["<C-Down>"] = actions.cycle_history_next,
+          ["<C-j>"] = actions.move_selection_next, 
+          ["<C-k>"] = actions.move_selection_previous, 
         },
         n = {
           ["q"] = actions.close,
@@ -68,10 +70,10 @@ lua << EOF
     extensions = {
       file_browser = {
         mappings = {
-          ["i"] = {
+          i = {
             ["<C-h>"] = fb_actions.goto_parent_dir, 
           },
-          ["n"] = {
+          n = {
             ["l"] = actions.select_default,
             ["h"] = fb_actions.goto_parent_dir,
           },
