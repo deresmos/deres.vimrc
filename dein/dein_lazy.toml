@@ -890,10 +890,6 @@ call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGu
 '''
 
 [plugins.ftplugin]
-denite-filter = '''
-  imap <silent><buffer> fd
-    \ <ENTER>
-'''
 denite = '''
   nnoremap <silent><buffer><expr> <CR>
     \ denite#do_map('do_action')
@@ -960,6 +956,10 @@ denite = '''
     \ denite#do_map('do_action', 'gedit')
   nnoremap <silent><buffer><expr> gt
     \ denite#do_map('do_action', 'tabgedit')
+'''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
 '''
 
 [[plugins]]
@@ -1556,10 +1556,6 @@ EOF
 let g:test#custom_strategies = {'dap': function('DapStrategy')}
 " let g:test#strategy = 'dap'
 '''
-
-[[plugins]]
-repo = 'rcarriga/vim-ultest'
-on_source = ['vim-test']
 
 [[plugins]]
 repo = 'liuchengxu/vista.vim'

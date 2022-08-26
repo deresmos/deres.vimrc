@@ -32,8 +32,8 @@ execute 'source' g:dein_plugin_rc_path.'/dein.vim'
 filetype plugin indent on
 
 "Vim setting {{{1
-" execute 'source' s:vim_conf_path . '/color.vim'
-" execute 'source' s:vim_conf_path . '/filetype.vim'
+execute 'source' s:vim_conf_path . '/color.vim'
+execute 'source' s:vim_conf_path . '/filetype.vim'
 
 if exists('+termguicolors')
   set termguicolors
@@ -94,10 +94,10 @@ endfunction
 nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
 
 "D keybind{{{2
-" nnoremap <silent> <SPACE>dl :Denite -resume<CR>
+nnoremap <silent> <SPACE>dl :Denite -resume<CR>
 " nnoremap <silent> <SPACE>dm :Denite menu:all<CR>
-nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
-nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
+" nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
+" nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
 nnoremap <silent> <SPACE>dt :Denite tag -start-filter<CR>
 nnoremap <silent> <SPACE>dp :Denite dein -default-action=open -start-filter<CR>
 nnoremap <SPACE>df :<C-u>DictionaryTranslate<space>
@@ -232,8 +232,8 @@ nnoremap <SPACE>vE :<C-u>set virtualedit=<CR>
 "S keybind{{{2
 " session keybind
 nnoremap <SPACE>ss :<C-u>SSave<Space>
-nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
-nnoremap <silent> <SPACE>sl :<C-u>Denite session -start-filter<CR>
+nnoremap <silent> <SPACE>sS <cmd>SSave!<CR>
+" nnoremap <silent> <SPACE>sl :<C-u>Denite session -start-filter<CR>
 nnoremap <silent> <SPACE>sL :<C-u>SLoad workspace<CR>
 nnoremap <SPACE>sd :<C-u>SDelete<Space>
 nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:cd ~<CR>

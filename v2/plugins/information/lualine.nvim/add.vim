@@ -99,6 +99,14 @@ lualine_config.diagnostics = function()
   return s
 end
 
+lualine_config.lsp_status = function()
+  if #vim.lsp.buf_get_clients() == 0 then
+    return ''
+  end
+
+  return require('lsp-status').status()
+end
+
 function custom_theme()
   local colors = {
     blue   = '#61afef',
@@ -127,10 +135,12 @@ function custom_theme()
   }
 end
 
+local navic = require("nvim-navic")
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = custom_theme(),
+    -- theme = custom_theme(),
+    theme = 'tokyonight',
     component_separators = { left = '', right = ''},
     section_separators = '',
     disabled_filetypes = {'defx'},
@@ -143,17 +153,22 @@ require'lualine'.setup {
     lualine_c = {
       lualine_config.git_branch,
       lualine_config.git_diff_status,
-      -- lualine_config.current_function,
       {
-        "aerial",
-        sep = ' > ',
-        depth = nil,
-        dense = true,
-        dense_sep = '.',
+        navic.get_location,
+        cond = navic.is_available
       },
+      -- lualine_config.current_function,
+      -- {
+      --   "aerial",
+      --   sep = ' > ',
+      --   depth = 2,
+      --   dense = true,
+      --   dense_sep = '.',
+      -- },
     },
     lualine_x = {
       'diagnostics',
+      lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,
       'fileformat',
@@ -182,6 +197,22 @@ require'lualine'.setup {
     lualine_z = {},
   },
   tabline = {},
+  winbar = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filename', file_status = true, path = 3}},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  inactive_winbar = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filename', file_status = true, path = 3}},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
   extensions = {},
 }
 

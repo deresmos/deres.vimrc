@@ -72,6 +72,7 @@ lua << EOF
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<C-m>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = cmp.config.sources({
       { name = 'dap' },
@@ -87,6 +88,13 @@ lua << EOF
     }),
   })
 EOF
+'''
+
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-completion'
+on_source = ['nvim-cmp']
+hook_source = '''
+autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })
 '''
 
 [[plugins]]
@@ -490,10 +498,6 @@ call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGu
 '''
 
 [plugins.ftplugin]
-denite-filter = '''
-  imap <silent><buffer> fd
-    \ <ENTER>
-'''
 denite = '''
   nnoremap <silent><buffer><expr> <CR>
     \ denite#do_map('do_action')
@@ -561,6 +565,17 @@ denite = '''
   nnoremap <silent><buffer><expr> gt
     \ denite#do_map('do_action', 'tabgedit')
 '''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
+'''
+
+[[plugins]]
+repo = 'rafi/vim-denite-session'
+on_source = ['denite.nvim']
+hook_source = '''
+  call denite#custom#var('session', 'path', g:startify_session_dir)
+'''
 
 [[plugins]]
 repo = 'rhysd/conflict-marker.vim'
@@ -613,8 +628,20 @@ lua << EOF
     end
   end
 
+  local defaultTextDocumentReferences = vim.lsp.handlers['textDocument/references']
+  local customReferences = function(_, result, ctx, config)
+      if not result or vim.tbl_isempty(result) then
+        vim.notify('No references found')
+      else
+        defaultTextDocumentReferences(_, result, ctx, config)
+        vim.cmd("quit")
+        vim.cmd("Trouble quickfix")
+      end
+  end
+
   vim.lsp.handlers['callHierarchy/incomingCalls'] = customCallHierachy("in")
   vim.lsp.handlers['callHierarchy/outgoingCalls'] = customCallHierachy("out")
+  vim.lsp.handlers['textDocument/references'] = customReferences
 EOF
 '''
 hook_source = '''
@@ -936,10 +963,6 @@ EOF
 let g:test#custom_strategies = {'dap': function('DapStrategy')}
 " let g:test#strategy = 'dap'
 '''
-
-[[plugins]]
-repo = 'rcarriga/vim-ultest'
-on_source = ['vim-test']
 
 [[plugins]]
 repo = 'liuchengxu/vista.vim'

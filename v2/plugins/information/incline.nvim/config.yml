@@ -1,12 +1,12 @@
 ---
 config:
-  url: "https://github.com/b0o/incline.nvim"
-  rev: ~
+  url: "https://github.com/deresmos/incline.nvim"
+  rev: fix/dup-tag
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: true
+  enable: false
   dein:
     ftplugin: false
     on_lua: ~

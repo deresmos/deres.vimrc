@@ -30,6 +30,18 @@ lua << EOF
     end
   end
 
+  local defaultTextDocumentReferences = vim.lsp.handlers['textDocument/references']
+  local customReferences = function(_, result, ctx, config)
+      if not result or vim.tbl_isempty(result) then
+        vim.notify('No references found')
+      else
+        defaultTextDocumentReferences(_, result, ctx, config)
+        vim.cmd("quit")
+        vim.cmd("Trouble quickfix")
+      end
+  end
+
   vim.lsp.handlers['callHierarchy/incomingCalls'] = customCallHierachy("in")
   vim.lsp.handlers['callHierarchy/outgoingCalls'] = customCallHierachy("out")
+  vim.lsp.handlers['textDocument/references'] = customReferences
 EOF

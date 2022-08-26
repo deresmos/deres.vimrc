@@ -29,7 +29,7 @@ filetype plugin on
 set noshowmode
 set spelllang=en_us
 set cursorline
-set colorcolumn=80
+" set colorcolumn=80
 set tags=./.tags;~
 set showcmd
 set mouse=a
@@ -99,6 +99,9 @@ augroup END
 " fold setting{{{1
 set foldenable
 set foldcolumn=0
+set foldlevel=99
+set foldlevelstart=99
+set fillchars=foldopen:\ ,foldsep:\ ,foldclose:
 
 augroup foldmethod
   autocmd!
@@ -266,6 +269,7 @@ vnoremap fd <ESC>
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 nnoremap <silent> <SPACE>of :<C-u>silent! !xdg-open %<CR>
+map <C-m> <CR>
 
 nnoremap x "_x
 vnoremap x "_x
@@ -543,3 +547,41 @@ function! StopProfile() abort
   profile pause
   noautocmd qall!
 endfunc
+
+" sessions
+command! -nargs=1 SaveSession call s:saveSession(<f-args>)
+function! s:saveSession(file) abort
+  execute 'silent mksession!' g:startify_session_dir . '/' . a:file
+  echomsg 'Saved: ' . a:file
+endfunction
+
+command! -nargs=1 LoadSession call s:loadSession(<f-args>)
+function! s:loadSession(file)
+    execute 'silent source' g:startify_session_dir . '/' . a:file
+endfunction
+
+lua << EOF
+  function scandir(directory)
+      local i, t, popen = 0, {}, io.popen
+      local pfile = popen('ls -a "'..directory..'"')
+      for filename in pfile:lines() do
+          i = i + 1
+          t[i] = filename
+      end
+      pfile:close()
+      return t
+  end
+EOF
+
+                 " vim.ui.select({ 'tabs', 'spaces' }, {
+                 "     prompt = 'Select tabs or spaces:',
+                 "     format_item = function(item)
+                 "         return "I'd like to choose " .. item
+                 "     end,
+                 " }, function(choice)
+                 "     if choice == 'spaces' then
+                 "         vim.o.expandtab = true
+                 "     else
+                 "         vim.o.expandtab = false
+                 "     end
+                 " end)

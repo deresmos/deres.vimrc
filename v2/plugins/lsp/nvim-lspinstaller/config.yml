@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/williamboman/nvim-lsp-installer"
+  url: "https://github.com/williamboman/mason.nvim"
   rev: ~
   filetypes: ~
   commands: ~

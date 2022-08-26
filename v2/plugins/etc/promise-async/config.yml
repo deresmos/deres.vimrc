@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/rcarriga/vim-ultest"
+  url: "https://github.com/kevinhwang91/promise-async"
   rev: ~
   filetypes: ~
   commands: ~
@@ -11,5 +11,4 @@ config:
     ftplugin: false
     on_lua: ~
     on_event: ~
-    on_source:
-      - vim-test
+    on_source: ~

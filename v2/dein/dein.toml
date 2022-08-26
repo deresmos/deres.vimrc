@@ -180,25 +180,24 @@ require("dapui").setup({
     edit = "e",
     repl = "r",
   },
-  sidebar = {
-    -- You can change the order of elements in the sidebar
-    elements = {
-      -- Provide as ID strings or tables with "id" and "size" keys
-      {
-        id = "scopes",
-        size = 0.35, -- Can be float or integer > 1
+  layouts = {
+    {
+      elements = {
+        "scopes",
+        "watches",
+        "stacks",
+        "breakpoints",
       },
-      { id = "watches", size = 0.25 },
-      { id = "stacks", size = 0.25 },
-      { id = "breakpoints", size = 0.15 },
+      size = 55,
+      position = "left",
     },
-    size = 55,
-    position = "left", -- Can be "left", "right", "top", "bottom"
-  },
-  tray = {
-    elements = { "repl" },
-    size = 10,
-    position = "bottom", -- Can be "left", "right", "top", "bottom"
+    {
+      elements = {
+        "repl",
+      },
+      size = 10,
+      position = "bottom",
+    },
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
@@ -286,15 +285,12 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'antoinemadec/FixCursorHold.nvim'
+
+[[plugins]]
 repo = 'lewis6991/impatient.nvim'
 hook_add = '''
 lua require'impatient'
-'''
-
-[[plugins]]
-repo = 'EdenEast/nightfox.nvim'
-hook_add = '''
-colorscheme nightfox
 '''
 
 [[plugins]]
@@ -302,13 +298,61 @@ repo = 'klen/nvim-config-local'
 hook_add = '''
 lua << EOF
     require('config-local').setup {
-      config_files = { ".vimrc.lua", ".vimrc" },
+      config_files = { ".local.vimrc" },
       hashfile = vim.fn.stdpath("cache") .. "/config-local",
       autocommands_create = true,
       commands_create = true,
       silent = false,
       lookup_parents = true,
     }
+EOF
+'''
+
+[[plugins]]
+repo = 'AckslD/nvim-neoclip.lua'
+hook_add = '''
+lua << EOF
+require('neoclip').setup({
+  history = 100,
+  enable_persistent_history = true,
+  length_limit = 1048576,
+  continuous_sync = true,
+  db_path = vim.fn.stdpath("data") .. "/neoclip.sqlite3",
+  filter = nil,
+  preview = true,
+  default_register = '"',
+  default_register_macros = 'q',
+  enable_macro_history = true,
+  content_spec_column = false,
+  on_paste = {
+    set_reg = false,
+  },
+  on_replay = {
+    set_reg = false,
+  },
+  keys = {
+    telescope = {
+      i = {
+        select = '<cr>',
+        paste = '<c-p>',
+        paste_behind = '<c-k>',
+        replay = '<c-q>',  -- replay a macro
+        delete = '<c-d>',  -- delete an entry
+        custom = {},
+      },
+      n = {
+        select = '<cr>',
+        paste = 'p',
+        --- It is possible to map to more than one key.
+        -- paste = { 'p', '<c-p>' },
+        paste_behind = 'P',
+        replay = '@',
+        delete = 'D',
+        custom = {},
+      },
+    },
+  },
+})
 EOF
 '''
 
@@ -342,6 +386,12 @@ repo = 'kyazdani42/nvim-web-devicons'
 
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
+repo = 'kevinhwang91/promise-async'
+hook_add = '''
+
+'''
 
 [[plugins]]
 repo = 'fuenor/qfixhowm'
@@ -417,6 +467,12 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'kkharji/sqlite.lua'
+hook_add = '''
+
+'''
+
+[[plugins]]
 repo = 'akinsho/toggleterm.nvim'
 hook_add = '''
 nnoremap <silent> <SPACE>to :ToggleTerm direction=horizontal size=20<CR>
@@ -466,6 +522,13 @@ EOF
 '''
 
 [[plugins]]
+repo = 'folke/tokyonight.nvim'
+hook_add = '''
+let g:tokyonight_style = "night"
+colorscheme tokyonight
+'''
+
+[[plugins]]
 repo = 'mbbill/undotree'
 hook_add = '''
 nnoremap <silent> <SPACE>udt <cmd>UndotreeToggle<CR>
@@ -489,6 +552,21 @@ repo = 'tpope/vim-dispatch'
 
 [[plugins]]
 repo = 'RRethy/vim-illuminate'
+hook_add = '''
+augroup illuminate_augroup
+    autocmd!
+    autocmd VimEnter * hi illuminatedWord cterm=underline gui=underline
+augroup END
+'''
+
+[[plugins]]
+repo = 'thinca/vim-qfreplace'
+
+[[plugins]]
+repo = 'qpkorr/vim-renamer'
+hook_add = '''
+
+'''
 
 [[plugins]]
 repo = 'deresmos/vim-spatab'
@@ -499,6 +577,43 @@ hook_add = '''
     autocmd!
     autocmd BufReadPost * STDetect
   augroup END
+'''
+
+[[plugins]]
+repo = 'mhinz/vim-startify'
+hook_add = '''
+let g:startify_disable_at_vimenter = 1
+let g:startify_files_number = 10
+let g:startify_custom_indices = ['a', 'b', 'c', 'd', 'f', 'g', 'i', 'm',
+  \ 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z']
+let g:startify_list_order = [
+  \ ['Bookmarks:'],
+  \ 'bookmarks',
+  \ ['Recentry open files:'],
+  \ 'files',
+  \ ['Recentry open files in dir:'],
+  \ 'dir',
+  \ ]
+
+let g:startify_session_sort = 0
+let g:startify_session_persistence = 0
+let g:startify_session_savevars = [
+  \ ]
+
+let g:startify_session_before_save = [
+  \ 'echo "Cleaning up before saving..."',
+  \ 'silent! call CloseUnloadedBuffers()',
+  \ 'silent! bd __XtermColorTable__',
+  \ ]
+
+let g:startify_custom_header = [
+\"        _                                   _            ",
+\"     __| |  ___  _ __   ___  ___    __   __(_) _ __ ___  ",
+\"    / _` | / _ \\| '__| / _ \\/ __|   \\ \\ / /| || '_ ` _ \\ ",
+\"   | (_| ||  __/| |   |  __/\\__ \\ _  \\ V / | || | | | | |",
+\"    \\__,_| \\___||_|    \\___||___/(_)  \\_/  |_||_| |_| |_|",
+\ ]
+let g:startify_change_to_dir = 1
 '''
 
 [[plugins]]
@@ -525,6 +640,7 @@ on_lua = ['telescope']
 hook_add = '''
 lua << EOF
   local actions = require("telescope.actions")
+  local action_state = require('telescope.actions.state')
   local fb_actions = require("telescope").extensions.file_browser.actions
 
   require('telescope').setup{
@@ -608,18 +724,74 @@ lua << EOF
   }
 
   require("telescope").load_extension("file_browser")
+
+  SessionActions = {}
+  SessionActions.load_session = function(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    actions.close(prompt_bufnr)
+      local cmd = "SLoad " .. string.gsub(selection.path, "(.*/)(.*)", "%2")
+      local success, result = pcall(vim.cmd, cmd)
+  end
+
+  SessionActions.delete_session = function(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    actions.close(prompt_bufnr)
+      local cmd = "source " .. selection.path
+      local success, result = pcall(vim.cmd, cmd)
+  end
+
+  function SessionList()
+    local opts = {
+      prompt_title = 'Sessions',
+      cwd = vim.g.startify_session_dir,
+      find_command = {"rg","--ignore","--hidden","--files","--sortr=modified"},
+      attach_mappings = function(_, map)
+        actions.select_default:replace(SessionActions.load_session)
+        map("n", "D", fb_actions.remove)
+        return true
+      end,
+    }
+
+    require("telescope.builtin").find_files(opts)
+  end
+
+  function TestStatus()
+    local opts = {
+      attach_mappings = function(_, map)
+        return true
+      end,
+    }
+
+    require("telescope.builtin").git_status(opts)
+  end
+
 EOF
 
 nnoremap <silent> <SPACE>ff <cmd>lua require'telescope.builtin'.find_files()<CR>
 nnoremap <silent> <SPACE>bf <cmd>lua require'telescope.builtin'.find_files({cwd = vim.fn.expand('%:p:h')})<CR>
-nnoremap <silent> <SPACE>pf <cmd>lua require'telescope.builtin'.git_files()<CR>
+nnoremap <silent> <SPACE>pf <cmd>lua require'telescope.builtin'.git_files({show_untracked=false})<CR>
+nnoremap <silent> <SPACE>fr <cmd>lua require'telescope.builtin'.oldfiles()<CR>
 
 nnoremap <silent> <SPACE>bb <cmd>lua require'telescope.builtin'.buffers()<CR>
 
 nnoremap <silent> <SPACE>fg <cmd>lua require'telescope.builtin'.live_grep()<CR>
+nnoremap <silent> <SPACE>fG <cmd>lua require'telescope.builtin'.grep_string({search=vim.fn.expand('<cword>')})<CR>
 nnoremap <silent> <SPACE>bg <cmd>lua require'telescope.builtin'.live_grep({cwd = vim.fn.expand('%:p:h')})<CR>
+nnoremap <silent> <SPACE>bG <cmd>lua require'telescope.builtin'.grep_string({cwd=vim.fn.expand('%:p:h'), search=vim.fn.expand('<cword>')})<CR>
 nnoremap <silent> <SPACE>pg <cmd>lua require'telescope.builtin'.live_grep()<CR>
-nnoremap <silent> <SPACE>fr <cmd>lua require'telescope.builtin'.resume()<CR>
+nnoremap <silent> <SPACE>fl <cmd>lua require'telescope.builtin'.resume()<CR>
+
+nnoremap <silent> <SPACE>fb <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true})<CR>
+nnoremap <silent> <SPACE>fB <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true, select_buffer=true})<CR>
+
+nnoremap <silent> <SPACE>gS <cmd>lua require'telescope.builtin'.git_status()<CR>
+nnoremap <silent> <SPACE>sl <cmd>lua SessionList()<CR>
+
+nnoremap <silent> <SPACE>mgi <cmd>lua require'telescope.builtin'.lsp_implementations()<CR>
+nnoremap <silent> <SPACE>mfs <cmd>lua require'telescope.builtin'.lsp_document_symbols({fname_width=80, ignore_symbols='field', show_line=true})<CR>
+
+nnoremap <silent> <SPACE>nc <cmd>lua require('telescope').extensions.neoclip.default()<CR>
+nnoremap <silent> <SPACE>ms <cmd>lua require('telescope').extensions.macroscope.default()<CR>
 '''
 
 [[plugins]]
@@ -649,8 +821,8 @@ EOF
 [[plugins]]
 repo = 'lewis6991/gitsigns.nvim'
 hook_add = '''
-nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk()<CR>
-nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.next_hunk()<CR>
+nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>
+nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.next_hunk({wrap=false})<CR>
 nnoremap <silent> <SPACE>gp <cmd>lua require'gitsigns'.preview_hunk()<CR>
 nnoremap <silent> <SPACE>gu <Nop>
 nnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk()<CR>
@@ -659,6 +831,8 @@ nnoremap <silent> <SPACE>ga <Nop>
 nnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk()<CR>
 xnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
 nnoremap <silent> <SPACE>gtt <cmd>lua require'gitsigns'.toggle_signs()<CR>
+nnoremap <silent> <SPACE>gtw <cmd>lua require'gitsigns'.toggle_word_diff()<CR>
+nnoremap <silent> <SPACE>gtd <cmd>lua require'gitsigns'.toggle_deleted()<CR>
 
 lua << EOF
   require('gitsigns').setup {
@@ -703,7 +877,7 @@ lua << EOF
       end
       return table.concat(status_txt, ' ')
     end,
-    max_file_length = 10000,
+    max_file_length = 50000,
     preview_config = {
       border = 'single',
       style = 'minimal',
@@ -770,77 +944,6 @@ fugitive = '''
   nmap <buffer> <SPACE>vo <
   nmap <buffer> <SPACE>vc >
   nmap <buffer><silent> q :quit<CR>
-'''
-
-[[plugins]]
-repo = 'b0o/incline.nvim'
-hook_add = '''
-lua << EOF
-
-require('incline').setup {
-  render = "basic",
-  debounce_threshold = {
-    falling = 50,
-    rising = 10
-  },
-  hide = {
-    focused_win = false,
-  },
-  highlight = {
-    groups = {
-      InclineNormal = "IncSearch",
-      InclineNormalNC = "Visual"
-    },
-  },
-  ignore = {
-    buftypes = "special",
-    filetypes = {},
-    floating_wins = true,
-    unlisted_buffers = true,
-    wintypes = "special",
-  },
-  window = {
-    margin = {
-      horizontal = {
-        left = 1,
-        right = 1
-      },
-      vertical = {
-        bottom = 0,
-        top = 1
-      },
-    },
-    options = {
-      signcolumn = "no",
-      wrap = false
-    },
-    padding = {
-      left = 1,
-      right = 1
-    },
-    padding_char = " ",
-    placement = {
-      horizontal = "right",
-      vertical = "top",
-    },
-    width = "fit",
-    winhighlight = {
-      active = {
-        EndOfBuffer = "None",
-        Normal = "InclineNormal",
-        Search = "None"
-      },
-      inactive = {
-        EndOfBuffer = "None",
-        Normal = "InclineNormalNC",
-        Search = "None"
-      }
-    },
-    zindex = 50,
-  },
-}
-
-EOF
 '''
 
 [[plugins]]
@@ -947,6 +1050,14 @@ lualine_config.diagnostics = function()
   return s
 end
 
+lualine_config.lsp_status = function()
+  if #vim.lsp.buf_get_clients() == 0 then
+    return ''
+  end
+
+  return require('lsp-status').status()
+end
+
 function custom_theme()
   local colors = {
     blue   = '#61afef',
@@ -975,10 +1086,12 @@ function custom_theme()
   }
 end
 
+local navic = require("nvim-navic")
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = custom_theme(),
+    -- theme = custom_theme(),
+    theme = 'tokyonight',
     component_separators = { left = '', right = ''},
     section_separators = '',
     disabled_filetypes = {'defx'},
@@ -991,17 +1104,22 @@ require'lualine'.setup {
     lualine_c = {
       lualine_config.git_branch,
       lualine_config.git_diff_status,
-      -- lualine_config.current_function,
       {
-        "aerial",
-        sep = ' > ',
-        depth = nil,
-        dense = true,
-        dense_sep = '.',
+        navic.get_location,
+        cond = navic.is_available
       },
+      -- lualine_config.current_function,
+      -- {
+      --   "aerial",
+      --   sep = ' > ',
+      --   depth = 2,
+      --   dense = true,
+      --   dense_sep = '.',
+      -- },
     },
     lualine_x = {
       'diagnostics',
+      lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,
       'fileformat',
@@ -1030,10 +1148,32 @@ require'lualine'.setup {
     lualine_z = {},
   },
   tabline = {},
+  winbar = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filename', file_status = true, path = 3}},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  inactive_winbar = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filename', file_status = true, path = 3}},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
   extensions = {},
 }
 
 EOF
+'''
+
+[[plugins]]
+repo = 'SmiteshP/nvim-navic'
+hook_add = '''
+
 '''
 
 [[plugins]]
@@ -1047,7 +1187,7 @@ require('pretty-fold').setup({
          'content',
       },
       right = {
-         ' ', 'number_of_folded_lines', ': ', 'percentage', ' ',
+         ' ', 'number_of_folded_lines',
          function(config) return config.fill_char:rep(3) end
       }
    },
@@ -1072,8 +1212,6 @@ require('pretty-fold').setup({
    ft_ignore = { 'neorg' },
 })
 
-require('pretty-fold.preview').setup()
-
 EOF
 '''
 
@@ -1085,6 +1223,12 @@ lua require'fidget'.setup{}
 
 [[plugins]]
 repo = 'nvim-lua/lsp-status.nvim'
+
+[[plugins]]
+repo = 'williamboman/mason-lspconfig.nvim'
+
+[[plugins]]
+repo = 'tamago324/nlsp-settings.nvim'
 
 [[plugins]]
 repo = 'neovim/nvim-lspconfig'
@@ -1108,7 +1252,22 @@ lua << EOF
   end
 
   local lsp_status = require('lsp-status')
+  lsp_status.config{
+    current_function = false,
+  }
   lsp_status.register_progress()
+
+  local navic = require("nvim-navic")
+
+  local nlspsettings = require("nlspsettings")
+  nlspsettings.setup({
+    config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
+    local_settings_dir = ".nlsp-settings",
+    local_settings_root_markers = { '.git' },
+    append_default_schemas = true,
+    loader = 'json',
+  })
+
 
   float_border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
   local on_attach = function (client, bufnr)
@@ -1116,11 +1275,13 @@ lua << EOF
 
     local opts = { noremap=true, silent=true }
     buf_set_keymap('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', '<Space>mgt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     -- buf_set_keymap('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
-    buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    -- buf_set_keymap('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', '<Space>mh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<Space>mca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<Space>mfr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     -- buf_set_keymap('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
     buf_set_keymap('n', '<Space>ek', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', '<Space>ej', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
@@ -1132,6 +1293,7 @@ lua << EOF
     -- buf_set_keymap('n', '<C-f>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(1)<CR>', opts)
     -- buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
 
+    navic.attach(client, bufnr)
     lsp_status.on_attach(client, bufnr)
     require'lsp_signature'.on_attach({
       bind = true,
@@ -1152,17 +1314,23 @@ lua << EOF
     })
   end
 
-  local lsp_installer = require("nvim-lsp-installer")
   local comp = require('cmp_nvim_lsp')
+  local nvim_lsp = require('lspconfig')
+  require("mason").setup()
+  require("mason-lspconfig").setup()
+  require("mason-lspconfig").setup_handlers {
+    function (server_name)
+      local opts = {
+        on_attach = on_attach,
+        capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+      }
 
-  lsp_installer.on_server_ready(function(server)
-    local opts = {
-      on_attach = on_attach,
-      capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    }
-
-    server:setup(opts)
-  end)
+      nvim_lsp[server_name].setup(opts)
+    end,
+    -- ["rust_analyzer"] = function ()
+    --     require("rust-tools").setup {}
+    -- end
+  }
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
    vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -1174,7 +1342,7 @@ EOF
 '''
 
 [[plugins]]
-repo = 'williamboman/nvim-lsp-installer'
+repo = 'williamboman/mason.nvim'
 
 [[plugins]]
 repo = 'phaazon/hop.nvim'
@@ -1438,6 +1606,12 @@ map <SPACE>cx <plug>NERDCommenterAltDelims
 
 [[plugins]]
 repo = 'deresmos/pytest-vim-compiler'
+
+[[plugins]]
+repo = 'tpope/vim-dadbod'
+
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-ui'
 
 [[plugins]]
 repo = 'sheerun/vim-polyglot'
