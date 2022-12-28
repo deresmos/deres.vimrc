@@ -87,7 +87,7 @@ lua << EOF
     function (server_name)
       local opts = {
         on_attach = on_attach,
-        capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        capabilities = comp.default_capabilities(vim.lsp.protocol.make_client_capabilities()),
       }
 
       nvim_lsp[server_name].setup(opts)

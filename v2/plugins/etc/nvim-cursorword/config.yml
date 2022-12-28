@@ -1,12 +1,12 @@
 ---
 config:
-  url: "https://github.com/RRethy/vim-illuminate"
+  url: "https://github.com/yamatsum/nvim-cursorline"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true
   dein:
     ftplugin: false
     on_lua: ~

@@ -80,10 +80,27 @@ lua << EOF
           },
         },
       },
+      undo = {
+        use_delta = true,
+        side_by_side = false,
+        mappings = {
+          i = {
+            ["<cr>"] = require'telescope-undo.actions'.yank_additions,
+            ["<S-cr>"] = require'telescope-undo.actions'.yank_deletions,
+            ["<C-cr>"] = require'telescope-undo.actions'.restore,
+          },
+          n = {
+            ["Y"] = require'telescope-undo.actions'.yank_additions,
+            ["D"] = require'telescope-undo.actions'.yank_deletions,
+            ["U"] = require'telescope-undo.actions'.restore,
+          },
+        },
+      },
     },
   }
 
   require("telescope").load_extension("file_browser")
+  require("telescope").load_extension("undo")
 
   SessionActions = {}
   SessionActions.load_session = function(prompt_bufnr)

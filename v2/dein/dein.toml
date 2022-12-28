@@ -309,6 +309,27 @@ EOF
 '''
 
 [[plugins]]
+repo = 'yamatsum/nvim-cursorline'
+hook_add = '''
+lua << EOF
+
+require('nvim-cursorline').setup {
+  cursorline = {
+    enable = true,
+    timeout = 1000,
+    number = false,
+  },
+  cursorword = {
+    enable = true,
+    min_length = 3,
+    hl = { underline = true },
+  }
+}
+
+EOF
+'''
+
+[[plugins]]
 repo = 'AckslD/nvim-neoclip.lua'
 hook_add = '''
 lua << EOF
@@ -551,15 +572,6 @@ nnoremap <silent> <SPACE>bO <cmd>BufOnly!<CR>
 repo = 'tpope/vim-dispatch'
 
 [[plugins]]
-repo = 'RRethy/vim-illuminate'
-hook_add = '''
-augroup illuminate_augroup
-    autocmd!
-    autocmd VimEnter * hi illuminatedWord cterm=underline gui=underline
-augroup END
-'''
-
-[[plugins]]
 repo = 'thinca/vim-qfreplace'
 
 [[plugins]]
@@ -633,6 +645,9 @@ hook_add = '''
 [[plugins]]
 repo = 'nvim-telescope/telescope-file-browser.nvim'
 on_lua = ['telescope']
+
+[[plugins]]
+repo = 'debugloop/telescope-undo.nvim'
 
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
@@ -720,10 +735,27 @@ lua << EOF
           },
         },
       },
+      undo = {
+        use_delta = true,
+        side_by_side = false,
+        mappings = {
+          i = {
+            ["<cr>"] = require'telescope-undo.actions'.yank_additions,
+            ["<S-cr>"] = require'telescope-undo.actions'.yank_deletions,
+            ["<C-cr>"] = require'telescope-undo.actions'.restore,
+          },
+          n = {
+            ["Y"] = require'telescope-undo.actions'.yank_additions,
+            ["D"] = require'telescope-undo.actions'.yank_deletions,
+            ["U"] = require'telescope-undo.actions'.restore,
+          },
+        },
+      },
     },
   }
 
   require("telescope").load_extension("file_browser")
+  require("telescope").load_extension("undo")
 
   SessionActions = {}
   SessionActions.load_session = function(prompt_bufnr)
@@ -1216,12 +1248,6 @@ EOF
 '''
 
 [[plugins]]
-repo = 'j-hui/fidget.nvim'
-hook_add = '''
-lua require'fidget'.setup{}
-'''
-
-[[plugins]]
 repo = 'nvim-lua/lsp-status.nvim'
 
 [[plugins]]
@@ -1322,7 +1348,7 @@ lua << EOF
     function (server_name)
       local opts = {
         on_attach = on_attach,
-        capabilities = comp.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        capabilities = comp.default_capabilities(vim.lsp.protocol.make_client_capabilities()),
       }
 
       nvim_lsp[server_name].setup(opts)
@@ -1612,6 +1638,21 @@ repo = 'tpope/vim-dadbod'
 
 [[plugins]]
 repo = 'kristijanhusak/vim-dadbod-ui'
+hook_add = '''
+function! s:customDBUIMapping() abort
+  nmap <buffer> l <Plug>(DBUI_SelectLine)
+  nmap <buffer> <C-M> <Plug>(DBUI_SelectLine)
+  nmap <buffer> o <Plug>(DBUI_SelectLine)
+endfunction
+
+nmap <Space>dbw <Plug>(DBUI_SaveQuery)
+nmap <Space>dbe <Plug>(DBUI_EditBindParameters)
+
+augroup my-vim-dabod-ui
+  autocmd!
+  autocmd FileType dbui call <SID>customDBUIMapping()
+augroup END
+'''
 
 [[plugins]]
 repo = 'sheerun/vim-polyglot'
@@ -1711,4 +1752,54 @@ build = ':TSUpdate'
 
 [[plugins]]
 repo = 'romgrk/nvim-treesitter-context'
-build = ':TSUpdate'
+hook_add = '''
+
+lua << EOF
+require'treesitter-context'.setup{
+    enable = true,
+    max_lines = 0,
+    trim_scope = 'outer',
+    min_window_height = 0,
+    patterns = {
+        default = {
+            'class',
+            'function',
+            'method',
+            'for',
+            'while',
+            'if',
+            'switch',
+            'case',
+            'interface',
+            'struct',
+            'enum',
+        },
+        rust = {
+            'impl_item',
+        },
+        terraform = {
+            'block',
+            'object_elem',
+            'attribute',
+        },
+        markdown = {
+            'section',
+        },
+        json = {
+            'pair',
+        },
+        typescript = {
+            'export_statement',
+        },
+        yaml = {
+            'block_mapping_pair',
+        },
+    },
+
+    zindex = 20,
+    mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+    separator = nil,
+}
+
+EOF
+'''
