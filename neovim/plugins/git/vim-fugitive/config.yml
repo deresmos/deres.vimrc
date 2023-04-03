@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/tpope/vim-fugitive"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: true
+    on_lua: ~
+    on_event: ~
+    on_source: ~

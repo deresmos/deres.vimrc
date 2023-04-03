@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/sheerun/vim-polyglot"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: "./build"
+  enable: true

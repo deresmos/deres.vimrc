@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/hoob3rt/lualine.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

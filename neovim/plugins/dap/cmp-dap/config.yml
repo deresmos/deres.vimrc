@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/rcarriga/cmp-dap"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: false

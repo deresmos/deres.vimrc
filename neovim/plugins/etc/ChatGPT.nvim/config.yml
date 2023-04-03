@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/jackMort/ChatGPT.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - ChatGPT*
+  maps: ~
+  do: ~
+  enable: true

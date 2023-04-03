@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/ray-x/lsp_signature.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

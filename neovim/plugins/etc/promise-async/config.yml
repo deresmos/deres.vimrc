@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/kevinhwang91/promise-async"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

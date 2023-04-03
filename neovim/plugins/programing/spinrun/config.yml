@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/michaelb/sniprun"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: "bash install.sh"
+  enable: true

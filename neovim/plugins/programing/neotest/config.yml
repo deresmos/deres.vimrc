@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/nvim-neotest/neotest"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

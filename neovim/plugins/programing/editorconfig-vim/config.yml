@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/editorconfig/editorconfig-vim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

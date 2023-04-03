@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/junegunn/vim-easy-align"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>(EasyAlign"
+  do: ~
+  enable: true

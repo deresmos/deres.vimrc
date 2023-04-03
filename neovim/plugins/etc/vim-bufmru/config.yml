@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/mildred/vim-bufmru"
+  rev: ~
+  filetypes: ~
+  commands:
+    - 'BufMRU*'
+  maps: ~
+  do: ~
+  enable: true

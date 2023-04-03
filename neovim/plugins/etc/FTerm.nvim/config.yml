@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/numToStr/FTerm.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - FTerm*
+  maps: ~
+  do: ~
+  enable: true

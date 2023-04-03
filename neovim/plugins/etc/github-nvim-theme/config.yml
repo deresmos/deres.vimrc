@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/projekt0n/github-nvim-theme"
+  rev: ~
+  tag: v0.0.7
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

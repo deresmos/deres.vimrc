@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/joaodubas/gitlinker.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
