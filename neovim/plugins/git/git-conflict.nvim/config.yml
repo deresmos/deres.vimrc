@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/akinsho/git-conflict.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - "GitConflict*"
+  maps: ~
+  do: ~
+  enable: true

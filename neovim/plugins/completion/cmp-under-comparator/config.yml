@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/lukas-reineke/cmp-under-comparator"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

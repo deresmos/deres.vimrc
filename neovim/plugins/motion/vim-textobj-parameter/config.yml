@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/sgur/vim-textobj-parameter"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

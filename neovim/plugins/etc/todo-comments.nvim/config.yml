@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/folke/todo-comments.nvim"
+  rev: ~
+  tag: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

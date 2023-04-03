@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/tpope/vim-repeat"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

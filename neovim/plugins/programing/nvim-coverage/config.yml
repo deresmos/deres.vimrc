@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/andythigpen/nvim-coverage"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Coverage*
+  maps: ~
+  do: ~
+  enable: true

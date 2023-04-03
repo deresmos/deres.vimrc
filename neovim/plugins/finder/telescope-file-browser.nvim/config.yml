@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/nvim-telescope/telescope-file-browser.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

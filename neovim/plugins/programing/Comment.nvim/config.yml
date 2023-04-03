@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/numToStr/Comment.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

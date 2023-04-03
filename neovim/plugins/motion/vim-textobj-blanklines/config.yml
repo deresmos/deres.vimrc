@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/deathlyfrantic/vim-textobj-blanklines"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

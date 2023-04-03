@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/nvim-tree/nvim-tree.lua"
+  rev: ~
+  filetypes: ~
+  commands:
+    - NvimTree*
+  maps: ~
+  do: ~
+  enable: true

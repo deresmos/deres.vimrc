@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/rcarriga/nvim-dap-ui"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/lewis6991/gitsigns.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
