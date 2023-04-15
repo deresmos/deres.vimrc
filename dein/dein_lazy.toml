@@ -29,6 +29,7 @@ on_source = ['nvim-cmp']
 hook_source = '''
 lua << EOF
   require('lspkind').init({
+      with_text = true,
       preset = 'default',
       symbol_map = {},
   })
@@ -1066,7 +1067,7 @@ hook_add = '''
   nnoremap <silent> <SPACE>bg <cmd>call FinderHandler("grep", {"buffer_dir": v:true})<CR>
   nnoremap <silent> <SPACE>bG <cmd>call FinderHandler("grep", {"buffer_dir": v:true, "cword": v:true})<CR>
 
-  " nnoremap <silent> <SPACE>pf <cmd>call FinderHandler("git_files", {})<CR>
+  nnoremap <silent> <SPACE>pf <cmd>call FinderHandler("git_files", {})<CR>
 
   nnoremap <silent> <SPACE>bb <cmd>call FinderHandler("buffers", {})<CR>
   nnoremap <silent> <SPACE>fj <cmd>call FinderHandler("jumps", {})<CR>

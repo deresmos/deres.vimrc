@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/folke/noice.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

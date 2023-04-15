@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/MunifTanjim/nui.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/bronson/vim-visual-star-search"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

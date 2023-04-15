@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/mfussenegger/nvim-dap"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

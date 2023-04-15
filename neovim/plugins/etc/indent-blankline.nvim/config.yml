@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/lukas-reineke/indent-blankline.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - IndentBlankline*
+  maps: ~
+  do: ~
+  enable: true

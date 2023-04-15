@@ -1,0 +1,65 @@
+-- DO NOT EDIT: created by vplug-manager
+-- This file can be loaded by calling `lua require('plugins')` from your init.vim
+
+-- Only required if you have packer configured as `opt`
+vim.cmd [[packadd packer.nvim]]
+
+return require('packer').startup({function(use)
+  use 'wbthomason/packer.nvim'
+  {{#each plugins as |plugin|}}
+    {{#if plugin.enable}}
+    use {
+      "{{{plugin.repo}}}",
+      {{#if plugin.opt}}
+        opt = true,
+      {{/if}}
+      {{#if plugin.rev}}
+        commit = "{{{plugin.rev}}}",
+      {{/if}}
+      {{#if plugin.tag}}
+        tag = "{{{plugin.tag}}}",
+      {{/if}}
+      {{#if plugin.build}}
+        run = "{{{plugin.build}}}",
+      {{/if}}
+      {{#if plugin.events}}
+        event = {
+        {{#each plugin.events as |e|}}
+          "{{{e}}}",
+        {{/each}}
+        },
+      {{/if}}
+      {{#if plugin.filetypes}}
+        ft = {
+        {{#each plugin.filetypes as |ft|}}
+          "{{{ft}}}",
+        {{/each}}
+        },
+      {{/if}}
+      {{#if plugin.commands}}
+        cmd = {
+        {{#each plugin.commands as |cmd|}}
+          "{{{cmd}}}",
+        {{/each}}
+        },
+      {{/if}}
+      {{#if plugin.setup}}
+        setup = function()
+        {{{plugin.setup}}}
+        end,
+      {{/if}}
+      {{#if plugin.config}}
+        config = function()
+          {{{plugin.config}}}
+        end,
+      {{/if}}
+    }
+    {{/if}}
+  {{/each}}
+end,
+config = {
+  display = {
+    open_fn = require('packer.util').float,
+  }
+}
+})

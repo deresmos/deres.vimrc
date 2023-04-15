@@ -1,0 +1,11 @@
+---
+config:
+  url: "https://github.com/akinsho/toggleterm.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+    # - ToggleTerm
+    # - TermExec
+  maps: ~
+  do: ~
+  enable: true

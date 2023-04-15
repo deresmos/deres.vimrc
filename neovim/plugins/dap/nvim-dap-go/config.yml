@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/leoluz/nvim-dap-go"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

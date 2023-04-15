@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/windwp/nvim-autopairs"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

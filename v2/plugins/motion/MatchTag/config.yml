@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/gregsexton/MatchTag"
+  rev: ~
+  filetypes:
+    - html
+    - xhtml
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

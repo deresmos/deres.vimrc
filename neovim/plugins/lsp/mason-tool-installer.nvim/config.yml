@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

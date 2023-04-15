@@ -12,7 +12,7 @@ use clap::Parser;
 use env_logger;
 use log::error;
 use migration::config::PluginConfigMigrator;
-use plugin_manager::dein;
+use plugin_manager::packer;
 
 fn main() -> Result<()> {
     env_logger::init();
@@ -24,8 +24,8 @@ fn main() -> Result<()> {
             creator.create(&o.name, &o.tag)?;
         }
         SubCommand::Make(o) => match &*o.plugin_manager {
-            "dein" => {
-                let maker = dein::DeinMaker::new(o.plugins_dir);
+            "packer" => {
+                let maker = packer::PackerMaker::new(o.plugins_dir);
                 maker.make(o.output_dir).unwrap();
             }
             _ => {
@@ -34,9 +34,6 @@ fn main() -> Result<()> {
             }
         },
         SubCommand::From(o) => match &*o.plugin_manager {
-            "dein" => {
-                dein::load_dein_toml(&o.filepath).unwrap();
-            }
             _ => {
                 error!("'{}' plugin manager not support", o.plugin_manager);
                 std::process::exit(0);

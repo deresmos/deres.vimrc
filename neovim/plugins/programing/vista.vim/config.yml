@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/liuchengxu/vista.vim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Vista
+  maps: ~
+  do: ~
+  enable: true

@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/aaronhallaert/advanced-git-search.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

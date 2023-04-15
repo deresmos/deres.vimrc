@@ -13,13 +13,14 @@ pub struct PluginConfig {
 pub struct Config {
     pub url: String,
     pub rev: Option<String>,
+    pub tag: Option<String>,
     pub filetypes: Option<Vec<String>>,
     pub commands: Option<Vec<String>>,
     pub maps: Option<Vec<String>>,
+    pub events: Option<Vec<String>>,
     pub r#do: Option<String>,
     pub enable: bool,
-
-    pub dein: DeinConfig,
+    pub opt: Option<bool>,
 }
 
 #[derive(Debug, Default, PartialEq, Serialize, Deserialize)]
