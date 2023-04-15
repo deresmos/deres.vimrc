@@ -814,7 +814,7 @@ nnoremap <silent> <SPACE>pg <cmd>lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <silent> <SPACE>fl <cmd>lua require'telescope.builtin'.resume()<CR>
 
 nnoremap <silent> <SPACE>fb <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true})<CR>
-nnoremap <silent> <SPACE>fB <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true, select_buffer=true})<CR>
+nnoremap <silent> <SPACE>fB <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true, select_buffer=true, path="%:p:h"})<CR>
 
 nnoremap <silent> <SPACE>gS <cmd>lua require'telescope.builtin'.git_status()<CR>
 nnoremap <silent> <SPACE>sl <cmd>lua SessionList()<CR>
@@ -1151,6 +1151,20 @@ require'lualine'.setup {
     },
     lualine_x = {
       'diagnostics',
+      {
+      function()
+          local copilot_status = vim.g.copilot_status
+          if copilot_status == "Normal" then
+            return "O"
+          elseif copilot_status == "InProgress" then
+            return "!"
+          elseif copilot_status == "Error" then
+            return "X"
+          else
+            return ""
+          end
+        end
+      },
       lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,
@@ -1800,6 +1814,39 @@ require'treesitter-context'.setup{
     mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
     separator = nil,
 }
+
+EOF
+'''
+
+[[plugins]]
+repo = 'zbirenbaum/copilot.lua'
+hook_add = '''
+lua << EOF
+vim.api.nvim_set_var("copilot_status", "")
+
+  require("copilot").setup({
+    suggestion = {
+      enabled = true,
+      auto_trigger = true,
+      debounce = 75,
+      keymap = {
+        accept = "<M-l>",
+        accept_word = false,
+        accept_line = false,
+        next = "<M-]>",
+        prev = "<M-[>",
+        dismiss = "<C-]>",
+      },
+    },
+  panel = {
+    enabled = false,
+  },
+  })
+
+local api = require("copilot.api")
+api.register_status_notification_handler(function (data)
+  vim.api.nvim_set_var("copilot_status", data.status)
+end)
 
 EOF
 '''

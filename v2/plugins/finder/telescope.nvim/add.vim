@@ -159,7 +159,7 @@ nnoremap <silent> <SPACE>pg <cmd>lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <silent> <SPACE>fl <cmd>lua require'telescope.builtin'.resume()<CR>
 
 nnoremap <silent> <SPACE>fb <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true})<CR>
-nnoremap <silent> <SPACE>fB <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true, select_buffer=true})<CR>
+nnoremap <silent> <SPACE>fB <cmd>lua require'telescope'.extensions.file_browser.file_browser({grouped=true, select_buffer=true, path="%:p:h"})<CR>
 
 nnoremap <silent> <SPACE>gS <cmd>lua require'telescope.builtin'.git_status()<CR>
 nnoremap <silent> <SPACE>sl <cmd>lua SessionList()<CR>

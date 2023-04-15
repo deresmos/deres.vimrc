@@ -19,6 +19,13 @@ repo = 'hrsh7th/cmp-path'
 on_source = ['nvim-cmp']
 
 [[plugins]]
+repo = 'zbirenbaum/copilot-cmp'
+on_source = ['nvim-cmp']
+hook_source = '''
+  lua require("copilot_cmp").setup()
+'''
+
+[[plugins]]
 repo = 'onsails/lspkind-nvim'
 on_lua = ['lspkind']
 on_source = ['nvim-cmp']
@@ -66,6 +73,10 @@ lua << EOF
       documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
+    ["<CR>"] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+    }),
       ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
       ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -76,17 +87,27 @@ lua << EOF
     }),
     sources = cmp.config.sources({
       { name = 'dap' },
-    }, {
+      {name = "copilot", group_index = 2},
       { name = 'nvim_lsp' },
-    }, {
       { name = 'path' },
-      { name = 'buffer' },
-    }, {
       { name = 'calc' },
       { name = 'nvim_lua' },
       -- { name = 'nvim_lsp_signature_help' },
+      { name = 'buffer' },
     }),
+    experimental = {
+      ghost_text = false,
+    },
   })
+
+cmp.event:on("menu_opened", function()
+  vim.b.copilot_suggestion_hidden = true
+end)
+
+cmp.event:on("menu_closed", function()
+  vim.b.copilot_suggestion_hidden = false
+end)
+
 EOF
 '''
 
@@ -498,10 +519,6 @@ call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGu
 '''
 
 [plugins.ftplugin]
-denite-filter = '''
-  imap <silent><buffer> fd
-    \ <ENTER>
-'''
 denite = '''
   nnoremap <silent><buffer><expr> <CR>
     \ denite#do_map('do_action')
@@ -568,6 +585,10 @@ denite = '''
     \ denite#do_map('do_action', 'gedit')
   nnoremap <silent><buffer><expr> gt
     \ denite#do_map('do_action', 'tabgedit')
+'''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
 '''
 
 [[plugins]]
