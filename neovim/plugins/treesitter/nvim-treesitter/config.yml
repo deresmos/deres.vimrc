@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/nvim-treesitter/nvim-treesitter"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ":TSUpdate"
+  enable: true

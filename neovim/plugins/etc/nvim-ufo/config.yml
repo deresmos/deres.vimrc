@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/kevinhwang91/nvim-ufo"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  requires: promise-async

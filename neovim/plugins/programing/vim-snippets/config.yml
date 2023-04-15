@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/honza/vim-snippets"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/uga-rosa/translate.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

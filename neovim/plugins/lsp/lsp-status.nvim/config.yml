@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/nvim-lua/lsp-status.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: false

@@ -1,0 +1,11 @@
+---
+config:
+  url: "https://github.com/francoiscabrol/ranger.vim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - RangerCurrentFile
+    - RangerWorkingDirectory
+  maps: ~
+  do: ~
+  enable: true

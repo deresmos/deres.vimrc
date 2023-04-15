@@ -17,12 +17,18 @@ impl FileManager {
 
     pub fn load(&self, filepath: &str) -> Option<String> {
         let basepath = Path::new(self.basepath.as_str());
-        let contents = load_file(basepath.join(filepath).to_str().unwrap()).unwrap();
-        if contents.is_empty() {
-            return None;
+        let contents = load_file(basepath.join(filepath).to_str().unwrap());
+        match contents {
+            Ok(c) => {
+                if c.is_empty() {
+                    return None;
+                }
+                Some(c)
+            },
+            Err(c) => {
+                None
+            }
         }
-
-        Some(contents)
     }
 
     pub fn write(&self, filepath: &str, contents: &[u8]) -> Result<()> {

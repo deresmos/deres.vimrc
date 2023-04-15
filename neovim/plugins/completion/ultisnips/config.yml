@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/SirVer/ultisnips"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
