@@ -1,0 +1,73 @@
+nnoremap <silent> <SPACE>gk <cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>
+nnoremap <silent> <SPACE>gj <cmd>lua require'gitsigns.actions'.next_hunk({wrap=false})<CR>
+nnoremap <silent> <SPACE>gp <cmd>lua require'gitsigns'.preview_hunk()<CR>
+nnoremap <silent> <SPACE>gu <Nop>
+nnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk()<CR>
+xnoremap <silent> <SPACE>gU <cmd>lua require'gitsigns'.reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+nnoremap <silent> <SPACE>ga <Nop>
+nnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk()<CR>
+xnoremap <silent> <SPACE>gA <cmd>lua require'gitsigns'.stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>
+nnoremap <silent> <SPACE>gtt <cmd>lua require'gitsigns'.toggle_signs()<CR>
+nnoremap <silent> <SPACE>gtw <cmd>lua require'gitsigns'.toggle_word_diff()<CR>
+nnoremap <silent> <SPACE>gtd <cmd>lua require'gitsigns'.toggle_deleted()<CR>
+
+lua << EOF
+  require('gitsigns').setup {
+    -- signs = {
+    --   add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    --   change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    --   delete       = {hl = 'GitSignsDelete', text = '__', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    --   topdelete    = {hl = 'GitSignsDelete', text = '‾‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    --   changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    -- },
+    signcolumn = true,
+    numhl      = false,
+    linehl     = false,
+    keymaps = {},
+    watch_gitdir = {
+      interval = 1000,
+      follow_files = true
+    },
+    attach_to_untracked = true,
+    current_line_blame = false,
+    current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'eol',
+      delay = 1000,
+    },
+    current_line_blame_formatter_opts = {
+      relative_time = false
+    },
+    sign_priority = 6,
+    update_debounce = 100,
+    status_formatter = function(status)
+      local added, changed, removed = status.added, status.changed, status.removed
+      local status_txt = {}
+      if added   and added   > 0 then
+        table.insert(status_txt, '%#GitSignsAdd#+'..added)
+      end
+      if changed and changed > 0 then
+        table.insert(status_txt, '%#GitSignsChange#~'..changed)
+      end
+      if removed and removed > 0 then
+        table.insert(status_txt, '%#GitSignsDelete#-'..removed)
+      end
+      return table.concat(status_txt, ' ')
+    end,
+    max_file_length = 50000,
+    preview_config = {
+      border = 'single',
+      style = 'minimal',
+      relative = 'cursor',
+      row = 0,
+      col = 1
+    },
+    diff_opts = {
+      internal = true,
+    },
+    word_diff = false,
+    yadm = {
+      enable = false
+    },
+  }
+EOF

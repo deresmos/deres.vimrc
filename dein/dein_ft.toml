@@ -1,0 +1,7 @@
+[ftplugin]
+_ = '''
+'''
+
+vim = '''
+  setlocal iskeyword+=:,#
+'''

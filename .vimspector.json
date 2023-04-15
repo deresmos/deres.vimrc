@@ -1,0 +1,215 @@
+{
+  "adapters": {
+    "vscode-node": {
+      "name": "node2",
+      "type": "node2",
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-node-debug2/out/src/nodeDebug.js"
+      ]
+    },
+
+    "vscode-bash": {
+      "name": "bashdb",
+      "variables": {
+        "BASHDB_HOME": "${gadgetDir}/vscode-bash-debug/bashdb_dir"
+      },
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-bash-debug/out/bashDebug.js"
+      ],
+      "configuration": {
+        "args": [],
+        "cwd": "${workspaceRoot}",
+        "env": {},
+        "pathBash": "bash",
+        "pathBashdb": "${BASHDB_HOME}/bashdb",
+        "pathBashdbLib": "${BASHDB_HOME}",
+        "pathCat": "cat",
+        "pathMkfifo": "mkfifo",
+        "pathPkill": "pkill",
+        "program": "${file}",
+        "request": "launch",
+        "type": "bashdb"
+      }
+    },
+
+    "vscode-python": {
+      "name": "vscode-python",
+      "command": [
+        "node",
+        "${gadgetDir}/vscode-python/out/client/debugger/debugAdapter/main.js"
+      ]
+    }
+  },
+
+  "configurations": {
+    "python_file": {
+      "adapter": "vscode-python",
+      "configuration": {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "python_test": {
+      "adapter": "vscode-python",
+      "variables": {
+        "rootPath": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/root_path.sh" ]
+        }
+      },
+      "configuration": {
+        "name": "Python: Test",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${rootPath}",
+        "args": [
+          "-m",
+          "pytest",
+          "."
+        ],
+        "stopOnEntry": true,
+        "externalConsole": true,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "python_execute": {
+      "adapter": "vscode-python",
+      "variables": {
+        "ARGS": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/find_args.sh" ]
+        },
+        "rootPath": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/root_path.sh" ]
+        }
+      },
+      "configuration": {
+        "name": "Python: Test",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${rootPath}",
+        "program": "${ARGS}",
+        "args": [],
+        "stopOnEntry": true,
+        "externalConsole": true,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "sh_file": {
+      "adapter": "vscode-bash",
+      "configuration": {
+        "name": "Bash: Current File",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
+        "externalConsole": false,
+        "trace": true
+      }
+    },
+
+    "go_file": {
+      "adapter": "vscode-go",
+      "configuration": {
+        "name": "Go: Current File",
+        "mode": "debug",
+        "dlvToolPath": "/Users/tomoki.tamura/.goenv/shims/dlv",
+        "type": "go",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "go_test": {
+      "adapter": "vscode-go",
+      "variables": {
+        "ARGS": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/find_args.sh" ]
+        },
+        "rootPath": {
+          "shell" : [ "bash", "${HOME}/.vim/lib/vimspector/root_path.sh" ]
+        }
+      },
+      "configuration": {
+        "name": "Go: Current File",
+        "mode": "test",
+        "dlvToolPath": "/Users/tomoki.tamura/.goenv/shims/dlv",
+        "type": "go",
+        "request": "launch",
+        "program": "${ARGS}",
+        "cwd": "${rootPath}",
+        "args": [
+          "-test.v"
+        ],
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "debugOptions": []
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "Y"
+        }
+      }
+    },
+
+    "javascript_file": {
+      "adapter": "vscode-node",
+      "configuration": {
+        "name": "JavaScript: Current File",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "program": "${file}",
+        "args": [],
+        "protocol": "auto",
+        "stopOnEntry": true,
+        "externalConsole": false
+      },
+      "breakpoints": {
+        "exception": {
+          "all": "N",
+          "uncaught": "Y"
+        }
+      }
+    }
+  }
+}

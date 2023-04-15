@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/weirongxu/plantuml-previewer.vim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - PlantumlOpen
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

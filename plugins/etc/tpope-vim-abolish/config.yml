@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/tpope/tpope-vim-abolish"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Subvert
+    - S
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

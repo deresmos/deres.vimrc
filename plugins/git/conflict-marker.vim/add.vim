@@ -1,0 +1,6 @@
+  nmap <silent> <Space>gcj <Plug>(conflict-marker-next-hunk)
+  nmap <silent> <Space>gck <Plug>(conflict-marker-prev-hunk)
+  nmap <silent> <Space>gct <Plug>(conflict-marker-themselves)
+  nmap <silent> <Space>gco <Plug>(conflict-marker-ourselves)
+  nmap <silent> <Space>gcn <Plug>(conflict-marker-none)
+  nmap <silent> <Space>gcb <Plug>(conflict-marker-both)

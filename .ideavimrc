@@ -1,0 +1,81 @@
+" settings {{{1
+source ~/.vim/.conf.d/basic.vim
+
+nnoremap iq i'
+nnoremap iQ i"
+nnoremap aq a'
+nnoremap aQ a"
+nnoremap fq f'
+nnoremap fQ f"
+nnoremap tq t'
+nnoremap tQ t"
+
+nnoremap R <Nop>
+nnoremap <silent> Riw "adiwhp
+nnoremap <silent> RaW "adawhp
+nnoremap <silent> Ri" "adi"hp
+nnoremap <silent> Ra" "ada"hp
+nnoremap <silent> RiQ "adi"hp
+nnoremap <silent> RaQ "ada"hp
+nnoremap <silent> Ri' "adi'hp
+nnoremap <silent> Ra' "ada'hp
+nnoremap <silent> Riq "adi'hp
+nnoremap <silent> Raq "ada'hp
+nnoremap <silent> Rib "adibhp
+nnoremap <silent> Rab "adabhp
+nnoremap <silent> RiB "adiBhp
+nnoremap <silent> RaB "adaBhp
+nnoremap <silent> Ri[ "adi[hp
+nnoremap <silent> Ra[ "ada[hp
+nnoremap <silent> Rit "adithp
+nnoremap <silent> Rat "adathp
+vnoremap <silent> R "adhp
+
+nnoremap <silent> <SPACE>th gT
+nnoremap <silent> <SPACE>tl gt
+
+nnoremap <silent> <SPACE>tn :set norelativenumber<CR> :set number!<CR>
+nnoremap <silent> <SPACE>tN :set nonumber<CR> :set relativenumber!<CR>
+
+" action list {{{1
+
+nnoremap <SPACE>mgd :action GotoDeclaration<CR>
+nnoremap <SPACE>mgg :action GotoImplementation<CR>
+nnoremap <SPACE>mgc :action GotoClass<CR>
+nnoremap <SPACE>mqi :action QuickImplementations<CR>
+nnoremap <SPACE>mr :action RenameElement<CR>
+nnoremap <SPACE>mu :action ShowUsages<CR>
+
+nnoremap <SPACE>ej :action GotoNextError<CR>
+nnoremap <SPACE>ek :action GotoPreviousError<CR>
+
+nnoremap <SPACE>cs :action EditorCompleteStatement<CR>
+
+nnoremap <SPACE>fm :action Move<CR>
+nnoremap <SPACE>ff :action GotoFile<CR>
+nnoremap <SPACE>fg :action FindInPath<CR>
+
+nnoremap <SPACE>gb :action Annotate<CR>
+nnoremap <SPACE>gm :action Git.Branches<CR>
+nnoremap <SPACE>gd :action Compare.SameVersion<CR>
+nnoremap <SPACE>gD :action Git.CompareWithBranch<CR>
+nnoremap <SPACE>gf :action Compare.Selected<CR>
+nnoremap <SPACE>gj :action VcsShowNextChangeMarker<CR>
+nnoremap <SPACE>gk :action VcsShowPrevChangeMarker<CR>
+nnoremap <SPACE>gl :action Vcs.ShowTabbedFileHistory<CR>
+
+nnoremap <SPACE>pc :action CloseProject<CR>
+nnoremap <SPACE>po :action ShowColorPicker<CR>
+
+nnoremap <SPACE>m= :action ReformatCode<CR>
+nnoremap <SPACE><SPACE> :action GotoAction<CR>
+nnoremap <SPACE>fr :action RecentFiles<CR>
+
+nnoremap <silent> <SPACE>bo :action CloseAllEditorsButActive<CR>
+nnoremap <silent> <SPACE>qq :action CloseProject<CR>
+
+" idea keymap {{{1
+" Enter C-m
+" Backspace C-h
+" Down C-j
+" Up C-k

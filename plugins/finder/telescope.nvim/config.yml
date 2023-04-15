@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/nvim-telescope/telescope.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua:
+      - telescope
+    on_event: ~
+    on_source: ~

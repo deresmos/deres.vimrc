@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/liuchengxu/vim-clap"
+  rev: ~
+  filetypes: ~
+  commands:
+    - Clap
+  maps: ~
+  do: Clap install-binary
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

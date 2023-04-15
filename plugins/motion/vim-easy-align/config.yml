@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/junegunn/vim-easy-align"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>(EasyAlign"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

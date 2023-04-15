@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/hjson/vim-hjson"
+  rev: ~
+  filetypes:
+    - hjson
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

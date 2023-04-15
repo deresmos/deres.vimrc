@@ -1,0 +1,15 @@
+---
+config:
+  url: "https://github.com/tyru/open-browser.vim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps:
+    - "<Plug>(openbrowser-smart-"
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

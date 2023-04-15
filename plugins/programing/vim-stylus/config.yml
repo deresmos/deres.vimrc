@@ -1,0 +1,16 @@
+---
+config:
+  url: "https://github.com/deresmos/vim-stylus"
+  rev: ~
+  filetypes:
+    - stylus
+    - vue
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dein:
+    ftplugin: false
+    on_lua: ~
+    on_event: ~
+    on_source: ~

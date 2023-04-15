@@ -1,0 +1,994 @@
+[[plugins]]
+repo = 'hrsh7th/cmp-buffer'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'hrsh7th/cmp-calc'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'rcarriga/cmp-dap'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'hrsh7th/cmp-nvim-lua'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'hrsh7th/cmp-path'
+on_source = ['nvim-cmp']
+
+[[plugins]]
+repo = 'zbirenbaum/copilot-cmp'
+on_source = ['nvim-cmp']
+hook_source = '''
+  lua require("copilot_cmp").setup()
+'''
+
+[[plugins]]
+repo = 'onsails/lspkind-nvim'
+on_lua = ['lspkind']
+on_source = ['nvim-cmp']
+hook_source = '''
+lua << EOF
+  require('lspkind').init({
+      preset = 'default',
+      symbol_map = {},
+  })
+EOF
+'''
+
+[[plugins]]
+repo = 'windwp/nvim-autopairs'
+on_event = ['InsertEnter']
+hook_source = '''
+lua << EOF
+require('nvim-autopairs').setup({
+  disable_filetype = {"TelescopePrompt"},
+})
+EOF
+'''
+
+[[plugins]]
+repo = 'hrsh7th/nvim-cmp'
+on_lua = ['cmp']
+on_event = ['InsertEnter']
+hook_source = '''
+set completeopt=menu,menuone,noselect
+
+lua << EOF
+  local cmp = require'cmp'
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["UltiSnips#Anon"](args.body)
+      end,
+    },
+    enabled = function ()
+      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+        or require("cmp_dap").is_dap_buffer()
+    end,
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+    ["<CR>"] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false,
+    }),
+      ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+      ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<C-m>'] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+      { name = 'dap' },
+      {name = "copilot", group_index = 2},
+      { name = 'nvim_lsp' },
+      { name = 'path' },
+      { name = 'calc' },
+      { name = 'nvim_lua' },
+      -- { name = 'nvim_lsp_signature_help' },
+      { name = 'buffer' },
+    }),
+    experimental = {
+      ghost_text = false,
+    },
+  })
+
+cmp.event:on("menu_opened", function()
+  vim.b.copilot_suggestion_hidden = true
+end)
+
+cmp.event:on("menu_closed", function()
+  vim.b.copilot_suggestion_hidden = false
+end)
+
+EOF
+'''
+
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-completion'
+on_source = ['nvim-cmp']
+hook_source = '''
+autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })
+'''
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_map = ['<Plug>(openbrowser-smart-']
+hook_add = '''
+  nmap <SPACE>os <Plug>(openbrowser-smart-search)
+  xmap <SPACE>os <Plug>(openbrowser-smart-search)
+  nnoremap <silent> <SPACE>ob :<C-u>execute "OpenBrowser" expand("%:p")<CR>
+'''
+hook_source = '''
+  if system('uname') == "Linux\n"
+    let g:openbrowser_browser_commands = [
+      \ {"name": "firefox",
+      \  "args": ["{browser}", "{uri}"]},
+    \ ]
+  endif
+'''
+
+[[plugins]]
+repo = 'diepm/vim-rest-console'
+on_ft = ['rest']
+hook_source = '''
+  let g:vrc_set_default_mapping = 0
+  let g:vrc_auto_format_uhex    = 1
+
+  let g:vrc_curl_opts = {
+    \ '--connect-timeout' : 15,
+    \ '-L': '',
+    \ '-i': '',
+    \ '-s': '',
+    \ '--max-time': 60,
+    \ '--ipv4': '',
+  \}
+
+'''
+
+[plugins.ftplugin]
+rest = '''
+  nnoremap <silent><buffer> <CR> :<C-u>call VrcQuery()<CR>
+'''
+
+[[plugins]]
+repo = 'kristijanhusak/defx-icons'
+on_source = ['defx.nvim']
+hook_source = '''
+  let g:defx_icons_enable_syntax_highlight = 1
+  let g:defx_icons_parent_icon = ''
+  let g:defx_icons_root_opened_tree_icon = '-'
+  let g:defx_icons_directory_icon = '+'
+  let g:defx_icons_nested_opened_tree_icon = g:defx_icons_root_opened_tree_icon
+  let g:defx_icons_nested_closed_tree_icon = g:defx_icons_directory_icon
+  let g:defx_icons_directory_symlink_icon = ''
+  let g:defx_icons_mark_icon = '-'
+  let g:defx_icons_default_icon = ''
+'''
+
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+hook_add = '''
+nnoremap <silent> <SPACE>ft <cmd>Defx -buffer-name=defx-tree<CR>
+nnoremap <silent> <SPACE>fT <cmd>Defx -buffer-name=defx-floating<CR>
+nnoremap <silent> <SPACE>fo <cmd>call <SID>open_two_defx()<CR>
+
+function! s:open_two_defx() abort
+  tabedit
+  execute 'Defx -new -winwidth=' . &columns/2
+  execute 'Defx -new -winwidth=' . &columns/2
+endfunction
+'''
+hook_source = '''
+  call defx#custom#option('_', {
+    \ 'root_marker': ': ',
+    \ 'buffer_name': 'defx',
+    \ 'direction': 'topleft',
+    \ 'split': 'vertical',
+    \ 'columns': 'mark:indent:icons:filename:size:time',
+    \ })
+  call defx#custom#option('defx-floating', {
+    \ 'split': 'floating',
+    \ 'winrow': '1',
+    \ 'winheight': &lines - 3,
+    \ 'wincol': (&columns - 110) / 2,
+    \ 'winwidth': '110',
+    \ 'columns': 'mark:indent:icons:filename:size:time',
+    \ })
+  call defx#custom#option('defx-tree', {
+    \ 'direction': 'topleft',
+    \ 'split': 'vertical',
+    \ 'winwidth': '40',
+    \ 'columns': 'mark:indent:icons:filename',
+    \ })
+
+  call defx#custom#column('icon', {
+    \ 'directory_icon': '+',
+    \ 'opened_icon': '-',
+    \ 'root_icon': '',
+    \ })
+
+  call defx#custom#column('filename', {
+    \ 'min_width': '75',
+    \ 'max_width': '100',
+    \ })
+
+  call defx#custom#column('time', {
+    \ 'format': '%Y/%m/%d %H:%M:%S',
+    \ })
+
+  autocmd BufLeave,BufWinLeave \[defx\]* call defx#call_action('add_session')
+  autocmd BufEnter,BufWinEnter \[defx\]* call defx#call_action('load_session')
+
+'''
+
+[plugins.ftplugin]
+defx = '''
+  setlocal signcolumn=no
+  setlocal listchars=
+
+  " mappings {{{3
+  nnoremap <silent><buffer><expr> yy defx#do_action('copy')
+  nnoremap <silent><buffer><expr> dd defx#do_action('move')
+  nnoremap <silent><buffer><expr> p defx#do_action('paste')
+
+  nnoremap <silent><buffer><expr> <CR> defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop']])
+  nnoremap <silent><buffer><expr> <C-M> defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop']])
+  nnoremap <silent><buffer><expr> l defx#do_action('open_tree', 'toggle')
+  nnoremap <silent><buffer><expr> L defx#do_action('open')
+  nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> v defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop', 'vsplit']])
+  nnoremap <silent><buffer><expr> <C-s> defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop', 'split']])
+  nnoremap <silent><buffer><expr> t defx#do_action('multi',
+    \ [['call', 'DefxPreCommand'], ['drop', 'tabedit']])
+  nnoremap <silent><buffer><expr> P defx#do_action('open', 'pedit')
+  nnoremap <silent><buffer><expr> o defx#do_action('open_tree', 'toggle')
+
+  nnoremap <silent><buffer><expr> K defx#do_action('new_file')
+  " nnoremap <silent><buffer><expr> N defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> C
+    \ defx#do_action('toggle_columns', 'mark:indent:icons:filename')
+
+  " nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
+  " nnoremap <silent><buffer><expr> sf defx#do_action('toggle_sort', 'filename')
+  " nnoremap <silent><buffer><expr> ss defx#do_action('toggle_sort', 'size')
+  " nnoremap <silent><buffer><expr> se defx#do_action('toggle_sort', 'extension')
+
+  nnoremap <silent><buffer><expr> D defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r defx#do_action('rename')
+  nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> Y defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ; defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> ~ defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Space><Space> defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+
+  nnoremap <silent><buffer><expr> <SPACE>fg
+    \ defx#do_action('call', 'DefxDeniteGrep')
+  nnoremap <silent><buffer><expr> <SPACE>ff
+    \ defx#do_action('call', 'DefxDeniteFile')
+  nnoremap <silent><buffer><expr> ds
+    \ defx#do_action('call', 'DefxSetDiffSource')
+  nnoremap <silent><buffer><expr> dt
+    \ defx#do_action('call', 'DefxSetDiffTarget')
+  nnoremap <silent><buffer><expr> do
+    \ defx#do_action('call', 'DefxOpenDiffDir')
+  nnoremap <silent><buffer><expr> <SPACE>dcd
+    \ defx#do_action('call', 'DefxSaveDeniteCWD')
+
+  nmap <silent><buffer> <SPACE>gk <Plug>(defx-git-prev)
+  nmap <silent><buffer> <SPACE>gj <Plug>(defx-git-next)
+
+  " functions {{{3
+  function! DefxSaveDeniteCWD(context) abort
+    let defx_target_path = a:context.targets[0]
+    let g:denite_cwd = defx_target_path
+    echo 'Change denite_cwd' . defx_target_path
+  endfunction
+
+  function! DefxPreCommand(context) abort
+    if a:context.buffer_name == 'defx-floating'
+      quit
+    elseif a:context.buffer_name == 'defx-tree'
+      wincmd p
+    endif
+  endfunction
+
+  function! DefxSetDiffSource(context) abort
+    let g:defx_diff_source = a:context.targets[0]
+    echo 'Set diff source:' g:defx_diff_source
+  endfunction
+
+  function! DefxSetDiffTarget(context) abort
+    let g:defx_diff_target = a:context.targets[0]
+    echo 'Set diff target:' g:defx_diff_target
+  endfunction
+
+  function! DefxOpenDiffDir(...) abort
+    tabedit
+    execute 'DirDiff' g:defx_diff_source g:defx_diff_target
+  endfunction
+
+  function! DefxDeniteGrep(context) abort
+    call DefxPreCommand(a:context)
+    let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+    let g:denite_cwd = dirpath
+    exec 'Denite grep -no-empty -path=' . dirpath '-start-filter'
+  endfunction
+
+  function! DefxDeniteFile(context) abort
+    call DefxPreCommand(a:context)
+    let dirpath = fnamemodify(a:context.targets[0], ':p:h')
+    let g:denite_cwd = dirpath
+    exec 'Denite file/rec -no-empty -path=' . dirpath '-start-filter'
+  endfunction
+'''
+
+[[plugins]]
+repo = 'deresmos/denite-gitdiff'
+on_source = ['denite.nvim']
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+let g:denite_cwd = ''
+
+nnoremap <silent> <SPACE>ds :<C-u>call SwitchMatherRegexp() <Bar> echo 'Changed mather to [regexp]'<CR>
+nnoremap <silent> <SPACE>dS :<C-u>call SwitchMatherFuzzy() <Bar> echo 'Changed mather to [fuzzy]'<CR>
+
+nnoremap <silent> <SPACE>dr :<C-u>call SwitchGrepCommand('rg-sjis') <Bar> echo 'Changed grep cmd to [pt]'<CR>
+nnoremap <silent> <SPACE>dR :<C-u>call SwitchGrepCommand('rg') <Bar> echo 'Changed grep cmd to [rg]'<CR>
+
+function! SwitchMatherRegexp() abort " {{{1
+  call s:switchMather('matcher_regexp')
+endfunction
+
+function! SwitchMatherFuzzy() abort " {{{1
+  call s:switchMather('matcher_fuzzy')
+endfunction
+
+function! s:switchMather(matcher) abort " {{{1
+  let l:lists = [
+    \ 'file/rec', 'file', 'buffer', 'file_mru',
+    \ 'line', 'jump', 'change', 'tag', 'gitdiff_file', 'grep']
+
+  for l:list in l:lists
+    call denite#custom#source(l:list, 'matchers',
+      \ [a:matcher, 'matcher_ignore_globs'])
+  endfor
+
+  call denite#custom#source('gitdiff_log', 'matchers', [a:matcher])
+endfunction
+
+function! SwitchGrepCommand(command) abort " {{{1
+  if a:command ==# 'ag'
+    call denite#custom#var('grep', 'command', ['ag'])
+    call denite#custom#var('grep', 'default_opts',
+        \ ['--vimgrep', '--follow', '--hidden', '-S'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+
+    call denite#custom#var('file/rec', 'command',
+      \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
+
+  elseif a:command ==# 'jvgrep'
+    call denite#custom#var('grep', 'command', ['jvgrep'])
+    call denite#custom#var('grep', 'default_opts', ['-i'])
+    call denite#custom#var('grep', 'recursive_opts', ['-R'])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', [])
+    call denite#custom#var('grep', 'final_opts', [])
+
+  elseif a:command ==# 'rg' || a:command ==# 'rg-sjis'
+    call denite#custom#var('grep', 'command', ['rg'])
+    if a:command ==# 'rg-sjis'
+      call denite#custom#var('grep', 'default_opts',
+          \ ['--vimgrep', '--follow', '--hidden', '-S', '-E', 'sjis'])
+    else
+      call denite#custom#var('grep', 'default_opts',
+          \ ['--vimgrep', '--follow', '--hidden', '-S'])
+    endif
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+
+    call denite#custom#var('file/rec', 'command',
+      \ ['rg', '--files', '--follow', '--hidden', '--no-heading'])
+
+  elseif a:command ==# 'pt'
+    call denite#custom#var('grep', 'command', ['pt'])
+    call denite#custom#var('grep', 'default_opts',
+        \ ['--nogroup', '--nocolor', '--follow', '--hidden', '-S'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['-e'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+      endif
+    endfunction
+'''
+hook_source = '''
+call denite#custom#option('default', 'prompt', '>')
+
+" menus {{{1
+let s:menus = {}
+let s:menus.dein = {'description': 'Dein menu'}
+let s:_dein_commands = [
+  \ ['Dein: Update plugins', 'call dein#update()'],
+  \ ['Dein: Recache RuntimePath', 'call dein#recache_runtimepath()'],
+  \ ['Dein: Clear state', 'call dein#clear_state()']
+  \ ]
+let s:menus.dein.command_candidates = s:_dein_commands
+
+let s:menus.all = {'description': 'All commands'}
+let s:menus.all.command_candidates = []
+  \ + s:_dein_commands
+
+call denite#custom#var('menu', 'menus', s:menus)
+
+" custom mapping {{{1
+call denite#custom#map(
+  \ 'normal',
+  \ 'gj',
+  \ '<denite:jump_to_next_by:path>',
+  \ 'noremap')
+
+call denite#custom#map(
+  \ 'normal',
+  \ 'gk',
+  \ '<denite:jump_to_previous_by:path>',
+  \ 'noremap')
+
+call denite#custom#map(
+  \ 'insert',
+  \ '<C-n>',
+  \ '../',
+  \ 'noremap')
+
+" custom color {{{1
+call denite#custom#option('default', 'highlight_matched_char', 'Search')
+call denite#custom#option('default', 'highlight_mode_insert', 'DeniteCursorLine')
+call denite#custom#option('default', 'highlight_mode_normal', 'DeniteCursorLine')
+call denite#custom#option('default', 'mode', 'normal')
+
+" custom command {{{1
+if executable('rg')
+  call SwitchGrepCommand('rg')
+elseif executable('pt')
+  call SwitchGrepCommand('pt')
+endif
+
+call SwitchMatherFuzzy()
+
+call denite#custom#source('file/rec', 'matchers',
+  \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+call denite#custom#source('file', 'matchers',
+  \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+  \ [ '*~', '*.o', '*.exe', '*.bak',
+  \ '.DS_Store', '*.pyc', '*.sw[po]',
+  \ '.hg/', '.git/', '.bzr/', '.svn/',
+  \ 'node_modules/', 'bower_components/', 'vendor/ruby',
+  \ '.mypy_cache/',
+  \ '.idea/', '.tags'])
+
+" https://qiita.com/hrsh7th@github/items/303d46ba13532c502828 {{{1
+function! DeniteQfreplace(context)
+  let qflist = []
+  for target in a:context['targets']
+    call add(qflist, {
+      \ 'filename': target['action__path'],
+      \ 'lnum': target['action__line'],
+      \ 'text': target['word'],
+    \ })
+  endfor
+
+  call setqflist(qflist)
+  call qfreplace#start('tabnew')
+endfunction
+
+call denite#custom#action('file', 'qfreplace', function('DeniteQfreplace'))
+
+" denite-gitdiff gitgutter {{{1
+function! DeniteGitGutterBase(context)
+  let g:gitgutter_diff_base = a:context['targets'][0]['target_revision']
+endfunction
+
+call denite#custom#action('gitdiff_log', 'gitgutter_base', function('DeniteGitGutterBase'))
+'''
+
+[plugins.ftplugin]
+denite = '''
+  nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> <C-m>
+    \ denite#do_map('do_action')
+
+  nnoremap <silent><buffer><expr> dd
+    \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+    \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+    \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space><Space>
+    \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> <tab>
+    \ denite#do_map('choose_action')
+
+  " My mapping
+  nnoremap <silent><buffer><expr> l
+    \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> h
+    \ denite#do_map('restore_sources')
+  nnoremap <silent><buffer><expr> t
+    \ denite#do_map('do_action', 'tabswitch')
+  nnoremap <silent><buffer><expr> s
+    \ denite#do_map('do_action', 'split')
+  nnoremap <silent><buffer><expr> v
+    \ denite#do_map('do_action', 'vsplit')
+  nnoremap <silent><buffer><expr> rp
+    \ denite#do_map('do_action', 'qfreplace')
+  nnoremap <silent><buffer><expr> sg
+    \ denite#do_map('do_action', 'gitgutter_base')
+  nnoremap <silent><buffer><expr> <C-j>
+    \ denite#do_map('do_action', 'preview_scroll_down')
+  nnoremap <silent><buffer><expr> <C-k>
+    \ denite#do_map('do_action', 'preview_scroll_up')
+  xnoremap <silent><buffer> <Space><Space>
+    \ :call denite#call_map('toggle_select')<CR>
+  nnoremap <silent><buffer><expr> *
+    \ denite#do_map('toggle_select_all')
+  nnoremap <silent><buffer><expr> Rm
+    \ denite#do_map('do_action', 'reset_mixed')
+  nnoremap <silent><buffer><expr> RRh
+    \ denite#do_map('do_action', 'reset_hard')
+  nnoremap <silent><buffer><expr> RRO
+    \ denite#do_map('do_action', 'reset_hard_orig_head')
+
+  " denite-gitdiff
+  nnoremap <silent><buffer><expr> dt
+    \ denite#do_map('do_action', 'tabvdiff')
+  nnoremap <silent><buffer><expr> dlt
+    \ denite#do_map('do_action', 'tabvdiff_local')
+  nnoremap <silent><buffer><expr> dm
+    \ denite#do_map('do_action', 'openvdiff')
+  nnoremap <silent><buffer><expr> dlm
+    \ denite#do_map('do_action', 'openvdiff_local')
+  nnoremap <silent><buffer><expr> fb
+    \ denite#do_map('do_action', 'branch_log')
+  nnoremap <silent><buffer><expr> fm
+    \ denite#do_map('do_action', 'merge_log')
+  nnoremap <silent><buffer><expr> ge
+    \ denite#do_map('do_action', 'gedit')
+  nnoremap <silent><buffer><expr> gt
+    \ denite#do_map('do_action', 'tabgedit')
+'''
+denite-filter = '''
+  imap <silent><buffer> fd
+    \ <ENTER>
+'''
+
+[[plugins]]
+repo = 'rafi/vim-denite-session'
+on_source = ['denite.nvim']
+hook_source = '''
+  call denite#custom#var('session', 'path', g:startify_session_dir)
+'''
+
+[[plugins]]
+repo = 'rhysd/conflict-marker.vim'
+on_map = ['<Plug>(conflict-marker-']
+hook_add = '''
+  nmap <silent> <Space>gcj <Plug>(conflict-marker-next-hunk)
+  nmap <silent> <Space>gck <Plug>(conflict-marker-prev-hunk)
+  nmap <silent> <Space>gct <Plug>(conflict-marker-themselves)
+  nmap <silent> <Space>gco <Plug>(conflict-marker-ourselves)
+  nmap <silent> <Space>gcn <Plug>(conflict-marker-none)
+  nmap <silent> <Space>gcb <Plug>(conflict-marker-both)
+'''
+hook_source = '''
+  let g:conflict_marker_enable_mappings = 0
+'''
+
+[[plugins]]
+repo = 'folke/trouble.nvim'
+on_cmd = ['Trouble']
+hook_add = '''
+nnoremap [Trouble] <Nop>
+nmap <silent><Space>l [Trouble]
+
+nnoremap [Trouble]w <cmd>TroubleToggle workspace_diagnostics<CR>
+nnoremap [Trouble]d <cmd>TroubleToggle document_diagnostics<CR>
+nnoremap [Trouble]q <cmd>TroubleToggle quickfix<CR>
+nnoremap [Trouble]l <cmd>TroubleToggle loclist<CR>
+nnoremap [Trouble]r <cmd>TroubleToggle lsp_references<CR>
+
+lua << EOF
+  local defaultCallHierachyIncoming = vim.lsp.handlers['callHierarchy/incomingCalls']
+  local defaultCallHierachyOutgoing = vim.lsp.handlers['callHierarchy/outgoingCalls']
+  local customCallHierachy = function(direction)
+    return function(err, result)
+      if err ~= nil or result == nil then
+        vim.notify("no incomming calls", vim.log.levels.WARN)
+        return
+      end
+
+      if direction == "in" then
+        defaultCallHierachyIncoming(err, result)
+      elseif direction == "out" then
+        defaultCallHierachyOutgoing(err, result)
+      else
+        return
+      end
+
+      vim.cmd("quit")
+      vim.cmd("Trouble quickfix")
+    end
+  end
+
+  local defaultTextDocumentReferences = vim.lsp.handlers['textDocument/references']
+  local customReferences = function(_, result, ctx, config)
+      if not result or vim.tbl_isempty(result) then
+        vim.notify('No references found')
+      else
+        defaultTextDocumentReferences(_, result, ctx, config)
+        vim.cmd("quit")
+        vim.cmd("Trouble quickfix")
+      end
+  end
+
+  vim.lsp.handlers['callHierarchy/incomingCalls'] = customCallHierachy("in")
+  vim.lsp.handlers['callHierarchy/outgoingCalls'] = customCallHierachy("out")
+  vim.lsp.handlers['textDocument/references'] = customReferences
+EOF
+'''
+hook_source = '''
+lua << EOF
+  require("trouble").setup{
+    height = 15,
+    padding = false,
+    auto_open = false,
+    auto_preview = false,
+    action_keys = {
+      close = "q",
+      cancel = "<esc>",
+      refresh = "r",
+      jump = {"<cr>", "<tab>"},
+      open_split = { "<c-s>" },
+      open_vsplit = { "<c-v>" },
+      open_tab = { "<c-t>" },
+      jump_close = {"o"},
+      toggle_mode = "m",
+      toggle_preview = "P",
+      hover = "K",
+      preview = "p",
+      close_folds = {"zM", "zm"},
+      open_folds = {"zR", "zr"},
+      toggle_fold = {"zA", "za"},
+      previous = "k",
+      next = "j"
+    },
+  }
+EOF
+'''
+
+[[plugins]]
+repo = 'gregsexton/MatchTag'
+on_ft = [
+    'html',
+    'xhtml',
+]
+
+[[plugins]]
+repo = 'haya14busa/incsearch.vim'
+on_map = ['<Plug>(incsearch-']
+hook_add = '''
+  map /  <Plug>(incsearch-forward)
+  map g/ <Plug>(incsearch-stay)
+'''
+
+[[plugins]]
+repo = 't9md/vim-choosewin'
+on_map = ['<Plug>(choosewin']
+hook_add = '''
+nmap <SPACE>wc <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
+let g:choosewin_overlay_clear_multibyte = 1
+'''
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+on_map = ['<Plug>(EasyAlign']
+hook_add = '''
+  xmap ga <Plug>(EasyAlign)
+'''
+
+[[plugins]]
+repo = 'metakirby5/codi.vim'
+on_ft = [
+    'python',
+    'javascript',
+    'php',
+]
+hook_add = '''
+function! s:Codi(...) abort
+  let edit = 'tabedit'
+  if a:0 > 1
+    let edit = a:2
+  endif
+
+  execute edit '$HOME/.scratch.' . a:1
+  execute 'Codi'
+endfunction
+
+command! -nargs=? CodiPython     call s:Codi('py',  <f-args>)
+command! -nargs=? CodiJavaScript call s:Codi('js',  <f-args>)
+command! -nargs=? CodiPHP        call s:Codi('php', <f-args>)
+
+nnoremap <silent> <Space>mcip :CodiPython<CR>
+nnoremap <silent> <Space>mcij :CodiJavaScript<CR>
+nnoremap <silent> <Space>mcih :CodiPHP<CR>
+'''
+hook_source = '''
+augroup my_codi
+  autocmd!
+  autocmd FileType python,javascript,php nnoremap <buffer><silent> <Space>mcii :Codi<CR>
+augroup END
+'''
+
+[[plugins]]
+repo = 'deresmos/tagbar'
+hook_add = '''
+nnoremap <silent> <SPACE>tb :<C-u>TagbarOpen fj<CR>
+nnoremap <silent> <SPACE>tB :<C-u>call tagbar#ToggleWindow() <Bar> call tagbar#ToggleWindow()<CR>
+'''
+hook_source = '''
+  let g:tagbar_previewwin_pos    = "rightbelow"
+  let g:tagbar_iconchars         = ['+', '-']
+  let g:tagbar_map_openallfolds  = '-'
+  let g:tagbar_map_closeallfolds = '='
+  let g:tagbar_sort              = 0
+
+  let g:tagbar_map_showproto = '<Nop>'
+  let g:tagbar_map_nexttag   = '<C-j>'
+  let g:tagbar_map_prevtag   = '<C-k>'
+  let g:tagbar_map_openfold  = '<Space>vo'
+  let g:tagbar_map_closefold = '<Space>vc'
+
+  let g:tagbar_type_dosini = {
+  \  'ctagstype': 'ini',
+  \  'kinds': [
+  \    's:Sections:1:1',
+  \  ]
+  \}
+
+  let g:tagbar_type_css = {
+  \  'ctagstype' : 'mycss',
+  \  'kinds' : [
+  \    's:Selectors:1:1',
+  \    '@:@:0:1',
+  \    'c:Classes:1:0',
+  \    'i:Identities:1:0',
+  \    'e:Elements:1:0',
+  \  ]
+  \}
+
+  let g:tagbar_type_javascript = {
+  \  'ctagstype' : 'myjs',
+  \  'kinds' : [
+  \    'f:Functions:0:1',
+  \    'v:Variables:1:0',
+  \    'a:Arrays:1:0',
+  \    'n:Numbers:1:0',
+  \    's:Strings:1:0',
+  \    'b:Bools:1:0',
+  \    'j:jQuery:1:0',
+  \    'z:Functions:1:1'
+  \  ]
+  \}
+
+  let g:tagbar_type_php = {
+  \  'ctagstype' : 'myphp',
+  \  'kinds' : [
+  \    'd:Const Definitions:0:0',
+  \    'c:Classes:0:1',
+  \    'm:Methods:0:1',
+  \    'F:Functions:0:1',
+  \    'p:Properties:1:0',
+  \    'v:Variables:1:0'
+  \  ]
+  \}
+
+  let g:tagbar_type_html = {
+  \  'ctagstype' : 'myhtml',
+  \  'kinds' : [
+  \    'i:Identities:0:0',
+  \    'c:Classes:0:1',
+  \  ]
+  \}
+
+  let g:tagbar_type_xhtml = {
+  \  'ctagstype' : 'myhtml',
+  \  'kinds' : [
+  \    'i:Identities:1:0',
+  \    'c:Classes:1:0',
+  \    'e:Ebisu tags:1:0',
+  \  ]
+  \}
+
+  let s:tagbar_type_vbs = {
+  \  'ctagstype' : 'myvbs',
+  \  'kinds' : [
+  \    'd:Constants:0:0',
+  \    'f:Functions:1:1',
+  \    's:Subroutines:1:1',
+  \    'v:Variables:1:0',
+  \  ]
+  \}
+
+  let g:tagbar_type_wsh    = s:tagbar_type_vbs
+  let g:tagbar_type_aspvbs = s:tagbar_type_vbs
+  let g:tagbar_type_vb     = s:tagbar_type_vbs
+'''
+
+[[plugins]]
+repo = 'SirVer/ultisnips'
+on_event = ['InsertEnter']
+hook_add = '''
+  let g:UltiSnipsExpandTrigger       = "<C-l>"
+  let g:UltiSnipsJumpForwardTrigger  = "<C-i>"
+  let g:UltiSnipsJumpBackwardTrigger = "<C-o>"
+  let g:UltiSnipsEditSplit = "vertical"
+'''
+
+[[plugins]]
+repo = 'tpope/vim-endwise'
+on_event = ['InsertEnter']
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+on_cmd = ['QuickRun']
+hook_add = '''
+nnoremap <silent> <SPACE>mcc :QuickRun<CR>
+nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
+nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
+nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
+
+xnoremap <silent> <SPACE>mcc :QuickRun<CR>
+xnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
+xnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
+xnoremap <silent> <SPACE>mco :QuickRun -outputter file:
+
+nnoremap <silent> <SPACE>mcl :lwindow<CR>
+'''
+hook_source = '''
+let g:quickrun_config={'_': {'split': ''}}
+let g:quickrun_config._={
+  \ 'hook/time/enable': '1',
+  \ 'runner'    : 'vimproc',
+  \ 'runner/vimproc/updatetime' : 60,
+  \ 'outputter' : 'error',
+  \ 'outputter/error/success' : 'buffer',
+  \ 'outputter/error/error'   : 'buffer',
+  \ 'outputter/buffer/split'  : ':botright 12sp',
+  \ 'outputter/buffer/close_on_empty' : 1,
+  \ 'outputter/buffer/running_mark': ''
+\ }
+
+let g:quickrun_config['python'] = {
+  \ 'type'    : 'python',
+  \ 'command' : 'python',
+  \ 'cmdopt'    : '-u',
+\}
+'''
+
+[[plugins]]
+repo = 'janko/vim-test'
+on_cmd = [
+    'TestNearest',
+    'TestFile',
+    'TestSuite',
+    'TestLast',
+    'TestVisit',
+]
+hook_add = '''
+nnoremap <silent><SPACE>mts <cmd>TestSuite<CR>
+nnoremap <silent><SPACE>mtf <cmd>TestFile<CR>
+nnoremap <silent><SPACE>mtn <cmd>TestNearest<CR>
+nnoremap <silent><SPACE>mtl <cmd>TestLast<CR>
+nnoremap <silent><SPACE>mtv <cmd>TestVisit<CR>
+'''
+hook_source = '''
+let g:test#strategy = 'dispatch'
+let g:test#python#pytest#file_pattern = '.*'
+let g:test#python#pytest#options = {
+  \ 'all': '--tb=short -q -p no:sugar',
+  \ }
+
+let g:dispath_compilers = {'pytest': 'pytest'}
+
+function! DapStrategy(cmd)
+  echom 'It works! Command for running tests: ' . a:cmd
+  let g:vim_test_last_command = a:cmd
+  lua Dap.strategy()
+endfunction
+
+lua << EOF
+Dap.vim_test_strategy = {
+  go = function(cmd)
+    local test_func = string.match(cmd, "-run '([^ ]+)'")
+    local path = string.match(cmd, "[^ ]+$")
+    path = string.gsub(path, "/%.%.%.", "")
+
+    configuration = {
+      type = "go",
+      name = "nvim-dap strategy",
+      request = "launch",
+      mode = "test",
+      program = path,
+      args = {},
+    }
+
+    if test_func then
+      table.insert(configuration.args, "-test.run")
+      table.insert(configuration.args, test_func)
+    end
+
+    if path == nil or path == "." then
+      configuration.program = "./"
+    end
+
+    return configuration
+  end,
+}
+
+function Dap.strategy()
+  local cmd = vim.g.vim_test_last_command
+  local filetype = vim.bo.filetype
+  local f = Dap.vim_test_strategy[filetype]
+
+  if not f then
+    print("This filetype is not supported.")
+    return
+  end
+
+  configuration = f(cmd)
+  require'dap'.run(configuration)
+end
+
+EOF
+
+let g:test#custom_strategies = {'dap': function('DapStrategy')}
+" let g:test#strategy = 'dap'
+'''
+
+[[plugins]]
+repo = 'liuchengxu/vista.vim'
+on_cmd = ['Vista']
+hook_source = '''
+let g:vista_echo_cursor = 0
+let g:vista_sidebar_width = 40
+'''

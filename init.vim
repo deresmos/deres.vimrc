@@ -1,509 +1,892 @@
+" manual {{{1
 " Linux
 " install python3, lua
 " vim:
-"		none
-"	neovim:
-"		pip install neovim
-"		pacman -S neovim
+"   none
+" neovim:
+"   pip install neovim
+"   pacman -S neovim
 
 " Mac
 " vim:
-"		install python3, lua
-"		brew install vim --with-python3 --with-lua
-"	neovim:
-"		pip install neovim
-"		brew install neovim
+"   install python3, lua
+"   brew install vim --with-python3 --with-lua
+" neovim:
+"   pip install neovim
+"   brew install neovim
 
-"	Windows
-"	install python3
-"	pip install neovim
-"	neovim:
-"		donwload neovim binary
+" Windows
+" install python3
+" pip install neovim
+" neovim:
+"   donwload neovim binary
 
 " Common
 " If first startup, you must <SPACE>up
+" }}}
 
 if !1 | finish | endif
 
 set shellslash
 set encoding=utf8
-"dein setting {{{1
-if has('unix') || has('mac')
-	let s:dein_dir = expand('~/.cache/vim-dein')
-	let g:rc_dir = expand('~/.config/vim/dein')
-elseif has('win64') || has('win32')
-	let s:dein_dir = expand($LOCALAPPDATA. '/nvim/.cache/vim-dein')
-	let g:rc_dir = expand($LOCALAPPDATA. '/nvim/dein')
-endif
-let s:dein_repo_dir = s:dein_dir. '/repos/github.com/Shougo/dein.vim'
 
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-		execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+let g:is_windows = has('win64') || has('win32')
+
+"Init path {{{1
+if g:is_windows 
+  let s:config_home = expand($LOCALAPPDATA)
+  let s:cache_home = expand($LOCALAPPDATA)
+  let g:vim_rc_path = expand('$HOME/.vim')
+else
+  let s:config_home = $XDG_CONFIG_HOME
+  if !exists($XDG_CONFIG_HOME)
+    let s:config_home = expand('$HOME/.config')
   endif
-  execute 'set runtimepath^='. fnamemodify(s:dein_repo_dir, ':p')
+
+  let s:cache_home = $XDG_CACHE_HOME
+  if !exists($XDG_CACHE_HOME)
+    let s:cache_home = expand('$HOME/.cache')
+  endif
+
+  let g:vim_rc_path = expand('$HOME/.vim')
 endif
 
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
+let g:dein_cache_path = expand(s:cache_home.'/nvim-dein')
+let g:dein_rc_path   = expand(s:config_home.'/nvim/dein')
+let g:dein_plugin_rc_path = expand(g:dein_rc_path.'/pluginrc')
+let s:nvim_rc_path = expand(s:config_home.'/nvim')
+let s:vim_conf_path = expand(g:vim_rc_path.'/conf.d')
 
-  let s:toml      = g:rc_dir. '/dein.toml'
-	let s:lazy_toml = g:rc_dir. '/dein_lazy.toml'
-
-	call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  call dein#end()
-  call dein#save_state()
-endif
-
-if dein#check_install()
-  call dein#install()
-endif
+" Load basic.vim {{{1
+execute 'source' s:vim_conf_path.'/basic.vim'
+execute 'source' g:dein_plugin_rc_path.'/dein.vim'
 
 filetype plugin indent on
-"}}}1
 
-"vim setting {{{1
-"script var{{{2
-if has('unix') || has('mac')
-	let s:cache_dir = expand('~/.cache/vim')
-elseif has('win64') || has('win32')
-	let s:cache_dir = expand($LOCALAPPDATA. '/.cache/vim')
+"Vim setting {{{1
+execute 'source' s:vim_conf_path . '/color.vim'
+execute 'source' s:vim_conf_path . '/filetype.vim'
+
+colorscheme iceberg
+if exists('+termguicolors')
+  set termguicolors
 endif
 
-let s:undo_dir = s:cache_dir. '/undo'
-let s:view_dir = s:cache_dir. '/view'
-let g:startify_session_dir = s:cache_dir. '/session'
+let g:vimsyn_embed='lPr'
+set guicursor=
+      \n-v-c:block
+      \,i-ci-ve:ver25
+      \,r-cr:hor20,o:hor50
+      \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+      \,sm:block-blinkwait175-blinkoff150-blinkon175
+set scrollback=100000
+" set inccommand=split
 
-function! CheckDirectory(dir_path) "{{{
-	if !isdirectory(a:dir_path)
-		call mkdir(a:dir_path, 'p')
-	endif
-endfunction
-"}}}
-call CheckDirectory(s:undo_dir)
-call CheckDirectory(s:view_dir)
-
-"basic setting{{{2
-set undofile
-let &undodir = s:undo_dir
-filetype plugin on
-set ambiwidth=double
-
-if exists('&ambw')
-    set ambw=double
-endif
-
-set wildmenu
-set wildmode=list:longest
-set incsearch
-set hlsearch
-set showmatch
-set ignorecase
-set smartcase
-
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set autoindent
-" set smartindent
-set cursorline
-
-noremap x "_x
-set showcmd
-syntax on
-" install gvim
-set clipboard&
-set clipboard^=unnamedplus
-set splitbelow
-set splitright
-" set smarttab
-
-set laststatus=2
-set noswapfile
-set title
-set hidden
-
-autocmd VimEnter,ColorScheme * highlight Search ctermfg=251 ctermbg=240 guifg=#b6b6b6 guibg=#585858
-autocmd VimEnter,ColorScheme * highlight Folded ctermfg=251 ctermbg=236 guifg=#b6b6b6  guibg=#383838
-autocmd VimEnter,ColorScheme * highlight Pmenu  ctermfg=251 ctermbg=238 guifg=#b6b6b6 guibg=#484848
-autocmd VimEnter,ColorScheme * highlight LineNr ctermfg=251 ctermbg=236
-colorscheme hybrid
-set background=dark
-
-function s:LineNumberToggle() "{{{
-  if &number
-    setlocal nonumber
-  else
-    setlocal number
-  endif
-endfunction
-"}}}
-
-"fold setting{{{2
-set foldenable
-set foldmethod=marker
-set foldtext=FoldCCtext()
-set foldcolumn=0
-
-augroup foldmethod
-	autocmd!
-	autocmd BufRead,BufNewFile *.toml,.zshrc setlocal commentstring=#%s
-	autocmd BufRead,BufNewFile *.vim setlocal commentstring=\"%s
-	autocmd BufRead,BufNewFile *.html setlocal commentstring=<!--%s-->
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({higroup = "Search", timeout=500})
 augroup END
 
-nnoremap <expr>l foldclosed('.') != -1 ? 'zo' : 'l'
-" nnoremap <expr>h foldclosed('.') != -1 ? 'zc' : 'h'
-
-function! s:print_foldmarker(mode, last) range "{{{
-	if a:last == 1
-		call <SID>put_foldmarker(1, a:lastline, a:mode)
-		return
-	endif
-
-	call <SID>put_foldmarker(0, a:firstline, a:mode)
-	if a:firstline != a:lastline || a:last == 1
-		call <SID>put_foldmarker(1, a:lastline, a:mode)
-	endif
-endfunction
-"}}}
-function! s:put_foldmarker(foldclose_p, lnum, mode) " {{{
-	let crrstr = getline(a:lnum)
-  let padding = crrstr=='' ? '' : crrstr=~'\s$' ? '' : ' '
-
-  let [cms_start, cms_end] = ['', '']
-  let outside_a_comment_p = synIDattr(synID(line(a:lnum), col('$')-1, 1), 'name') !~? 'comment'
-  if outside_a_comment_p
-		let cms_start = matchstr(&cms,'\V\s\*\zs\.\+\ze%s')
-		let cms_end   = matchstr(&cms,'\V%s\zs\.\+')
-  endif
-
-  let fmr = split(&fmr, ',')[a:foldclose_p]. (v:count ? v:count : '')
-	if a:mode != 0
-		let fmr = fmr. foldlevel(a:lnum)
-	endif
-  exe a:lnum. 'normal! A'. padding. cms_start. fmr. cms_end
-endfunction
-"}}}
-
-
-"nerdtree setting{{{2
-augroup nerdtree
-	autocmd!
-	autocmd VimLeavePre * NERDTreeClose
-	" autocmd User Startified NERDTree
-augroup END
-
-
-"view setting{{{2
-" Save fold settings.
-" Don't save options.
-let &viewdir = s:view_dir
-set viewoptions-=options
-augroup view
-	autocmd!
-	autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
-	autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent! loadview | endif
-augroup END
-
-command -nargs=0 ClearUndo call <sid>ClearUndo()
-function! s:ClearUndo()
-  let old_undolevels = &l:undolevels
-  set undolevels=-1
-  exe "normal! a \<BS>\<Esc>"
-  let &l:undolevels = old_undolevels
-  unlet old_undolevels
-endfunction
-
-
-" for lightline
-autocmd QuickFixCmdPost *grep* cwindow
-
-" nnoremap <C-h> :vsp<CR> :exe("tjump ".expand('<cword>'))<CR>
-" nnoremap <C-k> :split<CR> :exe("tjump ".expand('<cword>'))<CR>
-set showtabline=2
-
-" vim or nvim
-if !has('nvim')
-	" urxvt
-	let &t_SI = "\<Esc>[6 q"
-	let &t_SR = "\<Esc>[4 q"
-	let &t_EI = "\<Esc>[2 q"
-endif
-
-if has('nvim')
-	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-	tnoremap <silent> <ESC> <C-\><C-n>
-	tnoremap <silent> fd <C-\><C-n>
-endif
-"}}}1
-
-"space vim setting{{{1
-inoremap fd <ESC>
-vnoremap fd <ESC>
-inoremap <C-j> <C-n>
-inoremap <C-k> <C-p>
-nnoremap <silent> <SPACE>of :silent! !xdg-open %<CR>
-nnoremap <silent> <tab> >>
-nnoremap <silent> <S-tab> <<
-vnoremap <silent> <tab> >gv
-vnoremap <silent> <S-tab> <gv
-
-"f keybind {{{2
-nnoremap <silent> <SPACE>ff :FufFileWithCurrentBufferDir<CR>
-nnoremap <silent> <SPACE>fr :Denite file_mru<CR>
-nnoremap <silent> <SPACE>fl :Denite line<CR>
+"space vim setting {{{1
+"F keybind {{{2
+" nnoremap <silent> <SPACE>ff :Denite file/rec -path=`get(g:, 'denite_cwd', getcwd())` -start-filter<CR>
+" nnoremap <silent> <SPACE>fF :Denite file -path=`get(g:, 'denite_cwd', getcwd())`<CR>
+" nnoremap <silent> <SPACE>fr :Denite file_mru -start-filter<CR>
+nnoremap <silent> <SPACE>fl :Denite line -start-filter<CR>
 nnoremap <silent> <SPACE>fv :Denite line -input=.*\{\{\{<CR>
-nnoremap <silent> <SPACE>fg :DeniteBufferDir grep<CR>
-nnoremap <silent> <SPACE>fG :DeniteBufferDir grep -default-action=tabopen<CR>
-nnoremap <silent> <SPACE>fs :w<CR>
-nnoremap <silent> <SPACE>fq :wq<CR>
-nnoremap <silent> <SPACE>fc :f<space>
+" nnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep<CR>
+xnoremap <silent> <SPACE>fg :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`GetVisualWordEscape()`<CR>
+" nnoremap <silent> <SPACE>fG :Denite -no-empty -path=`get(g:, 'denite_cwd', getcwd())` grep:::`expand('<cword>')`<CR>
+nnoremap <silent> <SPACE>fs :<C-u>call <SID>saveFile(0)<CR>
+nnoremap <silent> <SPACE>fS :<C-u>call <SID>saveFile(1)<CR>
 
-nnoremap <silent> <SPACE>fc :FufMruCmd<CR>
-nnoremap <silent> <SPACE>fj :FufJumpList<CR>
-nnoremap <silent> <SPACE>fh :FufChangeList<CR>
-nnoremap <silent> <SPACE>fbf :FufBookmarkFile<CR>
-nnoremap <silent> <SPACE>fbd :FufBookmarkDir<CR>
+function! s:saveFile(force) abort "{{{
+  let l:cmd = &readonly ? 'SudoWrite' : a:force ? 'w!' : 'w'
+  execute l:cmd
+endfunction
+" }}}
 
-"q keybind{{{2
-nnoremap <silent> <SPACE>qq :q<CR>
-nnoremap <silent> <SPACE>qQ :q!<CR>
+nnoremap <silent> <SPACE>ft :Defx -buffer-name=defx-tree<CR>
+nnoremap <silent> <SPACE>fT :Defx -buffer-name=defx-floating<CR>
+nnoremap <silent> <SPACE>fo :<C-u>call <SID>open_two_defx()<CR>
 
-"b keybind{{{2
-nnoremap <silent> <SPACE>bb :Denite buffer<CR>
-nnoremap <silent> <SPACE>bf :FufBookmarkFileAdd<CR>
-nnoremap <silent> <SPACE>bd :FufBookmarkDirAdd<CR>
-nnoremap <silent> <SPACE>bs :wa<CR>
-nnoremap <silent> <SPACE>bq :qa<CR>
-nnoremap <silent> <SPACE>bo :BufOnly<CR>
-nnoremap <silent> <SPACE>bn :bn<CR>
-nnoremap <silent> <SPACE>bN :bp<CR>
+" functions {{{
+function! s:open_two_defx() abort
+  tabedit
+  execute 'Defx -new -winwidth=' . &columns/2
+  execute 'Defx -new -winwidth=' . &columns/2
+endfunction
+" }}}
 
-"p keybind{{{2
-nnoremap <silent> <SPACE>pf :DeniteProjectDir file_rec<CR>
-nnoremap <silent> <SPACE>pg :DeniteProjectDir grep<CR>
-nnoremap <silent> <SPACE>pG :DeniteProjectDir grep -default-action=tabopen<CR>
-autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
+" nnoremap <silent> <SPACE>fh :Denite command_history<CR>
+" nnoremap <silent> <SPACE>fj :Denite jump<CR>
+" nnoremap <silent> <SPACE>fp :Denite change<CR>
+" nnoremap <silent> <SPACE>fP :Denite register<CR>
 
+"Q keybind{{{2
+nnoremap <silent> <SPACE>qr :<C-u>Qfreplace tabnew<CR>
 
-"y keybind{{{2
+"D keybind{{{2
+nnoremap <silent> <SPACE>dl :Denite -resume<CR>
+nnoremap <silent> <SPACE>dm :Denite menu:all<CR>
+nnoremap <silent> <SPACE>dcd :<C-u>let g:denite_cwd = getcwd()<CR>:echo 'Change denite_cwd: ' . getcwd()<CR>
+nnoremap <silent> <SPACE>doc :<C-u>echo 'denite_cwd: ' . g:denite_cwd<CR>
+nnoremap <silent> <SPACE>dt :Denite tag -start-filter<CR>
+nnoremap <silent> <SPACE>dp :Denite dein -default-action=open -start-filter<CR>
+nnoremap <SPACE>df :<C-u>DictionaryTranslate<space>
+nnoremap <SPACE>dF :<C-u>DictionaryTranslate<CR>
+
+"L keybind{{{2
+xnoremap <silent> <SPACE>ld :Linediff<CR>
+
+"B keybind{{{2
+" nnoremap <silent> <SPACE>bb :Denite buffer -start-filter<CR>
+nnoremap <silent> <SPACE>bo :<C-u>BufOnly!<CR>
+nnoremap <silent> <SPACE>bu :<C-u>call CloseUnloadedBuffers()<CR>
+nnoremap <silent> <SPACE>bl :<C-u>BuffergatorToggle<CR>
+" nnoremap <silent> <SPACE>bf :DeniteBufferDir file/rec -start-filter<CR>
+" nnoremap <silent> <SPACE>bF :DeniteBufferDir file<CR>
+" nnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep<CR>
+xnoremap <silent> <SPACE>bg :DeniteBufferDir -no-empty grep:::`GetVisualWordEscape()`<CR>
+" nnoremap <silent> <SPACE>bG :DeniteBufferDir -no-empty grep:::`expand('<cword>')`<CR>
+nnoremap <silent> <SPACE>bt :Denite -no-empty deol<CR>
+
+"P keybind{{{2
+" nnoremap <silent> <SPACE>pf :DeniteProjectDir file/rec -start-filter -path=`expand('%:p:h')`<CR>
+nnoremap <silent> <SPACE>pF :DeniteProjectDir file -path=`expand('%:p:h')`<CR>
+" nnoremap <silent> <SPACE>pg :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep<CR>
+xnoremap <silent> <SPACE>pg :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep:::`GetVisualWordEscape()`<CR>
+" nnoremap <silent> <SPACE>pG :DeniteProjectDir -no-empty -path=`expand('%:p:h')` grep:::`expand('<cword>')`<CR>
+
+"Y keybind{{{2
 nnoremap <silent> <SPACE>yl :<C-u>Denite neoyank<CR>
 
-"t keybind{{{2
-nnoremap <silent> <SPACE>tc :tabnew<CR>
-nnoremap <silent> <SPACE>tC :tab split<CR>
-nnoremap <silent> <SPACE>td :tabclose<CR>
-nnoremap <silent> <SPACE>tO :tabonly<CR>
-
-nnoremap <silent> <SPACE>tl :tabnext<CR>
-nnoremap <silent> <SPACE>th :tabprevious<CR>
-nnoremap <silent> <SPACE>tL :+tabmove<CR>
-nnoremap <silent> <SPACE>tH :-tabmove<CR>
-call submode#enter_with('tabmove', 'n', '', '<SPACE>tt', '<Nop>')
-call submode#map('tabmove', 'n', '', 'l', ':tabnext<CR>')
-call submode#map('tabmove', 'n', '', 'h', ':tabprevious<CR>')
-call submode#map('tabmove', 'n', '', 'L', ':+tabmove<CR>')
-call submode#map('tabmove', 'n', '', 'H', ':-tabmove<CR>')
-
-for n in range(1, 9)
-  execute 'nnoremap <silent> <SPACE>t'.n  ':<C-u>tabnext'.n.'<CR>'
+"T keybind{{{2
+for s:n in range(1, 9)
+  execute 'nnoremap <silent> <SPACE>t'.s:n  ':<C-u>tabnext'.s:n.'<CR>'
 endfor
 
-nnoremap <silent> <SPACE>tg :TagsGenerate<CR>
-nnoremap <silent> <SPACE>tb :Tagbar<CR>
-nnoremap <silent> <SPACE>tf :NERDTreeToggle<CR>
+function! s:ExecuteCtags() abort "{{{
+  let tag_name = '.tags'
 
-nnoremap <silent> <SPACE>tn :call <SID>LineNumberToggle()<CR>
-nnoremap <silent> <SPACE>to :terminal<CR>
+  let b:asyncrun_after_cmd = ''
 
-"w keybind{{{2
-nnoremap <silent> <SPACE>ws :split<CR>
-nnoremap <silent> <SPACE>wv :vsplit<CR>
-nnoremap <silent> <SPACE>wd :close<CR>
-nnoremap <silent> <SPACE>wO :only<CR>
-nnoremap <silent> <SPACE>wD <c-w>j:close<CR>
-nnoremap <silent> <SPACE>w= <c-w>=<CR>
+  let tags_path = findfile(tag_name, '.;')
+  if tags_path ==# ''
+    echo 'Not found .tags'
+    execute 'AsyncRun -cwd=<root> pwd && ctags --exclude=.git -R -f' tag_name '2> /dev/null'
+    return
+  endif
 
-nmap <SPACE>wl <c-w>l
-nmap <SPACE>wh <c-w>h
-nmap <SPACE>wj <c-w>j
-nmap <SPACE>wk <c-w>k
-nmap <silent> <SPACE>wL <c-w>L
-nmap <silent> <SPACE>wH <c-w>H
-nmap <silent> <SPACE>wJ <c-w>J
-nmap <silent> <SPACE>wK <c-w>K
-call submode#enter_with('windowmove', 'n', '', '<SPACE>ww', '<Nop>')
-call submode#map('windowmove', 'n', '', 'j', '<C-w>j')
-call submode#map('windowmove', 'n', '', 'k', '<C-w>k')
-call submode#map('windowmove', 'n', '', 'l', '<C-w>l')
-call submode#map('windowmove', 'n', '', 'h', '<C-w>h')
-call submode#map('windowmove', 'n', '', 'J', '<C-w>J')
-call submode#map('windowmove', 'n', '', 'K', '<C-w>K')
-call submode#map('windowmove', 'n', '', 'L', '<C-w>L')
-call submode#map('windowmove', 'n', '', 'H', '<C-w>H')
+  let tags_dirpath = fnamemodify(tags_path, ':p:h')
+  execute 'AsyncRun -cwd=' . tags_dirpath 'ctags --exclude=.git -R -f' tag_name '2> /dev/null'
+endfunction "}}}
 
-call submode#enter_with('bufmove', 'n', '', '<SPACE>wcc', '<Nop>')
-call submode#map('bufmove', 'n', '', 'l', '<C-w>>')
-call submode#map('bufmove', 'n', '', 'h', '<C-w><')
-call submode#map('bufmove', 'n', '', 'j', '<C-w>+')
-call submode#map('bufmove', 'n', '', 'k', '<C-w>-')
+nnoremap <silent> <SPACE>tg :<C-u>call <SID>ExecuteCtags()<CR>
+nnoremap <silent> <SPACE>tb :<C-u>TagbarOpen fj<CR>
+nnoremap <silent> <SPACE>tB :<C-u>call tagbar#ToggleWindow() <Bar> call tagbar#ToggleWindow()<CR>
 
-"g keybind{{{2
+function! s:setNumber() abort "{{{
+  if &relativenumber
+    setlocal relativenumber!
+  endif
+  setlocal number!
+endfunction
+" }}}
+function! s:setRelativeNumber() abort "{{{
+  if &number
+    setlocal number!
+  endif
+  setlocal relativenumber!
+endfunction
+" }}}
+
+nnoremap [TNumber] <Nop>
+nmap <SPACE>tn [TNumber]
+nnoremap <silent> [TNumber]n :<C-u>call <SID>setNumber()<CR>
+nnoremap <silent> [TNumber]r  :<C-u>call <SID>setRelativeNumber()<CR>
+
+nnoremap <silent> <SPACE>tsl :<C-u>setlocal list!<CR>
+
+
+"G keybind{{{2
 " fugitive keybind
-nnoremap <silent> <SPACE>gs :Gstatus<CR>
-nnoremap <silent> <SPACE>gc :Gcommit<CR>
-nnoremap <silent> <SPACE>gd :Gdiff<CR>
-nnoremap <silent> <SPACE>gb :Gblame<CR>
-nnoremap <silent> <SPACE>gp :Gpush<CR>
-nnoremap <SPACE>gg :Gmygrep<SPACE>
+nnoremap <silent> <SPACE>gs :<C-u>Git<CR>
+nnoremap <silent> <SPACE>gv :<C-u>Gvdiff<CR>
+nnoremap <silent> <SPACE>gb :<C-u>Git blame<CR>
 
 " merginal keybind
-nnoremap <SPACE>gm :Merginal<CR>
+nnoremap <SPACE>gC :<C-u>call merginal#openMerginalBuffer()<CR>
+
+" vimagit keybind
+nnoremap <SPACE>gm :<C-u>Magit<CR>
 
 " agit keybind
-nnoremap <SPACE>gl :Agit<CR>
-nnoremap <SPACE>gf :AgitFile<CR>
+nnoremap <SPACE>gl :<C-u>Agit<CR>
+nnoremap <SPACE>gf :<C-u>AgitFile<CR>
 
 " gitgutter keybind
-nmap <SPACE>gk <Plug>GitGutterPrevHunk
-nmap <silent> <SPACE>gj <Plug>GitGutterNextHunk
-nmap <silent> <SPACE>gp <Plug>GitGutterPreviewHunk
-nnoremap <silent> <SPACE>gtt :GitGutterToggle<CR>
-nnoremap <silent> <SPACE>gts :GitGutterSignsToggle<CR>
-nnoremap <silent> <SPACE>gtl :GitGutterLineHighlightsToggle<CR>
+" nmap <silent> <SPACE>gk <Plug>(GitGutterPrevHunk)
+" nmap <silent> <SPACE>gj <Plug>(GitGutterNextHunk)
+" nmap <silent> <SPACE>gp <Plug>(GitGutterPreviewHunk)
+nnoremap <silent> <SPACE>gPs :<C-u>AsyncRun -cwd=<root> git push -v origin HEAD<CR>
+nnoremap <silent> <SPACE>gPl :<C-u>AsyncRun -cwd=<root> git pull origin HEAD<CR>
+nnoremap <silent> <SPACE>gPL :<C-u>AsyncRun -cwd=<root> git pull --all<CR>
+nnoremap <silent> <SPACE>gPf :<C-u>AsyncRun -cwd=<root> git fetch<CR>
+" nnoremap <silent> <SPACE>gu <Nop>
+" nmap <silent> <SPACE>gU <Plug>(GitGutterUndoHunk)
+" nnoremap <silent> <SPACE>ga <Nop>
+" nmap <silent> <SPACE>gA <Plug>(GitGutterStageHunk)
+" nnoremap <silent> <SPACE>gg :<C-u>GitGutter<CR>
+" nnoremap <silent> <SPACE>gtt :<C-u>GitGutterToggle<CR>
+" nnoremap <silent> <SPACE>gts :<C-u>GitGutterSignsToggle<CR>
+" nnoremap <silent> <SPACE>gtl :<C-u>GitGutterLineHighlightsToggle<CR>
+" nnoremap <silent> <SPACE>gtf :<C-u>GitGutterFold<CR>
 
-"v keybind{{{2
-" vim fold keybind
-noremap  <SPACE>vf :call <SID>print_foldmarker(0, 0)<CR>
-noremap  <SPACE>vF :call <SID>print_foldmarker(1, 0)<CR>
-noremap  <SPACE>vl :call <SID>print_foldmarker(0, 1)<CR>
-noremap  <SPACE>vL :call <SID>print_foldmarker(1, 1)<CR>
-noremap <SPACE>vd zd
-noremap <SPACE>vD zD
-noremap <SPACE>vE zE
-noremap <SPACE>vo zo
-noremap <SPACE>vO zO
-noremap <SPACE>vc zc
-noremap <SPACE>vC zC
-noremap <SPACE>va za
-noremap <SPACE>vA zA
-noremap <SPACE>vv zv
-noremap <SPACE>vx zx
-noremap <SPACE>vX zX
-noremap <SPACE>vm zm
-noremap <SPACE>vM zM
-noremap <SPACE>vr zr
-noremap <SPACE>vR zR
-noremap <SPACE>vn zn
-noremap <SPACE>vN zN
-noremap <SPACE>vj zj
-noremap <SPACE>vk zk
-noremap <SPACE>vJ z]
-noremap <SPACE>vK z[
-noremap <SPACE>v= ggVGzC
-noremap <SPACE>v- ggVGzO
-noremap <SPACE>vi :echo FoldCCnavi()<CR>
+nnoremap <silent> <SPACE>gii :<C-u>Gist<CR>
+nnoremap <silent> <SPACE>gil :<C-u>Gist -l<CR>
+nnoremap <silent> <SPACE>gip :<C-u>Gist --private<CR>
+nnoremap <silent> <SPACE>giP :<C-u>Gist --public<CR>
+nnoremap <silent> <SPACE>gia :<C-u>Gist --anonymous<CR>
+nnoremap <SPACE>gis :<C-u>Gist --description<space>
 
+nnoremap <silent> <SPACE>gdb :<C-u>Denite gitdiff_file -no-empty<CR>
+nnoremap <silent> <SPACE>gdB :<C-u>Denite gitdiff_file:: -no-empty<CR>
+nnoremap <silent> <SPACE>gdl :<C-u>Denite gitdiff_log -no-empty<CR>
+nnoremap <silent> <SPACE>gdL :<C-u>Denite gitdiff_log:: -no-empty<CR>
+nnoremap <silent> <SPACE>gdf :<C-u>Denite gitdiff_log:input:::`expand('%:p')` -no-empty<CR>
+nnoremap <silent> <SPACE>gdF :<C-u>Denite gitdiff_log::::`expand('%:p')` -no-empty<CR>
 
-"s keybind{{{2
+"V keybind{{{2
+nnoremap <SPACE>vi :<C-u>echo FoldCCnavi()<CR>
+nnoremap <SPACE>ve :<C-u>set virtualedit=all<CR>
+nnoremap <SPACE>vE :<C-u>set virtualedit=<CR>
+
+"S keybind{{{2
 " session keybind
-nnoremap <SPACE>ss :SSave<Space>
-nnoremap <SPACE>sl :SLoad<Space>
-nnoremap <SPACE>sd :SDelete<Space>
-nnoremap <silent> <SPACE>sc :SClose<CR>
-nnoremap <silent> <SPACE>sC :SClose<CR>:q<CR>
+nnoremap <SPACE>ss :<C-u>SSave<Space>
+nnoremap <silent> <SPACE>sS :<C-u>silent! SSave tmp<CR>y
+nnoremap <silent> <SPACE>sl :<C-u>Denite session -start-filter<CR>
+nnoremap <silent> <SPACE>sL :<C-u>SLoad workspace<CR>
+nnoremap <SPACE>sd :<C-u>SDelete<Space>
+nnoremap <silent> <SPACE>sc :<C-u>SClose<CR>:cd ~<CR>
+nnoremap <silent> <SPACE>sC :<C-u>SClose<CR>:qa!<CR>
 
-" saiw'
-" sda'
-" sra'"
+"R keybind {{{2
+nnoremap <silent> <SPACE>rv :<C-u>silent! loadview<CR>
+nnoremap <silent> <SPACE>rn :<C-u>Renamer<CR>
+nnoremap <silent> <SPACE>rs :<C-u>Ren<CR>
 
-nmap <SPACE>sw :SearchBuffers<SPACE>
+nnoremap q <Nop>
+xnoremap q <Nop>
+nnoremap <silent> <SPACE>rc q
 
-"h keybind{{{2
-nnoremap <SPACE>hp :help<SPACE>
-
-"r keybind {{{2
-nnoremap <silent> <SPACE>re :noh<CR>:SearchBuffersReset<CR>
-" nnoremap <silent> <SPACE>rp :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-nnoremap <SPACE>rp :%s/<C-r><C-w>//g<Left><Left>
-nnoremap <silent> <SPACE>rv :silent! loadview<CR>
-
-"j keybind {{{2
+"J keybind {{{2
 nnoremap <silent> <Space>jv :Vaffle<CR>
 nnoremap <silent> <Space>js :Startify<CR>
 
-"c keybind {{{2
-map <SPACE>cn <plug>NERDCommenterNested
-map <SPACE>cy <plug>NERDCommenterYank
-map <SPACE>cm <plug>NERDCommenterMinimal
-map <SPACE>cc <plug>NERDCommenterToggle
-map <SPACE>cs <plug>NERDCommenterSexy
-map <SPACE>ci <plug>NERDCommenterToEOL
-map <SPACE>cA <plug>NERDCommenterAppend
-map <SPACE>cx <plug>NERDCommenterAltDelims
+"C keybind {{{2
+nmap <SPACE>cn <plug>NERDCommenterNested
+nmap <SPACE>cy <plug>NERDCommenterYank
+nmap <SPACE>cm <plug>NERDCommenterMinimal
+nmap <SPACE>cc <plug>NERDCommenterToggle
+nmap <SPACE>cs <plug>NERDCommenterSexy
+nmap <SPACE>ci <plug>NERDCommenterToEOL
+nmap <SPACE>cA <plug>NERDCommenterAppend
+nmap <SPACE>cx <plug>NERDCommenterAltDelims
 
-"o keybind {{{2
-map <SPACE>os <Plug>(openbrowser-smart-search)
-map <silent> <SPACE>ob :execute "OpenBrowser" expand("%:p")<CR>
+xmap <SPACE>cn <plug>NERDCommenterNested
+xmap <SPACE>cy <plug>NERDCommenterYank
+xmap <SPACE>cm <plug>NERDCommenterMinimal
+xmap <SPACE>cc <plug>NERDCommenterToggle
+xmap <SPACE>cs <plug>NERDCommenterSexy
+xmap <SPACE>ci <plug>NERDCommenterToEOL
+xmap <SPACE>cA <plug>NERDCommenterAppend
+xmap <SPACE>cx <plug>NERDCommenterAltDelims
+
+nnoremap <SPACE>cd :<C-u>lcd %:h<CR>:echo 'Change dir: ' . expand('%:p:h')<CR>
+
+" Capture command {{{
+command! -nargs=1 -complete=command CaptureC call <SID>captureC(<f-args>)
+
+function! s:captureC(cmd) abort
+  redir => l:result
+  silent execute a:cmd
+  redir END
+
+  let l:bufname = 'Capture: ' . a:cmd
+  tabnew
+  setlocal bufhidden=unload
+  setlocal nobuflisted
+  setlocal readonly
+  setlocal buftype=nofile
+  nnoremap <buffer><silent>q :quit<CR>
+  silent keepalt file `=bufname`
+  silent put =result
+  1,2delete _
+  " For readonly show status
+  call lightline#update()
+endfunction
+" }}}
+nnoremap <SPACE>cp :<C-u>CaptureC<space>
+
+" GitDiffBetween command {{{
+command! -nargs=* -complete=command GitDiffBetween call <SID>gitDiffBetween(<f-args>)
+
+function! s:gitDiffBetween(commit1, commit2) abort
+  let l:bufname = 'Diff Between'
+  tabnew
+
+  " stat window
+  let l:title = '[' . a:commit1 .  '  <=>  ' . a:commit2 . ']' . "\n\n"
+  silent put =l:title
+  execute 'silent read !git --no-pager diff --stat' a:commit1 a:commit2
+  1,1delete
+  2,2delete
+
+  setlocal bufhidden=unload nobuflisted readonly buftype=nofile
+  nnoremap <buffer><silent>q :quit<CR>
+  silent keepalt file `=l:bufname . ' stat'`
+  setlocal filetype=agit_stat
+
+  " diff window
+  execute 'belowright' winheight('.') * 3 / 4 'new'
+  execute 'silent read !git --no-pager diff' a:commit1 a:commit2
+  1,1delete
+
+  setlocal bufhidden=unload nobuflisted readonly buftype=nofile
+  nnoremap <buffer><silent>q :quit<CR>
+  silent keepalt file `=l:bufname . ' diff'`
+  setlocal filetype=agit_diff
+endfunction
+" }}}
+nnoremap <SPACE>gD :GitDiffBetween<space>
+
+"O keybind {{{2
+nnoremap <silent> <SPACE>om :<C-u>MarkdownPreview<CR>
+
+xnoremap <silent> <SPACE>om :MarkdownPreview<CR>
+
+nnoremap <SPACE>op :<C-u>call ShowOptions()<CR>
+function! ShowOptions()
+  echo 'g:denite_cwd: ' . g:denite_cwd
+  echo 'g:gitgutter_diff_base: ' . g:gitgutter_diff_base
+endfunction
+
+"U keybind {{{2
+nnoremap <silent> <SPACE>up :<C-u>call dein#clear_state()<CR>:UpdateRemotePlugins<CR>
+nnoremap <silent> <SPACE>uP :<C-u>call dein#update()<CR>
+
+nnoremap <silent> <SPACE>utt :<C-u>UndotreeToggle<CR>
+nnoremap <silent> <SPACE>utf :<C-u>UndotreeFocus<CR>
+
+"V keybind {{{2
+nnoremap <SPACE>vg :<C-u>vimgrep /\v/ %<Left><Left><Left>
+xnoremap <SPACE>vg :<C-u>vimgrep /\v<c-r><c-w>/ %
+
+"A keybind {{{2
+nnoremap <SPACE>al= vis:EasyAlign*=<CR>
+xnoremap <SPACE>al= :EasyAlign*=<CR>
+nnoremap <SPACE>al\| vis:EasyAlign*\|<CR>
+xnoremap <SPACE>al\| :EasyAlign*\|<CR>
 
 
-"u keybind {{{2
-map <silent> <SPACE>up :UpdateRemotePlugins<CR>
-
-"u keybind {{{2
-"u keybisd {{{2
-map <silent> <SPACE>up :UpdateRemotePlugins<CR>
-map <silent> <SPACE>Up :call dein#update()<CR>
+"E keybind {{{2
+nmap <SPACE>ej <Plug>(ale_next)
+nmap <SPACE>ek <Plug>(ale_previous)
+nmap <SPACE>et <Plug>(ale_toggle)
 
 "nvim only keybind{{{2
-" nvim only key bind
 if has('nvim')
-	nnoremap <silent> <SPACE>m= :Autoformat<CR>
+  augroup emmet " {{{
+    autocmd!
 
-	" program keybind
-	nnoremap <silent> <SPACE>mcc :QuickRun<CR>
-	" vim window vertical botright
-	nnoremap <silent> <SPACE>mcv :QuickRun -outputter/buffer/split ':vertical botright'<CR>
-	nnoremap <silent> <SPACE>mcs :QuickRun -outputter/buffer/split ':botright'<CR>
-	nnoremap <silent> <SPACE>mco :QuickRun -outputter file:
-	" show syntatics errors
-	nnoremap <silent> <SPACE>mcl :lwindow<CR>
-
-	augroup formatter
-		autocmd!
-
-		"python formatter
-		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfy :silent !yapf -i --style "pep8" %<CR>:e!<CR>
-		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mfi :silent !isort %<CR>:e!<CR>
-		autocmd BufRead,BufNewFile *.py nnoremap <buffer><silent> <SPACE>mf= :silent !autopep8 -i % && yapf -i --style "pep8" % && isort %<CR>:e!<CR>
-	augroup END
-
-
-	" emmet keybind
-	augroup emmet
-		autocmd!
-		" emmet
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mee <C-y>,
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>met <C-y>;
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meu <C-y>u
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>med <C-y>d
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meD <C-y>D
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>men <C-y>n
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meN <C-y>N
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mei <C-y>i
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mem <C-y>m
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mek <C-y>k
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mej <C-y>j
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>me/ <C-y>/
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mea <C-y>a
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>meA <C-y>A
-		autocmd BufRead,BufNewFile *.html,*.css,*.php map <buffer><silent> <SPACE>mec <C-y>c
-	augroup END
+    " nmap keybind {{{
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mee <C-y>,
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>met <C-y>;
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meu <C-y>u
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>med <C-y>d
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meD <C-y>D
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>men <C-y>n
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meN <C-y>N
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mei <C-y>i
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mem <C-y>m
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mek <C-y>k
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mej <C-y>j
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>me/ <C-y>/
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mea <C-y>a
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>meA <C-y>A
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml nmap <buffer><silent> <SPACE>mec <C-y>c
+    " }}}
+    " xmap  keybind {{{
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mee <C-y>,
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>met <C-y>;
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meu <C-y>u
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>med <C-y>d
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meD <C-y>D
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>men <C-y>n
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meN <C-y>N
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mei <C-y>i
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mem <C-y>m
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mek <C-y>k
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mej <C-y>j
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>me/ <C-y>/
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mea <C-y>a
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>meA <C-y>A
+    autocmd BufRead,BufNewFile *.html,*.css,*.php,*.xhtml xmap <buffer><silent> <SPACE>mec <C-y>c
+    " }}}
+  augroup END " }}}
 endif
 "}}}1
 
-autocmd FileType php setlocal dictionary=~/.vim/dict/php.dict
+if filereadable(expand(s:vim_conf_path.'/custom.vim'))
+  execute 'source' s:vim_conf_path.'/custom.vim'
+endif
+
+" Source http://qiita.com/ass_out/items/e26760a9ee1b427dfd9d {{{
+function! s:DictionaryTranslate(...) abort
+  let l:word = a:0 == 0 ? expand('<cword>') : a:1
+  if l:word ==# '' | return | endif
+  let l:gene_path = '~/.vim/gene-utf8.txt'
+  let l:jpn_to_eng = l:word !~? '^[a-z_]\+$'
+  let l:output_option = l:jpn_to_eng ? '-B 1' : '-A 1'
+
+  silent pedit Translate\ Result | wincmd P | %delete
+  setlocal buftype=nofile noswapfile modifiable
+  nnoremap <buffer><silent> q :quit<CR>
+  silent execute 'read !grep -ihw' l:output_option l:word l:gene_path
+
+  silent 0delete
+  let l:esc = @z
+  let @z = ''
+  while search('^' . l:word . '$', 'Wc') > 0
+    silent execute line('.') - l:jpn_to_eng . 'delete Z 2'
+  endwhile
+  silent 0put z
+  let @z = l:esc
+
+  silent call append(expand('.'), '')
+  silent call append(line('.'), '===========================')
+  silent 1delete | wincmd P
+endfunction
+
+command! -nargs=? -complete=command DictionaryTranslate call <SID>DictionaryTranslate(<f-args>)
+nnoremap <SPACE>tr :DictionaryTranslate<space>
+nnoremap <SPACE>tR :DictionaryTranslate<CR>
+nnoremap <silent> <SPACE>otl :<C-u>call OpenTranslateTab()<CR>
+" }}}
+
+function! CloseUnloadedBuffers() abort "{{{
+  let l:lastbuffer = bufnr('$')
+  let l:delete_count = 0
+
+  for l:n in range(1, l:lastbuffer)
+    if buflisted(l:n) && !bufloaded(l:n)
+      silent execute 'bdelete! ' . l:n
+      let l:delete_count += 1
+    endif
+  endfor
+
+  let l:single = 'buffer deleted'
+  let l:multi = 'buffers deleted'
+  echomsg l:delete_count l:delete_count <= 1 ? l:single : l:multi
+endfunction
+
+nnoremap <silent> <Space>bQ :call CloseUnloadedBuffers()<CR>
+"}}}
+
+function! s:NaspHelp(...) abort "{{{
+  let l:word = a:0 == 0 ? expand('<cword>') : a:1
+
+  execute 'pedit' expand('~/.vim/help/nasp_dict.txt') '| wincmd P'
+  execute '/\v(void|Bool|Array|String|Object)\s+' . l:word . '\w*\('
+endfunction
+
+command! -nargs=? -complete=command NaspHelp call <SID>NaspHelp(<f-args>)
+nnoremap <SPACE>snh :NaspHelp<space>
+nnoremap <silent> <SPACE>snH :NaspHelp<CR>
+"}}}
+
+" CSV highlight same column process {{{
+function! CSVH(x) abort
+  let l:max_column = s:CSVMaxColumn()
+
+  if a:x
+    execute 'match Keyword /\v^(("\_.{-}"|[^,]*)*,){' . a:x . '}\zs("\_.{-}"|[^,]*)/'
+  else
+    execute 'match Keyword /\v^\zs("\_.{-}"|[^,]{-})\ze,(("\_.{-}"|[^,]*)*,){' . (l:max_column - 1) . '}/'
+  endif
+endfunction
+
+function! CSVHighlightCursor() abort
+  let b:isCSVaRun = get(b:, 'isCSVaRun', 0)
+  if b:isCSVaRun
+    let l:line = substitute(getline('.')[0:col('.')-1], '[^,"]', '', 'g')
+    let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
+    call CSVH(strlen(l:line))
+  endif
+endfunction
+
+function! CSVA() abort
+  let b:isCSVaRun = get(b:, 'isCSVaRun', 0)
+
+  if b:isCSVaRun
+    let b:isCSVaRun = 0
+  else
+    let b:isCSVaRun = 1
+    match none
+  endif
+endfunction
+
+function! s:CSVMaxColumn() abort
+  let l:line = substitute(getline(1), '[^,"]', '', 'g')
+  let l:line = substitute(l:line, '"[^"]*"\?', '', 'g')
+  return strlen(l:line)
+endfunction
+
+command! CSVa :call CSVA()
+command! CSVn execute 'match none'
+command! -nargs=1 CSVh call CSVH(<f-args>)
+
+augroup CsvCursorHighlight
+  autocmd!
+
+  autocmd BufNewFile,BufRead *.csv setlocal filetype=csv
+  autocmd FileType csv CSVa
+  autocmd CursorMoved *.csv call CSVHighlightCursor()
+  autocmd FileType csv nnoremap <buffer><silent> <SPACE>soc
+        \ :let b:isCSVaRun = !b:isCSVaRun<CR>
+augroup END
+"}}}
+
+" OpenTranslateTab functions {{{
+function! g:OpenTranslateTab() abort
+  " Left JA Window
+  tabnew Translate-JAtoEN
+  setlocal buftype=nofile nobuflisted noswapfile modifiable
+  setlocal filetype=trans-ja
+  nnoremap <buffer><silent> q :tabclose<CR>
+  nnoremap <silent><buffer> <Space>otl :call <SID>updateTranslateWindow()<CR>
+
+  " Right EN Window
+  vnew Translate-ENtoJA
+  setlocal buftype=nofile nobuflisted noswapfile modifiable
+  setlocal filetype=trans-en
+  nnoremap <buffer><silent> q :tabclose<CR>
+  nnoremap <silent><buffer> <Space>otl :call <SID>updateTranslateWindow()<CR>
+
+  " Cursor is JA window
+  wincmd p
+endfunction
+
+function! s:setTranslateResult(from, to) abort
+  let l:contents = join(getline(1, line('$')), "\\\n")
+  let l:contents = substitute(l:contents, '"', '\\\"', 'g')
+  
+  let l:cmd = 'read! trans ' . a:from . ':' . a:to . 
+    \' -b -no-auto -no-warn -no-ansi -e google'
+
+  wincmd p
+  %delete
+  execute l:cmd '"' l:contents . '"'
+  1.1delete
+  wincmd p
+endfunction
+
+function! s:updateTranslateWindow() abort
+  let l:ft = &filetype
+  if l:ft ==# 'trans-ja'
+    call s:setTranslateResult('ja', 'en')
+  elseif l:ft ==# 'trans-en'
+    call s:setTranslateResult('en', 'ja')
+  endif
+endfunction "}}}
+
+lua << EOF
+
+lualine_config = {}
+lualine_config.width_small = 50
+
+lualine_config.indent_type = function()
+  if vim.fn.winwidth(0) < lualine_config.width_small then
+    return ''
+  end
+
+  return vim.fn["spatab#GetDetectName"]()
+end
+
+lualine_config.current_function = function()
+  local current_func = vim.b.lsp_current_function
+  if not current_func then
+    return ""
+  end
+
+  winwidth = vim.fn.winwidth("$")
+  if string.len(current_func) > winwidth - 50 then
+    return ""
+  end
+  
+  return current_func
+end
+
+lualine_config.file_fullpath = function()
+  return vim.fn.expand("%:p")
+end
+
+lualine_config.file_of_lines = function()
+  return vim.fn.line("$")
+end
+
+lualine_config.git_branch = function()
+  local branch = vim.fn["gina#component#repo#branch"]()
+  if branch == "" then
+    return ""
+  end
+
+  return " " .. branch
+end
+
+lualine_config.mode = function()
+  return vim.api.nvim_get_mode().mode
+end
+
+lualine_config.git_diff_status = function()
+  if vim.b.gitsigns_status then
+    return vim.b.gitsigns_status
+  end
+
+  local hunks = vim.fn["GitGutterGetHunkSummary"]()
+  local status = {
+    added = hunks[1],
+    changed = hunks[2],
+    removed = hunks[3],
+  }
+
+  local added, changed, removed = status.added, status.changed, status.removed
+  local status_txt = {}
+  if added   and added   > 0 then
+    table.insert(status_txt, '%#StatusLineInfoText#+'..added)
+  end
+  if changed and changed > 0 then
+    table.insert(status_txt, '%#StatusLineWarningText#~'..changed)
+  end
+  if removed and removed > 0 then
+    table.insert(status_txt, '%#StatusLineErrorText#-'..removed)
+  end
+  return table.concat(status_txt, ' ')
+end
+
+lualine_config.diagnostics = function()
+  local counter = {}
+  counter.error = vim.diagnostic.get(0, 'Error')
+  counter.warning = vim.diagnostic.get(0, 'Warning')
+  counter.info = vim.diagnostic.get(0, 'Information')
+  counter.hint = vim.diagnostic.get(0, 'Hint')
+
+  local s = ""
+  if counter.error ~= 0 then
+    s = s .. " %#StatusLineErrorText#" .. counter.error
+  end
+
+  if counter.warning ~= 0 then
+    s = s .. " %#StatusLineWarningText#" .. counter.warning
+  end
+
+  if counter.info ~= 0 then
+    s = s .. " %#StatusLineInfoText#" .. counter.info
+  end
+
+  if counter.hint ~= 0 then
+    s = s .. " H" .. counter.hint
+  end
+
+  return s
+end
+
+function custom_theme()
+  local colors = {
+    blue   = '#61afef',
+    green  = '#98c379',
+    purple = '#c678dd',
+    red1   = '#e06c75',
+    red2   = '#be5046',
+    yellow = '#e5c07b',
+    fg     = '#abb2bf',
+    bg     = '#060811',
+    gray1  = '#5c6370',
+    gray2  = '#163821',
+    gray3  = '#3e4452',
+  }
+
+  local normal = { fg = colors.fg, bg = colors.bg }
+  return {
+    normal = {
+      a = normal,
+      b = normal,
+      c = normal,
+    },
+    inactive = {
+      c = { fg = colors.gray1, bg = colors.bg },
+    },
+  }
+end
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = custom_theme(),
+    component_separators = { left = '', right = ''},
+    section_separators = '',
+    disabled_filetypes = {'defx'},
+    always_divide_middle = true,
+    globalstatus=true,
+  },
+  sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {
+      lualine_config.git_branch,
+      lualine_config.git_diff_status,
+      lualine_config.current_function,
+    },
+    lualine_x = {
+      lualine_config.diagnostics,
+      'encoding',
+      lualine_config.indent_type,
+      'fileformat',
+      {
+        'filetype',
+        colored = true,
+        icon_only = true,
+      },
+    },
+    lualine_y = {},
+    lualine_z = {}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {
+      {
+        'filename',
+        file_status = true,
+        path = 1,
+        shorting_target = 0,
+      }
+    },
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  tabline = {},
+  extensions = {},
+}
+
+EOF
+
+
+command! Profile call s:command_profile()
+function! s:command_profile() abort
+  profile start ~/profile.txt
+  profile func *
+  profile file *
+endfunction
+
+
+lua << EOF
+Tabline = {}
+
+Tabline.Main = function()
+  local titles = {}
+  for i = 1, vim.fn.tabpagenr("$") do
+    tab = ""
+    if i == vim.fn.tabpagenr() then
+      tab = tab .. '%#TabLineSel#'
+    else
+      tab = tab .. '%#TabLine#'
+    end
+    titles[#titles + 1] = tab .. Tabline._tabLabel(i)
+  end
+
+  local sep = "%#TablineSeparator# "
+  local tabpages = table.concat(titles, sep)
+
+  local s = ""
+  s = s .. tabpages
+  s = s .. "%#TabLineFill#"
+  s = s .. "%=%#TabLineLast#   " .. Tabline.lastLabel()
+
+  return s
+end
+
+Tabline._tabLabel = function(n)
+  local buflist = vim.fn.tabpagebuflist(n)
+  local winnr = vim.fn.tabpagewinnr(n)
+  -- return " " .. n .. "." ..  Tabline.tabLabel(buflist[winnr])
+  return "  " .. n .. "  "
+end
+
+Tabline.fileNameFilter = function(fileName, maxLength, nested)
+  nested = nested or 0
+
+  if nested > 2 then
+    return string.sub(fileName, 30)
+  end
+
+  if fileName == "" then
+    return "[No Name]"
+  end
+
+  if #fileName >= maxLength then
+    nested = nested + 1
+    return Tabline.fileNameFilter(vim.fn.fnamemodify(fileName, ":p:t"), maxLength, nested)
+  end
+
+  return fileName
+end
+
+Tabline.tabLabel = function(n)
+  maxLength = 29
+  bufname = vim.fn.bufname(n)
+  bufname = Tabline.fileNameFilter(bufname, maxLength)
+  spaceLength = math.floor((maxLength - #bufname) / 2)
+
+  s = ""
+  if spaceLength > 0 then
+    for i = 1, spaceLength do
+      s = s .. " "
+    end
+    s = s .. bufname
+    for i = 1, spaceLength do
+      s = s .. " "
+    end
+  else
+    s = bufname
+  end
+
+  return s
+end
+
+Tabline.lastLabel = function(n)
+  maxLine = "L:" .. vim.fn.line("$")
+  fileFullPath = vim.fn.expand("%:p")
+  if #fileFullPath > 120 then
+    fileFullPath = string.sub(fileFullPath, 0, 120)
+  end
+  lastLabels = {maxLine, fileFullPath}
+
+  local sep = ":"
+  local lastLabel = table.concat(lastLabels, sep)
+
+  return lastLabel
+end
+
+function ShowTable(h)
+  for k, v in pairs(h) do
+    print( k, v )
+  end
+end
+
+EOF
+
+set tabline=%!v:lua.Tabline.Main()
