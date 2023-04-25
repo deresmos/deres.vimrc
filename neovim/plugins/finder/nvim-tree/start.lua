@@ -19,11 +19,11 @@ require("nvim-tree").setup({
     width = 30,
     mappings = {
       list = {
-        { key = "l", action = "edit" },
-        { key = "L", action = "cd" },
-        { key = "h", action = "dir_up" },
-        { key = "y", action = "copy" },
-        { key = "c", action = "create" },
+        { key = "l",         action = "edit" },
+        { key = "L",         action = "cd" },
+        { key = "h",         action = "dir_up" },
+        { key = "y",         action = "copy" },
+        { key = "c",         action = "create" },
         { key = "<Space>gj", action = "next_git_item" },
         { key = "<Space>gk", action = "prev_git_item" },
         { key = "<Space>ff", action_cb = find_files },
@@ -33,6 +33,11 @@ require("nvim-tree").setup({
   },
   renderer = {
     group_empty = true,
+    icons = {
+      show = {
+        git = false,
+      },
+    },
   },
   filters = {
     dotfiles = true,

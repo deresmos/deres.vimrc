@@ -1,6 +1,6 @@
 vim.keymap.set('n', '<Space>gk', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
   { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>gj', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
+vim.keymap.set('n', '<Space>gj', "<cmd>lua require'gitsigns.actions'.next_hunk({wrap=false})<CR>",
   { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gp', "<cmd>lua require'gitsigns'.preview_hunk()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gu', "<Nop>", { silent = true, noremap = true })

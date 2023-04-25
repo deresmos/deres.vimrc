@@ -122,7 +122,7 @@ end
 require 'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'github_dark',
+    theme = 'tokyonight',
     component_separators = { left = '', right = '' },
     section_separators = '',
     disabled_filetypes = { 'defx' },

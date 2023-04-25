@@ -3,6 +3,11 @@ require "tabline"
 
 vim.cmd('source ~/.config/nvim/vimrc')
 
+local vim_conf_path = vim.fn.expand('$HOME/.config/nvim')
+if vim.fn.filereadable(vim_conf_path .. '/custom.vim') == 1 then
+  vim.cmd('source ' .. vim_conf_path .. '/custom.vim')
+end
+
 local augroup = {
   highlighted_yank = 'highlighted-yank',
   custom_filetype = 'custom-filetype',

@@ -88,13 +88,40 @@ dict.switcher({
       dismiss = "<C-]>",
     },
   },
-  panel = { enabled = false },
+  panel = {
+    enabled = true,
+    auto_refresh = false,
+    keymap = {
+      jump_prev = "[[",
+      jump_next = "]]",
+      accept = "<CR>",
+      refresh = "gr",
+      open = "<M-CR>"
+    },
+    layout = {
+      position = "bottom", -- | top | left | right
+      ratio = 0.4
+    },
+  },
+  filetypes = {
+    yaml = true,
+    markdown = false,
+    help = false,
+    gitcommit = true,
+    gitrebase = false,
+    hgcommit = false,
+    svn = false,
+    cvs = false,
+    ["."] = false,
+  },
 })
 
 local api = require("copilot.api")
-api.register_status_notification_handler(function (data)
+api.register_status_notification_handler(function(data)
   vim.api.nvim_set_var("copilot_status", data.status)
 end)
+
+vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", {silent=true, noremap=true})
 
         end,
     }
@@ -527,6 +554,54 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
+      "catppuccin/nvim",
+        config = function()
+          -- require("catppuccin").setup({
+--     flavour = "mocha", -- latte, frappe, macchiato, mocha
+--     background = { -- :h background
+--         light = "latte",
+--         dark = "mocha",
+--     },
+--     transparent_background = false,
+--     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+--     term_colors = false,
+--     dim_inactive = {
+--         enabled = false,
+--         shade = "dark",
+--         percentage = 0.15,
+--     },
+--     no_italic = false, -- Force no italic
+--     no_bold = false, -- Force no bold
+--     styles = {
+--         comments = { "italic" },
+--         conditionals = { "italic" },
+--         loops = {},
+--         functions = {},
+--         keywords = {},
+--         strings = {},
+--         variables = {},
+--         numbers = {},
+--         booleans = {},
+--         properties = {},
+--         types = {},
+--         operators = {},
+--     },
+--     color_overrides = {},
+--     custom_highlights = {},
+--     integrations = {
+--         cmp = true,
+--         gitsigns = true,
+--         nvimtree = true,
+--         telescope = true,
+--         notify = false,
+--         mini = false,
+--         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+--     },
+-- })
+
+        end,
+    }
+    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -561,21 +636,22 @@ vim.api.nvim_create_autocmd("User", {
       "projekt0n/github-nvim-theme",
         tag = "v0.0.7",
         config = function()
-          require("github-theme").setup({
-  theme_style = "dark",
-  function_style = "italic",
-  sidebars = {"qf", "vista_kind", "terminal", "packer"},
-  colors = {hint = "orange", error = "#ff0000"},
-  overrides = function(c)
-    return {
-      Folded = {bg="#384049"},
-      -- htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
-      -- DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
-      -- this will remove the highlight groups
-      -- TSField = {},
-    }
-  end
-})
+          -- require("github-theme").setup({
+--   theme_style = "dark",
+--   function_style = "italic",
+--   sidebars = {"qf", "vista_kind", "terminal", "packer"},
+--   colors = {hint = "orange", error = "#ff0000"},
+--   overrides = function(c)
+--     return {
+--       Folded = {bg="#384049"},
+--       -- htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
+--       -- DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
+--       -- this will remove the highlight groups
+--       -- TSField = {},
+--     }
+--   end
+-- })
+-- vim.cmd('colorscheme github_dark')
 
         end,
     }
@@ -597,176 +673,6 @@ require("indent_blankline").setup {
 }
 
 -- IndentBlanklineToggle
-
-        end,
-    }
-    use {
-      "folke/noice.nvim",
-        config = function()
-          require("noice").setup({
-  views = {
-    cmdline_popup = {
-      position = {
-        row = 10,
-        col = "50%",
-      },
-      size = {
-        width = "60%",
-        height = "auto",
-      },
-    },
-    popup = {
-      backend = "popup",
-      relative = "editor",
-      close = {
-        events = { "BufLeave" },
-        keys = { "q" },
-      },
-      enter = true,
-      border = {
-        style = "rounded",
-      },
-      position = "50%",
-      size = {
-        width = "80%",
-        height = "60%",
-      },
-      win_options = {
-        winhighlight = { Normal = "NoicePopup", FloatBorder = "NoicePopupBorder" },
-      },
-    },
-    popupmenu = {
-      relative = "editor",
-      position = {
-        row = 8,
-        col = "50%",
-      },
-      size = {
-        width = 60,
-        height = 10,
-      },
-      border = {
-        style = "rounded",
-        padding = { 0, 1 },
-      },
-      win_options = {
-        winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-      },
-    },
-    mini = {
-      backend = "mini",
-      relative = "editor",
-      align = "message-right",
-      timeout = 5000,
-      reverse = true,
-      focusable = false,
-      position = {
-        row = -2,
-        col = "100%",
-        -- col = 0,
-      },
-      size = {
-        width = "auto",
-        height = "auto",
-        max_height = 20,
-        max_width = 120,
-      },
-      border = {
-        style = "rounded",
-        padding = { 0, 1 },
-      },
-      zindex = 60,
-      win_options = {
-        winblend = 30,
-        wrap = true,
-        winhighlight = {
-          Normal = "NoiceMini",
-          IncSearch = "",
-          CurSearch = "",
-          Search = "",
-        },
-      },
-    },
-    cmdline = {
-      backend = "popup",
-      relative = "editor",
-      timeout = 1000,
-      position = {
-        row = -1,
-        col = 0,
-      },
-      size = {
-        height = "auto",
-        width = "100%",
-        max_height = 5,
-        max_width = 80,
-      },
-      border = {
-        style = "none",
-      },
-      win_options = {
-        winhighlight = {
-          Normal = "NoiceCmdline",
-          IncSearch = "",
-          CurSearch = "",
-          Search = "",
-        },
-      },
-    },
-  },
-  lsp = {
-    override = {
-    },
-    signature = {
-      enabled = false,
-    },
-  },
-  presets = {
-    bottom_search = false,
-    command_palette = true,
-    long_message_to_split = false,
-    inc_rename = false,
-    lsp_doc_border = true,
-  },
-  routes = {
-    {
-      view = "notify",
-      filter = { event = "msg_showmode" },
-    },
-    {
-      filter = {
-        event = "msg_show",
-        warning = true,
-        find = "search hit BOTTOM",
-      },
-      opts = { skip = true },
-    },
-    {
-      view = "cmdline",
-      filter = {
-        event = "msg_show",
-      },
-    },
-    {
-      view = "cmdline",
-      filter = {
-        find = "packer.*Compiled",
-      },
-    },
-  },
-  messages = {
-    enabled = true,
-    view = "notify",
-    view_error = "notify",
-    view_warn = "notify",
-    view_history = "messages",
-    view_search = "cmdline",
-  },
-})
-
-vim.keymap.set("c", "<C-f>", function()
-  require("noice").redirect(vim.fn.getcmdline())
-end, { silent = true, noremap = true, desc = "Redirect Cmdline" })
 
         end,
     }
@@ -1123,10 +1029,17 @@ vim.api.nvim_create_autocmd("TermOpen", {
         end,
     }
     use {
+      "folke/tokyonight.nvim",
+        config = function()
+          vim.cmd('colorscheme tokyonight-moon')
+
+        end,
+    }
+    use {
       "uga-rosa/translate.nvim",
         setup = function()
-        vim.keymap.set({"n", "x"}, "<Space>tl", "<cmd>Translate en -output=replace<CR>", {noremap = true, silent=true})
-vim.keymap.set({"n", "x"}, "<Space>tL", "<cmd>Translate ja -output=replace<CR>", {noremap = true, silent=true})
+        -- vim.keymap.set({"n", "x"}, "<Space>tl", "<cmd>Translate en -output=replace<CR>", {noremap = true, silent=true})
+-- vim.keymap.set({"n", "x"}, "<Space>tL", "<cmd>Translate ja -output=replace<CR>", {noremap = true, silent=true})
 
         end,
         config = function()
@@ -1227,11 +1140,11 @@ require("nvim-tree").setup({
     width = 30,
     mappings = {
       list = {
-        { key = "l", action = "edit" },
-        { key = "L", action = "cd" },
-        { key = "h", action = "dir_up" },
-        { key = "y", action = "copy" },
-        { key = "c", action = "create" },
+        { key = "l",         action = "edit" },
+        { key = "L",         action = "cd" },
+        { key = "h",         action = "dir_up" },
+        { key = "y",         action = "copy" },
+        { key = "c",         action = "create" },
         { key = "<Space>gj", action = "next_git_item" },
         { key = "<Space>gk", action = "prev_git_item" },
         { key = "<Space>ff", action_cb = find_files },
@@ -1241,6 +1154,11 @@ require("nvim-tree").setup({
   },
   renderer = {
     group_empty = true,
+    icons = {
+      show = {
+        git = false,
+      },
+    },
   },
   filters = {
     dotfiles = true,
@@ -1309,6 +1227,16 @@ function SessionList()
       map("n", "D", fb_actions.remove)
       return true
     end,
+  }
+
+  require("telescope.builtin").find_files(opts)
+end
+
+function MemoList()
+  local opts = {
+    prompt_title = 'Memos',
+    cwd = vim.g.howm_dir .. '/memo',
+    find_command = { "rg", "--ignore", "--hidden", "--files", "--sortr=modified" },
   }
 
   require("telescope.builtin").find_files(opts)
@@ -1396,6 +1324,10 @@ finder.sessions = function()
   SessionList()
 end
 
+finder.memos = function()
+  MemoList()
+end
+
 finder.lsp_implementations = function()
   telescope_builtin.lsp_implementations()
 end
@@ -1423,6 +1355,7 @@ vim.keymap.set('n', '<SPACE>fB', finder.file_browser_from_buffer, { silent = tru
 
 vim.keymap.set('n', '<SPACE>dgs', finder.git_status, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>sl', finder.sessions, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>hlo', finder.memos, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
@@ -1570,9 +1503,6 @@ require("telescope").load_extension("advanced_git_search")
     }
     use {
       "akinsho/git-conflict.nvim",
-        cmd = {
-          "GitConflict*",
-        },
         config = function()
           require('git-conflict').setup({
   default_mappings = true,
@@ -1633,7 +1563,7 @@ vim.keymap.set('v', '<Space>mgl',
         config = function()
           vim.keymap.set('n', '<Space>gk', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
   { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>gj', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
+vim.keymap.set('n', '<Space>gj', "<cmd>lua require'gitsigns.actions'.next_hunk({wrap=false})<CR>",
   { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gp', "<cmd>lua require'gitsigns'.preview_hunk()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gu', "<Nop>", { silent = true, noremap = true })
@@ -1860,7 +1790,7 @@ end
 require 'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'github_dark',
+    theme = 'tokyonight',
     component_separators = { left = '', right = '' },
     section_separators = '',
     disabled_filetypes = { 'defx' },

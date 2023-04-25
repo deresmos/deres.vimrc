@@ -32,6 +32,16 @@ function SessionList()
   require("telescope.builtin").find_files(opts)
 end
 
+function MemoList()
+  local opts = {
+    prompt_title = 'Memos',
+    cwd = vim.g.howm_dir .. '/memo',
+    find_command = { "rg", "--ignore", "--hidden", "--files", "--sortr=modified" },
+  }
+
+  require("telescope.builtin").find_files(opts)
+end
+
 function TestStatus()
   local opts = {
     attach_mappings = function(_, map)
@@ -114,6 +124,10 @@ finder.sessions = function()
   SessionList()
 end
 
+finder.memos = function()
+  MemoList()
+end
+
 finder.lsp_implementations = function()
   telescope_builtin.lsp_implementations()
 end
@@ -141,6 +155,7 @@ vim.keymap.set('n', '<SPACE>fB', finder.file_browser_from_buffer, { silent = tru
 
 vim.keymap.set('n', '<SPACE>dgs', finder.git_status, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>sl', finder.sessions, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>hlo', finder.memos, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
