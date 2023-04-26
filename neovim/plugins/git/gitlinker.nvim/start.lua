@@ -20,9 +20,6 @@ require 'gitlinker'.setup({
   },
 })
 
-vim.keymap.set('n', '<Space>mgl',
+vim.keymap.set({ 'n', 'v' }, '<Space>mgl',
   '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>',
-  { silent = true })
-vim.keymap.set('v', '<Space>mgl',
-  '<cmd>lua require"gitlinker".get_buf_range_url("v")<cr>',
-  {})
+  { silent = true, desc = 'get github range url' })

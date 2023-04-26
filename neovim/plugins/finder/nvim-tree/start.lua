@@ -13,6 +13,8 @@ local function find_files(node)
   end
 end
 
+local api = require('nvim-tree.api')
+
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
@@ -24,6 +26,9 @@ require("nvim-tree").setup({
         { key = "h",         action = "dir_up" },
         { key = "y",         action = "copy" },
         { key = "c",         action = "create" },
+        { key = "s",         action_cb = api.node.open.horizontal },
+        { key = "v",         action_cb = api.node.open.vertical },
+        { key = "t",         action_cb = api.node.open.tab },
         { key = "<Space>gj", action = "next_git_item" },
         { key = "<Space>gk", action = "prev_git_item" },
         { key = "<Space>ff", action_cb = find_files },

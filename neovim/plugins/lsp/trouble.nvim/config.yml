@@ -4,7 +4,7 @@ config:
   rev: ~
   filetypes: ~
   commands:
-    - Trouble
+    - Trouble*
   maps: ~
   do: ~
   enable: true

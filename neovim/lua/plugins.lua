@@ -554,54 +554,6 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
-      "catppuccin/nvim",
-        config = function()
-          -- require("catppuccin").setup({
---     flavour = "mocha", -- latte, frappe, macchiato, mocha
---     background = { -- :h background
---         light = "latte",
---         dark = "mocha",
---     },
---     transparent_background = false,
---     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
---     term_colors = false,
---     dim_inactive = {
---         enabled = false,
---         shade = "dark",
---         percentage = 0.15,
---     },
---     no_italic = false, -- Force no italic
---     no_bold = false, -- Force no bold
---     styles = {
---         comments = { "italic" },
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = {},
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---     },
---     color_overrides = {},
---     custom_highlights = {},
---     integrations = {
---         cmp = true,
---         gitsigns = true,
---         nvimtree = true,
---         telescope = true,
---         notify = false,
---         mini = false,
---         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
---     },
--- })
-
-        end,
-    }
-    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -1157,6 +1109,8 @@ local function find_files(node)
   end
 end
 
+local api = require('nvim-tree.api')
+
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
@@ -1168,6 +1122,9 @@ require("nvim-tree").setup({
         { key = "h",         action = "dir_up" },
         { key = "y",         action = "copy" },
         { key = "c",         action = "create" },
+        { key = "s",         action_cb = api.node.open.horizontal },
+        { key = "v",         action_cb = api.node.open.vertical },
+        { key = "t",         action_cb = api.node.open.tab },
         { key = "<Space>gj", action = "next_git_item" },
         { key = "<Space>gk", action = "prev_git_item" },
         { key = "<Space>ff", action_cb = find_files },
@@ -1587,12 +1544,9 @@ vim.keymap.set('n', '<Space>gcB', '<cmd>GitConflictChooseBoth<CR>', { noremap = 
   },
 })
 
-vim.keymap.set('n', '<Space>mgl',
+vim.keymap.set({ 'n', 'v' }, '<Space>mgl',
   '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>',
-  { silent = true })
-vim.keymap.set('v', '<Space>mgl',
-  '<cmd>lua require"gitlinker".get_buf_range_url("v")<cr>',
-  {})
+  { silent = true, desc = 'get github range url' })
 
         end,
     }
@@ -2078,18 +2032,15 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     use {
       "folke/trouble.nvim",
         cmd = {
-          "Trouble",
+          "Trouble*",
         },
         setup = function()
         local map = vim.keymap
-map.set('n', '[Trouble]', '<Nop>', { noremap = true, silent = true })
-map.set('n', '<space>l', '[Trouble]', { noremap = true, silent = true })
-
-map.set('n', '[Trouble]w', '<cmd>TroubleToggle workspace_diagnostics<CR>', { noremap = true, silent = true })
-map.set('n', '[Trouble]d', '<cmd>TroubleToggle document_diagnostics<CR>', { noremap = true, silent = true })
-map.set('n', '[Trouble]q', '<cmd>TroubleToggle quickfix<CR>', { noremap = true, silent = true })
-map.set('n', '[Trouble]l', '<cmd>TroubleToggle loclist<CR>', { noremap = true, silent = true })
-map.set('n', '[Trouble]r', '<cmd>TroubleToggle lsp_references<CR>', { noremap = true, silent = true })
+map.set('n', '<Space>lw', '<cmd>Trouble workspace_diagnostics<CR>', { noremap = true, silent = true })
+map.set('n', '<Space>ld', '<cmd>Trouble document_diagnostics<CR>', { noremap = true, silent = true })
+map.set('n', '<Space>lq', '<cmd>Trouble quickfix<CR>', { noremap = true, silent = true })
+map.set('n', '<Space>ll', '<cmd>Trouble loclist<CR>', { noremap = true, silent = true })
+map.set('n', '<Space>lr', '<cmd>Trouble lsp_references<CR>', { noremap = true, silent = true })
 
         end,
         config = function()
