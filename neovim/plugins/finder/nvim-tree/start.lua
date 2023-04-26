@@ -33,9 +33,24 @@ require("nvim-tree").setup({
   },
   renderer = {
     group_empty = true,
+    indent_markers = {
+      enable = true,
+      inline_arrows = true,
+      icons = {
+        corner = "└",
+        edge = "│",
+        item = "│",
+        bottom = "─",
+        none = " ",
+      },
+    },
     icons = {
       show = {
+        file = false,
+        folder = false,
+        folder_arrow = true,
         git = false,
+        modified = true,
       },
     },
   },

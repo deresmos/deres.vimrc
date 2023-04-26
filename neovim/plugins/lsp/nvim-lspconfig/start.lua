@@ -1,12 +1,12 @@
 local border = {
-      {"╭", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╮", "FloatBorder"},
-      {"│", "FloatBorder"},
-      {"╯", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╰", "FloatBorder"},
-      {"│", "FloatBorder"},
+  { "╭", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╮", "FloatBorder" },
+  { "│", "FloatBorder" },
+  { "╯", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╰", "FloatBorder" },
+  { "│", "FloatBorder" },
 }
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
@@ -15,15 +15,23 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
---local lsp_status = require('lsp-status')
---lsp_status.config{
---  current_function = false,
---}
---lsp_status.register_progress()
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = { '*.go', "*.lua" },
+  group = vim.api.nvim_create_augroup("my-formatting", {}),
+  callback = function()
+    vim.lsp.buf.format({ async = true })
+  end
+})
+
+local lsp_status = require('lsp-status')
+lsp_status.config{
+ current_function = false,
+}
+lsp_status.register_progress()
 
 -- local navic = require("nvim-navic")
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 vim.keymap.set('n', '<Space>mgt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 -- vim.keymap.set('n', '<Space>mpd', '<cmd>lua require("lspsaga.provider").preview_definition()<CR>', opts)
@@ -43,7 +51,7 @@ vim.keymap.set('n', '<Space>moc', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', o
 vim.keymap.set('n', '<Space>m=', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts)
 
 local float_border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-local on_attach = function (client, bufnr)
+local on_attach = function(client, bufnr)
   -- local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
   -- buf_set_keymap('n', '<Space>mgd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -66,8 +74,8 @@ local on_attach = function (client, bufnr)
   -- -- buf_set_keymap('n', '<C-b>', '<cmd>lua require("lspsaga.action").smart_scroll_with_saga(-1)<CR>', opts)
 
   -- navic.attach(client, bufnr)
-  --lsp_status.on_attach(client, bufnr)
-  require'lsp_signature'.on_attach({
+  lsp_status.on_attach(client, bufnr)
+  require 'lsp_signature'.on_attach({
     bind = true,
     doc_lines = 15,
     floating_window = true,
@@ -91,7 +99,7 @@ local nvim_lsp = require('lspconfig')
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-lspconfig").setup_handlers {
-  function (server_name)
+  function(server_name)
     local opts = {
       on_attach = on_attach,
       capabilities = comp.default_capabilities(vim.lsp.protocol.make_client_capabilities()),
@@ -105,8 +113,8 @@ require("mason-lspconfig").setup_handlers {
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
- vim.lsp.diagnostic.on_publish_diagnostics, {
-   virtual_text = true,
-   signs = false,
- }
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = true,
+    signs = false,
+  }
 )
