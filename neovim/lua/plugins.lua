@@ -554,6 +554,54 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
+      "catppuccin/nvim",
+        config = function()
+          -- require("catppuccin").setup({
+--     flavour = "mocha", -- latte, frappe, macchiato, mocha
+--     background = { -- :h background
+--         light = "latte",
+--         dark = "mocha",
+--     },
+--     transparent_background = false,
+--     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+--     term_colors = false,
+--     dim_inactive = {
+--         enabled = false,
+--         shade = "dark",
+--         percentage = 0.15,
+--     },
+--     no_italic = false, -- Force no italic
+--     no_bold = false, -- Force no bold
+--     styles = {
+--         comments = { "italic" },
+--         conditionals = { "italic" },
+--         loops = {},
+--         functions = {},
+--         keywords = {},
+--         strings = {},
+--         variables = {},
+--         numbers = {},
+--         booleans = {},
+--         properties = {},
+--         types = {},
+--         operators = {},
+--     },
+--     color_overrides = {},
+--     custom_highlights = {},
+--     integrations = {
+--         cmp = true,
+--         gitsigns = true,
+--         nvimtree = true,
+--         telescope = true,
+--         notify = false,
+--         mini = false,
+--         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+--     },
+-- })
+
+        end,
+    }
+    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -855,65 +903,6 @@ vim.g.QFixHowm_MenuCloseOnJump = 1
 vim.g.QFixHowm_RootDir = '~/.howm'
 vim.g.howm_dir = vim.g.QFixHowm_RootDir .. '/main'
 vim.g.qfixmemo_folding_pattern = '^=[^=]'
-
-        end,
-    }
-    use {
-      "folke/todo-comments.nvim",
-        config = function()
-          require("todo-comments").setup {
-  signs = false,
-  sign_priority = 8,
-  keywords = {
-    FIX = {
-      icon = " ",
-      color = "error",
-      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
-    },
-    TODO = { icon = " ", color = "info" },
-    HACK = { icon = " ", color = "warning" },
-    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
-    TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-  },
-  gui_style = {
-    fg = "NONE",
-    bg = "BOLD",
-  },
-  merge_keywords = true,
-  highlight = {
-    multiline = true,
-    multiline_pattern = "^.",
-    multiline_context = 10,
-    before = "",
-    keyword = "wide",
-    after = "fg",
-    pattern = [[.*<(KEYWORDS)\s*:]],
-    comments_only = true,
-    max_line_len = 400,
-    exclude = {},
-  },
-  colors = {
-    error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
-    warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
-    info = { "DiagnosticInfo", "#2563EB" },
-    hint = { "DiagnosticHint", "#10B981" },
-    default = { "Identifier", "#7C3AED" },
-    test = { "Identifier", "#FF00FF" }
-  },
-  search = {
-    command = "rg",
-    args = {
-      "--color=never",
-      "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
-    },
-    pattern = [[\b(KEYWORDS):]],
-  },
-}
 
         end,
     }
@@ -1398,7 +1387,8 @@ require('telescope').setup {
       },
       vertical = {
         mirror = true,
-        width = 0.7,
+        width = 0.8,
+        height = 0.9,
         prompt_position = "top",
       },
     },
@@ -1862,6 +1852,27 @@ require 'lualine'.setup {
         end,
     }
     use {
+      "aznhe21/actions-preview.nvim",
+        config = function()
+          require("actions-preview").setup {
+  diff = {
+    ctxlen = 3,
+  },
+  backend = { "telescope", "nui" },
+}
+
+vim.keymap.set('n', '<Space>mcA', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
+
+        end,
+    }
+    use {
+      "j-hui/fidget.nvim",
+        config = function()
+          require'fidget'.setup{}
+
+        end,
+    }
+    use {
       "nvim-lua/lsp-status.nvim",
     }
     use {
@@ -1904,9 +1915,50 @@ require 'lualine'.setup {
         end,
     }
     use {
+      "kosayoda/nvim-lightbulb",
+        config = function()
+          require('nvim-lightbulb').setup({
+  ignore = {},
+  sign = {
+    enabled = true,
+    priority = 10,
+  },
+  float = {
+    enabled = false,
+    text = "💡",
+    win_opts = {},
+  },
+  virtual_text = {
+    enabled = false,
+    text = "💡",
+    hl_mode = "replace",
+  },
+  status_text = {
+    enabled = false,
+    text = "💡",
+    text_unavailable = ""
+  },
+  autocmd = {
+    enabled = true,
+    pattern = { "*" },
+    events = { "CursorHold" }
+  }
+})
+
+        end,
+    }
+    use {
       "neovim/nvim-lspconfig",
         config = function()
-          local border = {
+          require("nlspsettings").setup({
+  config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
+  local_settings_dir = ".nlsp-settings",
+  local_settings_root_markers = { '.git' },
+  append_default_schemas = true,
+  loader = 'json',
+})
+
+local border = {
   { "╭", "FloatBorder" },
   { "─", "FloatBorder" },
   { "╮", "FloatBorder" },

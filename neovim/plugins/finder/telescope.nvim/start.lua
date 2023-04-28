@@ -203,7 +203,8 @@ require('telescope').setup {
       },
       vertical = {
         mirror = true,
-        width = 0.7,
+        width = 0.8,
+        height = 0.9,
         prompt_position = "top",
       },
     },

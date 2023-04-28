@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/aznhe21/actions-preview.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
