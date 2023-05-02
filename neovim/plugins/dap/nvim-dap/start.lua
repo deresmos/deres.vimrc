@@ -1,6 +1,6 @@
 -- " nnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
 -- " xnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
---
+
 local function openFloatWin()
   local filetype = vim.bo.filetype
   local name = filetype:gsub("dapui_", "")
@@ -37,7 +37,6 @@ Dap.configuration = {
     request = "launch",
     mode = "test",
     program = "${file}",
-    args = {'-test.run', 'Test'},
   },
   go_test_file = {
     type = "go",

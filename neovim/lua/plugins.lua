@@ -554,6 +554,54 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
+      "catppuccin/nvim",
+        config = function()
+          -- require("catppuccin").setup({
+--     flavour = "mocha", -- latte, frappe, macchiato, mocha
+--     background = { -- :h background
+--         light = "latte",
+--         dark = "mocha",
+--     },
+--     transparent_background = false,
+--     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+--     term_colors = false,
+--     dim_inactive = {
+--         enabled = false,
+--         shade = "dark",
+--         percentage = 0.15,
+--     },
+--     no_italic = false, -- Force no italic
+--     no_bold = false, -- Force no bold
+--     styles = {
+--         comments = { "italic" },
+--         conditionals = { "italic" },
+--         loops = {},
+--         functions = {},
+--         keywords = {},
+--         strings = {},
+--         variables = {},
+--         numbers = {},
+--         booleans = {},
+--         properties = {},
+--         types = {},
+--         operators = {},
+--     },
+--     color_overrides = {},
+--     custom_highlights = {},
+--     integrations = {
+--         cmp = true,
+--         gitsigns = true,
+--         nvimtree = true,
+--         telescope = true,
+--         notify = false,
+--         mini = false,
+--         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+--     },
+-- })
+
+        end,
+    }
+    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -612,7 +660,7 @@ vim.api.nvim_create_autocmd("User", {
         config = function()
           local Hydra = require('hydra')
 
-Hydra({
+local resize_hydra = Hydra({
    name = 'Resize window',
    mode = 'n',
    config = {
@@ -636,7 +684,7 @@ local hint = [[
 
 ]]
 
-Hydra({
+local translate_hydra = Hydra({
    name = 'Translate',
    hint = hint,
    mode = { 'n', 'x' },
@@ -653,6 +701,8 @@ Hydra({
       { 'e', '<cmd>Translate en -output=replace<CR>', { desc = 'To EN', exit = true } },
    }
 })
+
+-- translate_hydra:active()
 
         end,
     }
@@ -979,11 +1029,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
     }
     use {
       "uga-rosa/translate.nvim",
-        setup = function()
-        -- vim.keymap.set({"n", "x"}, "<Space>tl", "<cmd>Translate en -output=replace<CR>", {noremap = true, silent=true})
--- vim.keymap.set({"n", "x"}, "<Space>tL", "<cmd>Translate ja -output=replace<CR>", {noremap = true, silent=true})
-
-        end,
         config = function()
           require("translate").setup({
 })
@@ -1130,6 +1175,20 @@ require("nvim-tree").setup({
         end,
     }
     use {
+      "kelly-lin/ranger.nvim",
+        config = function()
+          local ranger_nvim = require("ranger-nvim")
+ranger_nvim.setup({
+  replace_netrw = false,
+  keybinds = {
+    ["<C-v>"] = ranger_nvim.OPEN_MODE.vsplit,
+    ["<C-s>"] = ranger_nvim.OPEN_MODE.split,
+  },
+})
+
+        end,
+    }
+    use {
       "francoiscabrol/ranger.vim",
         cmd = {
           "RangerCurrentFile",
@@ -1144,6 +1203,12 @@ vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {no
     }
     use {
       "kevinhwang91/rnvimr",
+        setup = function()
+        vim.g.rnvimr_presets = {
+  { width = 0.900, height = 0.900 },
+}
+
+        end,
     }
     use {
       "nvim-telescope/telescope-file-browser.nvim",
@@ -2545,6 +2610,80 @@ null_ls.setup({
     }
     use {
       "honza/vim-snippets",
+    }
+    use {
+      "janko/vim-test",
+        cmd = {
+          "TestNearest",
+          "TestFile",
+          "TestSuite",
+          "TestLast",
+          "TestVisit",
+        },
+        setup = function()
+        vim.g.test_strategy = 'dispatch'
+vim.g.test_python_pytest_file_pattern = '.*'
+vim.g.test_python_pytest_options = {
+  all = '--tb=short -q -p no:sugar',
+}
+
+vim.g.dispatch_compilers = { pytest = 'pytest' }
+
+VimtestDap = {}
+function DapStrategy(cmd)
+  print('It works! Command for running tests: ' .. cmd)
+  vim.g.vim_test_last_command = cmd
+  VimtestDap.strategy(cmd)
+end
+
+VimtestDap.vim_test_strategy = {
+  go = function(cmd)
+    local test_func = string.match(cmd, "-run '([^ ]+)'")
+    local path = string.match(cmd, "[^ ]+$")
+    path = string.gsub(path, "/%.%.%.", "")
+
+    configuration = {
+      type = "go",
+      name = "nvim-dap strategy",
+      request = "launch",
+      mode = "test",
+      program = path,
+      args = {},
+    }
+
+    if test_func then
+      table.insert(configuration.args, "-test.run")
+      table.insert(configuration.args, test_func)
+    end
+
+    if path == nil or path == "." then
+      configuration.program = "./"
+    end
+
+    return configuration
+  end,
+}
+
+function VimtestDap.strategy(cmd)
+  local filetype = vim.bo.filetype
+  local f = VimtestDap.vim_test_strategy[filetype]
+
+  if not f then
+    print("This filetype is not supported.")
+    return
+  end
+
+  configuration = f(cmd)
+  require 'dap'.run(configuration)
+end
+
+vim.api.nvim_set_var("test#custom_strategies", {
+  dap = DapStrategy,
+})
+
+vim.api.nvim_set_var("test#strategy", "dap")
+
+        end,
     }
     use {
       "liuchengxu/vista.vim",
