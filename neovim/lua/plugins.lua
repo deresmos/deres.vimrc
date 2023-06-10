@@ -297,13 +297,13 @@ vim.g.UltiSnipsEditSplit = "vertical"
         config = function()
           -- " nnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
 -- " xnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
---
+
 local function openFloatWin()
   local filetype = vim.bo.filetype
   local name = filetype:gsub("dapui_", "")
   for i, value in ipairs({ "scopes", "watches", "breakpoints", "stacks", "repl" }) do
     if name == value then
-      require 'dapui'.float_element(name, { enter = true })
+      require 'dapui'.float_element(name, { height = 30, enter = true })
       break
     end
   end
@@ -334,7 +334,6 @@ Dap.configuration = {
     request = "launch",
     mode = "test",
     program = "${file}",
-    args = {'-test.run', 'Test'},
   },
   go_test_file = {
     type = "go",
@@ -479,9 +478,9 @@ dap.configurations.go = {
     },
   },
   floating = {
-    max_height = nil,  -- These can be integers or a float between 0 and 1.
-    max_width = nil,   -- Floats will be treated as percentage of your screen.
-    border = "single", -- Border style. Can be "single", "double" or "rounded"
+    max_height = 0.8,
+    max_width = 0.9,
+    border = "single",
     mappings = {
       close = { "q", "<Esc>" },
     },
@@ -704,6 +703,93 @@ local translate_hydra = Hydra({
 
 -- translate_hydra:active()
 
+local gitsigns = require('gitsigns')
+
+local hint = [[
+ _J_: next hunk   _A_: stage hunk        _d_: show deleted   _b_: blame line
+ _K_: prev hunk   _U_: undo last stage   _p_: preview hunk   _B_: blame show full
+ ^ ^                                     ^ ^                 _/_: show base file
+ ^
+ ^ ^                                     ^ ^                 _q_: exit
+]]
+
+Hydra({
+   name = 'Git',
+   hint = hint,
+   config = {
+      color = 'pink',
+      invoke_on_body = true,
+      hint = {
+         border = 'rounded'
+      },
+      on_enter = function()
+         vim.bo.modifiable = false
+         gitsigns.toggle_linehl(true)
+         gitsigns.toggle_deleted(true)
+         gitsigns.toggle_word_diff(true)
+      end,
+      on_exit = function()
+         gitsigns.toggle_linehl(false)
+         gitsigns.toggle_deleted(false)
+         gitsigns.toggle_word_diff(false)
+      end,
+   },
+   mode = { 'n', 'x' },
+   body = '<Space>gh',
+   heads = {
+      { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
+      { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
+      { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
+      { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
+      -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
+      { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
+      { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
+      { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
+      { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
+      { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
+      { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
+      -- gitsigns.reset_hunk
+      -- gitsigns.toggle_word_diff
+   }
+})
+
+local dap = require('dap')
+
+hint = [[
+ _J_: next hunk   _A_: stage hunk        _d_: show deleted   _b_: blame line
+ _K_: prev hunk   _U_: undo last stage   _p_: preview hunk   _B_: blame show full
+ ^ ^                                     ^ ^                 _/_: show base file
+ ^
+ ^ ^                                     ^ ^                 _q_: exit
+]]
+
+Hydra({
+   name = 'Dap',
+   -- hint = hint,
+   config = {
+      color = 'pink',
+      invoke_on_body = true,
+      hint = {
+         border = 'rounded'
+      },
+   },
+   mode = { 'n' },
+   body = '<Space>mdr',
+   heads = {
+      { 'c', dap.continue,          { desc = 'continue' } },
+      { 's', dap.stop,              { desc = 'stop' } },
+      { 'S', dap.terminate,         { desc = 'terminate', exit = true } },
+      { 'o', dap.step_over,         { desc = 'step over' } },
+      { 'i', dap.step_into,         { desc = 'step into' } },
+      { 'O', dap.step_out,          { desc = 'step out' } },
+      { 'p', dap.toggle_breakpoint, { desc = 'toggle breakpoint' } },
+      { 'B', dap.step_back,         { desc = 'step back' } },
+      { 'u', dap.up,                { desc = 'up' } },
+      { 'd', dap.down,              { desc = 'down' } },
+      { 'q', nil,                   { exit = true, nowait = true, desc = 'exit' } },
+   }
+})
+
         end,
     }
     use {
@@ -839,13 +925,26 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 })
 
 vim.cmd('hi default UfoFoldedFg guifg=Normal.foreground')
-vim.cmd('hi default UfoFoldedBg guibg=Folded.background')
+vim.cmd('hi default UfoFoldedBg guibg=NONE')
 vim.cmd('hi default link UfoPreviewSbar PmenuSbar')
 vim.cmd('hi default link UfoPreviewThumb PmenuThumb')
 vim.cmd('hi default link UfoPreviewWinBar UfoFoldedBg')
 vim.cmd('hi default link UfoPreviewCursorLine Visual')
 vim.cmd('hi default link UfoFoldedEllipsis Comment')
 vim.cmd('hi default link UfoCursorFoldedLine CursorLine')
+
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
+vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+-- vim.keymap.set('n', 'K', function()
+--   local winid = require('ufo').peekFoldedLinesUnderCursor()
+--   if not winid then
+--     -- choose one of coc.nvim and nvim lsp
+--     vim.fn.CocActionAsync('definitionHover') -- coc.nvim
+--     vim.lsp.buf.hover()
+--   end
+-- end)
 
         end,
     }
@@ -1048,6 +1147,18 @@ vim.keymap.set('n', '<Space>bn', '<cmd>BufMRUNext<CR>', {silent=true, noremap=tr
     }
     use {
       "thinca/vim-qfreplace",
+    }
+    use {
+      "notjedi/nvim-rooter.lua",
+        config = function()
+          require('nvim-rooter').setup {
+  rooter_patterns = { '.git', '.hg', '.svn' },
+  trigger_patterns = {},
+  manual = true,
+}
+
+
+        end,
     }
     use {
       "mhinz/vim-startify",
@@ -1307,7 +1418,7 @@ finder.files_from_buffer = function()
   telescope_builtin.find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 finder.files_from_project = function()
-  telescope_builtin.git_files({ show_untracked = false })
+  telescope_builtin.git_files({ cwd = require('nvim-rooter').get_root(), show_untracked = false })
 end
 finder.oldfiles = function()
   telescope_builtin.oldfiles()
@@ -1319,7 +1430,7 @@ finder.grep = function()
   telescope_builtin.live_grep()
 end
 finder.grep_from_project = function()
-  telescope_builtin.live_grep()
+  telescope_builtin.live_grep({ cwd = require('nvim-rooter').get_root() })
 end
 finder.grep_from_buffer = function()
   telescope_builtin.live_grep({ cwd = vim.fn.expand('%:p:h') })
@@ -1525,6 +1636,11 @@ require("telescope").load_extension("advanced_git_search")
     }
     use {
       "sindrets/diffview.nvim",
+        config = function()
+          require 'diffview'.setup({
+})
+
+        end,
     }
     use {
       "lambdalisue/gina.vim",
@@ -2558,6 +2674,8 @@ null_ls.setup({
     null_ls.builtins.diagnostics.golangci_lint,
 
     null_ls.builtins.diagnostics.textlint,
+
+    null_ls.builtins.formatting.jq,
   },
 })
 
@@ -2642,7 +2760,7 @@ VimtestDap.vim_test_strategy = {
     local path = string.match(cmd, "[^ ]+$")
     path = string.gsub(path, "/%.%.%.", "")
 
-    configuration = {
+    local configuration = {
       type = "go",
       name = "nvim-dap strategy",
       request = "launch",

@@ -80,7 +80,7 @@ finder.files_from_buffer = function()
   telescope_builtin.find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 finder.files_from_project = function()
-  telescope_builtin.git_files({ show_untracked = false })
+  telescope_builtin.git_files({ cwd = require('nvim-rooter').get_root(), show_untracked = false })
 end
 finder.oldfiles = function()
   telescope_builtin.oldfiles()
@@ -92,7 +92,7 @@ finder.grep = function()
   telescope_builtin.live_grep()
 end
 finder.grep_from_project = function()
-  telescope_builtin.live_grep()
+  telescope_builtin.live_grep({ cwd = require('nvim-rooter').get_root() })
 end
 finder.grep_from_buffer = function()
   telescope_builtin.live_grep({ cwd = vim.fn.expand('%:p:h') })

@@ -191,7 +191,10 @@ function! s:load_huge_file_action() abort
   else
     silent! loadview
     silent! setlocal undofile
-    setlocal foldmethod=marker
+    setlocal foldmethod=expr
+    setlocal foldexpr=nvim_treesitter#foldexpr()
+    setlocal foldlevel=99
+    setlocal foldlevelstart=99
     silent doautocmd User NormalFileRead
   endif
 endfunction

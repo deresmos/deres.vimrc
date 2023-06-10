@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/notjedi/nvim-rooter.lua"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

@@ -9,5 +9,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.golangci_lint,
 
     null_ls.builtins.diagnostics.textlint,
+
+    null_ls.builtins.formatting.jq,
   },
 })

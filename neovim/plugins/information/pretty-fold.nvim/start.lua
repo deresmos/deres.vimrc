@@ -22,7 +22,7 @@ require('pretty-fold').setup({
    },
    add_close_pattern = true,
    matchup_patterns = {
-      {  '{', '}' },
+      { '{',  '}' },
       { '%(', ')' },
       { '%[', ']' },
    },

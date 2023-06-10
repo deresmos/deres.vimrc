@@ -6,7 +6,7 @@ local function openFloatWin()
   local name = filetype:gsub("dapui_", "")
   for i, value in ipairs({ "scopes", "watches", "breakpoints", "stacks", "repl" }) do
     if name == value then
-      require 'dapui'.float_element(name, { enter = true })
+      require 'dapui'.float_element(name, { height = 30, enter = true })
       break
     end
   end
