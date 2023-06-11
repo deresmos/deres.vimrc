@@ -1,6 +1,11 @@
 local view = require("nvim-tree.view")
 
 local function grep_directory(node)
+  if node.name == ".." then
+    print("not support")
+    return
+  end
+
   if node.fs_stat.type == "directory" then
     -- view.close()
     require('telescope.builtin').live_grep({ cwd = node.absolute_path })
@@ -8,6 +13,11 @@ local function grep_directory(node)
 end
 
 local function find_files(node)
+  if node.name == ".." then
+    print("not support")
+    return
+  end
+
   if node.fs_stat.type == "directory" then
     require('telescope.builtin').find_files({ cwd = node.absolute_path })
   end
@@ -18,7 +28,15 @@ local api = require('nvim-tree.api')
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
-    width = 30,
+    float = {
+      enable = true,
+      quit_on_focus_loss = true,
+      open_win_config = {
+        width = 60,
+        height = 50,
+      },
+    },
+    width = 40,
     mappings = {
       list = {
         { key = "l",         action = "edit" },

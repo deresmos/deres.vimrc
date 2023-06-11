@@ -553,54 +553,6 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
-      "catppuccin/nvim",
-        config = function()
-          -- require("catppuccin").setup({
---     flavour = "mocha", -- latte, frappe, macchiato, mocha
---     background = { -- :h background
---         light = "latte",
---         dark = "mocha",
---     },
---     transparent_background = false,
---     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
---     term_colors = false,
---     dim_inactive = {
---         enabled = false,
---         shade = "dark",
---         percentage = 0.15,
---     },
---     no_italic = false, -- Force no italic
---     no_bold = false, -- Force no bold
---     styles = {
---         comments = { "italic" },
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = {},
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---     },
---     color_overrides = {},
---     custom_highlights = {},
---     integrations = {
---         cmp = true,
---         gitsigns = true,
---         nvimtree = true,
---         telescope = true,
---         notify = false,
---         mini = false,
---         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
---     },
--- })
-
-        end,
-    }
-    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -926,6 +878,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 vim.cmd('hi default UfoFoldedFg guifg=Normal.foreground')
 vim.cmd('hi default UfoFoldedBg guibg=NONE')
+vim.cmd('hi Folded guibg=NONE')
 vim.cmd('hi default link UfoPreviewSbar PmenuSbar')
 vim.cmd('hi default link UfoPreviewThumb PmenuThumb')
 vim.cmd('hi default link UfoPreviewWinBar UfoFoldedBg')
@@ -1220,6 +1173,11 @@ vim.keymap.set("n", "<Space>ft", "<cmd>NvimTreeToggle<CR>", { silent = true, nor
           local view = require("nvim-tree.view")
 
 local function grep_directory(node)
+  if node.name == ".." then
+    print("not support")
+    return
+  end
+
   if node.fs_stat.type == "directory" then
     -- view.close()
     require('telescope.builtin').live_grep({ cwd = node.absolute_path })
@@ -1227,6 +1185,11 @@ local function grep_directory(node)
 end
 
 local function find_files(node)
+  if node.name == ".." then
+    print("not support")
+    return
+  end
+
   if node.fs_stat.type == "directory" then
     require('telescope.builtin').find_files({ cwd = node.absolute_path })
   end
@@ -1237,7 +1200,15 @@ local api = require('nvim-tree.api')
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
-    width = 30,
+    float = {
+      enable = true,
+      quit_on_focus_loss = true,
+      open_win_config = {
+        width = 60,
+        height = 50,
+      },
+    },
+    width = 40,
     mappings = {
       list = {
         { key = "l",         action = "edit" },
@@ -1280,20 +1251,6 @@ require("nvim-tree").setup({
   },
   filters = {
     dotfiles = true,
-  },
-})
-
-        end,
-    }
-    use {
-      "kelly-lin/ranger.nvim",
-        config = function()
-          local ranger_nvim = require("ranger-nvim")
-ranger_nvim.setup({
-  replace_netrw = false,
-  keybinds = {
-    ["<C-v>"] = ranger_nvim.OPEN_MODE.vsplit,
-    ["<C-s>"] = ranger_nvim.OPEN_MODE.split,
   },
 })
 
@@ -1992,7 +1949,7 @@ require 'lualine'.setup {
   winbar = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', file_status = true, path = 3 } },
+    lualine_c = { { 'filename', file_status = true, path = 3, color = 'FloatTitle' } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}
@@ -2000,7 +1957,7 @@ require 'lualine'.setup {
   inactive_winbar = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', file_status = true, path = 3 } },
+    lualine_c = { { 'filename', file_status = true, path = 3, color = 'Comment' } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}

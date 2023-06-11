@@ -183,7 +183,7 @@ require 'lualine'.setup {
   winbar = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', file_status = true, path = 3 } },
+    lualine_c = { { 'filename', file_status = true, path = 3, color = 'FloatTitle' } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}
@@ -191,7 +191,7 @@ require 'lualine'.setup {
   inactive_winbar = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', file_status = true, path = 3 } },
+    lualine_c = { { 'filename', file_status = true, path = 3, color = 'Comment' } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}

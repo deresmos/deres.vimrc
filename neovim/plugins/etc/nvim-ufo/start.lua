@@ -58,6 +58,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 vim.cmd('hi default UfoFoldedFg guifg=Normal.foreground')
 vim.cmd('hi default UfoFoldedBg guibg=NONE')
+vim.cmd('hi Folded guibg=NONE')
 vim.cmd('hi default link UfoPreviewSbar PmenuSbar')
 vim.cmd('hi default link UfoPreviewThumb PmenuThumb')
 vim.cmd('hi default link UfoPreviewWinBar UfoFoldedBg')
