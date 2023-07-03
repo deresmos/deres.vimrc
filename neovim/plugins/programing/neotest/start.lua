@@ -5,6 +5,9 @@ require("neotest").setup({
     }),
     require("neotest-go"),
   },
+  consumers = {
+    overseer = require("neotest.consumers.overseer"),
+  },
   icons = {
     child_indent = "│",
     child_prefix = "├",

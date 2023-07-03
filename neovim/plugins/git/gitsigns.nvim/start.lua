@@ -17,7 +17,8 @@ vim.keymap.set('n', '<Space>gbl', "<cmd>lua require'gitsigns'.blame_line()<CR>",
 vim.keymap.set('n', '<Space>gtt', "<cmd>lua require'gitsigns'.toggle_signs()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gtw', "<cmd>lua require'gitsigns'.toggle_word_diff()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gtd', "<cmd>lua require'gitsigns'.toggle_deleted()<CR>", { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>", { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>",
+{ silent = true, noremap = true })
 
 require('gitsigns').setup {
   signs                             = {
@@ -31,7 +32,6 @@ require('gitsigns').setup {
   signcolumn                        = true,
   numhl                             = false,
   linehl                            = false,
-  keymaps                           = {},
   watch_gitdir                      = {
     interval = 1000,
     follow_files = true

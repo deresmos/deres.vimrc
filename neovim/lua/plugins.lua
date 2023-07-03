@@ -553,6 +553,54 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
+      "catppuccin/nvim",
+        config = function()
+          -- require("catppuccin").setup({
+--     flavour = "mocha", -- latte, frappe, macchiato, mocha
+--     background = { -- :h background
+--         light = "latte",
+--         dark = "mocha",
+--     },
+--     transparent_background = false,
+--     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+--     term_colors = false,
+--     dim_inactive = {
+--         enabled = false,
+--         shade = "dark",
+--         percentage = 0.15,
+--     },
+--     no_italic = false, -- Force no italic
+--     no_bold = false, -- Force no bold
+--     styles = {
+--         comments = { "italic" },
+--         conditionals = { "italic" },
+--         loops = {},
+--         functions = {},
+--         keywords = {},
+--         strings = {},
+--         variables = {},
+--         numbers = {},
+--         booleans = {},
+--         properties = {},
+--         types = {},
+--         operators = {},
+--     },
+--     color_overrides = {},
+--     custom_highlights = {},
+--     integrations = {
+--         cmp = true,
+--         gitsigns = true,
+--         nvimtree = true,
+--         telescope = true,
+--         notify = false,
+--         mini = false,
+--         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+--     },
+-- })
+
+        end,
+    }
+    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -1102,6 +1150,26 @@ vim.keymap.set('n', '<Space>bn', '<cmd>BufMRUNext<CR>', {silent=true, noremap=tr
       "thinca/vim-qfreplace",
     }
     use {
+      "diepm/vim-rest-console",
+        ft = {
+          "rest",
+        },
+        setup = function()
+        vim.g.vrc_set_default_mapping = 0
+vim.g.vrc_auto_format_uhex    = 1
+
+vim.g.vrc_curl_opts           = {
+  ['--connect-timeout'] = 15,
+  ['-L'] = '',
+  ['-i'] = '',
+  ['-s'] = '',
+  ['--max-time'] = 60,
+  ['--ipv4'] = '',
+}
+
+        end,
+    }
+    use {
       "notjedi/nvim-rooter.lua",
         config = function()
           require('nvim-rooter').setup {
@@ -1154,6 +1222,9 @@ vim.keymap.set('n', '<Space>sd', ':<C-u>SDelete<Space>', { noremap = true })
 vim.keymap.set('n', '<Space>sc', ':<C-u>SClose<CR>:cd ~<CR>', {silent = true, noremap=true})
 
         end,
+    }
+    use {
+      "stevearc/dressing.nvim",
     }
     use {
       "nvim-tree/nvim-tree.lua",
@@ -1251,6 +1322,20 @@ require("nvim-tree").setup({
   },
   filters = {
     dotfiles = true,
+  },
+})
+
+        end,
+    }
+    use {
+      "kelly-lin/ranger.nvim",
+        config = function()
+          local ranger_nvim = require("ranger-nvim")
+ranger_nvim.setup({
+  replace_netrw = false,
+  keybinds = {
+    ["<C-v>"] = ranger_nvim.OPEN_MODE.vsplit,
+    ["<C-s>"] = ranger_nvim.OPEN_MODE.split,
   },
 })
 
@@ -1678,7 +1763,8 @@ vim.keymap.set('n', '<Space>gbl', "<cmd>lua require'gitsigns'.blame_line()<CR>",
 vim.keymap.set('n', '<Space>gtt', "<cmd>lua require'gitsigns'.toggle_signs()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gtw', "<cmd>lua require'gitsigns'.toggle_word_diff()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gtd', "<cmd>lua require'gitsigns'.toggle_deleted()<CR>", { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>", { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>",
+{ silent = true, noremap = true })
 
 require('gitsigns').setup {
   signs                             = {
@@ -1692,7 +1778,6 @@ require('gitsigns').setup {
   signcolumn                        = true,
   numhl                             = false,
   linehl                            = false,
-  keymaps                           = {},
   watch_gitdir                      = {
     interval = 1000,
     follow_files = true
@@ -1915,6 +2000,22 @@ require 'lualine'.setup {
       },
     },
     lualine_x = {
+      {
+        "overseer",
+        label = '',     -- Prefix for task counts
+        colored = true, -- Color the task icons and counts
+        symbols = {
+          [require 'overseer'.STATUS.FAILURE] = "F:",
+          [require 'overseer'.STATUS.CANCELED] = "C:",
+          [require 'overseer'.STATUS.SUCCESS] = "S:",
+          [require 'overseer'.STATUS.RUNNING] = "R:",
+        },
+        unique = false,                                 -- Unique-ify non-running task count by name
+        name = nil,                                     -- List of task names to search for
+        name_not = false,                               -- When true, invert the name search
+        status = { require 'overseer'.STATUS.RUNNING }, -- List of task statuses to display
+        status_not = false,                             -- When true, invert the status search
+      },
       lualine_config.copilot_status,
       'diagnostics',
       lualine_config.lsp_status,
@@ -1983,6 +2084,7 @@ vim.keymap.set('n', '<Space>mcA', '<cmd>lua require("actions-preview").code_acti
     }
     use {
       "j-hui/fidget.nvim",
+        tag = "lagacy",
         config = function()
           require'fidget'.setup{}
 
@@ -2509,6 +2611,9 @@ map.set('x', '<C-l>', '<Plug>(textmanip-move-right)', { silent = true, noremap =
     }),
     require("neotest-go"),
   },
+  consumers = {
+    overseer = require("neotest.consumers.overseer"),
+  },
   icons = {
     child_indent = "│",
     child_prefix = "├",
@@ -2662,6 +2767,64 @@ null_ls.setup({
     min_coverage = 80.0,
   },
   lang = {
+  },
+})
+
+        end,
+    }
+    use {
+      "stevearc/overseer.nvim",
+        setup = function()
+        vim.api.nvim_create_user_command("OverseerRestartLast", function()
+  local overseer = require("overseer")
+  local tasks = overseer.list_tasks({ recent_first = true })
+  if vim.tbl_isempty(tasks) then
+    vim.notify("No tasks found", vim.log.levels.WARN)
+  else
+    overseer.run_action(tasks[1], "restart")
+  end
+end, {})
+
+vim.api.nvim_create_user_command("WatchRun", function()
+  local overseer = require("overseer")
+  overseer.run_template({ name = "run script" }, function(task)
+    if task then
+      task:add_component({ "restart_on_save", paths = { vim.fn.expand("%:p") } })
+      local main_win = vim.api.nvim_get_current_win()
+      overseer.run_action(task, "open vsplit")
+      vim.api.nvim_set_current_win(main_win)
+    else
+      vim.notify("WatchRun not supported for filetype " .. vim.bo.filetype, vim.log.levels.ERROR)
+    end
+  end)
+end, {})
+
+
+local runner = {}
+runner.git_push = function()
+  require("overseer").run_template({ name = "git push HEAD" })
+end
+runner.log_toggle = function()
+  require("overseer").toggle()
+end
+
+
+vim.keymap.set('n', '<Space>gPs', runner.git_push, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>rlt', runner.log_toggle, { silent = true, noremap = true })
+
+        end,
+        config = function()
+          require('overseer').setup({
+  templates = {
+    "builtin",
+    "user",
+  },
+  task_list = {
+    max_width = { 100, 0.5 },
+    min_width = { 100, 0.5 },
+    max_height = { 20, 0.2 },
+    min_height = 12,
+    direction = "bottom",
   },
 })
 

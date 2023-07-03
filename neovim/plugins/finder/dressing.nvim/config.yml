@@ -1,7 +1,7 @@
 ---
 config:
-  url: "https://github.com/j-hui/fidget.nvim"
-  tag: lagacy
+  url: "https://github.com/stevearc/dressing.nvim"
+  rev: ~
   filetypes: ~
   commands: ~
   maps: ~
