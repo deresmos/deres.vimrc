@@ -814,6 +814,13 @@ require("indent_blankline").setup {
         end,
     }
     use {
+      "AndrewRadev/linediff.vim",
+        setup = function()
+        vim.keymap.set("n", "<Space>ld", "<cmd>Linediff<CR>", {noremap = true, silent=true})
+
+        end,
+    }
+    use {
       "MunifTanjim/nui.nvim",
     }
     use {
@@ -845,6 +852,20 @@ require("indent_blankline").setup {
     hl = { underline = true },
   }
 }
+
+        end,
+    }
+    use {
+      "rcarriga/nvim-notify",
+        config = function()
+          require("notify").setup({
+  timeout = 4000,
+  max_width = 100,
+  minimum_width = 50,
+  top_down = false,
+})
+
+vim.notify = require("notify")
 
         end,
     }
@@ -1225,6 +1246,31 @@ vim.keymap.set('n', '<Space>sc', ':<C-u>SClose<CR>:cd ~<CR>', {silent = true, no
     }
     use {
       "stevearc/dressing.nvim",
+        config = function()
+          require('dressing').setup({
+  input = {
+    prefer_width = 0.4,
+    max_width = { 140, 0.9 },
+    min_width = { 40, 0.4 },
+    mappings = {
+      n = {
+        ["<Esc>"] = "Close",
+        ["q"] = "Close",
+        ["<CR>"] = "Confirm",
+      },
+      i = {
+        ["<C-c>"] = "Close",
+        ["<CR>"] = "Confirm",
+        ["<Up>"] = "HistoryPrev",
+        ["<Down>"] = "HistoryNext",
+        ["<C-k>"] = "HistoryPrev",
+        ["<C-j>"] = "HistoryNext",
+      },
+    },
+  },
+})
+
+        end,
     }
     use {
       "nvim-tree/nvim-tree.lua",
@@ -1298,7 +1344,7 @@ require("nvim-tree").setup({
     },
   },
   renderer = {
-    group_empty = true,
+    group_empty = false,
     indent_markers = {
       enable = true,
       inline_arrows = true,
@@ -1828,6 +1874,45 @@ require('gitsigns').setup {
         end,
     }
     use {
+      "NeogitOrg/neogit",
+        config = function()
+          local neogit = require('neogit')
+neogit.setup {
+  auto_show_console = false,
+  disable_context_highlighting = true,
+  kind = 'split',
+  integrations = {
+    diffview = true,
+  },
+  sections = {
+    untracked = {
+      folded = true
+    },
+    unstaged = {
+      folded = false
+    },
+    staged = {
+      folded = false
+    },
+    stashes = {
+      folded = true
+    },
+    unpulled = {
+      folded = true
+    },
+    unmerged = {
+      folded = false
+    },
+    recent = {
+      folded = true
+    },
+  },
+}
+
+
+        end,
+    }
+    use {
       "pwntester/octo.nvim",
         config = function()
           require("octo").setup({
@@ -2079,14 +2164,6 @@ require 'lualine'.setup {
 }
 
 vim.keymap.set('n', '<Space>mcA', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
-
-        end,
-    }
-    use {
-      "j-hui/fidget.nvim",
-        tag = "lagacy",
-        config = function()
-          require'fidget'.setup{}
 
         end,
     }
@@ -2807,10 +2884,14 @@ end
 runner.log_toggle = function()
   require("overseer").toggle()
 end
+runner.run = function()
+  require("overseer").run_template()
+end
 
 
 vim.keymap.set('n', '<Space>gPs', runner.git_push, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>rlt', runner.log_toggle, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>rl', runner.log_toggle, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
 
         end,
         config = function()
@@ -2819,12 +2900,44 @@ vim.keymap.set('n', '<Space>rlt', runner.log_toggle, { silent = true, noremap = 
     "builtin",
     "user",
   },
+  component_aliases = {
+    default = {
+      { "display_duration", detail_level = 2 },
+      "user.default",
+      -- "on_output_summarize",
+      "on_exit_set_status",
+      "on_complete_notify",
+      "on_complete_dispose",
+    },
+  },
   task_list = {
     max_width = { 100, 0.5 },
     min_width = { 100, 0.5 },
     max_height = { 20, 0.2 },
     min_height = 12,
     direction = "bottom",
+    bindings = {
+      ["?"] = "ShowHelp",
+      ["g?"] = "ShowHelp",
+      ["<CR>"] = "RunAction",
+      ["<C-e>"] = "Edit",
+      ["o"] = "Open",
+      ["<C-v>"] = "OpenVsplit",
+      ["<C-s>"] = "OpenSplit",
+      ["<C-f>"] = "OpenFloat",
+      ["<C-q>"] = "OpenQuickFix",
+      ["p"] = "TogglePreview",
+      ["<C-]>"] = "IncreaseDetail",
+      ["<C-[>"] = "DecreaseDetail",
+      ["<C-l>"] = "IncreaseAllDetail",
+      ["<C-h>"] = "DecreaseAllDetail",
+      ["["] = "DecreaseWidth",
+      ["]"] = "IncreaseWidth",
+      ["K"] = "PrevTask",
+      ["J"] = "NextTask",
+      ["<C-k>"] = "ScrollOutputUp",
+      ["<C-j>"] = "ScrollOutputDown",
+    },
   },
 })
 
@@ -2837,6 +2950,12 @@ vim.keymap.set('n', '<Space>rlt', runner.log_toggle, { silent = true, noremap = 
           
 
         end,
+    }
+    use {
+      "tpope/vim-dadbod",
+    }
+    use {
+      "kristijanhusak/vim-dadbod-ui",
     }
     use {
       "sheerun/vim-polyglot",

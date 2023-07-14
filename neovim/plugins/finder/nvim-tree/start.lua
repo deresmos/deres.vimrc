@@ -55,7 +55,7 @@ require("nvim-tree").setup({
     },
   },
   renderer = {
-    group_empty = true,
+    group_empty = false,
     indent_markers = {
       enable = true,
       inline_arrows = true,

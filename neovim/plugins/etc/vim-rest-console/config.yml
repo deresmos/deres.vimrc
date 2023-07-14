@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/diepm/vim-rest-console"
+  rev: ~
+  filetypes:
+    - rest
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

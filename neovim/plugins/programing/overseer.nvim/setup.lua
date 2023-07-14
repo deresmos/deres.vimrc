@@ -30,7 +30,11 @@ end
 runner.log_toggle = function()
   require("overseer").toggle()
 end
+runner.run = function()
+  require("overseer").run_template()
+end
 
 
 vim.keymap.set('n', '<Space>gPs', runner.git_push, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>rlt', runner.log_toggle, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>rl', runner.log_toggle, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })

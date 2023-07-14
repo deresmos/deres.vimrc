@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/rcarriga/nvim-notify"
+  url: "https://github.com/NeogitOrg/neogit"
   rev: ~
   filetypes: ~
   commands: ~
