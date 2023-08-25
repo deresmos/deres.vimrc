@@ -188,7 +188,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'dap' },
   }, {
-    { name = "copilot", keyword_length=0 },
+    { name = "copilot",  keyword_length = 0 },
     { name = "ultisnips" },
     { name = 'nvim_lsp' },
     { name = 'buffer' },
@@ -267,6 +267,20 @@ local cmdline_mapping = {
 --   }
 -- })
 cmp.setup.cmdline(':', {
+  mapping = cmdline_mapping,
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    {
+      name = 'cmdline',
+      option = {
+        ignore_cmds = { 'Man', '!' }
+      }
+    }
+  })
+})
+
+cmp.setup.cmdline('q:', {
   mapping = cmdline_mapping,
   sources = cmp.config.sources({
     { name = 'path' }
@@ -977,6 +991,54 @@ vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == clo
       "nvim-lua/plenary.nvim",
     }
     use {
+      "ahmedkhalf/project.nvim",
+        config = function()
+          require("project_nvim").setup {
+  {
+    -- Manual mode doesn't automatically change your root directory, so you have
+    -- the option to manually do so using `:ProjectRoot` command.
+    manual_mode = false,
+
+    -- Methods of detecting the root directory. **"lsp"** uses the native neovim
+    -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+    -- order matters: if one is not detected, the other is used as fallback. You
+    -- can also delete or rearangne the detection methods.
+    detection_methods = { "lsp", "pattern" },
+
+    -- All the patterns used to detect root dir, when **"pattern"** is in
+    -- detection_methods
+    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+
+    -- Table of lsp clients to ignore by name
+    -- eg: { "efm", ... }
+    ignore_lsp = {},
+
+    -- Don't calculate root dir on specific directories
+    -- Ex: { "~/.cargo/*", ... }
+    exclude_dirs = {},
+
+    -- Show hidden files in telescope
+    show_hidden = false,
+
+    -- When set to false, you will get a message when project.nvim changes your
+    -- directory.
+    silent_chdir = true,
+
+    -- What scope to change the directory, valid options are
+    -- * global (default)
+    -- * tab
+    -- * win
+    scope_chdir = 'global',
+
+    -- Path where project.nvim will store the project history for use in
+    -- telescope
+    datapath = vim.fn.stdpath("data"),
+  }
+}
+
+        end,
+    }
+    use {
       "kevinhwang91/promise-async",
     }
     use {
@@ -1289,6 +1351,13 @@ vim.keymap.set("n", "<Space>ft", "<cmd>NvimTreeToggle<CR>", { silent = true, nor
         config = function()
           local view = require("nvim-tree.view")
 
+local function wrap_node(f)
+  return function(node, ...)
+    node = node or require("nvim-tree.lib").get_node_at_cursor()
+    f(node, ...)
+  end
+end
+
 local function grep_directory(node)
   if node.name == ".." then
     print("not support")
@@ -1297,7 +1366,8 @@ local function grep_directory(node)
 
   if node.fs_stat.type == "directory" then
     -- view.close()
-    require('telescope.builtin').live_grep({ cwd = node.absolute_path })
+    TelescopeConfig.cwd = node.absolute_path
+    Finder.grep()
   end
 end
 
@@ -1308,14 +1378,44 @@ local function find_files(node)
   end
 
   if node.fs_stat.type == "directory" then
-    require('telescope.builtin').find_files({ cwd = node.absolute_path })
+    TelescopeConfig.cwd = node.absolute_path
+    Finder.files()
   end
 end
 
 local api = require('nvim-tree.api')
 
+local function my_on_attach(bufnr)
+  local api = require "nvim-tree.api"
+
+  local function opts(desc)
+    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- default mappings
+  api.config.mappings.default_on_attach(bufnr)
+
+  -- custom mappings
+  vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
+  vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
+
+  vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', 'L', api.tree.change_root_to_node, opts('Cd'))
+  vim.keymap.set('n', 'h', api.tree.change_root_to_parent, opts('Edit'))
+  vim.keymap.set('n', 's', api.node.open.horizontal, opts('Open horizontal'))
+  vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open vertical'))
+  vim.keymap.set('n', 't', api.node.open.tab, opts('Open tab'))
+  vim.keymap.set('n', 'c', api.fs.create, opts('Create'))
+  vim.keymap.set('n', 'y', api.fs.copy.node, opts('Copy'))
+  vim.keymap.set('n', '<Space>gj', api.node.navigate.git.next, opts('Next git file'))
+  vim.keymap.set('n', '<Space>gk', api.node.navigate.git.prev, opts('Prev git file'))
+  vim.keymap.set('n', '<Space>ff', wrap_node(find_files), opts('Find files'))
+  vim.keymap.set('n', '<Space>fg', wrap_node(grep_directory), opts('Grep files'))
+end
+
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
+  on_attach = my_on_attach,
   view = {
     float = {
       enable = true,
@@ -1326,22 +1426,22 @@ require("nvim-tree").setup({
       },
     },
     width = 40,
-    mappings = {
-      list = {
-        { key = "l",         action = "edit" },
-        { key = "L",         action = "cd" },
-        { key = "h",         action = "dir_up" },
-        { key = "y",         action = "copy" },
-        { key = "c",         action = "create" },
-        { key = "s",         action_cb = api.node.open.horizontal },
-        { key = "v",         action_cb = api.node.open.vertical },
-        { key = "t",         action_cb = api.node.open.tab },
-        { key = "<Space>gj", action = "next_git_item" },
-        { key = "<Space>gk", action = "prev_git_item" },
-        { key = "<Space>ff", action_cb = find_files },
-        { key = "<Space>fg", action_cb = grep_directory },
-      },
-    },
+    -- mappings = {
+    --   list = {
+    --     { key = "l",         action = "edit" },
+    --     { key = "L",         action = "cd" },
+    --     { key = "h",         action = "dir_up" },
+    --     { key = "y",         action = "copy" },
+    --     { key = "c",         action = "create" },
+    --     { key = "s",         action_cb = api.node.open.horizontal },
+    --     { key = "v",         action_cb = api.node.open.vertical },
+    --     { key = "t",         action_cb = api.node.open.tab },
+    --     { key = "<Space>gj", action = "next_git_item" },
+    --     { key = "<Space>gk", action = "prev_git_item" },
+    --     { key = "<Space>ff", action_cb = find_files },
+    --     { key = "<Space>fg", action_cb = grep_directory },
+    --   },
+    -- },
   },
   renderer = {
     group_empty = false,
@@ -1410,6 +1510,9 @@ vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {no
         end,
     }
     use {
+      "fcying/telescope-ctags-outline.nvim",
+    }
+    use {
       "nvim-telescope/telescope-file-browser.nvim",
     }
     use {
@@ -1427,6 +1530,8 @@ vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {no
           local actions = require("telescope.actions")
 local action_state = require('telescope.actions.state')
 local fb_actions = require("telescope").extensions.file_browser.actions
+
+TelescopeConfig = {}
 
 SessionActions = {}
 SessionActions.load_session = function(prompt_bufnr)
@@ -1478,8 +1583,25 @@ function TestStatus()
   require("telescope.builtin").git_status(opts)
 end
 
+local find_workspace_relpath = function(path)
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  local relative_path = string.gsub(path, string.gsub(workspace_path, '-', '%%-'), '[root]', 1)
+  return relative_path
+end
+local add_cwd_to_opts = function(opts)
+  if TelescopeConfig.cwd then
+    opts.cwd = TelescopeConfig.cwd
+    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(opts.cwd)
+  else
+    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(vim.fn.getcwd())
+  end
+  return opts
+end
+
+
 local telescope_builtin = require('telescope.builtin')
 local finder = {}
+Finder = finder
 
 local function grep_dir(_)
   local selection = action_state.get_selected_entry()
@@ -1500,13 +1622,15 @@ local function find_files(_)
 end
 
 finder.files = function()
-  telescope_builtin.find_files()
+  local opts = add_cwd_to_opts({})
+  telescope_builtin.find_files(opts)
 end
 finder.files_from_buffer = function()
   telescope_builtin.find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 finder.files_from_project = function()
-  telescope_builtin.git_files({ cwd = require('nvim-rooter').get_root(), show_untracked = false })
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  telescope_builtin.git_files({ cwd = workspace_path, show_untracked = false })
 end
 finder.oldfiles = function()
   telescope_builtin.oldfiles()
@@ -1514,18 +1638,23 @@ end
 finder.buffers = function()
   telescope_builtin.buffers()
 end
+
 finder.grep = function()
-  telescope_builtin.live_grep()
+  local opts = add_cwd_to_opts({})
+  telescope_builtin.live_grep(opts)
 end
 finder.grep_from_project = function()
-  telescope_builtin.live_grep({ cwd = require('nvim-rooter').get_root() })
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  telescope_builtin.live_grep({ cwd = workspace_path })
 end
 finder.grep_from_buffer = function()
   telescope_builtin.live_grep({ cwd = vim.fn.expand('%:p:h') })
 end
 
 finder.grep_visual = function()
-  telescope_builtin.grep_string({ search = vim.fn.expand('<cword>') })
+  local opts = add_cwd_to_opts({})
+  opts.search = vim.fn.expand('<cword>')
+  telescope_builtin.grep_string(opts)
 end
 finder.grep_visual_from_buffer = function()
   telescope_builtin.grep_string({ cwd = vim.fn.expand('%:p:h'), search = vim.fn.expand('<cword>') })
@@ -1560,7 +1689,6 @@ end
 finder.lsp_document_symbols = function()
   telescope_builtin.lsp_document_symbols({ fname_width = 80, ignore_symbols = 'field', show_line = true })
 end
-
 
 vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>bf', finder.files_from_buffer, { silent = true, noremap = true })
@@ -1707,7 +1835,13 @@ require('telescope').setup {
       diff_plugin = "diffview",
       git_flags = {},
       git_diff_flags = {},
-    }
+    },
+    ctags_outline = {
+      ctags = { 'ctags' },
+      ft_opt = {
+        sql = '--sql-kinds=t',
+      },
+    },
   },
 }
 
@@ -1716,6 +1850,7 @@ require("telescope").load_extension("undo")
 require("telescope").load_extension("packer")
 require("telescope").load_extension("toggleterm")
 require("telescope").load_extension("advanced_git_search")
+require('telescope').load_extension('ctags_outline')
 
         end,
     }
@@ -1732,29 +1867,6 @@ require("telescope").load_extension("advanced_git_search")
     }
     use {
       "lambdalisue/gina.vim",
-    }
-    use {
-      "akinsho/git-conflict.nvim",
-        config = function()
-          require('git-conflict').setup({
-  default_mappings = true,
-  default_commands = true,
-  disable_diagnostics = false,
-  highlights = {
-    incoming = 'DiffText',
-    current = 'DiffAdd',
-  }
-})
-
-vim.keymap.set('n', '<Space>gcj', '<cmd>GitConflictNextConflict<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>gck', '<cmd>GitConflictPrevConflict<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>gct', '<cmd>GitConflictChooseTheirs<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>gco', '<cmd>GitConflictChooseOurs<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>gcn', '<cmd>GitConflictChooseNone<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>gcb', '<cmd>GitConflictChooseBase<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<Space>gcB', '<cmd>GitConflictChooseBoth<CR>', { noremap = true, silent = true })
-
-        end,
     }
     use {
       "joaodubas/gitlinker.nvim",
@@ -1886,29 +1998,35 @@ neogit.setup {
   },
   sections = {
     untracked = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
     unstaged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     staged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     stashes = {
-      folded = true
+      folded = true,
+      hidden = true,
     },
     unpulled = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
     unmerged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     recent = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
   },
 }
-
 
         end,
     }
@@ -2102,7 +2220,10 @@ require 'lualine'.setup {
         status_not = false,                             -- When true, invert the status search
       },
       lualine_config.copilot_status,
-      'diagnostics',
+      -- {
+      --   'diagnostics',
+      --   symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
+      -- },
       lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,
@@ -2270,17 +2391,17 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = { '*.go', "*.lua" },
-  group = vim.api.nvim_create_augroup("my-formatting", {}),
-  callback = function()
-    vim.lsp.buf.format({ async = true })
-  end
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   pattern = { '*.go', "*.lua" },
+--   group = vim.api.nvim_create_augroup("my-formatting", {}),
+--   callback = function()
+--     vim.lsp.buf.format({ async = true })
+--   end
+-- })
 
 local lsp_status = require('lsp-status')
-lsp_status.config{
- current_function = false,
+lsp_status.config {
+  current_function = false,
 }
 lsp_status.register_progress()
 
@@ -2676,6 +2797,140 @@ map.set('x', '<C-l>', '<Plug>(textmanip-move-right)', { silent = true, noremap =
         end,
     }
     use {
+      "dense-analysis/ale",
+        config = function()
+          vim.cmd [[
+
+nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
+augroup custom-ale
+  autocmd!
+  autocmd FileType go let b:ale_fix_on_save = 1
+augroup END
+
+let g:ale_sign_column_always   = 1
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_enabled              = 0
+let g:ale_virtualtext_cursor   = 1
+let g:ale_virtualtext_prefix   = ' >> '
+
+let g:ale_sign_error           = '>>'
+let g:ale_sign_warning         = '>>'
+let g:ale_echo_msg_error_str   = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+
+let g:ale_echo_msg_format   = '[%severity%] %code%: %s | %linter%'
+
+function! AleStatus()
+  if !get(b:, 'ale_enabled', 0) && !g:ale_enabled
+    return ''
+  endif
+
+  let counts = ale#statusline#Count(bufnr(''))
+
+  if !counts['total']
+    return 'OK'
+  endif
+
+  return printf('E%d W%d', counts[0], counts[1])
+endfunction
+
+" function! s:parseCfnLint(line) abort
+"   let words = split(a:line, ":")
+"   return {"text": words[6], "lnum": words[1], "col": words[2], "type": "W"}
+" endfunction
+"
+" call ale#linter#Define('yaml', {
+"   \ 'name': 'cfn-lint',
+"   \ 'executable': 'cfn-lint',
+"   \ 'command': 'cfn-lint -f parseable %t',
+"   \ 'callback': {buffer, lines -> map(lines, 's:parseCfnLint(v:val)')},
+"   \ })
+
+let g:ale_linters = {
+  \ 'python': ['flake8', 'mypy', 'bandit'],
+  \ 'javascript': ['eslint'],
+  \ 'php': ['phpcs'],
+  \ 'css': ['stylelint'],
+  \ 'xhtml': ['tidy'],
+  \ 'cs': ['OmniSharp'],
+  \ 'swift': ['swiftlint'],
+  \ 'kotlin': ['ktlint'],
+  \ 'go': [],
+  \ 'yaml': ['yamllint', 'cfn-lint'],
+  \ }
+
+  " \ 'go': ['gobuild', 'golangci-lint'],
+
+let g:ale_type_map = {'flake8': {'ES': 'WS'}}
+let g:ale_css_stylelint_options='-c stylelint'
+let g:ale_python_mypy_options='--ignore-missing-imports'
+let g:ale_python_flake8_options='--ignore=E501'
+let g:ale_go_golangci_lint_options='--fast'
+
+let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
+let g:ale_php_phpcs_standard='PSR2'
+let g:ale_linter_aliases = {'xhtml': 'html'}
+
+let g:ale_fixers = {
+  \ 'html': [
+  \   {buffer, lines -> {
+  \   'command': 'tidy -config ~/.tidy_fix %s'}}
+  \ ],
+  \ 'xhtml': [
+  \   {buffer, lines -> {
+  \   'command': 'tidy -config ~/.tidy_fix %s'}}
+  \ ],
+  \ 'javascript': [
+  \   {buffer, lines -> {
+  \   'command': 'eslint --config ~/.eslintrc.js --fix %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'css': [
+  \   {buffer, lines -> {
+  \   'command': 'stylelint -c stylelint --fix %t',
+  \   'read_temporary_file': 1}},
+  \   {buffer, lines -> {
+  \   'command': 'csscomb -c ~/.csscomb.json %s'}}
+  \ ],
+  \ 'php': [
+  \   {buffer, lines -> {
+  \   'command': 'phpcbf --standard=PSR2 %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'python': [
+  \   'isort',
+  \   {buffer, lines -> {
+  \   'command': 'black %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'kotlin': [
+  \   {buffer, lines -> {
+  \   'command': 'ktlint -F %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'markdown': [
+  \   {buffer, lines -> {
+  \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'sql': [
+  \   {buffer, lines -> {
+  \   'command': 'sqlformat --reindent --keywords upper -s %t | sql-formatter-cli -o %t',
+  \   'read_temporary_file': 1}}
+  \ ],
+  \ 'go': ['gofmt', 'goimports'],
+  \ 'svelte': ['prettier'],
+  \ 'json': ['jq'],
+  \ }
+" let g:ale_fix_on_save = 1
+
+highlight link ALEWarningSign SpellCap
+]]
+
+        end,
+    }
+    use {
       "editorconfig/editorconfig-vim",
     }
     use {
@@ -2798,27 +3053,6 @@ vim.keymap.set('n', '<Space>mtk', test.jump_prev, { silent = true, noremap = tru
     }
     use {
       "nvim-neotest/neotest-python",
-    }
-    use {
-      "jose-elias-alvarez/null-ls.nvim",
-        config = function()
-          local null_ls = require("null-ls")
-
-null_ls.setup({
-  diagnostics_format = "#{m} (#{s}: #{c})",
-  sources = {
-    null_ls.builtins.completion.spell,
-
-    null_ls.builtins.formatting.gofmt,
-    null_ls.builtins.diagnostics.golangci_lint,
-
-    null_ls.builtins.diagnostics.textlint,
-
-    null_ls.builtins.formatting.jq,
-  },
-})
-
-        end,
     }
     use {
       "andythigpen/nvim-coverage",

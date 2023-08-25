@@ -1,9 +1,9 @@
 ---
 config:
-  url: "https://github.com/w0rp/ale"
+  url: "https://github.com/dense-analysis/ale"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true

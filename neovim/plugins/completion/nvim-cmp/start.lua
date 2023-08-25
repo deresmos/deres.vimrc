@@ -36,7 +36,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'dap' },
   }, {
-    { name = "copilot", keyword_length=0 },
+    { name = "copilot",  keyword_length = 0 },
     { name = "ultisnips" },
     { name = 'nvim_lsp' },
     { name = 'buffer' },
@@ -115,6 +115,20 @@ local cmdline_mapping = {
 --   }
 -- })
 cmp.setup.cmdline(':', {
+  mapping = cmdline_mapping,
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    {
+      name = 'cmdline',
+      option = {
+        ignore_cmds = { 'Man', '!' }
+      }
+    }
+  })
+})
+
+cmp.setup.cmdline('q:', {
   mapping = cmdline_mapping,
   sources = cmp.config.sources({
     { name = 'path' }

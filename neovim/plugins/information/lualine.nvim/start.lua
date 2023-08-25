@@ -166,7 +166,10 @@ require 'lualine'.setup {
         status_not = false,                             -- When true, invert the status search
       },
       lualine_config.copilot_status,
-      'diagnostics',
+      -- {
+      --   'diagnostics',
+      --   symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
+      -- },
       lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,

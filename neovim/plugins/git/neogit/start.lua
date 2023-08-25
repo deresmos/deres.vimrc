@@ -8,26 +8,32 @@ neogit.setup {
   },
   sections = {
     untracked = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
     unstaged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     staged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     stashes = {
-      folded = true
+      folded = true,
+      hidden = true,
     },
     unpulled = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
     unmerged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     recent = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
   },
 }
-

@@ -23,17 +23,17 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = { '*.go', "*.lua" },
-  group = vim.api.nvim_create_augroup("my-formatting", {}),
-  callback = function()
-    vim.lsp.buf.format({ async = true })
-  end
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   pattern = { '*.go', "*.lua" },
+--   group = vim.api.nvim_create_augroup("my-formatting", {}),
+--   callback = function()
+--     vim.lsp.buf.format({ async = true })
+--   end
+-- })
 
 local lsp_status = require('lsp-status')
-lsp_status.config{
- current_function = false,
+lsp_status.config {
+  current_function = false,
 }
 lsp_status.register_progress()
 

@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/notjedi/nvim-rooter.lua"
+  url: "https://github.com/ahmedkhalf/project.nvim"
   rev: ~
   filetypes: ~
   commands: ~

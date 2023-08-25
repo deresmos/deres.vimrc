@@ -2,6 +2,8 @@ local actions = require("telescope.actions")
 local action_state = require('telescope.actions.state')
 local fb_actions = require("telescope").extensions.file_browser.actions
 
+TelescopeConfig = {}
+
 SessionActions = {}
 SessionActions.load_session = function(prompt_bufnr)
   local selection = action_state.get_selected_entry()
@@ -52,8 +54,25 @@ function TestStatus()
   require("telescope.builtin").git_status(opts)
 end
 
+local find_workspace_relpath = function(path)
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  local relative_path = string.gsub(path, string.gsub(workspace_path, '-', '%%-'), '[root]', 1)
+  return relative_path
+end
+local add_cwd_to_opts = function(opts)
+  if TelescopeConfig.cwd then
+    opts.cwd = TelescopeConfig.cwd
+    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(opts.cwd)
+  else
+    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(vim.fn.getcwd())
+  end
+  return opts
+end
+
+
 local telescope_builtin = require('telescope.builtin')
 local finder = {}
+Finder = finder
 
 local function grep_dir(_)
   local selection = action_state.get_selected_entry()
@@ -74,13 +93,15 @@ local function find_files(_)
 end
 
 finder.files = function()
-  telescope_builtin.find_files()
+  local opts = add_cwd_to_opts({})
+  telescope_builtin.find_files(opts)
 end
 finder.files_from_buffer = function()
   telescope_builtin.find_files({ cwd = vim.fn.expand('%:p:h') })
 end
 finder.files_from_project = function()
-  telescope_builtin.git_files({ cwd = require('nvim-rooter').get_root(), show_untracked = false })
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  telescope_builtin.git_files({ cwd = workspace_path, show_untracked = false })
 end
 finder.oldfiles = function()
   telescope_builtin.oldfiles()
@@ -88,18 +109,23 @@ end
 finder.buffers = function()
   telescope_builtin.buffers()
 end
+
 finder.grep = function()
-  telescope_builtin.live_grep()
+  local opts = add_cwd_to_opts({})
+  telescope_builtin.live_grep(opts)
 end
 finder.grep_from_project = function()
-  telescope_builtin.live_grep({ cwd = require('nvim-rooter').get_root() })
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  telescope_builtin.live_grep({ cwd = workspace_path })
 end
 finder.grep_from_buffer = function()
   telescope_builtin.live_grep({ cwd = vim.fn.expand('%:p:h') })
 end
 
 finder.grep_visual = function()
-  telescope_builtin.grep_string({ search = vim.fn.expand('<cword>') })
+  local opts = add_cwd_to_opts({})
+  opts.search = vim.fn.expand('<cword>')
+  telescope_builtin.grep_string(opts)
 end
 finder.grep_visual_from_buffer = function()
   telescope_builtin.grep_string({ cwd = vim.fn.expand('%:p:h'), search = vim.fn.expand('<cword>') })
@@ -134,7 +160,6 @@ end
 finder.lsp_document_symbols = function()
   telescope_builtin.lsp_document_symbols({ fname_width = 80, ignore_symbols = 'field', show_line = true })
 end
-
 
 vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>bf', finder.files_from_buffer, { silent = true, noremap = true })
@@ -281,7 +306,13 @@ require('telescope').setup {
       diff_plugin = "diffview",
       git_flags = {},
       git_diff_flags = {},
-    }
+    },
+    ctags_outline = {
+      ctags = { 'ctags' },
+      ft_opt = {
+        sql = '--sql-kinds=t',
+      },
+    },
   },
 }
 
@@ -290,3 +321,4 @@ require("telescope").load_extension("undo")
 require("telescope").load_extension("packer")
 require("telescope").load_extension("toggleterm")
 require("telescope").load_extension("advanced_git_search")
+require('telescope').load_extension('ctags_outline')
