@@ -55,7 +55,7 @@ let g:ale_linters = {
   \ 'cs': ['OmniSharp'],
   \ 'swift': ['swiftlint'],
   \ 'kotlin': ['ktlint'],
-  \ 'go': [],
+  \ 'go': ['staticcheck'],
   \ 'yaml': ['yamllint', 'cfn-lint'],
   \ }
 

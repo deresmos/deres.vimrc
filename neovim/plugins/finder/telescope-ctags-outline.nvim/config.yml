@@ -1,0 +1,9 @@
+---
+config:
+  url: "https://github.com/fcying/telescope-ctags-outline.nvim"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true

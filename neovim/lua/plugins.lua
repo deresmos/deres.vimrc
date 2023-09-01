@@ -1253,18 +1253,6 @@ vim.g.vrc_curl_opts           = {
         end,
     }
     use {
-      "notjedi/nvim-rooter.lua",
-        config = function()
-          require('nvim-rooter').setup {
-  rooter_patterns = { '.git', '.hg', '.svn' },
-  trigger_patterns = {},
-  manual = true,
-}
-
-
-        end,
-    }
-    use {
       "mhinz/vim-startify",
         setup = function()
         vim.g.startify_disable_at_vimenter = 1
@@ -2856,7 +2844,7 @@ let g:ale_linters = {
   \ 'cs': ['OmniSharp'],
   \ 'swift': ['swiftlint'],
   \ 'kotlin': ['ktlint'],
-  \ 'go': [],
+  \ 'go': ['staticcheck'],
   \ 'yaml': ['yamllint', 'cfn-lint'],
   \ }
 
