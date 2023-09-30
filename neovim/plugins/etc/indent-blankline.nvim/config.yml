@@ -4,7 +4,7 @@ config:
   rev: ~
   filetypes: ~
   commands:
-    - IndentBlankline*
+    - IBL*
   maps: ~
   do: ~
   enable: true

@@ -8,9 +8,29 @@ vim.g.dispatch_compilers = { pytest = 'pytest' }
 
 VimtestDap = {}
 function DapStrategy(cmd)
-  print('It works! Command for running tests: ' .. cmd)
+  vim.notify('It works! Command for running tests: ' .. cmd)
   vim.g.vim_test_last_command = cmd
+
   VimtestDap.strategy(cmd)
+end
+
+function OverseerStrategy(cmd)
+  local args = {}
+  for match in string.gmatch(cmd, "[^ ]+") do
+    table.insert(args, string.match(match, "[^'].*[^']"))
+  end
+
+  local path = string.match(cmd, "[^ ]+$")
+  path = string.gsub(path, "/%.%.%.", "")
+
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+
+  local task = require('overseer').new_task({
+    cmd = args,
+    cwd = workspace_path,
+    components = { { 'on_output_quickfix', open = false, relative_file_root = path }, 'default' }
+  })
+  task:start()
 end
 
 VimtestDap.vim_test_strategy = {
@@ -50,12 +70,14 @@ function VimtestDap.strategy(cmd)
     return
   end
 
-  configuration = f(cmd)
+  local configuration = f(cmd)
   require 'dap'.run(configuration)
 end
 
 vim.api.nvim_set_var("test#custom_strategies", {
   dap = DapStrategy,
+  overseer = OverseerStrategy,
 })
 
-vim.api.nvim_set_var("test#strategy", "dap")
+vim.api.nvim_set_var("test#go#gotest#options", "-v -coverprofile=cover.out")
+vim.api.nvim_set_var("test#strategy", "overseer")

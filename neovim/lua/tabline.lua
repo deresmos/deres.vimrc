@@ -77,7 +77,7 @@ Tabline.lastLabel = function(n)
   if #fileFullPath > 120 then
     fileFullPath = string.sub(fileFullPath, 0, 120)
   end
-  local lastLabels = {maxLine, fileFullPath}
+  local lastLabels = { maxLine, fileFullPath }
 
   local sep = ":"
   local lastLabel = table.concat(lastLabels, sep)
@@ -87,8 +87,8 @@ end
 
 function ShowTable(h)
   for k, v in pairs(h) do
-    print( k, v )
+    print(k, v)
   end
 end
 
-vim.opt.tabline = "%!v:lua.Tabline.Main()"
+-- vim.opt.tabline = "%!v:lua.Tabline.Main()"

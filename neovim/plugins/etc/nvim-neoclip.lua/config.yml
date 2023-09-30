@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/luukvbaal/statuscol.nvim"
+  url: "https://github.com/AckslD/nvim-neoclip.lua"
   rev: ~
   filetypes: ~
   commands: ~

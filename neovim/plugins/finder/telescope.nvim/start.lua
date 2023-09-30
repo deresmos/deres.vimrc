@@ -1,48 +1,7 @@
 local actions = require("telescope.actions")
 local action_state = require('telescope.actions.state')
 local fb_actions = require("telescope").extensions.file_browser.actions
-
-TelescopeConfig = {}
-
-SessionActions = {}
-SessionActions.load_session = function(prompt_bufnr)
-  local selection = action_state.get_selected_entry()
-  actions.close(prompt_bufnr)
-  local cmd = "SLoad " .. string.gsub(selection.path, "(.*/)(.*)", "%2")
-  local success, result = pcall(vim.cmd, cmd)
-end
-
-SessionActions.delete_session = function(prompt_bufnr)
-  local selection = action_state.get_selected_entry()
-  actions.close(prompt_bufnr)
-  local cmd = "source " .. selection.path
-  local success, result = pcall(vim.cmd, cmd)
-end
-
-function SessionList()
-  local opts = {
-    prompt_title = 'Sessions',
-    cwd = vim.g.startify_session_dir,
-    find_command = { "rg", "--ignore", "--hidden", "--files", "--sortr=modified" },
-    attach_mappings = function(_, map)
-      actions.select_default:replace(SessionActions.load_session)
-      map("n", "D", fb_actions.remove)
-      return true
-    end,
-  }
-
-  require("telescope.builtin").find_files(opts)
-end
-
-function MemoList()
-  local opts = {
-    prompt_title = 'Memos',
-    cwd = vim.g.howm_dir .. '/memo',
-    find_command = { "rg", "--ignore", "--hidden", "--files", "--sortr=modified" },
-  }
-
-  require("telescope.builtin").find_files(opts)
-end
+local Layout = require "telescope.pickers.layout"
 
 function TestStatus()
   local opts = {
@@ -54,24 +13,7 @@ function TestStatus()
   require("telescope.builtin").git_status(opts)
 end
 
-local find_workspace_relpath = function(path)
-  local workspace_path, _ = require("project_nvim.project").get_project_root()
-  local relative_path = string.gsub(path, string.gsub(workspace_path, '-', '%%-'), '[root]', 1)
-  return relative_path
-end
-local add_cwd_to_opts = function(opts)
-  if TelescopeConfig.cwd then
-    opts.cwd = TelescopeConfig.cwd
-    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(opts.cwd)
-  else
-    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(vim.fn.getcwd())
-  end
-  return opts
-end
-
-
-local telescope_builtin = require('telescope.builtin')
-local finder = {}
+local finder = require('my.finder')
 Finder = finder
 
 local function grep_dir(_)
@@ -80,7 +22,9 @@ local function grep_dir(_)
   if selection.Path:is_file() then
     path = selection.path:match(".*/")
   end
-  telescope_builtin.live_grep({ cwd = path })
+
+  require('my.finder').set_cwd(path)
+  Finder.grep()
 end
 
 local function find_files(_)
@@ -89,76 +33,9 @@ local function find_files(_)
   if selection.Path:is_file() then
     path = selection.path:match(".*/")
   end
-  telescope_builtin.find_files({ cwd = path })
-end
 
-finder.files = function()
-  local opts = add_cwd_to_opts({})
-  telescope_builtin.find_files(opts)
-end
-finder.files_from_buffer = function()
-  telescope_builtin.find_files({ cwd = vim.fn.expand('%:p:h') })
-end
-finder.files_from_project = function()
-  local workspace_path, _ = require("project_nvim.project").get_project_root()
-  telescope_builtin.git_files({ cwd = workspace_path, show_untracked = false })
-end
-finder.oldfiles = function()
-  telescope_builtin.oldfiles()
-end
-finder.buffers = function()
-  telescope_builtin.buffers()
-end
-
-finder.grep = function()
-  local opts = add_cwd_to_opts({})
-  telescope_builtin.live_grep(opts)
-end
-finder.grep_from_project = function()
-  local workspace_path, _ = require("project_nvim.project").get_project_root()
-  telescope_builtin.live_grep({ cwd = workspace_path })
-end
-finder.grep_from_buffer = function()
-  telescope_builtin.live_grep({ cwd = vim.fn.expand('%:p:h') })
-end
-
-finder.grep_visual = function()
-  local opts = add_cwd_to_opts({})
-  opts.search = vim.fn.expand('<cword>')
-  telescope_builtin.grep_string(opts)
-end
-finder.grep_visual_from_buffer = function()
-  telescope_builtin.grep_string({ cwd = vim.fn.expand('%:p:h'), search = vim.fn.expand('<cword>') })
-end
-
-finder.resume = function()
-  telescope_builtin.resume()
-end
-
-finder.file_browser = function()
-  require('telescope').extensions.file_browser.file_browser({ grouped = true })
-end
-finder.file_browser_from_buffer = function()
-  require('telescope').extensions.file_browser.file_browser({ grouped = true, select_buffer = true, path = "%:p:h" })
-end
-
-finder.git_status = function()
-  telescope_builtin.git_status()
-end
-
-finder.sessions = function()
-  SessionList()
-end
-
-finder.memos = function()
-  MemoList()
-end
-
-finder.lsp_implementations = function()
-  telescope_builtin.lsp_implementations()
-end
-finder.lsp_document_symbols = function()
-  telescope_builtin.lsp_document_symbols({ fname_width = 80, ignore_symbols = 'field', show_line = true })
+  require('my.finder').set_cwd(path)
+  Finder.files()
 end
 
 vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
@@ -197,6 +74,108 @@ end
 local function selected_qfreplace(prompt_bufnr)
   actions.send_selected_to_qflist(prompt_bufnr)
   vim.cmd("Qfreplace")
+end
+
+local function create_layout(picker)
+  local offset = 2
+  local position = {
+    prompt = {
+      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
+      height = 1,
+      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
+    },
+    results = {
+      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
+      height = math.floor(vim.api.nvim_get_option("lines") * 0.4),
+      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
+    },
+    preview = {
+      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
+      height = math.floor(vim.api.nvim_get_option("lines") * 0.4),
+      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
+    },
+  }
+  local start_row = math.floor(vim.api.nvim_get_option("lines") * 0.1 * 0.5)
+
+  local function create_window(enter, width, height, row, col, title)
+    local bufnr = vim.api.nvim_create_buf(false, true)
+    local winid = vim.api.nvim_open_win(bufnr, enter, {
+      style = "minimal",
+      relative = "editor",
+      width = width,
+      height = height,
+      row = row,
+      col = col,
+      border = "single",
+      title = title,
+    })
+
+    vim.wo[winid].winhighlight = "Normal:Normal"
+
+    return Layout.Window {
+      bufnr = bufnr,
+      winid = winid,
+    }
+  end
+
+  local function destory_window(window)
+    if window then
+      if vim.api.nvim_win_is_valid(window.winid) then
+        vim.api.nvim_win_close(window.winid, true)
+      end
+      if vim.api.nvim_buf_is_valid(window.bufnr) then
+        vim.api.nvim_buf_delete(window.bufnr, { force = true })
+      end
+    end
+  end
+
+  local creater = {
+    horizontal = {
+      prompt = function()
+        return create_window(true, position.prompt.width, position.prompt.height, start_row, position.prompt.col,
+          "Prompt")
+      end,
+      results = function()
+        return create_window(false, position.results.width, position.results.height,
+          start_row + position.prompt.height + offset, position.prompt.col, "Results")
+      end,
+      preview = function()
+        return create_window(false, position.preview.width, position.preview.height,
+          start_row + position.prompt.height + offset + position.results.height + offset, position.prompt.col, "Preview")
+      end
+    }
+  }
+
+  local layout = Layout {
+    picker = picker,
+    mount = function(self)
+      self.prompt = creater.horizontal.prompt()
+      self.results = creater.horizontal.results()
+      self.preview = creater.horizontal.preview()
+    end,
+    unmount = function(self)
+      destory_window(self.results)
+      destory_window(self.preview)
+      destory_window(self.prompt)
+    end,
+    update = function(self)
+      -- TODO: fix preview toggle
+      local line_count = vim.o.lines - vim.o.cmdheight
+      if vim.o.laststatus ~= 0 then
+        line_count = line_count - 1
+      end
+
+      local popup_opts = picker:get_window_options(vim.o.columns, line_count)
+      if popup_opts.preview and self.preview == nil then
+        self.preview = creater.horizontal.preview()
+      elseif popup_opts.preview == false and self.preview then
+        destory_window(self.preview)
+        self.preview = nil
+      end
+    end,
+  }
+
+  return layout
 end
 
 require('telescope').setup {
@@ -268,7 +247,7 @@ require('telescope').setup {
         ["<C-u>"] = actions.results_scrolling_up,
         ["<Space>rp"] = qfreplace,
         ["<Space>rP"] = selected_qfreplace,
-        -- ["<C-p>"] = require 'telescope.actions.layout'.toggle_preview,
+        ["P"] = require 'telescope.actions.layout'.toggle_preview,
       },
     },
   },
@@ -276,6 +255,8 @@ require('telescope').setup {
     file_browser = {
       mappings = {
         i = {
+          ["<C-l>"] = actions.select_default,
+          ["<C-h>"] = fb_actions.goto_parent_dir,
         },
         n = {
           ["l"] = actions.select_default,
@@ -322,3 +303,4 @@ require("telescope").load_extension("packer")
 require("telescope").load_extension("toggleterm")
 require("telescope").load_extension("advanced_git_search")
 require('telescope').load_extension('ctags_outline')
+require('telescope').load_extension('bookmarks')

@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/luukvbaal/statuscol.nvim"
+  url: "https://github.com/tomasky/bookmarks.nvim"
   rev: ~
   filetypes: ~
   commands: ~

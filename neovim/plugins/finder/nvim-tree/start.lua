@@ -15,7 +15,7 @@ local function grep_directory(node)
 
   if node.fs_stat.type == "directory" then
     -- view.close()
-    TelescopeConfig.cwd = node.absolute_path
+    require('my.finder').set_cwd(node.absolute_path)
     Finder.grep()
   end
 end
@@ -27,12 +27,10 @@ local function find_files(node)
   end
 
   if node.fs_stat.type == "directory" then
-    TelescopeConfig.cwd = node.absolute_path
+    require('my.finder').set_cwd(node.absolute_path)
     Finder.files()
   end
 end
-
-local api = require('nvim-tree.api')
 
 local function my_on_attach(bufnr)
   local api = require "nvim-tree.api"

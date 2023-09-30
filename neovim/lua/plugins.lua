@@ -80,7 +80,7 @@ dict.switcher({
     auto_trigger = true,
     debounce = 75,
     keymap = {
-      accept = "<M-l>",
+      accept = "<M-p>",
       accept_word = false,
       accept_line = false,
       next = "<M-]>",
@@ -567,54 +567,6 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
         end,
     }
     use {
-      "catppuccin/nvim",
-        config = function()
-          -- require("catppuccin").setup({
---     flavour = "mocha", -- latte, frappe, macchiato, mocha
---     background = { -- :h background
---         light = "latte",
---         dark = "mocha",
---     },
---     transparent_background = false,
---     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
---     term_colors = false,
---     dim_inactive = {
---         enabled = false,
---         shade = "dark",
---         percentage = 0.15,
---     },
---     no_italic = false, -- Force no italic
---     no_bold = false, -- Force no bold
---     styles = {
---         comments = { "italic" },
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = {},
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---     },
---     color_overrides = {},
---     custom_highlights = {},
---     integrations = {
---         cmp = true,
---         gitsigns = true,
---         nvimtree = true,
---         telescope = true,
---         notify = false,
---         mini = false,
---         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
---     },
--- })
-
-        end,
-    }
-    use {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -647,24 +599,53 @@ vim.api.nvim_create_autocmd("User", {
     }
     use {
       "projekt0n/github-nvim-theme",
-        tag = "v0.0.7",
         config = function()
-          -- require("github-theme").setup({
---   theme_style = "dark",
---   function_style = "italic",
---   sidebars = {"qf", "vista_kind", "terminal", "packer"},
---   colors = {hint = "orange", error = "#ff0000"},
---   overrides = function(c)
---     return {
---       Folded = {bg="#384049"},
---       -- htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
---       -- DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
---       -- this will remove the highlight groups
---       -- TSField = {},
---     }
---   end
--- })
--- vim.cmd('colorscheme github_dark')
+          local spec = require('github-theme.spec').load('github_dark')
+
+require("github-theme").setup({
+  options = {
+    styles = {
+      functions = 'NONE',
+      comments = 'italic',
+      keywords = 'bold',
+      conditionals = 'bold',
+      types = 'italic,bold',
+    },
+    darken = {
+      floats = false,
+      sidebars = {
+        enabled = true,
+        list = { "qf", "vista_kind", "terminal", "packer" },
+      },
+    },
+  },
+  -- specs = {
+  --   all = {
+  --     git = {
+  --       add = 'None',
+  --     },
+  --   },
+  -- },
+  groups = {
+    all = {
+      WinBarFileName = { fg = 'None', bg = spec.diff.add },
+      diffAdded = { fg = 'None', bg = spec.diff.add },
+      Folded = { bg = '#384049' },
+    },
+  },
+  -- colors = {hint = "orange", error = "#ff0000"},
+  -- overrides = function(c)
+  --   return {
+  --     Folded = {bg="#384049"},
+  --     -- htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
+  --     -- DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
+  --     -- this will remove the highlight groups
+  --     -- TSField = {},
+  --   }
+  -- end
+})
+
+vim.cmd('colorscheme github_dark')
 
         end,
     }
@@ -672,6 +653,43 @@ vim.api.nvim_create_autocmd("User", {
       "anuvyklack/hydra.nvim",
         config = function()
           local Hydra = require('hydra')
+
+local function create_hint(heads)
+   local result = {}
+   for _, head in ipairs(heads) do
+      local line = ""
+      if head[3].sep then
+         line = string.format("%s\n", head[3].sep)
+      end
+
+      line = string.format("%s_%s_: %s", line, head[1], head[3].desc)
+      table.insert(result, line)
+   end
+
+   -- resultの中身を改行した文字列にする
+   return table.concat(result, "\n")
+end
+
+
+local function set_hydra(name, lhs, heads, config)
+   config = vim.tbl_deep_extend('keep', config or {}, {
+      color = 'pink',
+      invoke_on_body = true,
+      hint = {
+         position = 'bottom-right',
+         border = 'rounded',
+      },
+   })
+
+   Hydra({
+      name = name,
+      hint = create_hint(heads),
+      config = config,
+      mode = { 'n' },
+      body = lhs,
+      heads = heads,
+   })
+end
 
 local resize_hydra = Hydra({
    name = 'Resize window',
@@ -681,11 +699,11 @@ local resize_hydra = Hydra({
    },
    body = '<Space>wr',
    heads = {
-      { 'h', '<C-w>>',  { desc = '→' } },
-      { 'l', '<C-w><',  { desc = '←' } },
+      { 'h', '<C-w>>', { desc = '→' } },
+      { 'l', '<C-w><', { desc = '←' } },
       { 'H', '5<C-w>>', { desc = '5→' } },
       { 'L', '5<C-w><', { desc = '5←' } },
-      { '=', '<C-w>=',  { desc = '=' } },
+      { '=', '<C-w>=', { desc = '=' } },
    }
 })
 
@@ -718,90 +736,79 @@ local translate_hydra = Hydra({
 -- translate_hydra:active()
 
 local gitsigns = require('gitsigns')
-
-local hint = [[
- _J_: next hunk   _A_: stage hunk        _d_: show deleted   _b_: blame line
- _K_: prev hunk   _U_: undo last stage   _p_: preview hunk   _B_: blame show full
- ^ ^                                     ^ ^                 _/_: show base file
- ^
- ^ ^                                     ^ ^                 _q_: exit
-]]
-
-Hydra({
-   name = 'Git',
-   hint = hint,
-   config = {
-      color = 'pink',
-      invoke_on_body = true,
-      hint = {
-         border = 'rounded'
-      },
-      on_enter = function()
-         vim.bo.modifiable = false
-         gitsigns.toggle_linehl(true)
-         gitsigns.toggle_deleted(true)
-         gitsigns.toggle_word_diff(true)
-      end,
-      on_exit = function()
-         gitsigns.toggle_linehl(false)
-         gitsigns.toggle_deleted(false)
-         gitsigns.toggle_word_diff(false)
-      end,
-   },
-   mode = { 'n', 'x' },
-   body = '<Space>gh',
-   heads = {
-      { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
-      { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
-      { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
-      { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
-      -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
-      { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
-      { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
-      { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
-      { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
-      { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
-      { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
-      -- gitsigns.reset_hunk
-      -- gitsigns.toggle_word_diff
-   }
+set_hydra('Git', '<Space>hdg', {
+   { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk'} },
+   { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
+   { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
+   { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
+   -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
+   { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
+   { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
+   { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
+   { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
+   { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
+   { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
+   -- gitsigns.reset_hunk
+   -- gitsigns.toggle_word_diff
+}, {
+   on_enter = function()
+      vim.bo.modifiable = false
+      gitsigns.toggle_linehl(true)
+      gitsigns.toggle_deleted(true)
+      gitsigns.toggle_word_diff(true)
+   end,
+   on_exit = function()
+      gitsigns.toggle_linehl(false)
+      gitsigns.toggle_deleted(false)
+      gitsigns.toggle_word_diff(false)
+   end,
 })
 
-local dap = require('dap')
+local dap = require('my.dap')
+set_hydra('Dap', '<Space>hdd', {
+   { 'c', dap.continue,          { desc = 'continue' } },
+   { 'o', dap.step_over,         { desc = 'step over' } },
+   { 'i', dap.step_into,         { desc = 'step into' } },
+   { 'O', dap.step_out,          { desc = 'step out' } },
+   { 'B', dap.step_back,         { desc = 'step back' } },
+   { 'u', dap.up,                { desc = 'up' } },
+   { 'd', dap.down,              { desc = 'down', exit = true, sep = '' } },
+   { 's', dap.stop,              { desc = 'stop', exit = true } },
+   { 'S', dap.terminate,         { desc = 'terminate', exit = true } },
+   { 'p', dap.toggle_breakpoint, { desc = 'toggle breakpoint' } },
+   { 'q', nil,                   { exit = true, nowait = true, desc = 'exit', sep = '' } },
+})
 
-hint = [[
- _J_: next hunk   _A_: stage hunk        _d_: show deleted   _b_: blame line
- _K_: prev hunk   _U_: undo last stage   _p_: preview hunk   _B_: blame show full
- ^ ^                                     ^ ^                 _/_: show base file
- ^
- ^ ^                                     ^ ^                 _q_: exit
-]]
+local coverage = require('my.coverage')
+set_hydra('Coverage', '<Space>hdc', {
+   { 'l', coverage.load,    { desc = 'load', exit = true } },
+   { 't', coverage.toggle,  { desc = 'toggle' } },
+   { 'C', coverage.clear,   { desc = 'clear', exit = true } },
+   { 's', coverage.summary, { desc = 'summary', exit = true } },
+   { 'q', nil,              { exit = true, nowait = true, desc = 'exit', sep = '' } },
+})
 
-Hydra({
-   name = 'Dap',
-   -- hint = hint,
-   config = {
-      color = 'pink',
-      invoke_on_body = true,
-      hint = {
-         border = 'rounded'
-      },
-   },
-   mode = { 'n' },
-   body = '<Space>mdr',
-   heads = {
-      { 'c', dap.continue,          { desc = 'continue' } },
-      { 's', dap.stop,              { desc = 'stop' } },
-      { 'S', dap.terminate,         { desc = 'terminate', exit = true } },
-      { 'o', dap.step_over,         { desc = 'step over' } },
-      { 'i', dap.step_into,         { desc = 'step into' } },
-      { 'O', dap.step_out,          { desc = 'step out' } },
-      { 'p', dap.toggle_breakpoint, { desc = 'toggle breakpoint' } },
-      { 'B', dap.step_back,         { desc = 'step back' } },
-      { 'u', dap.up,                { desc = 'up' } },
-      { 'd', dap.down,              { desc = 'down' } },
-      { 'q', nil,                   { exit = true, nowait = true, desc = 'exit' } },
-   }
+local test = require('my.test')
+set_hydra('Test', '<Space>hdt', {
+   { 'n', test.run_nearest,   { desc = 'nearest', exit = true } },
+   { 'f', test.run_file,      { desc = 'file', exit = true } },
+   { 'l', test.run_last,      { desc = 'last', exit = true } },
+   { 's', test.suite,         { desc = 'suite', exit = true } },
+   { 'D', test.debug_mode,    { desc = 'debug mode' } },
+   { 'N', test.normal_mode,   { desc = 'normal mode' } },
+   { 'O', test.overseer_mode, { desc = 'overseer mode' } },
+   { 'q', nil,                { exit = true, nowait = true, desc = 'exit' } },
+})
+
+local bm = require 'bookmarks'
+set_hydra('Bookmarks', '<Space>hdb', {
+   { 'a', bm.bookmark_ann,    { desc = 'annotation', exit = true } },
+   { 't', bm.bookmark_toggle, { desc = 'toggle', exit = true } },
+   { 'C', bm.bookmark_clean,  { desc = 'clean', exit = true, sep = '' } },
+   { 'j', bm.bookmark_next,   { desc = 'next' } },
+   { 'k', bm.bookmark_prev,   { desc = 'prev' } },
+   { 'l', bm.bookmark_list,   { desc = 'list', exit = true } },
+   { 'q', nil,                { exit = true, nowait = true, desc = 'exit', sep = '' } },
 })
 
         end,
@@ -809,19 +816,22 @@ Hydra({
     use {
       "lukas-reineke/indent-blankline.nvim",
         cmd = {
-          "IndentBlankline*",
+          "IBL*",
         },
         config = function()
           -- vim.opt.list = true
 -- vim.opt.listchars:append "space:⋅"
 -- vim.opt.listchars:append "eol:↴"
 
-require("indent_blankline").setup {
-  enabled = false,
-  space_char_blankline = " ",
-  show_current_context = true,
-  show_current_context_start = false,
-}
+require("ibl").setup({
+  indent = {
+    char = "│",
+    smart_indent_cap = true,
+  },
+  scope = {
+    enabled = false,
+  },
+})
 
 -- IndentBlanklineToggle
 
@@ -866,6 +876,55 @@ require("indent_blankline").setup {
     hl = { underline = true },
   }
 }
+
+        end,
+    }
+    use {
+      "AckslD/nvim-neoclip.lua",
+        config = function()
+          require('neoclip').setup({
+  history = 100,
+  enable_persistent_history = true,
+  length_limit = 1048576,
+  continuous_sync = true,
+  db_path = vim.fn.stdpath("data") .. "/neoclip.sqlite3",
+  filter = nil,
+  preview = true,
+  default_register = '"',
+  default_register_macros = 'q',
+  enable_macro_history = true,
+  content_spec_column = false,
+  on_paste = {
+    set_reg = false,
+  },
+  on_replay = {
+    set_reg = false,
+  },
+  keys = {
+    telescope = {
+      i = {
+        select = '<cr>',
+        paste = '<c-p>',
+        paste_behind = '<c-k>',
+        replay = '<c-q>',  -- replay a macro
+        delete = '<c-d>',  -- delete an entry
+        custom = {},
+      },
+      n = {
+        select = '<cr>',
+        paste = 'p',
+        --- It is possible to map to more than one key.
+        -- paste = { 'p', '<c-p>' },
+        paste_behind = 'P',
+        replay = '@',
+        delete = 'D',
+        custom = {},
+      },
+    },
+  },
+})
+
+vim.keymap.set("n", "<Space>nc", "<cmd>Telescope neoclip<CR>", {silent=true, noremap=true})
 
         end,
     }
@@ -951,17 +1010,8 @@ require('ufo').setup({
   end
 })
 
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  group = vim.api.nvim_create_augroup("my-highlights", {}),
-  callback = function()
-    vim.cmd('hi Folded guibg=#384049')
-  end
-})
-
 vim.cmd('hi default UfoFoldedFg guifg=Normal.foreground')
 vim.cmd('hi default UfoFoldedBg guibg=NONE')
-vim.cmd('hi Folded guibg=NONE')
 vim.cmd('hi default link UfoPreviewSbar PmenuSbar')
 vim.cmd('hi default link UfoPreviewThumb PmenuThumb')
 vim.cmd('hi default link UfoPreviewWinBar UfoFoldedBg')
@@ -1118,6 +1168,9 @@ vim.g.qfixmemo_folding_pattern = '^=[^=]'
         end,
     }
     use {
+      "kkharji/sqlite.lua",
+    }
+    use {
       "akinsho/toggleterm.nvim",
         setup = function()
         local term = {}
@@ -1206,7 +1259,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
     use {
       "folke/tokyonight.nvim",
         config = function()
-          vim.cmd('colorscheme tokyonight-moon')
+          -- vim.cmd('colorscheme tokyonight-moon')
 
         end,
     }
@@ -1215,6 +1268,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
         config = function()
           require("translate").setup({
 })
+
+        end,
+    }
+    use {
+      "tomasky/bookmarks.nvim",
+        config = function()
+          require('bookmarks').setup()
 
         end,
     }
@@ -1354,7 +1414,7 @@ local function grep_directory(node)
 
   if node.fs_stat.type == "directory" then
     -- view.close()
-    TelescopeConfig.cwd = node.absolute_path
+    require('my.finder').set_cwd(node.absolute_path)
     Finder.grep()
   end
 end
@@ -1366,12 +1426,10 @@ local function find_files(node)
   end
 
   if node.fs_stat.type == "directory" then
-    TelescopeConfig.cwd = node.absolute_path
+    require('my.finder').set_cwd(node.absolute_path)
     Finder.files()
   end
 end
-
-local api = require('nvim-tree.api')
 
 local function my_on_attach(bufnr)
   local api = require "nvim-tree.api"
@@ -1518,48 +1576,7 @@ vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {no
           local actions = require("telescope.actions")
 local action_state = require('telescope.actions.state')
 local fb_actions = require("telescope").extensions.file_browser.actions
-
-TelescopeConfig = {}
-
-SessionActions = {}
-SessionActions.load_session = function(prompt_bufnr)
-  local selection = action_state.get_selected_entry()
-  actions.close(prompt_bufnr)
-  local cmd = "SLoad " .. string.gsub(selection.path, "(.*/)(.*)", "%2")
-  local success, result = pcall(vim.cmd, cmd)
-end
-
-SessionActions.delete_session = function(prompt_bufnr)
-  local selection = action_state.get_selected_entry()
-  actions.close(prompt_bufnr)
-  local cmd = "source " .. selection.path
-  local success, result = pcall(vim.cmd, cmd)
-end
-
-function SessionList()
-  local opts = {
-    prompt_title = 'Sessions',
-    cwd = vim.g.startify_session_dir,
-    find_command = { "rg", "--ignore", "--hidden", "--files", "--sortr=modified" },
-    attach_mappings = function(_, map)
-      actions.select_default:replace(SessionActions.load_session)
-      map("n", "D", fb_actions.remove)
-      return true
-    end,
-  }
-
-  require("telescope.builtin").find_files(opts)
-end
-
-function MemoList()
-  local opts = {
-    prompt_title = 'Memos',
-    cwd = vim.g.howm_dir .. '/memo',
-    find_command = { "rg", "--ignore", "--hidden", "--files", "--sortr=modified" },
-  }
-
-  require("telescope.builtin").find_files(opts)
-end
+local Layout = require "telescope.pickers.layout"
 
 function TestStatus()
   local opts = {
@@ -1571,24 +1588,7 @@ function TestStatus()
   require("telescope.builtin").git_status(opts)
 end
 
-local find_workspace_relpath = function(path)
-  local workspace_path, _ = require("project_nvim.project").get_project_root()
-  local relative_path = string.gsub(path, string.gsub(workspace_path, '-', '%%-'), '[root]', 1)
-  return relative_path
-end
-local add_cwd_to_opts = function(opts)
-  if TelescopeConfig.cwd then
-    opts.cwd = TelescopeConfig.cwd
-    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(opts.cwd)
-  else
-    opts.prompt_title = 'Grep in ' .. find_workspace_relpath(vim.fn.getcwd())
-  end
-  return opts
-end
-
-
-local telescope_builtin = require('telescope.builtin')
-local finder = {}
+local finder = require('my.finder')
 Finder = finder
 
 local function grep_dir(_)
@@ -1597,7 +1597,9 @@ local function grep_dir(_)
   if selection.Path:is_file() then
     path = selection.path:match(".*/")
   end
-  telescope_builtin.live_grep({ cwd = path })
+
+  require('my.finder').set_cwd(path)
+  Finder.grep()
 end
 
 local function find_files(_)
@@ -1606,76 +1608,9 @@ local function find_files(_)
   if selection.Path:is_file() then
     path = selection.path:match(".*/")
   end
-  telescope_builtin.find_files({ cwd = path })
-end
 
-finder.files = function()
-  local opts = add_cwd_to_opts({})
-  telescope_builtin.find_files(opts)
-end
-finder.files_from_buffer = function()
-  telescope_builtin.find_files({ cwd = vim.fn.expand('%:p:h') })
-end
-finder.files_from_project = function()
-  local workspace_path, _ = require("project_nvim.project").get_project_root()
-  telescope_builtin.git_files({ cwd = workspace_path, show_untracked = false })
-end
-finder.oldfiles = function()
-  telescope_builtin.oldfiles()
-end
-finder.buffers = function()
-  telescope_builtin.buffers()
-end
-
-finder.grep = function()
-  local opts = add_cwd_to_opts({})
-  telescope_builtin.live_grep(opts)
-end
-finder.grep_from_project = function()
-  local workspace_path, _ = require("project_nvim.project").get_project_root()
-  telescope_builtin.live_grep({ cwd = workspace_path })
-end
-finder.grep_from_buffer = function()
-  telescope_builtin.live_grep({ cwd = vim.fn.expand('%:p:h') })
-end
-
-finder.grep_visual = function()
-  local opts = add_cwd_to_opts({})
-  opts.search = vim.fn.expand('<cword>')
-  telescope_builtin.grep_string(opts)
-end
-finder.grep_visual_from_buffer = function()
-  telescope_builtin.grep_string({ cwd = vim.fn.expand('%:p:h'), search = vim.fn.expand('<cword>') })
-end
-
-finder.resume = function()
-  telescope_builtin.resume()
-end
-
-finder.file_browser = function()
-  require('telescope').extensions.file_browser.file_browser({ grouped = true })
-end
-finder.file_browser_from_buffer = function()
-  require('telescope').extensions.file_browser.file_browser({ grouped = true, select_buffer = true, path = "%:p:h" })
-end
-
-finder.git_status = function()
-  telescope_builtin.git_status()
-end
-
-finder.sessions = function()
-  SessionList()
-end
-
-finder.memos = function()
-  MemoList()
-end
-
-finder.lsp_implementations = function()
-  telescope_builtin.lsp_implementations()
-end
-finder.lsp_document_symbols = function()
-  telescope_builtin.lsp_document_symbols({ fname_width = 80, ignore_symbols = 'field', show_line = true })
+  require('my.finder').set_cwd(path)
+  Finder.files()
 end
 
 vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
@@ -1714,6 +1649,108 @@ end
 local function selected_qfreplace(prompt_bufnr)
   actions.send_selected_to_qflist(prompt_bufnr)
   vim.cmd("Qfreplace")
+end
+
+local function create_layout(picker)
+  local offset = 2
+  local position = {
+    prompt = {
+      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
+      height = 1,
+      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
+    },
+    results = {
+      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
+      height = math.floor(vim.api.nvim_get_option("lines") * 0.4),
+      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
+    },
+    preview = {
+      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
+      height = math.floor(vim.api.nvim_get_option("lines") * 0.4),
+      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
+    },
+  }
+  local start_row = math.floor(vim.api.nvim_get_option("lines") * 0.1 * 0.5)
+
+  local function create_window(enter, width, height, row, col, title)
+    local bufnr = vim.api.nvim_create_buf(false, true)
+    local winid = vim.api.nvim_open_win(bufnr, enter, {
+      style = "minimal",
+      relative = "editor",
+      width = width,
+      height = height,
+      row = row,
+      col = col,
+      border = "single",
+      title = title,
+    })
+
+    vim.wo[winid].winhighlight = "Normal:Normal"
+
+    return Layout.Window {
+      bufnr = bufnr,
+      winid = winid,
+    }
+  end
+
+  local function destory_window(window)
+    if window then
+      if vim.api.nvim_win_is_valid(window.winid) then
+        vim.api.nvim_win_close(window.winid, true)
+      end
+      if vim.api.nvim_buf_is_valid(window.bufnr) then
+        vim.api.nvim_buf_delete(window.bufnr, { force = true })
+      end
+    end
+  end
+
+  local creater = {
+    horizontal = {
+      prompt = function()
+        return create_window(true, position.prompt.width, position.prompt.height, start_row, position.prompt.col,
+          "Prompt")
+      end,
+      results = function()
+        return create_window(false, position.results.width, position.results.height,
+          start_row + position.prompt.height + offset, position.prompt.col, "Results")
+      end,
+      preview = function()
+        return create_window(false, position.preview.width, position.preview.height,
+          start_row + position.prompt.height + offset + position.results.height + offset, position.prompt.col, "Preview")
+      end
+    }
+  }
+
+  local layout = Layout {
+    picker = picker,
+    mount = function(self)
+      self.prompt = creater.horizontal.prompt()
+      self.results = creater.horizontal.results()
+      self.preview = creater.horizontal.preview()
+    end,
+    unmount = function(self)
+      destory_window(self.results)
+      destory_window(self.preview)
+      destory_window(self.prompt)
+    end,
+    update = function(self)
+      -- TODO: fix preview toggle
+      local line_count = vim.o.lines - vim.o.cmdheight
+      if vim.o.laststatus ~= 0 then
+        line_count = line_count - 1
+      end
+
+      local popup_opts = picker:get_window_options(vim.o.columns, line_count)
+      if popup_opts.preview and self.preview == nil then
+        self.preview = creater.horizontal.preview()
+      elseif popup_opts.preview == false and self.preview then
+        destory_window(self.preview)
+        self.preview = nil
+      end
+    end,
+  }
+
+  return layout
 end
 
 require('telescope').setup {
@@ -1785,7 +1822,7 @@ require('telescope').setup {
         ["<C-u>"] = actions.results_scrolling_up,
         ["<Space>rp"] = qfreplace,
         ["<Space>rP"] = selected_qfreplace,
-        -- ["<C-p>"] = require 'telescope.actions.layout'.toggle_preview,
+        ["P"] = require 'telescope.actions.layout'.toggle_preview,
       },
     },
   },
@@ -1793,6 +1830,8 @@ require('telescope').setup {
     file_browser = {
       mappings = {
         i = {
+          ["<C-l>"] = actions.select_default,
+          ["<C-h>"] = fb_actions.goto_parent_dir,
         },
         n = {
           ["l"] = actions.select_default,
@@ -1839,6 +1878,7 @@ require("telescope").load_extension("packer")
 require("telescope").load_extension("toggleterm")
 require("telescope").load_extension("advanced_git_search")
 require('telescope').load_extension('ctags_outline')
+require('telescope').load_extension('bookmarks')
 
         end,
     }
@@ -1890,7 +1930,13 @@ vim.keymap.set({ 'n', 'v' }, '<Space>mgl',
     use {
       "lewis6991/gitsigns.nvim",
         config = function()
-          vim.keymap.set('n', '<Space>gk', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
+          local function change_base()
+  vim.ui.input({ prompt = 'Enter revision: ' }, function(input)
+     require('gitsigns').change_base(input)
+  end)
+end
+
+vim.keymap.set('n', '<Space>gk', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
   { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gj', "<cmd>lua require'gitsigns.actions'.next_hunk({wrap=false})<CR>",
   { silent = true, noremap = true })
@@ -1912,13 +1958,16 @@ vim.keymap.set('n', '<Space>gtd', "<cmd>lua require'gitsigns'.toggle_deleted()<C
 vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>",
 { silent = true, noremap = true })
 
+vim.keymap.set('n', '<Space>gcb', change_base, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>grb', "<cmd>lua require'gitsigns'.reset_base()<CR>", { silent = true, noremap = true })
+
 require('gitsigns').setup {
   signs                             = {
-    add          = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-    change       = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-    delete       = { hl = 'GitSignsDelete', text = '__', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-    topdelete    = { hl = 'GitSignsDelete', text = '‾‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-    changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+    add          = { hl = 'GitSignsAdd', text = '▋', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+    change       = { hl = 'GitSignsChange', text = '▋', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+    delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+    topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+    changedelete = { hl = 'GitSignsChange', text = '▋', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
     untracked    = { hl = 'GitSignsChange', text = '┆', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
   },
   signcolumn                        = true,
@@ -2240,11 +2289,42 @@ require 'lualine'.setup {
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {},
+  tabline = {
+    lualine_a = {
+      {
+        'tabs',
+        max_length = vim.o.columns,
+        mode = 1,
+        -- 0: Shows tab_nr
+        -- 1: Shows tab_name
+        -- 2: Shows tab_nr + tab_name
+        use_mode_colors = false,
+        tabs_color = {
+          -- active = 'lualine_{section}_normal',       -- Color for active tab.
+          -- inactive = 'lualine_{section}_inactive',   -- Color for inactive tab.
+        },
+        fmt = function(name, context)
+          -- Show + if buffer is modified in tab
+          local buflist = vim.fn.tabpagebuflist(context.tabnr)
+          local winnr = vim.fn.tabpagewinnr(context.tabnr)
+          local bufnr = buflist[winnr]
+          local mod = vim.fn.getbufvar(bufnr, '&mod')
+          local bufname = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":p:t")
+
+          return string.format("[%d] %s%s", context.tabnr, bufname, (mod == 1 and ' +' or ''))
+        end
+      }
+    },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
   winbar = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', file_status = true, path = 3, color = 'FloatTitle' } },
+    lualine_c = { { 'filename', file_status = true, path = 3, color = 'WinBarFileName' } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}
@@ -2259,6 +2339,35 @@ require 'lualine'.setup {
   },
   extensions = {},
 }
+
+        end,
+    }
+    use {
+      "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require("statuscol.builtin")
+
+require("statuscol").setup({
+  segments = {
+    {
+      sign = { name = { "Git.*" }, maxwidth = 1, colwidth = 2, auto = false },
+    },
+    { text = { builtin.foldfunc } },
+    {
+      sign = { name = { "Diagnostic.*" }, maxwidth = 1, auto = false, fillchar = " " },
+    },
+    -- {
+    --   sign = { name = { "StatusColumnBorder" }, maxwidth = 2, auto = true },
+    --   click = "v:lua.ScSa"
+    -- },
+    -- { text = { builtin.lnumfunc }, click = "v:lua.ScLa", },
+    {
+      sign = { name = { ".*" }, maxwidth = 1, colwidth = 1, auto = false },
+      click = "v:lua.ScSa"
+    },
+    -- { text = { "│" }, maxwidth = 1, colwidth = 1, auto = false  },
+  }
+})
 
         end,
     }
@@ -2787,18 +2896,27 @@ map.set('x', '<C-l>', '<Plug>(textmanip-move-right)', { silent = true, noremap =
     use {
       "dense-analysis/ale",
         config = function()
-          vim.cmd [[
+          vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("my-ale", {}),
+  pattern = { "go" },
+  callback = function()
+    vim.b.ale_enabled = 1
+    vim.b.ale_fix_on_save = 1
+  end,
+})
+
+vim.g.ale_use_neovim_diagnostics_api = 1
+vim.g.ale_go_golangci_lint_package = 1
+vim.g.ale_go_staticcheck_lint_package = 1
+
+vim.cmd [[
 
 nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
-augroup custom-ale
-  autocmd!
-  autocmd FileType go let b:ale_fix_on_save = 1
-augroup END
 
 let g:ale_sign_column_always   = 1
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_text_changed = 'normal'
-let g:ale_enabled              = 0
+let g:ale_enabled              = 1
 let g:ale_virtualtext_cursor   = 1
 let g:ale_virtualtext_prefix   = ' >> '
 
@@ -2844,17 +2962,28 @@ let g:ale_linters = {
   \ 'cs': ['OmniSharp'],
   \ 'swift': ['swiftlint'],
   \ 'kotlin': ['ktlint'],
-  \ 'go': ['staticcheck'],
+  \ 'go': ['staticcheck', 'golangci-lint'],
   \ 'yaml': ['yamllint', 'cfn-lint'],
   \ }
 
   " \ 'go': ['gobuild', 'golangci-lint'],
 
+augroup TestALE
+    autocmd!
+    autocmd User ALELintPre    echomsg 1
+    autocmd User ALELintPost   echomsg 2
+
+    " autocmd User ALEJobStarted call YourFunction()
+    "
+    " autocmd User ALEFixPre     call YourFunction()
+    " autocmd User ALEFixPost    call YourFunction()
+augroup END
+
 let g:ale_type_map = {'flake8': {'ES': 'WS'}}
 let g:ale_css_stylelint_options='-c stylelint'
 let g:ale_python_mypy_options='--ignore-missing-imports'
 let g:ale_python_flake8_options='--ignore=E501'
-let g:ale_go_golangci_lint_options='--fast'
+" let g:ale_go_golangci_lint_options='--fast'
 
 let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
 let g:ale_php_phpcs_standard='PSR2'
@@ -3066,6 +3195,9 @@ vim.keymap.set('n', '<Space>mtk', test.jump_prev, { silent = true, noremap = tru
     min_coverage = 80.0,
   },
   lang = {
+    go = {
+      coverage_file = "cover.out",
+    },
   },
 })
 
@@ -3210,9 +3342,29 @@ vim.g.dispatch_compilers = { pytest = 'pytest' }
 
 VimtestDap = {}
 function DapStrategy(cmd)
-  print('It works! Command for running tests: ' .. cmd)
+  vim.notify('It works! Command for running tests: ' .. cmd)
   vim.g.vim_test_last_command = cmd
+
   VimtestDap.strategy(cmd)
+end
+
+function OverseerStrategy(cmd)
+  local args = {}
+  for match in string.gmatch(cmd, "[^ ]+") do
+    table.insert(args, string.match(match, "[^'].*[^']"))
+  end
+
+  local path = string.match(cmd, "[^ ]+$")
+  path = string.gsub(path, "/%.%.%.", "")
+
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+
+  local task = require('overseer').new_task({
+    cmd = args,
+    cwd = workspace_path,
+    components = {{'on_output_quickfix', open=false, relative_file_root=path}, 'default'}
+  })
+  task:start()
 end
 
 VimtestDap.vim_test_strategy = {
@@ -3252,15 +3404,17 @@ function VimtestDap.strategy(cmd)
     return
   end
 
-  configuration = f(cmd)
+  local configuration = f(cmd)
   require 'dap'.run(configuration)
 end
 
 vim.api.nvim_set_var("test#custom_strategies", {
   dap = DapStrategy,
+  overseer = OverseerStrategy,
 })
 
-vim.api.nvim_set_var("test#strategy", "dap")
+vim.api.nvim_set_var("test#go#gotest#options", "-v -coverprofile=cover.out")
+vim.api.nvim_set_var("test#strategy", "overseer")
 
         end,
     }

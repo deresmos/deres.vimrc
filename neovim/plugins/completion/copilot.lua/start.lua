@@ -4,7 +4,7 @@ require("copilot").setup({
     auto_trigger = true,
     debounce = 75,
     keymap = {
-      accept = "<M-l>",
+      accept = "<M-p>",
       accept_word = false,
       accept_line = false,
       next = "<M-]>",
@@ -45,4 +45,4 @@ api.register_status_notification_handler(function(data)
   vim.api.nvim_set_var("copilot_status", data.status)
 end)
 
-vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", {silent=true, noremap=true})
+vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", { silent = true, noremap = true })

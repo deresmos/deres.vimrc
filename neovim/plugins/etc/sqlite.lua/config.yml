@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/luukvbaal/statuscol.nvim"
+  url: "https://github.com/kkharji/sqlite.lua"
   rev: ~
   filetypes: ~
   commands: ~

@@ -1,15 +1,24 @@
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("my-ale", {}),
+  pattern = { "go" },
+  callback = function()
+    vim.b.ale_enabled = 1
+    vim.b.ale_fix_on_save = 1
+  end,
+})
+
+vim.g.ale_use_neovim_diagnostics_api = 1
+vim.g.ale_go_golangci_lint_package = 1
+vim.g.ale_go_staticcheck_lint_package = 1
+
 vim.cmd [[
 
 nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
-augroup custom-ale
-  autocmd!
-  autocmd FileType go let b:ale_fix_on_save = 1
-augroup END
 
 let g:ale_sign_column_always   = 1
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_text_changed = 'normal'
-let g:ale_enabled              = 0
+let g:ale_enabled              = 1
 let g:ale_virtualtext_cursor   = 1
 let g:ale_virtualtext_prefix   = ' >> '
 
@@ -55,17 +64,28 @@ let g:ale_linters = {
   \ 'cs': ['OmniSharp'],
   \ 'swift': ['swiftlint'],
   \ 'kotlin': ['ktlint'],
-  \ 'go': ['staticcheck'],
+  \ 'go': ['staticcheck', 'golangci-lint'],
   \ 'yaml': ['yamllint', 'cfn-lint'],
   \ }
 
   " \ 'go': ['gobuild', 'golangci-lint'],
 
+augroup TestALE
+    autocmd!
+    autocmd User ALELintPre    echomsg 1
+    autocmd User ALELintPost   echomsg 2
+
+    " autocmd User ALEJobStarted call YourFunction()
+    "
+    " autocmd User ALEFixPre     call YourFunction()
+    " autocmd User ALEFixPost    call YourFunction()
+augroup END
+
 let g:ale_type_map = {'flake8': {'ES': 'WS'}}
 let g:ale_css_stylelint_options='-c stylelint'
 let g:ale_python_mypy_options='--ignore-missing-imports'
 let g:ale_python_flake8_options='--ignore=E501'
-let g:ale_go_golangci_lint_options='--fast'
+" let g:ale_go_golangci_lint_options='--fast'
 
 let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
 let g:ale_php_phpcs_standard='PSR2'

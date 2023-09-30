@@ -1,5 +1,4 @@
 require "plugins"
-require "tabline"
 
 vim.cmd('source ~/.config/nvim/vimrc')
 

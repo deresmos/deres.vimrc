@@ -16,5 +16,8 @@ require("coverage").setup({
     min_coverage = 80.0,
   },
   lang = {
+    go = {
+      coverage_file = "cover.out",
+    },
   },
 })

@@ -198,11 +198,42 @@ require 'lualine'.setup {
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {},
+  tabline = {
+    lualine_a = {
+      {
+        'tabs',
+        max_length = vim.o.columns,
+        mode = 1,
+        -- 0: Shows tab_nr
+        -- 1: Shows tab_name
+        -- 2: Shows tab_nr + tab_name
+        use_mode_colors = false,
+        tabs_color = {
+          -- active = 'lualine_{section}_normal',       -- Color for active tab.
+          -- inactive = 'lualine_{section}_inactive',   -- Color for inactive tab.
+        },
+        fmt = function(name, context)
+          -- Show + if buffer is modified in tab
+          local buflist = vim.fn.tabpagebuflist(context.tabnr)
+          local winnr = vim.fn.tabpagewinnr(context.tabnr)
+          local bufnr = buflist[winnr]
+          local mod = vim.fn.getbufvar(bufnr, '&mod')
+          local bufname = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":p:t")
+
+          return string.format("[%d] %s%s", context.tabnr, bufname, (mod == 1 and ' +' or ''))
+        end
+      }
+    },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
   winbar = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { { 'filename', file_status = true, path = 3, color = 'FloatTitle' } },
+    lualine_c = { { 'filename', file_status = true, path = 3, color = 'WinBarFileName' } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}
