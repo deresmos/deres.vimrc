@@ -5,5 +5,5 @@ config:
   filetypes: ~
   commands: ~
   maps: ~
-  do: "./build"
+  build: "./scripts/build"
   enable: true

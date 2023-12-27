@@ -150,6 +150,11 @@ require 'lualine'.setup {
     },
     lualine_x = {
       {
+        require("lazy.status").updates,
+        cond = require("lazy.status").has_updates,
+        color = { fg = "#ff9e64" },
+      },
+      {
         "overseer",
         label = '',     -- Prefix for task counts
         colored = true, -- Color the task icons and counts
@@ -165,7 +170,7 @@ require 'lualine'.setup {
         status = { require 'overseer'.STATUS.RUNNING }, -- List of task statuses to display
         status_not = false,                             -- When true, invert the status search
       },
-      lualine_config.copilot_status,
+      'copilot',
       -- {
       --   'diagnostics',
       --   symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },

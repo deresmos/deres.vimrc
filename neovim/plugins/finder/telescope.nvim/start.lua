@@ -38,6 +38,24 @@ local function find_files(_)
   Finder.files()
 end
 
+local function open_diffview_head_to_commit(prompt_bufnr)
+  local selected_entry = action_state.get_selected_entry()
+  local value = selected_entry.value
+  actions.close(prompt_bufnr)
+  vim.schedule(function()
+    vim.cmd(("DiffviewOpen %s^"):format(value))
+  end)
+end
+
+local function open_diffview_commit(prompt_bufnr)
+  local selected_entry = action_state.get_selected_entry()
+  local value = selected_entry.value
+  actions.close(prompt_bufnr)
+  vim.schedule(function()
+    vim.cmd(("DiffviewOpen %s^!"):format(value))
+  end)
+end
+
 vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>bf', finder.files_from_buffer, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>pf', finder.files_from_project, { silent = true, noremap = true })
@@ -54,13 +72,18 @@ vim.keymap.set('n', '<SPACE>fl', finder.resume, { silent = true, noremap = true 
 
 vim.keymap.set('n', '<SPACE>fb', finder.file_browser, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>fB', finder.file_browser_from_buffer, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>pb', finder.file_browser_from_project, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>dgs', finder.git_status, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>dgb', finder.git_branches, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>sl', finder.sessions, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>hlo', finder.memos, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>fh', finder.history, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
 
 
 --nnoremap <silent> <SPACE>nc <cmd>lua require('telescope').extensions.neoclip.default()<CR>
@@ -248,6 +271,8 @@ require('telescope').setup {
         ["<Space>rp"] = qfreplace,
         ["<Space>rP"] = selected_qfreplace,
         ["P"] = require 'telescope.actions.layout'.toggle_preview,
+        ["<Space>dv"] = open_diffview_commit,
+        ["<Space>dV"] = open_diffview_head_to_commit,
       },
     },
   },
@@ -299,8 +324,8 @@ require('telescope').setup {
 
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("undo")
-require("telescope").load_extension("packer")
 require("telescope").load_extension("toggleterm")
 require("telescope").load_extension("advanced_git_search")
 require('telescope').load_extension('ctags_outline')
 require('telescope').load_extension('bookmarks')
+require("telescope").load_extension('lazy')

@@ -3,9 +3,8 @@ config:
   url: "https://github.com/folke/trouble.nvim"
   rev: ~
   filetypes: ~
-  commands:
-    - Trouble*
+  commands: ~
   maps: ~
   do: ~
   enable: true
-  requires: devicon
+  lazy: true

@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/bronson/vim-visual-star-search"
+  url: "https://github.com/nvimtools/none-ls.nvim"
   rev: ~
   filetypes: ~
   commands: ~

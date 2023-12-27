@@ -7,6 +7,7 @@ null_ls.setup({
 
     -- null_ls.builtins.formatting.gofmt,
     null_ls.builtins.diagnostics.golangci_lint,
+    -- null_ls.builtins.diagnostics.staticcheck,
 
     null_ls.builtins.diagnostics.textlint,
 

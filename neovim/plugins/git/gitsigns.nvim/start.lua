@@ -4,10 +4,23 @@ local function change_base()
   end)
 end
 
-vim.keymap.set('n', '<Space>gk', "<cmd>lua require'gitsigns.actions'.prev_hunk({wrap=false})<CR>",
-  { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>gj', "<cmd>lua require'gitsigns.actions'.next_hunk({wrap=false})<CR>",
-  { silent = true, noremap = true })
+local git = {}
+local gs = require('gitsigns')
+
+function git.next_hunk()
+  if vim.wo.diff then return ']c' end
+  vim.schedule(function() gs.next_hunk({ wrap = false }) end)
+  return '<Ignore>'
+end
+
+function git.prev_hunk()
+  if vim.wo.diff then return '[c' end
+  vim.schedule(function() gs.prev_hunk({ wrap = false }) end)
+  return '<Ignore>'
+end
+
+vim.keymap.set('n', '<Space>gk', git.prev_hunk, { silent = true, noremap = true, expr = true })
+vim.keymap.set('n', '<Space>gj', git.next_hunk, { silent = true, noremap = true, expr = true })
 vim.keymap.set('n', '<Space>gp', "<cmd>lua require'gitsigns'.preview_hunk()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gu', "<Nop>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gU', "<cmd>lua require'gitsigns'.reset_hunk()<CR>", { silent = true, noremap = true })

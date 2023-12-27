@@ -16,7 +16,6 @@ require("statuscol").setup({
     -- { text = { builtin.lnumfunc }, click = "v:lua.ScLa", },
     {
       sign = { name = { ".*" }, maxwidth = 1, colwidth = 1, auto = false },
-      click = "v:lua.ScSa"
     },
     -- { text = { "│" }, maxwidth = 1, colwidth = 1, auto = false  },
   }

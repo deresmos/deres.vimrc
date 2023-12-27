@@ -1,5 +1,6 @@
 require "plugins"
 
+
 vim.cmd('source ~/.config/nvim/vimrc')
 
 local vim_conf_path = vim.fn.expand('$HOME/.config/nvim')
@@ -28,19 +29,19 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-local function sourcePacker()
+local function sourcePlugins()
   local packer_path = vim.fn.stdpath("config") .. "/lua/plugins.lua"
   vim.cmd("source " .. packer_path)
 end
 
 local function packerCompile()
-  sourcePacker()
-  vim.cmd("PackerCompile")
+  sourcePlugins()
+  -- vim.cmd("PackerCompile")
 end
 
 local function packerSync()
-  sourcePacker()
-  vim.cmd("PackerSync")
+  sourcePlugins()
+  -- vim.cmd("PackerSync")
 end
 
 vim.keymap.set('n', '<Space>uP', packerSync, { silent = true, noremap = true })
@@ -116,3 +117,17 @@ local function closeUnloadedBuffers()
 end
 
 vim.keymap.set('n', '<Space>bQ', closeUnloadedBuffers, { silent = true, noremap = true })
+
+
+vim.opt.fillchars = {
+  fold = ' ',
+  diff = '╱',
+  wbr = '─',
+  msgsep = '─',
+  horiz = ' ',
+  horizup = '│',
+  horizdown = '│',
+  vertright = '│',
+  vertleft = '│',
+  verthoriz = '│',
+}

@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/jose-elias-alvarez/null-ls.nvim"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: false

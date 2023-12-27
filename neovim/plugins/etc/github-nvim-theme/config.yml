@@ -8,3 +8,4 @@ config:
   maps: ~
   do: ~
   enable: true
+  priority: 1000

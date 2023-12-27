@@ -3,8 +3,8 @@ config:
   url: "https://github.com/nvim-tree/nvim-tree.lua"
   rev: ~
   filetypes: ~
-  commands:
-    - NvimTree*
+  commands: ~
   maps: ~
   do: ~
   enable: true
+  lazy: true

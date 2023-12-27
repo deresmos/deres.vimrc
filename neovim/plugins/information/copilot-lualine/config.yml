@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/lucapette/vim-textobj-underscore"
+  url: "https://github.com/AndreM222/copilot-lualine"
   rev: ~
   filetypes: ~
   commands: ~
@@ -8,4 +8,4 @@ config:
   do: ~
   enable: true
   dependencies:
-    - kana/vim-textobj-user
+    - hoob3rt/lualine.nvim

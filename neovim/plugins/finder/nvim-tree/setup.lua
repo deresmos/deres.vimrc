@@ -3,4 +3,8 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.opt.termguicolors = true
 
-vim.keymap.set("n", "<Space>ft", "<cmd>NvimTreeToggle<CR>", { silent = true, noremap = true })
+local function toggle()
+  require("nvim-tree.api").tree.toggle { path = vim.fn.getcwd() }
+end
+
+vim.keymap.set("n", "<Space>ft", toggle, { silent = true, noremap = true })

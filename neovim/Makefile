@@ -13,4 +13,4 @@ install: FORCE
 	@echo '-----  END: Created all symbolic link -----'
 
 update-plugins: FORCE
-	cd ../vplug-factory && cargo run make -m packer -p ../neovim/plugins ../neovim/lua/plugins.lua
+	cd ../vplug-factory && cargo run make -m lazy -p ../neovim/plugins ../neovim/lua/plugins.lua

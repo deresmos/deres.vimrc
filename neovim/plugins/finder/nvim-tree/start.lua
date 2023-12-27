@@ -65,7 +65,7 @@ require("nvim-tree").setup({
   on_attach = my_on_attach,
   view = {
     float = {
-      enable = true,
+      enable = false,
       quit_on_focus_loss = true,
       open_win_config = {
         width = 60,

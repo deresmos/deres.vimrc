@@ -1,11 +1,11 @@
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("my-ale", {}),
-  pattern = { "go" },
-  callback = function()
-    vim.b.ale_enabled = 1
-    vim.b.ale_fix_on_save = 1
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   group = vim.api.nvim_create_augroup("my-ale", {}),
+--   pattern = { "go" },
+--   callback = function()
+--     vim.b.ale_enabled = 1
+--     vim.b.ale_fix_on_save = 1
+--   end,
+-- })
 
 vim.g.ale_use_neovim_diagnostics_api = 1
 vim.g.ale_go_golangci_lint_package = 1
@@ -68,7 +68,6 @@ let g:ale_linters = {
   \ 'yaml': ['yamllint', 'cfn-lint'],
   \ }
 
-  " \ 'go': ['gobuild', 'golangci-lint'],
 
 augroup TestALE
     autocmd!

@@ -21,6 +21,10 @@ pub struct Config {
     pub r#do: Option<String>,
     pub enable: bool,
     pub opt: Option<bool>,
+    pub priority: Option<u16>,
+    pub dependencies: Option<Vec<String>>,
+    pub lazy: Option<bool>,
+    pub build: Option<String>,
 }
 
 #[derive(Debug, Default, PartialEq, Serialize, Deserialize)]

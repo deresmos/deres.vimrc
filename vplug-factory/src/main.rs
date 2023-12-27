@@ -13,6 +13,7 @@ use env_logger;
 use log::error;
 use migration::config::PluginConfigMigrator;
 use plugin_manager::packer;
+use plugin_manager::lazy;
 
 fn main() -> Result<()> {
     env_logger::init();
@@ -26,6 +27,10 @@ fn main() -> Result<()> {
         SubCommand::Make(o) => match &*o.plugin_manager {
             "packer" => {
                 let maker = packer::PackerMaker::new(o.plugins_dir);
+                maker.make(o.output_dir).unwrap();
+            }
+            "lazy" => {
+                let maker = lazy::LazyMaker::new(o.plugins_dir);
                 maker.make(o.output_dir).unwrap();
             }
             _ => {

@@ -1,11 +1,3 @@
-require("nlspsettings").setup({
-  config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
-  local_settings_dir = ".nlsp-settings",
-  local_settings_root_markers = { '.git' },
-  append_default_schemas = true,
-  loader = 'json',
-})
-
 local border = {
   { "╭", "FloatBorder" },
   { "─", "FloatBorder" },
@@ -23,13 +15,13 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
--- vim.api.nvim_create_autocmd('BufWritePre', {
---   pattern = { '*.go', "*.lua" },
---   group = vim.api.nvim_create_augroup("my-formatting", {}),
---   callback = function()
---     vim.lsp.buf.format({ async = true })
---   end
--- })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = { '*.go' },
+  group = vim.api.nvim_create_augroup("my-formatting", {}),
+  callback = function()
+    vim.lsp.buf.format({ async = true })
+  end
+})
 
 local lsp_status = require('lsp-status')
 lsp_status.config {
@@ -53,8 +45,8 @@ vim.keymap.set('n', '<Space>mfr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 vim.keymap.set('n', '<Space>ek', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.keymap.set('n', '<Space>ej', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 
-vim.keymap.set('n', '<Space>mic', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
-vim.keymap.set('n', '<Space>moc', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
+-- vim.keymap.set('n', '<Space>mic', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
+-- vim.keymap.set('n', '<Space>moc', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
 
 vim.keymap.set('n', '<Space>m=', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts)
 

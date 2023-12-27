@@ -8,3 +8,4 @@ config:
   do: ~
   enable: true
   requires: plenary
+  lazy: true

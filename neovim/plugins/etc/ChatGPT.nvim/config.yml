@@ -3,8 +3,8 @@ config:
   url: "https://github.com/jackMort/ChatGPT.nvim"
   rev: ~
   filetypes: ~
-  commands:
-    - ChatGPT*
+  commands: ~
   maps: ~
   do: ~
   enable: true
+  lazy: true

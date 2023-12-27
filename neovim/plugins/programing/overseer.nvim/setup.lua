@@ -27,6 +27,14 @@ local runner = {}
 runner.git_push = function()
   require("overseer").run_template({ name = "git push HEAD" })
 end
+runner.git_push_force = function()
+  vim.ui.input({ prompt = 'Force push?: ' }, function(input)
+    if input == 'y' then
+      require("overseer").run_template({ name = "git push HEAD -f" })
+    end
+  end)
+end
+
 runner.log_toggle = function()
   require("overseer").toggle()
 end

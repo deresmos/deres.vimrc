@@ -9,4 +9,13 @@ require('leap').opts.special_keys = {
   multi_revert = '<backspace>',
 }
 
-vim.cmd("highlight LeapBackdrop guifg=#777777")
+
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  group = vim.api.nvim_create_augroup("my-leap-highlights", {}),
+  callback = function()
+    vim.cmd("highlight LeapBackdrop guifg=#777777")
+    vim.cmd('hi default link LeapLabelPrimary @text.warning')
+  end
+})

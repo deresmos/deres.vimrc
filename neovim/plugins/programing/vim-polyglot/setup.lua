@@ -1,1 +1,1 @@
-vim.g.polyglot_disabled = {'csv', 'tsv'}
+vim.g.polyglot_disabled = {'csv', 'tsv', 'mdx'}

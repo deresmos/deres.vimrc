@@ -588,3 +588,63 @@ EOF
                  "         vim.o.expandtab = false
                  "     end
                  " end)
+
+
+function! MyHighlights()
+  " Left
+  highlight DiffLeftChange       ctermfg=none ctermbg=52 guifg=none guibg=#400000
+  highlight DiffLeftText         ctermfg=none ctermbg=52 guifg=none    guibg=#400000
+  highlight DiffLeftAdd          ctermfg=none ctermbg=52 guifg=none guibg=#400000
+  highlight DiffLeftDelete       ctermfg=236  ctermbg=236 guifg=#161831 guibg=#161831
+
+  " Right
+  highlight DiffRightChange       ctermfg=none ctermbg=22 guifg=none guibg=#001000
+  highlight DiffRightText         ctermfg=none ctermbg=22 guifg=none guibg=#004000
+  highlight DiffRightAdd          ctermfg=none ctermbg=22 guifg=none guibg=#004000
+  highlight DiffRightDelete       ctermfg=236  ctermbg=236 guifg=#161831 guibg=#161831
+
+  " Normal
+  " highlight DiffChange ctermfg=none ctermbg=none guifg=none    guibg=none
+  " highlight DiffText   ctermfg=none ctermbg=28   guifg=none    guibg=#004000
+  " highlight DiffAdd    ctermfg=none ctermbg=28   guifg=none    guibg=#004000
+  " highlight DiffDelete ctermfg=52   ctermbg=52   guifg=#400000 guibg=#400000
+
+endfunction
+
+" augroup MyHighlight
+"   autocmd!
+"   autocmd ColorScheme * call MyHighlights()
+" augroup END
+
+"functions {{{1
+function! s:diffWindowSetting() "{{{2
+  if &diff ==# 0 || get(b:, 'diff_window_setting_enabled', 0)
+    return
+  endif
+
+  " Left Window
+  if winnr() ==# 1
+    call s:diffLeftWinHighlight()
+  endif
+
+  " Right Window
+  if winnr() ==# 2
+    call s:diffRightWinHighlight()
+  endif
+
+  let b:diff_window_setting_enabled = 1
+endfunction
+
+function! s:diffLeftWinHighlight() abort
+  setlocal winhighlight=DiffChange:DiffLeftChange,DiffText:DiffLeftText,DiffAdd:DiffLeftAdd,DiffDelete:DiffLeftDelete
+endfunction
+
+function! s:diffRightWinHighlight() abort
+  setlocal winhighlight=DiffChange:DiffRightChange,DiffText:DiffRightText,DiffAdd:DiffRightAdd,DiffDelete:DiffRightDelete
+endfunction
+
+" augroup custom-filetype
+"   autocmd!
+"
+"   autocmd FilterWritePost * call <SID>diffWindowSetting()
+" augroup END

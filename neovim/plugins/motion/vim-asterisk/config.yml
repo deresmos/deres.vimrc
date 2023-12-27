@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/editorconfig/editorconfig-vim"
+  url: "https://github.com/haya14busa/vim-asterisk"
   rev: ~
   filetypes: ~
   commands: ~

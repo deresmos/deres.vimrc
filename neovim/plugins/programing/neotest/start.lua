@@ -105,5 +105,4 @@ vim.keymap.set('n', '<Space>mtp', test.open_output_panel, { silent = true, norem
 vim.keymap.set('n', '<Space>mtj', test.jump_next, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mtk', test.jump_prev, { silent = true, noremap = true })
 
-
 -- require("neotest").run.run({strategy = "dap"})

@@ -88,7 +88,23 @@ function M.lsp_document_symbols()
   telescope_builtin.lsp_document_symbols({ fname_width = 80, ignore_symbols = 'field', show_line = true })
 end
 
+function M.lsp_incoming_calls()
+  telescope_builtin.lsp_incoming_calls({ fname_width = 80 })
+end
+
+function M.lsp_outcoming_calls()
+  telescope_builtin.lsp_outcoming_calls({ fname_width = 80 })
+end
+
+function M.diagnostics()
+  telescope_builtin.diagnostics({ fname_width = 80 })
+end
+
 -- ETC
+function M.history()
+  telescope_builtin.pickers()
+end
+
 function M.buffers()
   telescope_builtin.buffers()
 end
@@ -107,6 +123,10 @@ end
 
 function M.git_status()
   telescope_builtin.git_status()
+end
+
+function M.git_branches()
+  telescope_builtin.git_branches()
 end
 
 function M.sessions()
@@ -201,6 +221,11 @@ end
 
 function M.file_browser_from_buffer()
   require('telescope').extensions.file_browser.file_browser({ grouped = true, select_buffer = true, path = "%:p:h" })
+end
+
+function M.file_browser_from_project()
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  require('telescope').extensions.file_browser.file_browser({ grouped = true, select_buffer = true, path = workspace_path })
 end
 
 return M

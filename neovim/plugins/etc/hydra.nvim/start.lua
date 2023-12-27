@@ -27,7 +27,7 @@ local function set_hydra(name, lhs, heads, config)
       },
    })
 
-   Hydra({
+   return Hydra({
       name = name,
       hint = create_hint(heads),
       config = config,

@@ -7,3 +7,5 @@ config:
   maps: ~
   do: ~
   enable: true
+  dependencies:
+    - kana/vim-textobj-user
