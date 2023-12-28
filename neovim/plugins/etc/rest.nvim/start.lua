@@ -45,8 +45,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set('n', '<Space>hdr', require('my.hydra').set_hydra('Rest Client', {
       { 'r', M.run,     { desc = 'Run', exit = true } },
       { 'p', M.preview, { desc = 'Preview', exit = true } },
-      { 't', M.preview, { desc = 'empty' } },
       { 'q', nil,       { exit = true, nowait = true, desc = 'exit' } },
-    }), { silent = true, noremap = true, buffer = true })
+    }, { color = 'blue' }), { silent = true, noremap = true, buffer = true })
   end,
 })
