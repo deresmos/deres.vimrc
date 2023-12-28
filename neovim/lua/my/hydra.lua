@@ -1,6 +1,8 @@
 local M = {}
 
-local const SEPARATOR_LENGTH = 10
+local SEPARATOR_LENGTH = 10
+
+local setted_hydras = {}
 
 local function make_hint(name, heads)
    local separator_space = string.rep(" ", SEPARATOR_LENGTH)
@@ -16,7 +18,6 @@ local function make_hint(name, heads)
       table.insert(result, line)
    end
 
-   -- resultの中身を改行した文字列にする
    return table.concat(result, "\n")
 end
 
@@ -30,20 +31,43 @@ local function set_hydra(name, heads, config)
       },
    })
 
-   return require('hydra')({
+   local hydra = require('hydra')({
       name = name,
       hint = make_hint(name, heads),
       config = config,
       heads = heads,
    })
+   setted_hydras[name] = hydra
+   return hydra
 end
 
 function M.set_hydra(name, heads, config)
+   setted_hydras[name] = {
+      name = name,
+      heads = heads,
+      config = config,
+      lazy = true,
+   }
    return function()
-      local x = os.clock()
-      set_hydra(name, heads, config):activate()
-      print (os.clock() - x)
+      M.activate(name)
    end
+end
+
+function M.get_setted_hydra_dict()
+   return setted_hydras
+end
+
+function M.get_setted_hydra(name)
+   return setted_hydras[name]
+end
+
+function M.activate(name)
+   local hydra = setted_hydras[name]
+   if hydra.lazy then
+      hydra = set_hydra(hydra.name, hydra.heads, hydra.config)
+   end
+
+   hydra:activate()
 end
 
 return M

@@ -68,6 +68,7 @@ vim.keymap.set('n', '<SPACE>fG', finder.grep_visual, { silent = true, noremap = 
 vim.keymap.set('n', '<SPACE>bg', finder.grep_from_buffer, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>bG', finder.grep_visual_from_buffer, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>pg', finder.grep_from_project, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>pG', finder.grep_visual_from_project, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>fl', finder.resume, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>fb', finder.file_browser, { silent = true, noremap = true })
@@ -329,3 +330,37 @@ require("telescope").load_extension("advanced_git_search")
 require('telescope').load_extension('ctags_outline')
 require('telescope').load_extension('bookmarks')
 require("telescope").load_extension('lazy')
+
+local function setted_hydra_names()
+  local setted_hydra = require('my.hydra').get_setted_hydra_dict()
+  local keys = {}
+  for k, _ in pairs(setted_hydra) do
+    table.insert(keys, k)
+  end
+
+  return keys
+end
+
+local pickers = require "telescope.pickers"
+local finders = require "telescope.finders"
+local conf = require("telescope.config").values
+
+local function list_hydra()
+  pickers.new({}, {
+    prompt_title = "Hydra List",
+    finder = finders.new_table {
+      results = setted_hydra_names(),
+    },
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        actions.close(prompt_bufnr)
+        local selection = action_state.get_selected_entry()
+        require('my.hydra').activate(selection.value)
+      end)
+      return true
+    end,
+  }):find()
+end
+
+vim.keymap.set('n', '<Space>hdl', list_hydra, { silent = true, noremap = true })

@@ -65,6 +65,11 @@ function M.grep_from_project()
   telescope_builtin.live_grep({ cwd = workspace_path })
 end
 
+function M.grep_visual_from_project()
+  local workspace_path, _ = require("project_nvim.project").get_project_root()
+  telescope_builtin.grep_string({ cwd = workspace_path, search = vim.fn.expand('<cword>') })
+end
+
 function M.grep_visual()
   local opts = add_cwd_to_opts({})
   opts.search = vim.fn.expand('<cword>')
