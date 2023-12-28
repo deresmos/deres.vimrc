@@ -100,3 +100,32 @@ require('gitsigns').setup {
     enable = false
   },
 }
+
+local gitsigns = require('gitsigns')
+vim.keymap.set('n', '<Space>hdg', require('my.hydra').set_hydra('Git', {
+   { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
+   { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
+   { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
+   { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
+   -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
+   { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
+   { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
+   { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
+   { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
+   { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
+   { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
+   -- gitsigns.reset_hunk
+   -- gitsigns.toggle_word_diff
+}, {
+   on_enter = function()
+      vim.bo.modifiable = false
+      gitsigns.toggle_linehl(true)
+      gitsigns.toggle_deleted(true)
+      gitsigns.toggle_word_diff(true)
+   end,
+   on_exit = function()
+      gitsigns.toggle_linehl(false)
+      gitsigns.toggle_deleted(false)
+      gitsigns.toggle_word_diff(false)
+   end,
+}), { silent = true, noremap = true })

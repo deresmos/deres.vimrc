@@ -81,3 +81,15 @@ vim.api.nvim_set_var("test#custom_strategies", {
 
 vim.api.nvim_set_var("test#go#gotest#options", "-v -coverprofile=cover.out")
 vim.api.nvim_set_var("test#strategy", "overseer")
+
+local test = require('my.test')
+vim.keymap.set('n', '<Space>hdt', require('my.hydra').set_hydra('Test', {
+   { 'n', test.run_nearest,   { desc = 'nearest', exit = true } },
+   { 'f', test.run_file,      { desc = 'file', exit = true } },
+   { 'l', test.run_last,      { desc = 'last', exit = true } },
+   { 's', test.suite,         { desc = 'suite', exit = true } },
+   { 'D', test.debug_mode,    { desc = 'debug mode' } },
+   { 'N', test.normal_mode,   { desc = 'normal mode' } },
+   { 'O', test.overseer_mode, { desc = 'overseer mode' } },
+   { 'q', nil,                { exit = true, nowait = true, desc = 'exit' } },
+}), { silent = true, noremap = true })

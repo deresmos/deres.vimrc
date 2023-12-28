@@ -21,3 +21,12 @@ require("coverage").setup({
     },
   },
 })
+
+local coverage = require('my.coverage')
+vim.keymap.set('n', '<Space>hdc', require('my.hydra').set_hydra('Coverage', {
+   { 'l', coverage.load,    { desc = 'load', exit = true } },
+   { 't', coverage.toggle,  { desc = 'toggle' } },
+   { 'C', coverage.clear,   { desc = 'clear', exit = true } },
+   { 's', coverage.summary, { desc = 'summary', exit = true } },
+   { 'q', nil,              { exit = true, nowait = true, desc = 'exit', sep = '' } },
+}), { silent = true, noremap = true })

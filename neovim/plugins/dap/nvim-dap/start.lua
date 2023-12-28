@@ -1,6 +1,22 @@
 -- " nnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' expand('<cword>')<CR>
 -- " xnoremap <silent> <SPACE>mdw :<C-u>execute 'VimspectorWatch' GetVisualWord()<CR>
 
+local dap = require('my.dap')
+vim.keymap.set('n', '<Space>hdd', require('my.hydra').set_hydra('Dap', {
+  { 'c', dap.continue,          { desc = 'continue' } },
+  { 'o', dap.step_over,         { desc = 'step over' } },
+  { 'i', dap.step_into,         { desc = 'step into' } },
+  { 'O', dap.step_out,          { desc = 'step out' } },
+  { 'B', dap.step_back,         { desc = 'step back' } },
+  { 'u', dap.up,                { desc = 'up' } },
+  { 'd', dap.down,              { desc = 'down', exit = true, sep = '' } },
+  { 's', dap.stop,              { desc = 'stop', exit = true } },
+  { 'S', dap.terminate,         { desc = 'terminate', exit = true } },
+  { 'p', dap.toggle_breakpoint, { desc = 'toggle breakpoint' } },
+  { 'q', nil,                   { exit = true, nowait = true, desc = 'exit', sep = '' } },
+}), { silent = true, noremap = true })
+
+
 local function openFloatWin()
   local filetype = vim.bo.filetype
   local name = filetype:gsub("dapui_", "")
