@@ -1,4 +1,5 @@
-require("todo-comments").setup {
+local todo = require("todo-comments")
+todo.setup {
   signs = false,
   sign_priority = 8,
   keywords = {
@@ -51,3 +52,10 @@ require("todo-comments").setup {
     pattern = [[\b(KEYWORDS):]],
   },
 }
+
+vim.keymap.set('n', '<Space>hdC', require('my.hydra').set_hydra('Todo comment', {
+  { 'j', todo.jump_next,                          { desc = 'Next' } },
+  { 'k', todo.jump_prev,                          { desc = 'Prev' } },
+  { 'l', '<cmd>Telescope todo-comments todo<CR>', { desc = 'clean', exit = true, sep = '' } },
+  { 'q', nil,                                     { exit = true, nowait = true, desc = 'exit', sep = '' } },
+}), { silent = true, noremap = true })
