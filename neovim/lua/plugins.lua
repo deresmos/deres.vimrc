@@ -574,6 +574,10 @@ vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'GitGutterAdd', linehl
       lazy = false,
     },
     {
+      "numToStr/BufOnly.nvim",
+      lazy = false,
+    },
+    {
       "jackMort/ChatGPT.nvim",
         init = function()
         local function open()
@@ -608,6 +612,10 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
 -- require('FTerm').scratch({ cmd = 'yarn build' })
 
         end,
+      lazy = false,
+    },
+    {
+      "famiu/bufdelete.nvim",
       lazy = false,
     },
     {
@@ -742,7 +750,9 @@ local translate_hydra = Hydra({
     smart_indent_cap = true,
   },
   scope = {
-    enabled = false,
+    enabled = true,
+    show_start = false,
+    show_end = false,
   },
 })
 
@@ -1918,16 +1928,6 @@ require('telescope').load_extension('ctags_outline')
 require('telescope').load_extension('bookmarks')
 require("telescope").load_extension('lazy')
 
-local function setted_hydra_names()
-  local setted_hydra = require('my.hydra').get_setted_hydra_dict()
-  local keys = {}
-  for k, _ in pairs(setted_hydra) do
-    table.insert(keys, k)
-  end
-
-  return keys
-end
-
 local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local conf = require("telescope.config").values
@@ -1936,14 +1936,14 @@ local function list_hydra()
   pickers.new({}, {
     prompt_title = "Hydra List",
     finder = finders.new_table {
-      results = setted_hydra_names(),
+      results = require('my.hydra').get_setted_hydra_names(),
     },
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
-        require('my.hydra').activate(selection.value)
+        require('my.hydra').open(selection.value)
       end)
       return true
     end,
@@ -2042,7 +2042,20 @@ vim.keymap.set({ 'n', 'v' }, '<Space>mgl',
     {
       "lewis6991/gitsigns.nvim",
         config = function()
-          local function change_base()
+          local M = {}
+
+function M.change_base()
+  vim.ui.input({ prompt = 'Enter revision: ' }, function(input)
+    require('gitsigns').change_base(input)
+    -- require('gitsigns.config').config.base
+  end)
+end
+
+function M.reset_base()
+  require('gitsigns').reset_base()
+end
+
+local function change_base()
   vim.ui.input({ prompt = 'Enter revision: ' }, function(input)
     require('gitsigns').change_base(input)
   end)
@@ -2082,9 +2095,6 @@ vim.keymap.set('n', '<Space>gtw', "<cmd>lua require'gitsigns'.toggle_word_diff()
 vim.keymap.set('n', '<Space>gtd', "<cmd>lua require'gitsigns'.toggle_deleted()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>",
   { silent = true, noremap = true })
-
-vim.keymap.set('n', '<Space>gcb', change_base, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>grb', "<cmd>lua require'gitsigns'.reset_base()<CR>", { silent = true, noremap = true })
 
 require('gitsigns').setup {
   signs                             = {
@@ -2147,31 +2157,33 @@ require('gitsigns').setup {
 
 local gitsigns = require('gitsigns')
 vim.keymap.set('n', '<Space>hdg', require('my.hydra').set_hydra('Git', {
-   { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
-   { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
-   { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
-   { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
-   -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
-   { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
-   { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
-   { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
-   { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
-   { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
-   { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
-   -- gitsigns.reset_hunk
-   -- gitsigns.toggle_word_diff
+  { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
+  { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
+  { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
+  { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
+  -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
+  { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
+  { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
+  { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
+  { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
+  { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
+  { 'c', M.change_base,                                      { desc = 'Change diff base', exit = true } },
+  { 'C', M.reset_base,                                       { desc = 'Reset diff base', exit = true } },
+  { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
+  -- gitsigns.reset_hunk
+  -- gitsigns.toggle_word_diff
 }, {
-   on_enter = function()
-      vim.bo.modifiable = false
-      gitsigns.toggle_linehl(true)
-      gitsigns.toggle_deleted(true)
-      gitsigns.toggle_word_diff(true)
-   end,
-   on_exit = function()
-      gitsigns.toggle_linehl(false)
-      gitsigns.toggle_deleted(false)
-      gitsigns.toggle_word_diff(false)
-   end,
+  on_enter = function()
+    vim.bo.modifiable = false
+    gitsigns.toggle_linehl(true)
+    gitsigns.toggle_deleted(true)
+    gitsigns.toggle_word_diff(true)
+  end,
+  on_exit = function()
+    gitsigns.toggle_linehl(false)
+    gitsigns.toggle_deleted(false)
+    gitsigns.toggle_word_diff(false)
+  end,
 }), { silent = true, noremap = true })
 
         end,
@@ -2785,6 +2797,22 @@ vim.keymap.set('n', '<Space>lq', open_quickfix, { noremap = true, silent = true 
       lazy = true,
     },
     {
+      "ggandor/flit.nvim",
+        config = function()
+          require('flit').setup {
+  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
+  labeled_modes = "v",
+  multiline = false,
+  opts = {}
+}
+
+        end,
+        dependencies = {
+          "ggandor/leap.nvim",
+        },
+      lazy = false,
+    },
+    {
       "ggandor/leap.nvim",
         init = function()
         local function leap_win()
@@ -2873,15 +2901,25 @@ vim.keymap.set({ 'n', 'x' }, '<Space>jw', leap_to_window, { silent = true, norem
   multi_accept = '<enter>',
   multi_revert = '<backspace>',
 }
-
-
+require('leap').opts.highlight_unlabeled_phase_one_targets = true
+require('leap').opts.safe_labels = ''
 
 vim.api.nvim_create_autocmd('ColorScheme', {
   pattern = '*',
   group = vim.api.nvim_create_augroup("my-leap-highlights", {}),
   callback = function()
-    vim.cmd("highlight LeapBackdrop guifg=#777777")
-    vim.cmd('hi default link LeapLabelPrimary @text.warning')
+    vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
+    vim.api.nvim_set_hl(0, 'LeapMatch', {
+      fg = 'white',
+      bold = true,
+      nocombine = true,
+    })
+    vim.api.nvim_set_hl(0, 'LeapLabelPrimary', {
+      fg = 'red', bold = true, nocombine = true,
+    })
+    vim.api.nvim_set_hl(0, 'LeapLabelSecondary', {
+      fg = 'blue', bold = true, nocombine = true,
+    })
   end
 })
 
@@ -3397,8 +3435,6 @@ vim.keymap.set('n', '<Space>mtk', test.jump_prev, { silent = true, noremap = tru
 null_ls.setup({
   diagnostics_format = "#{m} (#{s}: #{c})",
   sources = {
-    null_ls.builtins.completion.spell,
-
     -- null_ls.builtins.formatting.gofmt,
     null_ls.builtins.diagnostics.golangci_lint,
     -- null_ls.builtins.diagnostics.staticcheck,
@@ -3409,6 +3445,15 @@ null_ls.setup({
 
     -- null_ls.builtins.diagnostics.terraform_validate,
     null_ls.builtins.formatting.terraform_fmt,
+
+    -- null_ls.builtins.diagnostics.cspell.with({
+    --   diagnostics_postprocess = function(diagnostic)
+    --     diagnostic.severity = vim.diagnostic.severity.WARN
+    --   end,
+    --   condition = function()
+    --     return vim.fn.executable('cspell') > 0
+    --   end
+    -- })
   },
 })
 

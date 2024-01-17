@@ -2,7 +2,7 @@ local M = {}
 
 local SEPARATOR_LENGTH = 10
 
-local setted_hydras = {}
+local setted_hydra_list = {}
 
 local function make_hint(name, heads)
    local separator_space = string.rep(" ", SEPARATOR_LENGTH)
@@ -37,32 +37,35 @@ local function set_hydra(name, heads, config)
       config = config,
       heads = heads,
    })
-   setted_hydras[name] = hydra
+   setted_hydra_list[name] = hydra
    return hydra
 end
 
 function M.set_hydra(name, heads, config)
-   setted_hydras[name] = {
+   setted_hydra_list[name] = {
       name = name,
       heads = heads,
       config = config,
       lazy = true,
    }
    return function()
-      M.activate(name)
+      M.open(name)
    end
 end
 
-function M.get_setted_hydra_dict()
-   return setted_hydras
+function M.get_setted_hydra_names()
+  local keys = {}
+  for k, _ in pairs(setted_hydra_list) do
+    table.insert(keys, k)
+  end
+
+  return keys
 end
 
-function M.get_setted_hydra(name)
-   return setted_hydras[name]
-end
+function M.open(name)
+   local hydra = setted_hydra_list[name]
 
-function M.activate(name)
-   local hydra = setted_hydras[name]
+   -- 遅延読み込み処理のため、open時にhydraを作成する
    if hydra.lazy then
       hydra = set_hydra(hydra.name, hydra.heads, hydra.config)
    end

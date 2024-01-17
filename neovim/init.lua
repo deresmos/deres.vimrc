@@ -76,7 +76,7 @@ vim.opt.scrollback = 100000
 
 vim.keymap.set('n', '<Space>qr', ':<C-u>Qfreplace tabnew<CR>', { silent = true, noremap = true })
 vim.keymap.set('x', '<Space>ld', ':Linediff<CR>', { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>bo', ':<C-u>BufOnly!<CR>', { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>bo', '<cmd>BufOnly<CR>', { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>bu', ':<C-u>call CloseUnloadedBuffers()<CR>', { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>bl', ':<C-u>BuffergatorToggle<CR>', { silent = true, noremap = true })
 

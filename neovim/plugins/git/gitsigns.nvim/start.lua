@@ -1,3 +1,16 @@
+local M = {}
+
+function M.change_base()
+  vim.ui.input({ prompt = 'Enter revision: ' }, function(input)
+    require('gitsigns').change_base(input)
+    -- require('gitsigns.config').config.base
+  end)
+end
+
+function M.reset_base()
+  require('gitsigns').reset_base()
+end
+
 local function change_base()
   vim.ui.input({ prompt = 'Enter revision: ' }, function(input)
     require('gitsigns').change_base(input)
@@ -38,9 +51,6 @@ vim.keymap.set('n', '<Space>gtw', "<cmd>lua require'gitsigns'.toggle_word_diff()
 vim.keymap.set('n', '<Space>gtd', "<cmd>lua require'gitsigns'.toggle_deleted()<CR>", { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>",
   { silent = true, noremap = true })
-
-vim.keymap.set('n', '<Space>gcb', change_base, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>grb', "<cmd>lua require'gitsigns'.reset_base()<CR>", { silent = true, noremap = true })
 
 require('gitsigns').setup {
   signs                             = {
@@ -103,29 +113,31 @@ require('gitsigns').setup {
 
 local gitsigns = require('gitsigns')
 vim.keymap.set('n', '<Space>hdg', require('my.hydra').set_hydra('Git', {
-   { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
-   { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
-   { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
-   { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
-   -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
-   { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
-   { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
-   { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
-   { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
-   { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
-   { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
-   -- gitsigns.reset_hunk
-   -- gitsigns.toggle_word_diff
+  { 'J', gitsigns.next_hunk,                                 { desc = 'next hunk' } },
+  { 'K', gitsigns.prev_hunk,                                 { desc = 'prev hunk' } },
+  { 'A', ':Gitsigns stage_hunk<CR>',                         { silent = true, desc = 'stage hunk' } },
+  { 'U', gitsigns.undo_stage_hunk,                           { desc = 'undo last stage' } },
+  -- { 'S',       gitsigns.stage_buffer,                              { desc = 'stage buffer' } },
+  { 'p', gitsigns.preview_hunk,                              { desc = 'preview hunk' } },
+  { 'd', gitsigns.toggle_deleted,                            { nowait = true, desc = 'toggle deleted' } },
+  { 'b', gitsigns.blame_line,                                { desc = 'blame' } },
+  { 'B', function() gitsigns.blame_line { full = true } end, { desc = 'blame show full' } },
+  { '/', gitsigns.show,                                      { exit = true, desc = 'show base file' } }, -- show the base of the file
+  { 'c', M.change_base,                                      { desc = 'Change diff base', exit = true } },
+  { 'C', M.reset_base,                                       { desc = 'Reset diff base', exit = true } },
+  { 'q', nil,                                                { exit = true, nowait = true, desc = 'exit' } },
+  -- gitsigns.reset_hunk
+  -- gitsigns.toggle_word_diff
 }, {
-   on_enter = function()
-      vim.bo.modifiable = false
-      gitsigns.toggle_linehl(true)
-      gitsigns.toggle_deleted(true)
-      gitsigns.toggle_word_diff(true)
-   end,
-   on_exit = function()
-      gitsigns.toggle_linehl(false)
-      gitsigns.toggle_deleted(false)
-      gitsigns.toggle_word_diff(false)
-   end,
+  on_enter = function()
+    vim.bo.modifiable = false
+    gitsigns.toggle_linehl(true)
+    gitsigns.toggle_deleted(true)
+    gitsigns.toggle_word_diff(true)
+  end,
+  on_exit = function()
+    gitsigns.toggle_linehl(false)
+    gitsigns.toggle_deleted(false)
+    gitsigns.toggle_word_diff(false)
+  end,
 }), { silent = true, noremap = true })

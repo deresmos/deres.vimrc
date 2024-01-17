@@ -3,8 +3,7 @@ config:
   url: "https://github.com/lukas-reineke/indent-blankline.nvim"
   rev: ~
   filetypes: ~
-  commands:
-    - IBL*
+  commands: ~
   maps: ~
   do: ~
   enable: true

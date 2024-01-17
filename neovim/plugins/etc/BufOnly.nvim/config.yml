@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/numToStr/BufOnly.nvim"
+  rev: ~
+  filetypes: ~
+  commands:
+    - BufOnly
+  maps: ~
+  do: ~
+  enable: true
