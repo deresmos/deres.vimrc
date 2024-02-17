@@ -32,27 +32,26 @@ local plugins = {
           local dict = require("cmp_dictionary")
 
 dict.setup({
-  exact = 2,
+  paths = { "/usr/share/dict/words" },
+  exact_length = 2,
   first_case_insensitive = false,
-  document = false,
-  document_command = "wn %s -over",
-  async = false,
-  max_items = -1,
-  capacity = 5,
-  debug = false,
+  document = {
+    enable = true,
+    command = { "wn", "${label}", "-over" },
+  },
 })
 
-dict.switcher({
-  filetype = {
-    -- javascript = { "/path/to/js.dict", "/path/to/js2.dict" },
-  },
-  filepath = {
-    -- [".*xmake.lua"] = { "/path/to/xmake.dict", "/path/to/lua.dict" },
-  },
-  spelllang = {
-    -- en = "/path/to/english.dict",
-  },
-})
+-- dict.switcher({
+--   filetype = {
+--     -- javascript = { "/path/to/js.dict", "/path/to/js2.dict" },
+--   },
+--   filepath = {
+--     -- [".*xmake.lua"] = { "/path/to/xmake.dict", "/path/to/lua.dict" },
+--   },
+--   spelllang = {
+--     -- en = "/path/to/english.dict",
+--   },
+-- })
 
         end,
       lazy = false,
@@ -615,10 +614,6 @@ vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
       lazy = false,
     },
     {
-      "famiu/bufdelete.nvim",
-      lazy = false,
-    },
-    {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -742,24 +737,6 @@ local translate_hydra = Hydra({
       lazy = true,
     },
     {
-      "lukas-reineke/indent-blankline.nvim",
-        config = function()
-          require("ibl").setup({
-  indent = {
-    char = "│",
-    smart_indent_cap = true,
-  },
-  scope = {
-    enabled = true,
-    show_start = false,
-    show_end = false,
-  },
-})
-
-        end,
-      lazy = false,
-    },
-    {
       "AndrewRadev/linediff.vim",
         init = function()
         vim.keymap.set("n", "<Space>ld", "<cmd>Linediff<CR>", {noremap = true, silent=true})
@@ -863,6 +840,7 @@ vim.keymap.set("n", "<Space>nc", "<cmd>Telescope neoclip<CR>", { silent = true, 
   max_width = 100,
   minimum_width = 50,
   top_down = false,
+  render = 'wrapped-compact',
 })
 
 vim.notify = require("notify")
@@ -2541,6 +2519,56 @@ vim.keymap.set('n', '<Space>mcA', '<cmd>lua require("actions-preview").code_acti
       lazy = false,
     },
     {
+      "j-hui/fidget.nvim",
+        config = function()
+          require 'fidget'.setup {
+  notification = {
+    poll_rate = 10,               -- How frequently to update and render notifications
+    filter = vim.log.levels.INFO, -- Minimum notifications level
+    history_size = 128,           -- Number of removed messages to retain in history
+    override_vim_notify = false,  -- Automatically override vim.notify() with Fidget
+    configs =                     -- How to configure notification groups when instantiated
+    { default = require("fidget.notification").default_config },
+    redirect =                    -- Conditionally redirect notifications to another backend
+        function(msg, level, opts)
+          if opts and opts.on_open then
+            return require("fidget.integration.nvim-notify").delegate(msg, level, opts)
+          end
+        end,
+
+    -- Options related to how notifications are rendered as text
+    view = {
+      stack_upwards = false,   -- Display notification items from bottom to top
+      icon_separator = " ",    -- Separator between group name and icon
+      group_separator = "---", -- Separator between notification groups
+      group_separator_hl =     -- Highlight group used for group separator
+      "Normal",
+      render_message =         -- How to render notification messages
+          function(msg, cnt)
+            return cnt == 1 and msg or string.format("(%dx) %s", cnt, msg)
+          end,
+    },
+
+    -- Options related to the notification window and buffer
+    window = {
+      normal_hl = "Normal", -- Base highlight group in the notification window
+      winblend = 100,       -- Background color opacity in the notification window
+      border = "none",      -- Border around the notification window
+      zindex = 45,          -- Stacking priority of the notification window
+      max_width = 80,       -- Maximum width of the notification window
+      max_height = 0,       -- Maximum height of the notification window
+      x_padding = 1,        -- Padding from right edge of window boundary
+      y_padding = 1,        -- Padding from bottom edge of window boundary
+      align = "top",        -- How to align the notification window
+      relative = "editor",  -- What the notification window position is relative to
+    },
+  },
+}
+
+        end,
+      lazy = false,
+    },
+    {
       "nvim-lua/lsp-status.nvim",
       lazy = false,
     },
@@ -3564,7 +3592,7 @@ vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
       "user.default",
       -- "on_output_summarize",
       "on_exit_set_status",
-      "on_complete_notify",
+      -- "on_complete_notify",
       "on_complete_dispose",
     },
   },

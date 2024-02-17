@@ -1,9 +1,8 @@
 ---
 config:
   url: "https://github.com/j-hui/fidget.nvim"
-  tag: lagacy
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true

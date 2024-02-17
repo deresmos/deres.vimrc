@@ -9,7 +9,7 @@ require('overseer').setup({
       "user.default",
       -- "on_output_summarize",
       "on_exit_set_status",
-      "on_complete_notify",
+      -- "on_complete_notify",
       "on_complete_dispose",
     },
   },
