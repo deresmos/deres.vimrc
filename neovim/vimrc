@@ -38,7 +38,7 @@ set clipboard&
 set clipboard^=unnamedplus
 set splitbelow
 set splitright
-set laststatus=2
+set laststatus=3
 set noswapfile
 set title
 set hidden

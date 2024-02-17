@@ -1143,6 +1143,74 @@ vim.api.nvim_create_autocmd("FileType", {
       lazy = false,
     },
     {
+      "folke/todo-comments.nvim",
+        config = function()
+          local todo = require("todo-comments")
+todo.setup {
+  signs = false,
+  sign_priority = 8,
+  keywords = {
+    FIX = {
+      icon = " ",
+      color = "error",
+      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
+    },
+    TODO = { icon = " ", color = "info" },
+    HACK = { icon = " ", color = "warning" },
+    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+    TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+  },
+  gui_style = {
+    fg = "NONE",
+    bg = "BOLD",
+  },
+  merge_keywords = true,
+  highlight = {
+    multiline = true,
+    multiline_pattern = "^.",
+    multiline_context = 10,
+    before = "",
+    keyword = "wide",
+    after = "fg",
+    pattern = [[.*<(KEYWORDS)\s*:]],
+    comments_only = true,
+    max_line_len = 400,
+    exclude = {},
+  },
+  colors = {
+    error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+    warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
+    info = { "DiagnosticInfo", "#2563EB" },
+    hint = { "DiagnosticHint", "#10B981" },
+    default = { "Identifier", "#7C3AED" },
+    test = { "Identifier", "#FF00FF" }
+  },
+  search = {
+    command = "rg",
+    args = {
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+    },
+    pattern = [[\b(KEYWORDS):]],
+  },
+}
+
+vim.keymap.set('n', '<Space>hdC', require('my.hydra').set_hydra('Todo comment', {
+  { 'j', todo.jump_next,                          { desc = 'Next' } },
+  { 'k', todo.jump_prev,                          { desc = 'Prev' } },
+  { 'l', '<cmd>Telescope todo-comments todo<CR>', { desc = 'clean', exit = true, sep = '' } },
+  { 'q', nil,                                     { exit = true, nowait = true, desc = 'exit', sep = '' } },
+}), { silent = true, noremap = true })
+
+        end,
+      lazy = false,
+    },
+    {
       "akinsho/toggleterm.nvim",
         init = function()
         local term = {}
@@ -2513,7 +2581,7 @@ require 'lualine'.setup {
   backend = { "telescope", "nui" },
 }
 
-vim.keymap.set('n', '<Space>mcA', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
+vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
 
         end,
       lazy = false,
@@ -2691,7 +2759,7 @@ vim.keymap.set('n', '<Space>mgt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', 
 -- vim.keymap.set('n', '<Space>mgi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 vim.keymap.set('n', '<Space>mh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 vim.keymap.set('n', '<Space>ms', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-vim.keymap.set('n', '<Space>mca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+-- vim.keymap.set('n', '<Space>mca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 vim.keymap.set('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 vim.keymap.set('n', '<Space>mfr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 -- vim.keymap.set('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
@@ -2823,22 +2891,6 @@ vim.keymap.set('n', '<Space>lq', open_quickfix, { noremap = true, silent = true 
 
         end,
       lazy = true,
-    },
-    {
-      "ggandor/flit.nvim",
-        config = function()
-          require('flit').setup {
-  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
-  labeled_modes = "v",
-  multiline = false,
-  opts = {}
-}
-
-        end,
-        dependencies = {
-          "ggandor/leap.nvim",
-        },
-      lazy = false,
     },
     {
       "ggandor/leap.nvim",

@@ -5,4 +5,4 @@ require("actions-preview").setup {
   backend = { "telescope", "nui" },
 }
 
-vim.keymap.set('n', '<Space>mcA', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
+vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
