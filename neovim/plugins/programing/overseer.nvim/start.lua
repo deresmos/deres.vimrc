@@ -42,4 +42,5 @@ require('overseer').setup({
       ["<C-j>"] = "ScrollOutputDown",
     },
   },
+  template_cache_threshold = 0,
 })

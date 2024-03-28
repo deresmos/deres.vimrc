@@ -701,7 +701,7 @@ vim.cmd('colorscheme github_dark')
       lazy = false,
     },
     {
-      "anuvyklack/hydra.nvim",
+      "nvimtools/hydra.nvim",
         config = function()
           local Hydra = require('hydra')
 
@@ -1136,6 +1136,13 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
         end,
+        dependencies = {
+          "rest-nvim/rest.nvim",
+        },
+      lazy = false,
+    },
+    {
+      "theHamsta/nvim_rocks",
       lazy = false,
     },
     {
@@ -1337,8 +1344,8 @@ vim.keymap.set('n', '<Space>hdb', require('my.hydra').set_hydra('Bookmarks', {
     {
       "mildred/vim-bufmru",
         init = function()
-        vim.keymap.set('n', '<Space>bp', '<cmd>BufMRUPrev<CR>', {silent=true, noremap=true})
-vim.keymap.set('n', '<Space>bn', '<cmd>BufMRUNext<CR>', {silent=true, noremap=true})
+        vim.keymap.set('n', '<Space>bn', '<cmd>BufMRUPrev<CR>', {silent=true, noremap=true})
+vim.keymap.set('n', '<Space>bp', '<cmd>BufMRUNext<CR>', {silent=true, noremap=true})
 
         end,
       lazy = false,
@@ -1599,8 +1606,8 @@ ranger_nvim.setup({
       "francoiscabrol/ranger.vim",
         init = function()
         vim.g.ranger_replace_netrw = 0
-vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RangerCurrentFile<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RangerCurrentFile<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {noremap = true, silent = true})
 
         end,
       lazy = false,
@@ -1611,6 +1618,9 @@ vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {no
         vim.g.rnvimr_presets = {
   { width = 0.900, height = 0.900 },
 }
+
+vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RnvimrToggle<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {noremap = true, silent = true})
 
         end,
       lazy = false,
@@ -2082,6 +2092,9 @@ vim.keymap.set({ 'n', 'v' }, '<Space>mgl',
   '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>',
   { silent = true, desc = 'get github range url' })
 
+vim.api.nvim_set_keymap('n', '<Space>mgl', '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>', {silent = true})
+vim.api.nvim_set_keymap('v', '<Space>mgl', '<cmd>lua require"gitlinker".get_buf_range_url("v")<cr>', {})
+
         end,
       lazy = false,
     },
@@ -2287,6 +2300,25 @@ neogit.setup {
           require("octo").setup({
   ssh_aliases = {
     ["github-deresmos"] = "github.com",
+  },
+  mappings = {
+    review_diff = {
+      -- submit_review = { lhs = "<leader>vs", desc = "submit review" },
+      -- discard_review = { lhs = "<leader>vd", desc = "discard review" },
+      -- add_review_comment = { lhs = "<space>ca", desc = "add a new review comment" },
+      -- add_review_suggestion = { lhs = "<space>sa", desc = "add a new review suggestion" },
+      -- focus_files = { lhs = "<leader>e", desc = "move focus to changed file panel" },
+      -- toggle_files = { lhs = "<leader>b", desc = "hide/show changed files panel" },
+      -- next_thread = { lhs = "]t", desc = "move to next thread" },
+      -- prev_thread = { lhs = "[t", desc = "move to previous thread" },
+      -- select_next_entry = { lhs = "]q", desc = "move to previous changed file" },
+      -- select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
+      -- select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
+      -- select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
+      -- close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+      toggle_viewed = { lhs = "<Space>", desc = "toggle viewer viewed state" },
+      -- goto_file = { lhs = "gf", desc = "go to file" },
+    },
   },
 })
 
@@ -2893,6 +2925,22 @@ vim.keymap.set('n', '<Space>lq', open_quickfix, { noremap = true, silent = true 
       lazy = true,
     },
     {
+      "ggandor/flit.nvim",
+        config = function()
+          require('flit').setup {
+  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
+  -- A string like "nv", "nvo", "o", etc.
+  labeled_modes = "v",
+  multiline = false,
+  -- Like `leap`s similar argument (call-specific overrides).
+  -- E.g.: opts = { equivalence_classes = {} }
+  opts = {}
+}
+
+        end,
+      lazy = false,
+    },
+    {
       "ggandor/leap.nvim",
         init = function()
         local function leap_win()
@@ -3385,126 +3433,10 @@ highlight link ALEWarningSign SpellCap
       lazy = false,
     },
     {
-      "nvim-neotest/neotest",
-        config = function()
-          require("neotest").setup({
-  adapters = {
-    require("neotest-python")({
-      dap = { justMyCode = false },
-    }),
-    require("neotest-go"),
-  },
-  consumers = {
-    overseer = require("neotest.consumers.overseer"),
-  },
-  icons = {
-    child_indent = "│",
-    child_prefix = "├",
-    collapsed = "─",
-    expanded = "╮",
-    failed = "✗",
-    final_child_indent = " ",
-    final_child_prefix = "╰",
-    non_collapsible = "─",
-    passed = "○",
-    running = "~",
-    running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
-    skipped = "-",
-    unknown = "="
-  },
-  output = {
-    enabled = true,
-    open_on_run = "short"
-  },
-  output_panel = {
-    enabled = true,
-    open = "botright split | resize 15"
-  },
-  status = {
-    enabled = true,
-    signs = true,
-    virtual_text = false
-  },
-  summary = {
-    animated = true,
-    enabled = true,
-    expand_errors = true,
-    follow = true,
-    mappings = {
-      attach = "a",
-      clear_marked = "M",
-      clear_target = "T",
-      debug = "d",
-      debug_marked = "D",
-      expand = { "<CR>", "<2-LeftMouse>", "l" },
-      expand_all = { "e", "L" },
-      jumpto = "i",
-      mark = "m",
-      next_failed = "J",
-      output = "o",
-      prev_failed = "K",
-      run = "r",
-      run_marked = "R",
-      short = "O",
-      stop = "u",
-      target = "t"
-    },
-    open = "botright vsplit | vertical resize 50"
-  }
-})
-
-local test = {}
-local neotest = require('neotest')
-
-test.run_nearest = function()
-  neotest.run.run()
-end
-test.run_file = function()
-  neotest.run.run(vim.fn.expand("%"))
-end
-test.run_last = function()
-  neotest.run.run_last()
-end
-test.stop = function()
-  neotest.run.stop()
-end
-test.open_summary = function()
-  neotest.summary.toggle()
-end
-test.open_output = function()
-  neotest.output.open({ short = false })
-end
-test.open_output_panel = function()
-  neotest.output_panel.toggle()
-end
-test.jump_next = function()
-  neotest.jump.next({ status = "failed" })
-end
-test.jump_prev = function()
-  neotest.jump.prev({ status = "failed" })
-end
-
-vim.keymap.set('n', '<Space>mtn', test.run_nearest, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mtf', test.run_file, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mtl', test.run_last, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mtq', test.stop, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mts', test.open_summary, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mto', test.open_output, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mtp', test.open_output_panel, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mtj', test.jump_next, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mtk', test.jump_prev, { silent = true, noremap = true })
-
--- require("neotest").run.run({strategy = "dap"})
-
-        end,
-      lazy = false,
-    },
-    {
-      "nvim-neotest/neotest-go",
-      lazy = false,
-    },
-    {
-      "nvim-neotest/neotest-python",
+      "iamcco/markdown-preview.nvim",
+        ft = {
+          "markdown",
+        },
       lazy = false,
     },
     {
@@ -3577,6 +3509,10 @@ vim.keymap.set('n', '<Space>hdc', require('my.hydra').set_hydra('Coverage', {
 }), { silent = true, noremap = true })
 
         end,
+      lazy = false,
+    },
+    {
+      "nvim-neotest/nvim-nio",
       lazy = false,
     },
     {
@@ -3677,6 +3613,7 @@ vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
       ["<C-j>"] = "ScrollOutputDown",
     },
   },
+  template_cache_threshold = 0,
 })
 
         end,

@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/anuvyklack/hydra.nvim"
+  url: "https://github.com/nvimtools/hydra.nvim"
   rev: ~
   tag: ~
   filetypes: ~

@@ -4,7 +4,6 @@ config:
   rev: ~
   filetypes: ~
   commands:
-    - 'BufMRU*'
   maps: ~
   do: ~
   enable: true

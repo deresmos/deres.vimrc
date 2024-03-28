@@ -1,9 +1,9 @@
 ---
 config:
-  url: "https://github.com/nvim-neotest/neotest"
+  url: "https://github.com/theHamsta/nvim_rocks"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true
