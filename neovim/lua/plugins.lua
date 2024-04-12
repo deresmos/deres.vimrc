@@ -1081,67 +1081,6 @@ vim.g.qfixmemo_folding_pattern = '^=[^=]'
       lazy = false,
     },
     {
-      "rest-nvim/rest.nvim",
-        config = function()
-          require("rest-nvim").setup({
-  result_split_horizontal = false,
-  result_split_in_place = false,
-  stay_in_current_window_after_split = false,
-  skip_ssl_verification = false,
-  encode_url = true,
-  highlight = {
-    enabled = true,
-    timeout = 150,
-  },
-  result = {
-    show_url = true,
-    show_curl_command = true,
-    show_http_info = true,
-    show_headers = true,
-    show_statistics = false,
-    formatters = {
-      json = "jq",
-      html = function(body)
-        return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
-      end
-    },
-  },
-  -- Jump to request line on run
-  jump_to_request = false,
-  env_file = '.env',
-  custom_dynamic_variables = {},
-  yank_dry_run = true,
-  search_back = true,
-})
-
-local M = {}
-function M.run()
-  require('rest-nvim').run()
-end
-
-function M.preview()
-  require('rest-nvim').run(true)
-end
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("self.rest.nvim", {}),
-  pattern = { "http" },
-  callback = function()
-    vim.keymap.set('n', '<Space>hdr', require('my.hydra').set_hydra('Rest Client', {
-      { 'r', M.run,     { desc = 'Run', exit = true } },
-      { 'p', M.preview, { desc = 'Preview', exit = true } },
-      { 'q', nil,       { exit = true, nowait = true, desc = 'exit' } },
-    }, { color = 'blue' }), { silent = true, noremap = true, buffer = true })
-  end,
-})
-
-        end,
-        dependencies = {
-          "rest-nvim/rest.nvim",
-        },
-      lazy = false,
-    },
-    {
       "theHamsta/nvim_rocks",
       lazy = false,
     },
@@ -1446,6 +1385,17 @@ vim.keymap.set('n', '<Space>sc', ':<C-u>SClose<CR>:cd ~<CR>', {silent = true, no
 })
 
         end,
+      lazy = false,
+    },
+    {
+      "antosha417/nvim-lsp-file-operations",
+        config = function()
+          require("lsp-file-operations").setup()
+
+        end,
+        dependencies = {
+          "nvim-tree/nvim-tree.lua",
+        },
       lazy = false,
     },
     {
@@ -2088,11 +2038,7 @@ vim.keymap.set('n', '<Space>hdl', list_hydra, { silent = true, noremap = true })
   },
 })
 
-vim.keymap.set({ 'n', 'v' }, '<Space>mgl',
-  '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>',
-  { silent = true, desc = 'get github range url' })
-
-vim.api.nvim_set_keymap('n', '<Space>mgl', '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>', {silent = true})
+vim.api.nvim_set_keymap('n', '<Space>mgl', '<cmd>lua require"gitlinker".get_buf_range_url("n")<cr>', { silent = true })
 vim.api.nvim_set_keymap('v', '<Space>mgl', '<cmd>lua require"gitlinker".get_buf_range_url("v")<cr>', {})
 
         end,
@@ -3274,6 +3220,17 @@ map.set('x', '<C-l>', '<Plug>(textmanip-move-right)', { silent = true, noremap =
     ---Function to call after (un)comment
     post_hook = nil,
 })
+
+        end,
+      lazy = false,
+    },
+    {
+      "CopilotC-Nvim/CopilotChat.nvim",
+        config = function()
+          require("CopilotChat").setup {
+  debug = true, -- Enable debugging
+  -- See Configuration section for rest
+}
 
         end,
       lazy = false,

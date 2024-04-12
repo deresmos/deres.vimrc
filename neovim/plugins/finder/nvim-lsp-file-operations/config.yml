@@ -1,0 +1,11 @@
+---
+config:
+  url: "https://github.com/antosha417/nvim-lsp-file-operations"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dependencies:
+    - nvim-tree/nvim-tree.lua
