@@ -12,7 +12,7 @@ vim.g.startify_custom_indices = { 'a', 'b', 'c', 'd', 'f', 'g', 'i', 'm',
 --    }
 
 vim.g.startify_session_sort = 0
-vim.g.startify_session_persistence = 0
+vim.g.startify_session_persistence = 1
 vim.g.startify_session_savevars = {}
 
 vim.g.startify_session_before_save = {

@@ -1,22 +1,24 @@
 local builtin = require("statuscol.builtin")
 
 require("statuscol").setup({
+  setopt = true,
+  thousands = false,
+  relculright = false,
+  ft_ignore = nil,
+  bt_ignore = nil,
   segments = {
-    {
-      sign = { name = { "Git.*" }, maxwidth = 1, colwidth = 2, auto = false },
-    },
-    { text = { builtin.foldfunc } },
+    -- { text = { "%s" }, click = "v:lua.ScSa" },
+    { text = { builtin.lnumfunc } },
     {
       sign = { name = { "Diagnostic.*" }, maxwidth = 1, auto = false, fillchar = " " },
     },
-    -- {
-    --   sign = { name = { "StatusColumnBorder" }, maxwidth = 2, auto = true },
-    --   click = "v:lua.ScSa"
-    -- },
-    -- { text = { builtin.lnumfunc }, click = "v:lua.ScLa", },
     {
-      sign = { name = { ".*" }, maxwidth = 1, colwidth = 1, auto = false },
+      text = { builtin.foldfunc },
     },
+		{
+			sign = { namespace = { "gitsigns" }, name = { ".*" }, maxwidth = 1, colwidth = 1, auto = false, wrap = true },
+		},
     -- { text = { "│" }, maxwidth = 1, colwidth = 1, auto = false  },
-  }
+  },
 })
+

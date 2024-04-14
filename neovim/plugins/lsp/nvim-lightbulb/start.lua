@@ -1,7 +1,7 @@
 require('nvim-lightbulb').setup({
   ignore = {},
   sign = {
-    enabled = true,
+    enabled = false,
     priority = 10,
   },
   float = {
@@ -10,7 +10,7 @@ require('nvim-lightbulb').setup({
     win_opts = {},
   },
   virtual_text = {
-    enabled = false,
+    enabled = true,
     text = "💡",
     hl_mode = "replace",
   },

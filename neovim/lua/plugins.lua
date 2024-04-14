@@ -1303,7 +1303,7 @@ vim.g.startify_custom_indices = { 'a', 'b', 'c', 'd', 'f', 'g', 'i', 'm',
 --    }
 
 vim.g.startify_session_sort = 0
-vim.g.startify_session_persistence = 0
+vim.g.startify_session_persistence = 1
 vim.g.startify_session_savevars = {}
 
 vim.g.startify_session_before_save = {
@@ -2075,11 +2075,11 @@ vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_lin
 
 require('gitsigns').setup {
   signs                             = {
-    add          = { hl = 'GitSignsAdd', text = '▋', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-    change       = { hl = 'GitSignsChange', text = '▋', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+    add          = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+    change       = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
     delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
     topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-    changedelete = { hl = 'GitSignsChange', text = '▋', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+    changedelete = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
     untracked    = { hl = 'GitSignsChange', text = '┆', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
   },
   signcolumn                        = true,
@@ -2522,6 +2522,37 @@ require 'lualine'.setup {
       lazy = false,
     },
     {
+      "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require("statuscol.builtin")
+
+require("statuscol").setup({
+  setopt = true,
+  thousands = false,
+  relculright = false,
+  ft_ignore = nil,
+  bt_ignore = nil,
+  segments = {
+    -- { text = { "%s" }, click = "v:lua.ScSa" },
+    { text = { builtin.lnumfunc } },
+    {
+      sign = { name = { "Diagnostic.*" }, maxwidth = 1, auto = false, fillchar = " " },
+    },
+    {
+      text = { builtin.foldfunc },
+    },
+		{
+			sign = { namespace = { "gitsigns" }, name = { ".*" }, maxwidth = 1, colwidth = 1, auto = false, wrap = true },
+		},
+    -- { text = { "│" }, maxwidth = 1, colwidth = 1, auto = false  },
+  },
+})
+
+
+        end,
+      lazy = false,
+    },
+    {
       "aznhe21/actions-preview.nvim",
         config = function()
           require("actions-preview").setup {
@@ -2627,40 +2658,6 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
   local_settings_root_markers = { '.git' },
   append_default_schemas = true,
   loader = 'json',
-})
-
-        end,
-      lazy = false,
-    },
-    {
-      "kosayoda/nvim-lightbulb",
-        config = function()
-          require('nvim-lightbulb').setup({
-  ignore = {},
-  sign = {
-    enabled = true,
-    priority = 10,
-  },
-  float = {
-    enabled = false,
-    text = "💡",
-    win_opts = {},
-  },
-  virtual_text = {
-    enabled = false,
-    text = "💡",
-    hl_mode = "replace",
-  },
-  status_text = {
-    enabled = false,
-    text = "💡",
-    text_unavailable = ""
-  },
-  autocmd = {
-    enabled = true,
-    pattern = { "*" },
-    events = { "CursorHold" }
-  }
 })
 
         end,
