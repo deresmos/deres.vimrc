@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/uga-rosa/cmp-dictionary"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: true

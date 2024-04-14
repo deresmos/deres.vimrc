@@ -27,36 +27,6 @@ local plugins = {
       lazy = false,
     },
     {
-      "uga-rosa/cmp-dictionary",
-        config = function()
-          local dict = require("cmp_dictionary")
-
-dict.setup({
-  paths = { "/usr/share/dict/words" },
-  exact_length = 2,
-  first_case_insensitive = false,
-  document = {
-    enable = true,
-    command = { "wn", "${label}", "-over" },
-  },
-})
-
--- dict.switcher({
---   filetype = {
---     -- javascript = { "/path/to/js.dict", "/path/to/js2.dict" },
---   },
---   filepath = {
---     -- [".*xmake.lua"] = { "/path/to/xmake.dict", "/path/to/lua.dict" },
---   },
---   spelllang = {
---     -- en = "/path/to/english.dict",
---   },
--- })
-
-        end,
-      lazy = false,
-    },
-    {
       "hrsh7th/cmp-nvim-lsp",
       lazy = false,
     },
@@ -694,7 +664,7 @@ require("github-theme").setup({
   -- end
 })
 
-vim.cmd('colorscheme github_dark')
+vim.cmd('colorscheme github_dark_dimmed')
 
         end,
         priority = 1000,
@@ -898,7 +868,9 @@ end
 require('ufo').setup({
   -- fold_virt_text_handler = handler,
   open_fold_hl_timeout = 150,
-  close_fold_kinds = { 'imports', 'comment' },
+  close_fold_kinds_for_ft = {
+    default = {'imports'},
+  },
   preview = {
     win_config = {
       border = { '', '─', '', '', '', '─', '', '' },
@@ -2871,22 +2843,6 @@ vim.keymap.set('n', '<Space>lq', open_quickfix, { noremap = true, silent = true 
       lazy = true,
     },
     {
-      "ggandor/flit.nvim",
-        config = function()
-          require('flit').setup {
-  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
-  -- A string like "nv", "nvo", "o", etc.
-  labeled_modes = "v",
-  multiline = false,
-  -- Like `leap`s similar argument (call-specific overrides).
-  -- E.g.: opts = { equivalence_classes = {} }
-  opts = {}
-}
-
-        end,
-      lazy = false,
-    },
-    {
       "ggandor/leap.nvim",
         init = function()
         local function leap_win()
@@ -3387,13 +3343,6 @@ highlight link ALEWarningSign SpellCap
 ]]
 
         end,
-      lazy = false,
-    },
-    {
-      "iamcco/markdown-preview.nvim",
-        ft = {
-          "markdown",
-        },
       lazy = false,
     },
     {

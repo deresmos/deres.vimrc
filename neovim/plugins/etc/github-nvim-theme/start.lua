@@ -43,4 +43,4 @@ require("github-theme").setup({
   -- end
 })
 
-vim.cmd('colorscheme github_dark')
+vim.cmd('colorscheme github_dark_dimmed')
