@@ -85,6 +85,7 @@ vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, n
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true })
 
 
 --nnoremap <silent> <SPACE>nc <cmd>lua require('telescope').extensions.neoclip.default()<CR>
@@ -279,6 +280,8 @@ require('telescope').setup {
   },
   extensions = {
     file_browser = {
+      respect_gitignore = false,
+      no_ignore = true,
       mappings = {
         i = {
           ["<C-l>"] = actions.select_default,

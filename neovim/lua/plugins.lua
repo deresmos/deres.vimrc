@@ -27,6 +27,10 @@ local plugins = {
       lazy = false,
     },
     {
+      "saadparwaiz1/cmp_luasnip",
+      lazy = false,
+    },
+    {
       "hrsh7th/cmp-nvim-lsp",
       lazy = false,
     },
@@ -146,8 +150,8 @@ local cmp = require('cmp')
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["UltiSnips#Anon"](args.body)
-    end,
+      require 'luasnip'.lsp_expand(args.body)
+    end
   },
   completion = {
     autocomplete = {
@@ -175,12 +179,33 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.SelectBehavior.Replace }),
+    ['<C-i>'] = cmp.mapping(function(fallback)
+      if require 'luasnip'.expand_or_jumpable() then
+        require 'luasnip'.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<C-n>'] = cmp.mapping(function(fallback)
+      if require 'luasnip'.jumpable(1) then
+        require 'luasnip'.jump(1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<C-p>'] = cmp.mapping(function(fallback)
+      if require 'luasnip'.jumpable(-1) then
+        require 'luasnip'.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' })
   }),
   sources = cmp.config.sources({
     { name = 'dap' },
   }, {
-    { name = "copilot",  keyword_length = 0 },
-    { name = "ultisnips" },
+    { name = "copilot", keyword_length = 0 },
+    { name = "luasnip" },
     { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'nvim_lua' },
@@ -284,17 +309,6 @@ cmp.setup.cmdline('q:', {
     }
   })
 })
-
-        end,
-      lazy = false,
-    },
-    {
-      "SirVer/ultisnips",
-        init = function()
-        vim.g.UltiSnipsExpandTrigger       = "<C-l>"
-vim.g.UltiSnipsJumpForwardTrigger  = "<C-i>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<C-o>"
-vim.g.UltiSnipsEditSplit = "vertical"
 
         end,
       lazy = false,
@@ -1553,6 +1567,10 @@ vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RnvimrToggle<CR>', {noremap = tr
     },
     {
       "nvim-telescope/telescope-file-browser.nvim",
+        dependencies = {
+          "nvim-telescope/telescope.nvim",
+          "nvim-lua/plenary.nvim",
+        },
       lazy = false,
     },
     {
@@ -1660,6 +1678,7 @@ vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, n
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true })
 
 
 --nnoremap <silent> <SPACE>nc <cmd>lua require('telescope').extensions.neoclip.default()<CR>
@@ -1854,6 +1873,8 @@ require('telescope').setup {
   },
   extensions = {
     file_browser = {
+      respect_gitignore = false,
+      no_ignore = true,
       mappings = {
         i = {
           ["<C-l>"] = actions.select_default,
@@ -2687,7 +2708,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = { '*.go' },
   group = vim.api.nvim_create_augroup("my-formatting", {}),
   callback = function()
-    vim.lsp.buf.format({ async = true })
+    vim.lsp.buf.format({ async = false })
   end
 })
 
@@ -2708,7 +2729,7 @@ vim.keymap.set('n', '<Space>mh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 vim.keymap.set('n', '<Space>ms', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 -- vim.keymap.set('n', '<Space>mca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 vim.keymap.set('n', '<Space>mr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-vim.keymap.set('n', '<Space>mfr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+-- vim.keymap.set('n', '<Space>mfr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 -- vim.keymap.set('n', '<Space>mf', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
 vim.keymap.set('n', '<Space>ek', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.keymap.set('n', '<Space>ej', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
@@ -2794,11 +2815,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       "folke/trouble.nvim",
         init = function()
         local function open_workspace_diagnostics()
-  require('trouble').open('workspace_diagnostics')
+  require('trouble').open({mode='workspace_diagnostics'})
 end
 
 local function open_quickfix(name)
-  require('trouble').open('quickfix')
+  require('trouble').open({mode='quickfix'})
 end
 
 
@@ -2838,6 +2859,22 @@ vim.keymap.set('n', '<Space>lq', open_quickfix, { noremap = true, silent = true 
 
         end,
       lazy = true,
+    },
+    {
+      "ggandor/flit.nvim",
+        config = function()
+          require('flit').setup {
+  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
+  -- A string like "nv", "nvo", "o", etc.
+  labeled_modes = "v",
+  multiline = false,
+  -- Like `leap`s similar argument (call-specific overrides).
+  -- E.g.: opts = { equivalence_classes = {} }
+  opts = {}
+}
+
+        end,
+      lazy = false,
     },
     {
       "ggandor/leap.nvim",
@@ -2954,6 +2991,14 @@ vim.api.nvim_create_autocmd('ColorScheme', {
       lazy = false,
     },
     {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+          require'nvim-treesitter.configs'.setup {}
+
+        end,
+      lazy = false,
+    },
+    {
       "haya14busa/vim-asterisk",
         init = function()
         vim.cmd[[
@@ -2965,19 +3010,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   map gz* <Plug>(asterisk-gz*)
   map z#  <Plug>(asterisk-z#)
   map gz# <Plug>(asterisk-gz#)
-]]
-
-        end,
-        config = function()
-          vim.cmd[[
-  map *   <Plug>(asterisk-*)
-  map #   <Plug>(asterisk-#)
-  map g*  <Plug>(asterisk-g*)
-  map g#  <Plug>(asterisk-g#)
-  map z*  <Plug>(asterisk-z*)
-  map gz* <Plug>(asterisk-gz*)
-  map z#  <Plug>(asterisk-z#)
-  map gz# <Plug>(asterisk-gz#)
+  let g:asterisk#keeppos = 1
 ]]
 
         end,
@@ -3128,56 +3161,6 @@ map.set('x', '<C-l>', '<Plug>(textmanip-move-right)', { silent = true, noremap =
       lazy = false,
     },
     {
-      "numToStr/Comment.nvim",
-        config = function()
-          require('Comment').setup({
-    ---Add a space b/w comment and the line
-    padding = true,
-    ---Whether the cursor should stay at its position
-    sticky = true,
-    ---Lines to be ignored while (un)comment
-    ignore = nil,
-    ---LHS of toggle mappings in NORMAL mode
-    toggler = {
-        ---Line-comment toggle keymap
-        line = '<Space>co',
-        ---Block-comment toggle keymap
-        block = '<Space>cO',
-    },
-    ---LHS of operator-pending mappings in NORMAL and VISUAL mode
-    opleader = {
-        ---Line-comment keymap
-        line = '<Space>co',
-        ---Block-comment keymap
-        block = '<Space>cO',
-    },
-    ---LHS of extra mappings
-    extra = {
-        ---Add comment on the line above
-        --above = '<Space>cok',
-        ---Add comment on the line below
-        --below = '<Space>coj',
-        ---Add comment at the end of line
-        eol = '<Space>cA',
-    },
-    ---Enable keybindings
-    ---NOTE: If given `false` then the plugin won't create any mappings
-    mappings = {
-        ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
-        basic = true,
-        ---Extra mapping; `gco`, `gcO`, `gcA`
-        extra = true,
-    },
-    ---Function to call before (un)comment
-    pre_hook = nil,
-    ---Function to call after (un)comment
-    post_hook = nil,
-})
-
-        end,
-      lazy = false,
-    },
-    {
       "CopilotC-Nvim/CopilotChat.nvim",
         config = function()
           require("CopilotChat").setup {
@@ -3186,6 +3169,30 @@ map.set('x', '<C-l>', '<Plug>(textmanip-move-right)', { silent = true, noremap =
 }
 
         end,
+      lazy = false,
+    },
+    {
+      "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp",
+        init = function()
+        vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
+
+vim.keymap.set({"i", "s"}, "<C-E>", function()
+	if ls.choice_active() then
+		ls.change_choice(1)
+	end
+end, {silent = true})
+
+        end,
+        config = function()
+          require("luasnip.loaders.from_snipmate").lazy_load()
+
+        end,
+        dependencies = {
+          "honza/vim-snippets",
+        },
       lazy = false,
     },
     {
@@ -3257,7 +3264,7 @@ let g:ale_linters = {
   \ 'cs': ['OmniSharp'],
   \ 'swift': ['swiftlint'],
   \ 'kotlin': ['ktlint'],
-  \ 'go': ['staticcheck', 'golangci-lint'],
+  \ 'go': ['staticcheck'],
   \ 'yaml': ['yamllint', 'cfn-lint'],
   \ }
 
@@ -3338,6 +3345,129 @@ let g:ale_fixers = {
 
 highlight link ALEWarningSign SpellCap
 ]]
+
+        end,
+      lazy = false,
+    },
+    {
+      "iamcco/markdown-preview.nvim",
+        ft = {
+          "markdown",
+        },
+      lazy = false,
+    },
+    {
+      "MeanderingProgrammer/markdown.nvim",
+        config = function()
+          require('render-markdown').setup({
+    -- Configure whether Markdown should be rendered by default or not
+    start_enabled = true,
+    -- Capture groups that get pulled from markdown
+    markdown_query = [[
+        (atx_heading [
+            (atx_h1_marker)
+            (atx_h2_marker)
+            (atx_h3_marker)
+            (atx_h4_marker)
+            (atx_h5_marker)
+            (atx_h6_marker)
+        ] @heading)
+
+        (thematic_break) @dash
+
+        (fenced_code_block) @code
+
+        [
+            (list_marker_plus)
+            (list_marker_minus)
+            (list_marker_star)
+        ] @list_marker
+
+        (task_list_marker_unchecked) @checkbox_unchecked
+        (task_list_marker_checked) @checkbox_checked
+
+        (block_quote (block_quote_marker) @quote_marker)
+        (block_quote (paragraph (inline (block_continuation) @quote_marker)))
+
+        (pipe_table) @table
+        (pipe_table_header) @table_head
+        (pipe_table_delimiter_row) @table_delim
+        (pipe_table_row) @table_row
+    ]],
+    -- Capture groups that get pulled from inline markdown
+    inline_query = [[
+        (code_span) @code
+    ]],
+    -- The level of logs to write to file: vim.fn.stdpath('state') .. '/render-markdown.log'
+    -- Only intended to be used for plugin development / debugging
+    log_level = 'error',
+    -- Filetypes this plugin will run on
+    file_types = { 'markdown' },
+    -- Vim modes that will show a rendered view of the markdown file
+    -- All other modes will be uneffected by this plugin
+    render_modes = { 'n', 'c' },
+    -- Characters that will replace the # at the start of headings
+    headings = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
+    -- Character to use for the horizontal break
+    dash = '—',
+    -- Character to use for the bullet points in lists
+    bullets = { '●', '○', '◆', '◇' },
+    checkbox = {
+        -- Character that will replace the [ ] in unchecked checkboxes
+        unchecked = '󰄱 ',
+        -- Character that will replace the [x] in checked checkboxes
+        checked = ' ',
+    },
+    -- Character that will replace the > at the start of block quotes
+    quote = '┃',
+    -- See :h 'conceallevel' for more information about meaning of values
+    conceal = {
+        -- conceallevel used for buffer when not being rendered, get user setting
+        default = vim.opt.conceallevel:get(),
+        -- conceallevel used for buffer when being rendered
+        rendered = 3,
+    },
+    -- Add a line above and below tables to complete look, ends up like a window
+    fat_tables = true,
+    -- Define the highlight groups to use when rendering various components
+    highlights = {
+        heading = {
+            -- Background of heading line
+            backgrounds = { 'DiffAdd', 'DiffChange', 'DiffDelete' },
+            -- Foreground of heading character only
+            foregrounds = {
+                'markdownH1',
+                'markdownH2',
+                'markdownH3',
+                'markdownH4',
+                'markdownH5',
+                'markdownH6',
+            },
+        },
+        -- Horizontal break
+        dash = 'LineNr',
+        -- Code blocks
+        code = 'ColorColumn',
+        -- Bullet points in list
+        bullet = 'Normal',
+        checkbox = {
+            -- Unchecked checkboxes
+            unchecked = '@markup.list.unchecked',
+            -- Checked checkboxes
+            checked = '@markup.heading',
+        },
+        table = {
+            -- Header of a markdown table
+            head = '@markup.heading',
+            -- Non header rows in a markdown table
+            row = 'Normal',
+        },
+        -- LaTeX blocks
+        latex = '@markup.math',
+        -- Quote character in a block quote
+        quote = '@markup.quote',
+    },
+})
 
         end,
       lazy = false,

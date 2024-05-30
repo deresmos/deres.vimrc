@@ -7,4 +7,5 @@ vim.cmd[[
   map gz* <Plug>(asterisk-gz*)
   map z#  <Plug>(asterisk-z#)
   map gz# <Plug>(asterisk-gz#)
+  let g:asterisk#keeppos = 1
 ]]

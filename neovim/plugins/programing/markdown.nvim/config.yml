@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/numToStr/Comment.nvim"
+  url: "https://github.com/MeanderingProgrammer/markdown.nvim"
   rev: ~
   filetypes: ~
   commands: ~

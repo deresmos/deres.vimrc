@@ -1,0 +1,11 @@
+---
+config:
+  url: "https://github.com/L3MON4D3/LuaSnip"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  build: make install_jsregexp
+  enable: true
+  dependencies:
+    - honza/vim-snippets

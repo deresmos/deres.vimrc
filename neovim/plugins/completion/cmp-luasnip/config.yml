@@ -1,9 +1,9 @@
 ---
 config:
-  url: "https://github.com/SirVer/ultisnips"
+  url: "https://github.com/saadparwaiz1/cmp_luasnip"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: false
+  enable: true

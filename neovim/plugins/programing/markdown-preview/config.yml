@@ -1,0 +1,14 @@
+---
+config:
+  url: "https://github.com/iamcco/markdown-preview.nvim"
+  rev: ~
+  filetypes:
+    - markdown
+  commands:
+    - MarkdownPreviewToggle
+    - MarkdownPreview
+    - MarkdownPreviewStop
+  maps: ~
+  do: ~
+    # vim.fn["mkdp#util#install"]()
+  enable: true

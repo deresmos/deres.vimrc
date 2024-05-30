@@ -1,9 +1,9 @@
 local function open_workspace_diagnostics()
-  require('trouble').open('workspace_diagnostics')
+  require('trouble').open({mode='workspace_diagnostics'})
 end
 
 local function open_quickfix(name)
-  require('trouble').open('quickfix')
+  require('trouble').open({mode='quickfix'})
 end
 
 

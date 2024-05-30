@@ -3,8 +3,8 @@ local cmp = require('cmp')
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["UltiSnips#Anon"](args.body)
-    end,
+      require 'luasnip'.lsp_expand(args.body)
+    end
   },
   completion = {
     autocomplete = {
@@ -32,12 +32,33 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.SelectBehavior.Replace }),
+    ['<C-i>'] = cmp.mapping(function(fallback)
+      if require 'luasnip'.expand_or_jumpable() then
+        require 'luasnip'.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<C-n>'] = cmp.mapping(function(fallback)
+      if require 'luasnip'.jumpable(1) then
+        require 'luasnip'.jump(1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<C-p>'] = cmp.mapping(function(fallback)
+      if require 'luasnip'.jumpable(-1) then
+        require 'luasnip'.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' })
   }),
   sources = cmp.config.sources({
     { name = 'dap' },
   }, {
-    { name = "copilot",  keyword_length = 0 },
-    { name = "ultisnips" },
+    { name = "copilot", keyword_length = 0 },
+    { name = "luasnip" },
     { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'nvim_lua' },

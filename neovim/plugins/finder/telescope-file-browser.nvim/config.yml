@@ -7,3 +7,6 @@ config:
   maps: ~
   do: ~
   enable: true
+  dependencies:
+    - nvim-telescope/telescope.nvim
+    - nvim-lua/plenary.nvim
