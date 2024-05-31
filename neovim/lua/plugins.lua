@@ -39,14 +39,6 @@ local plugins = {
       lazy = false,
     },
     {
-      "quangnguyen30192/cmp-nvim-ultisnips",
-        config = function()
-          require('cmp_nvim_ultisnips').setup{}
-
-        end,
-      lazy = false,
-    },
-    {
       "hrsh7th/cmp-path",
       lazy = false,
     },

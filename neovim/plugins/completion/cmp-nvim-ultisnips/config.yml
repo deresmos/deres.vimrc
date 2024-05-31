@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/quangnguyen30192/cmp-nvim-ultisnips"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: true
