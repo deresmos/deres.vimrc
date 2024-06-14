@@ -56,6 +56,18 @@ local function open_diffview_commit(prompt_bufnr)
   end)
 end
 
+
+
+-- vim.keymap.set('n', '<Space>hdf', require('my.hydra').set_hydra('Git', {
+--   { 'ff', finder.files, { desc = 'files' } },
+--   { 'fb', finder.files_from_buffer, { desc = 'files from buffer' } },
+--   { 'fp', finder.files_from_project, { desc = 'files from project' } },
+--   { 'fr', finder.oldfiles, { desc = 'files from recentry' } },
+--   { 'b', finder.buffers, { desc = 'buffers' } },
+--   { 'q', nil,                { exit = true, nowait = true, desc = 'exit' } },
+-- }), { silent = true, noremap = true })
+
+
 vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>bf', finder.files_from_buffer, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>pf', finder.files_from_project, { silent = true, noremap = true })

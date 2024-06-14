@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/nvim-telescope/telescope-packer.nvim"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: false
