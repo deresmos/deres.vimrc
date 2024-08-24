@@ -54,7 +54,7 @@ require("CopilotChat").setup {
       prompt = '/COPILOT_GENERATE Please generate tests for my code.',
     },
     FixDiagnostic = {
-      prompt = 'Please assist with the following diagnostic issue in file:',
+      prompt = '日本語で答えてください。Please assist with the following diagnostic issue in file:',
       selection = select.diagnostics,
     },
     Commit = {

@@ -932,46 +932,15 @@ vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == clo
       "ahmedkhalf/project.nvim",
         config = function()
           require("project_nvim").setup {
-  {
-    -- Manual mode doesn't automatically change your root directory, so you have
-    -- the option to manually do so using `:ProjectRoot` command.
-    manual_mode = false,
-
-    -- Methods of detecting the root directory. **"lsp"** uses the native neovim
-    -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
-    -- order matters: if one is not detected, the other is used as fallback. You
-    -- can also delete or rearangne the detection methods.
-    detection_methods = { "lsp", "pattern" },
-
-    -- All the patterns used to detect root dir, when **"pattern"** is in
-    -- detection_methods
-    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn" },
-
-    -- Table of lsp clients to ignore by name
-    -- eg: { "efm", ... }
-    ignore_lsp = {},
-
-    -- Don't calculate root dir on specific directories
-    -- Ex: { "~/.cargo/*", ... }
-    exclude_dirs = {},
-
-    -- Show hidden files in telescope
-    show_hidden = false,
-
-    -- When set to false, you will get a message when project.nvim changes your
-    -- directory.
-    silent_chdir = true,
-
-    -- What scope to change the directory, valid options are
-    -- * global (default)
-    -- * tab
-    -- * win
-    scope_chdir = 'global',
-
-    -- Path where project.nvim will store the project history for use in
-    -- telescope
-    datapath = vim.fn.stdpath("data"),
-  }
+  manual_mode = false,
+  detection_methods = { "pattern", "lsp" },
+  patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn" },
+  ignore_lsp = {},
+  exclude_dirs = {},
+  show_hidden = false,
+  silent_chdir = true,
+  scope_chdir = 'global',
+  datapath = vim.fn.stdpath("data"),
 }
 
         end,
@@ -2098,15 +2067,26 @@ vim.keymap.set('n', '<Space>gtd', "<cmd>lua require'gitsigns'.toggle_deleted()<C
 vim.keymap.set('n', '<Space>gtb', "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>",
   { silent = true, noremap = true })
 
+vim.api.nvim_set_hl(0, 'GitSignsAdd', { link = 'GitSignsAdd' })
+vim.api.nvim_set_hl(0, 'GitSignsAddLn', { link = 'GitSignsAddLn' })
+vim.api.nvim_set_hl(0, 'GitSignsAddNr', { link = 'GitSignsAddNr' })
+vim.api.nvim_set_hl(0, 'GitSignsChange', { link = 'GitSignsChange' })
+vim.api.nvim_set_hl(0, 'GitSignsChangeLn', { link = 'GitSignsChangeLn' })
+vim.api.nvim_set_hl(0, 'GitSignsChangeNr', { link = 'GitSignsChangeNr' })
+vim.api.nvim_set_hl(0, 'GitSignsChangedelete', { link = 'GitSignsChange' })
+vim.api.nvim_set_hl(0, 'GitSignsChangedeleteLn', { link = 'GitSignsChangeLn' })
+vim.api.nvim_set_hl(0, 'GitSignsChangedeleteNr', { link = 'GitSignsChangeNr' })
+vim.api.nvim_set_hl(0, 'GitSignsDelete', { link = 'GitSignsDelete' })
+vim.api.nvim_set_hl(0, 'GitSignsDeleteLn', { link = 'GitSignsDeleteLn' })
+vim.api.nvim_set_hl(0, 'GitSignsDeleteNr', { link = 'GitSignsDeleteNr' })
+vim.api.nvim_set_hl(0, 'GitSignsTopdelete', { link = 'GitSignsDelete' })
+vim.api.nvim_set_hl(0, 'GitSignsTopdeleteLn', { link = 'GitSignsDeleteLn' })
+vim.api.nvim_set_hl(0, 'GitSignsTopdeleteNr', { link = 'GitSignsDeleteNr' })
+vim.api.nvim_set_hl(0, 'GitSignsUntracked', { link = 'GitSignsChange' })
+vim.api.nvim_set_hl(0, 'GitSignsUntrackedLn', { link = 'GitSignsChangeLn' })
+vim.api.nvim_set_hl(0, 'GitSignsUntrackedNr', { link = 'GitSignsChangeNr' })
+
 require('gitsigns').setup {
-  signs                             = {
-    add          = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-    change       = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-    delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-    topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-    changedelete = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-    untracked    = { hl = 'GitSignsChange', text = '┆', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-  },
   signcolumn                        = true,
   numhl                             = false,
   linehl                            = false,
@@ -2120,9 +2100,6 @@ require('gitsigns').setup {
     virt_text = true,
     virt_text_pos = 'eol',
     delay = 1000,
-  },
-  current_line_blame_formatter_opts = {
-    relative_time = false
   },
   sign_priority                     = 6,
   update_debounce                   = 100,
@@ -2152,9 +2129,6 @@ require('gitsigns').setup {
     internal = true,
   },
   word_diff                         = false,
-  yadm                              = {
-    enable = false
-  },
 }
 
 local gitsigns = require('gitsigns')
@@ -3223,7 +3197,7 @@ require("CopilotChat").setup {
       prompt = '/COPILOT_GENERATE Please generate tests for my code.',
     },
     FixDiagnostic = {
-      prompt = 'Please assist with the following diagnostic issue in file:',
+      prompt = '日本語で答えてください。Please assist with the following diagnostic issue in file:',
       selection = select.diagnostics,
     },
     Commit = {
@@ -3660,7 +3634,7 @@ null_ls.setup({
 
     null_ls.builtins.diagnostics.textlint,
 
-    null_ls.builtins.formatting.jq,
+    -- null_ls.builtins.formatting.jq,
 
     -- null_ls.builtins.diagnostics.terraform_validate,
     null_ls.builtins.formatting.terraform_fmt,

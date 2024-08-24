@@ -9,7 +9,7 @@ null_ls.setup({
 
     null_ls.builtins.diagnostics.textlint,
 
-    null_ls.builtins.formatting.jq,
+    -- null_ls.builtins.formatting.jq,
 
     -- null_ls.builtins.diagnostics.terraform_validate,
     null_ls.builtins.formatting.terraform_fmt,
