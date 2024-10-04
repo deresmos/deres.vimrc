@@ -28,6 +28,21 @@ end
 
 require('ufo').setup({
   -- fold_virt_text_handler = handler,
+  fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+    -- filetypeがgoだったら
+    if vim.bo.filetype == 'go' then
+      local line = vim.fn.getline(lnum+1)
+      local name = line:match('name: "(.-)"')
+      if name then
+        local text = require'ufo.decorator'.defaultVirtTextHandler(virtText, lnum, endLnum, width, truncate)
+        -- text の末尾に追加
+        text[#text] = { ' name: ' .. name, 'Comment' }
+        return text
+      end
+    end
+
+    return require'ufo.decorator'.defaultVirtTextHandler(virtText, lnum, endLnum, width, truncate)
+  end,
   open_fold_hl_timeout = 150,
   close_fold_kinds_for_ft = {
     default = {'imports'},

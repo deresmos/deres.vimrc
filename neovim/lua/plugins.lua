@@ -873,6 +873,21 @@ end
 
 require('ufo').setup({
   -- fold_virt_text_handler = handler,
+  fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+    -- filetypeがgoだったら
+    if vim.bo.filetype == 'go' then
+      local line = vim.fn.getline(lnum+1)
+      local name = line:match('name: "(.-)"')
+      if name then
+        local text = require'ufo.decorator'.defaultVirtTextHandler(virtText, lnum, endLnum, width, truncate)
+        -- text の末尾に追加
+        text[#text] = { ' name: ' .. name, 'Comment' }
+        return text
+      end
+    end
+
+    return require'ufo.decorator'.defaultVirtTextHandler(virtText, lnum, endLnum, width, truncate)
+  end,
   open_fold_hl_timeout = 150,
   close_fold_kinds_for_ft = {
     default = {'imports'},
@@ -1028,7 +1043,64 @@ vim.g.qfixmemo_folding_pattern = '^=[^=]'
       lazy = false,
     },
     {
-      "theHamsta/nvim_rocks",
+      "rest-nvim/rest.nvim",
+        config = function()
+          require("rest-nvim").setup({
+  result_split_horizontal = false,
+  result_split_in_place = false,
+  stay_in_current_window_after_split = false,
+  skip_ssl_verification = false,
+  encode_url = true,
+  highlight = {
+    enabled = true,
+    timeout = 150,
+  },
+  result = {
+    show_url = true,
+    show_curl_command = true,
+    show_http_info = true,
+    show_headers = true,
+    show_statistics = false,
+    formatters = {
+      json = "jq",
+      html = function(body)
+        return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
+      end
+    },
+  },
+  -- Jump to request line on run
+  jump_to_request = false,
+  env_file = '.env',
+  custom_dynamic_variables = {},
+  yank_dry_run = true,
+  search_back = true,
+})
+
+local M = {}
+function M.run()
+  require('rest-nvim').run()
+end
+
+function M.preview()
+  require('rest-nvim').run(true)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("self.rest.nvim", {}),
+  pattern = { "http", "rest" },
+  callback = function()
+    vim.keymap.set('n', '<Space>hdr', require('my.hydra').set_hydra('Rest Client', {
+      { 'r', M.run,     { desc = 'Run', exit = true } },
+      { 'p', M.preview, { desc = 'Preview', exit = true } },
+      { 'q', nil,       { exit = true, nowait = true, desc = 'exit' } },
+    }, { color = 'blue' }), { silent = true, noremap = true, buffer = true })
+  end,
+})
+
+        end,
+        dependencies = {
+          "nvim-treesitter/nvim-treesitter",
+        },
       lazy = false,
     },
     {

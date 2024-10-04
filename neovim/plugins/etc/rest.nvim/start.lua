@@ -40,7 +40,7 @@ end
 
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("self.rest.nvim", {}),
-  pattern = { "http" },
+  pattern = { "http", "rest" },
   callback = function()
     vim.keymap.set('n', '<Space>hdr', require('my.hydra').set_hydra('Rest Client', {
       { 'r', M.run,     { desc = 'Run', exit = true } },

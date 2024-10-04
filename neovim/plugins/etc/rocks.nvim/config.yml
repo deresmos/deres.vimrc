@@ -1,9 +1,9 @@
 ---
 config:
-  url: "https://github.com/theHamsta/nvim_rocks"
+  url: "https://github.com/nvim-neorocks/rocks.nvim"
   rev: ~
   filetypes: ~
   commands: ~
   maps: ~
   do: ~
-  enable: true
+  enable: false
