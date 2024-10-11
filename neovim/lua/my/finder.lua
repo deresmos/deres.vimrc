@@ -105,6 +105,10 @@ function M.diagnostics()
   telescope_builtin.diagnostics({ fname_width = 80 })
 end
 
+function M.diagnostics_error()
+  telescope_builtin.diagnostics({ fname_width = 80, severity_limit = 2 })
+end
+
 -- ETC
 function M.history()
   telescope_builtin.pickers()
@@ -128,6 +132,14 @@ end
 
 function M.git_status()
   telescope_builtin.git_status()
+end
+
+function M.git_commits()
+  telescope_builtin.git_commits()
+end
+
+function M.git_bcommits()
+  telescope_builtin.git_bcommits()
 end
 
 function M.git_branches()

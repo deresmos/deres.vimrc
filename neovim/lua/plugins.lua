@@ -1714,6 +1714,8 @@ vim.keymap.set('n', '<SPACE>fB', finder.file_browser_from_buffer, { silent = tru
 vim.keymap.set('n', '<SPACE>pb', finder.file_browser_from_project, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>dgs', finder.git_status, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>dgc', finder.git_commits, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>dgC', finder.git_bcommits, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>dgb', finder.git_branches, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>sl', finder.sessions, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>hlo', finder.memos, { silent = true, noremap = true })

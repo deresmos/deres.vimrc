@@ -88,6 +88,8 @@ vim.keymap.set('n', '<SPACE>fB', finder.file_browser_from_buffer, { silent = tru
 vim.keymap.set('n', '<SPACE>pb', finder.file_browser_from_project, { silent = true, noremap = true })
 
 vim.keymap.set('n', '<SPACE>dgs', finder.git_status, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>dgc', finder.git_commits, { silent = true, noremap = true })
+vim.keymap.set('n', '<SPACE>dgC', finder.git_bcommits, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>dgb', finder.git_branches, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>sl', finder.sessions, { silent = true, noremap = true })
 vim.keymap.set('n', '<SPACE>hlo', finder.memos, { silent = true, noremap = true })
@@ -97,6 +99,7 @@ vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, n
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mdL', finder.diagnostics_error, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true })
 
 
