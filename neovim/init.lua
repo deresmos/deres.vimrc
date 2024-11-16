@@ -1,7 +1,23 @@
+vim.g.is_windows_os = vim.fn.has('win64') or vim.fn.has('win32')
+
+-- vimディレクトリの取得
+if vim.g.is_windows_os == 1 then
+  vim.g.vim_dir = os.getenv("LOCALAPPDATA") .. "/.vim"
+  vim.g.nvim_dir = os.getenv("LOCALAPPDATA") .. "/nvim"
+else
+  vim.g.vim_dir = os.getenv("HOME") .. "/.vim"
+  vim.g.nvim_dir = "~/.config/nvim"
+end
+
+-- その他のディレクトリの設定
+vim.g.undo_dir = vim.g.vim_dir .. "/undo"
+vim.g.view_dir = vim.g.vim_dir .. "/view"
+vim.g.startify_session_dir = vim.g.vim_dir .. "/session"
+
 require "plugins"
 
 
-vim.cmd('source ~/.config/nvim/vimrc')
+vim.cmd('source ' .. vim.g.nvim_dir .. '/vimrc')
 
 local vim_conf_path = vim.fn.expand('$HOME/.config/nvim')
 if vim.fn.filereadable(vim_conf_path .. '/custom.vim') == 1 then

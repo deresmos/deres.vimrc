@@ -1725,6 +1725,7 @@ vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, n
 vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mdL', finder.diagnostics_error, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true })
 
 
@@ -2512,7 +2513,7 @@ require 'lualine'.setup {
       --   'diagnostics',
       --   symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
       -- },
-      lualine_config.lsp_status,
+      -- lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,
       'fileformat',
@@ -3567,6 +3568,27 @@ let g:ale_fixers = {
 
 highlight link ALEWarningSign SpellCap
 ]]
+
+        end,
+      lazy = false,
+    },
+    {
+      "akinsho/flutter-tools.nvim",
+        ft = {
+          "dart",
+        },
+        config = function()
+          require("flutter-tools").setup {}
+require('flutter-tools').setup_project({
+  {
+    name = 'Development', -- an arbitrary name that you provide so you can recognise this config
+    dart_define_from_file = 'flavor/dev.json' -- the path to a JSON configuration file
+  },
+  {
+    name = 'Profile',
+    flutter_mode = 'profile',
+  }
+})
 
         end,
       lazy = false,

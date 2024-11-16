@@ -175,7 +175,7 @@ require 'lualine'.setup {
       --   'diagnostics',
       --   symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
       -- },
-      lualine_config.lsp_status,
+      -- lualine_config.lsp_status,
       'encoding',
       lualine_config.indent_type,
       'fileformat',

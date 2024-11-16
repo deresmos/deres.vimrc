@@ -1,0 +1,10 @@
+---
+config:
+  url: "https://github.com/akinsho/flutter-tools.nvim"
+  rev: ~
+  filetypes:
+    - dart
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
