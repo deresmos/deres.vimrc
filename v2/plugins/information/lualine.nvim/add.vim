@@ -100,7 +100,7 @@ lualine_config.diagnostics = function()
 end
 
 lualine_config.lsp_status = function()
-  if #vim.lsp.buf_get_clients() == 0 then
+  if #vim.lsp.get_clients() == 0 then
     return ''
   end
 

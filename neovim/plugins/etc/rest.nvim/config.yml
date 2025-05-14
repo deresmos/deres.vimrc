@@ -6,6 +6,6 @@ config:
   commands: ~
   maps: ~
   do: ~
-  enable: true
+  enable: false
   dependencies:
     - nvim-treesitter/nvim-treesitter

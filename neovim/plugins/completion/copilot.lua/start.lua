@@ -40,9 +40,4 @@ require("copilot").setup({
   },
 })
 
-local api = require("copilot.api")
-api.register_status_notification_handler(function(data)
-  vim.api.nvim_set_var("copilot_status", data.status)
-end)
-
 vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", { silent = true, noremap = true })

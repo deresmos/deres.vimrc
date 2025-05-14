@@ -12,7 +12,7 @@ require("github-theme").setup({
     darken = {
       floats = false,
       sidebars = {
-        enabled = true,
+        enable = true,
         list = { "qf", "vista_kind", "terminal", "packer" },
       },
     },
