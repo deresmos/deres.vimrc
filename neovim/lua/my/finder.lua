@@ -81,6 +81,14 @@ function M.grep_visual_from_buffer()
 end
 
 -- LSP
+function M.lsp_definitions()
+  telescope_builtin.lsp_definitions({ fname_width = 80 })
+end
+
+function M.lsp_type_definitions()
+  telescope_builtin.lsp_type_definitions({ fname_width = 80 })
+end
+
 function M.lsp_references()
   telescope_builtin.lsp_references({ fname_width = 80 })
 end

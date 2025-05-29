@@ -18,5 +18,6 @@ nvim_dein_dir=$nvim_dir/dein
 # シンボリックリンク貼り貼り
 ln -sf ${dir}/init.lua $nvim_dir/
 ln -sf ${dir}/lua $nvim_dir/
+ln -sf ${dir}/lsp $nvim_dir/
 ln -sf ${dir}/nlsp-settings $nvim_dir/
 ln -sf ${dir}/vimrc $nvim_dir/

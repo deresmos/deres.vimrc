@@ -147,3 +147,5 @@ vim.opt.fillchars = {
   vertleft = '│',
   verthoriz = '│',
 }
+
+require("lsp")

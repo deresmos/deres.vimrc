@@ -101,6 +101,8 @@ vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, no
 vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mdL', finder.diagnostics_error, { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mgd', finder.lsp_definitions, { silent = true, noremap = true })
+vim.keymap.set('n', '<Space>mgt', finder.lsp_type_definitions, { silent = true, noremap = true })
 
 
 --nnoremap <silent> <SPACE>nc <cmd>lua require('telescope').extensions.neoclip.default()<CR>
