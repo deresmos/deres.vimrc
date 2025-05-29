@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/williamboman/mason.nvim"
+  url: "https://github.com/mason-org/mason.nvim"
   rev: ~
   filetypes: ~
   commands: ~

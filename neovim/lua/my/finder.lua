@@ -105,6 +105,10 @@ function M.diagnostics()
   telescope_builtin.diagnostics({ fname_width = 80 })
 end
 
+function M.diagnostics_buffer()
+  telescope_builtin.diagnostics({ fname_width = 80, bufnr=0 })
+end
+
 function M.diagnostics_error()
   telescope_builtin.diagnostics({ fname_width = 80, severity_limit = 2 })
 end

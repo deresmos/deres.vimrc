@@ -99,11 +99,6 @@ local plugins = {
   },
 })
 
--- local api = require("copilot.api")
--- api.register_status_notification_handler(function(data)
---   vim.api.nvim_set_var("copilot_status", data.status)
--- end)
-
 vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", { silent = true, noremap = true })
 
         end,
@@ -504,6 +499,7 @@ dap.configurations.go = {
     {
       elements = {
         "repl",
+        "console"
       },
       size = 10,
       position = "bottom",
@@ -1341,6 +1337,22 @@ vim.keymap.set('n', '<Space>sc', ':<C-u>SClose<CR>:cd ~<CR>', {silent = true, no
     },
   },
 })
+
+        end,
+      lazy = false,
+    },
+    {
+      "bassamsdata/namu.nvim",
+        config = function()
+          require("namu").setup({
+      -- Enable the modules you want
+      namu_symbols = {
+        enable = true,
+        options = {}, -- here you can configure namu
+      },
+      -- Optional: Enable other modules if needed
+      ui_select = { enable = false }, -- vim.ui.select() wrapper
+    })
 
         end,
       lazy = false,
@@ -2659,7 +2671,7 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
       lazy = false,
     },
     {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
       lazy = false,
     },
     {
