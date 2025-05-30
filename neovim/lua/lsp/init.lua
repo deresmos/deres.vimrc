@@ -58,3 +58,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.config('*', {
   capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
+
+vim.api.nvim_create_user_command(
+  'LSPInfo',
+  'checkhealth vim.lsp',
+  { desc = 'LSP health check' })

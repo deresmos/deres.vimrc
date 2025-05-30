@@ -2679,10 +2679,6 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
       lazy = false,
     },
     {
-      "neovim/nvim-lspconfig",
-      lazy = false,
-    },
-    {
       "folke/trouble.nvim",
         init = function()
         local function open_workspace_diagnostics()
@@ -3378,27 +3374,6 @@ let g:ale_fixers = {
 
 highlight link ALEWarningSign SpellCap
 ]]
-
-        end,
-      lazy = false,
-    },
-    {
-      "akinsho/flutter-tools.nvim",
-        ft = {
-          "dart",
-        },
-        config = function()
-          require("flutter-tools").setup {}
-require('flutter-tools').setup_project({
-  {
-    name = 'Development', -- an arbitrary name that you provide so you can recognise this config
-    dart_define_from_file = 'flavor/dev.json' -- the path to a JSON configuration file
-  },
-  {
-    name = 'Profile',
-    flutter_mode = 'profile',
-  }
-})
 
         end,
       lazy = false,
