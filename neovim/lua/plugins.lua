@@ -106,6 +106,10 @@ vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", { silent = true, noremap 
     },
     {
       "ray-x/lsp_signature.nvim",
+        config = function()
+          require "lsp_signature".setup({})
+
+        end,
       lazy = false,
     },
     {
@@ -2635,7 +2639,13 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
     {
       "mason-org/mason-lspconfig.nvim",
         config = function()
-          --require("mason-lspconfig").setup()
+          require("mason-lspconfig").setup({
+  automatic_enable = {
+    exclude = {
+      "lua_ls",
+    }
+  }
+})
 
         end,
       lazy = false,
@@ -2664,20 +2674,6 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
       "mason-org/mason.nvim",
         config = function()
           require("mason").setup()
-
-        end,
-      lazy = false,
-    },
-    {
-      "tamago324/nlsp-settings.nvim",
-        config = function()
-          require("nlspsettings").setup({
-  config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
-  local_settings_dir = ".nlsp-settings",
-  local_settings_root_markers = { '.git' },
-  append_default_schemas = true,
-  loader = 'json',
-})
 
         end,
       lazy = false,
@@ -2861,14 +2857,6 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     })
   end
 })
-
-        end,
-      lazy = false,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-        config = function()
-          require'nvim-treesitter.configs'.setup {}
 
         end,
       lazy = false,
