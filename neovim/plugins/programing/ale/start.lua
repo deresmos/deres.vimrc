@@ -6,6 +6,7 @@
 --     vim.b.ale_fix_on_save = 1
 --   end,
 -- })
+vim.g.ale_disable_lsp = 1
 
 vim.g.ale_use_neovim_diagnostics_api = 1
 vim.g.ale_go_golangci_lint_package = 1

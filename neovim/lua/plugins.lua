@@ -2640,11 +2640,6 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
       "mason-org/mason-lspconfig.nvim",
         config = function()
           require("mason-lspconfig").setup({
-  automatic_enable = {
-    exclude = {
-      "lua_ls",
-    }
-  }
 })
 
         end,
@@ -3235,6 +3230,7 @@ end, {silent = true})
 --     vim.b.ale_fix_on_save = 1
 --   end,
 -- })
+vim.g.ale_disable_lsp = 1
 
 vim.g.ale_use_neovim_diagnostics_api = 1
 vim.g.ale_go_golangci_lint_package = 1
@@ -3374,6 +3370,27 @@ let g:ale_fixers = {
 
 highlight link ALEWarningSign SpellCap
 ]]
+
+        end,
+      lazy = false,
+    },
+    {
+      "akinsho/flutter-tools.nvim",
+        ft = {
+          "dart",
+        },
+        config = function()
+          require("flutter-tools").setup {}
+require('flutter-tools').setup_project({
+  {
+    name = 'Development', -- an arbitrary name that you provide so you can recognise this config
+    dart_define_from_file = 'flavor/dev.json' -- the path to a JSON configuration file
+  },
+  {
+    name = 'Profile',
+    flutter_mode = 'profile',
+  }
+})
 
         end,
       lazy = false,
