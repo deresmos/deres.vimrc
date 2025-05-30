@@ -60,6 +60,6 @@ vim.lsp.config('*', {
 })
 
 vim.api.nvim_create_user_command(
-  'LSPInfo',
+  'LspInfo',
   'checkhealth vim.lsp',
   { desc = 'LSP health check' })
