@@ -1,5 +1,3 @@
-local view = require("nvim-tree.view")
-
 local function wrap_node(f)
   return function(node, ...)
     node = node or require("nvim-tree.lib").get_node_at_cursor()

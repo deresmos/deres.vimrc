@@ -1372,9 +1372,7 @@ vim.keymap.set("n", "<Space>ft", toggle, { silent = true, noremap = true })
 
         end,
         config = function()
-          local view = require("nvim-tree.view")
-
-local function wrap_node(f)
+          local function wrap_node(f)
   return function(node, ...)
     node = node or require("nvim-tree.lib").get_node_at_cursor()
     f(node, ...)
@@ -2674,6 +2672,10 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
       lazy = false,
     },
     {
+      "neovim/nvim-lspconfig",
+      lazy = false,
+    },
+    {
       "folke/trouble.nvim",
         init = function()
         local function open_workspace_diagnostics()
@@ -3513,39 +3515,6 @@ require('flutter-tools').setup_project({
         -- Quote character in a block quote
         quote = '@markup.quote',
     },
-})
-
-        end,
-      lazy = false,
-    },
-    {
-      "nvimtools/none-ls.nvim",
-        config = function()
-          local null_ls = require("null-ls")
-
-null_ls.setup({
-  diagnostics_format = "#{m} (#{s}: #{c})",
-  sources = {
-    -- null_ls.builtins.formatting.gofmt,
-    null_ls.builtins.diagnostics.golangci_lint,
-    -- null_ls.builtins.diagnostics.staticcheck,
-
-    null_ls.builtins.diagnostics.textlint,
-
-    -- null_ls.builtins.formatting.jq,
-
-    -- null_ls.builtins.diagnostics.terraform_validate,
-    null_ls.builtins.formatting.terraform_fmt,
-
-    -- null_ls.builtins.diagnostics.cspell.with({
-    --   diagnostics_postprocess = function(diagnostic)
-    --     diagnostic.severity = vim.diagnostic.severity.WARN
-    --   end,
-    --   condition = function()
-    --     return vim.fn.executable('cspell') > 0
-    --   end
-    -- })
-  },
 })
 
         end,

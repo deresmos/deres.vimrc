@@ -9,6 +9,7 @@ return {
     gopls = {
       analyses = {
         unusedparams = true,
+        QF1008 = false,
       },
       staticcheck = true,
       usePlaceholders = true,
