@@ -1043,6 +1043,17 @@ vim.g.qfixmemo_folding_pattern = '^=[^=]'
       lazy = false,
     },
     {
+      "folke/snacks.nvim",
+        init = function()
+        require 'snacks'.setup({
+  input = { enabled = true },
+  picker = { enabled = true },
+})
+
+        end,
+      lazy = false,
+    },
+    {
       "kkharji/sqlite.lua",
       lazy = false,
     },
@@ -1311,36 +1322,6 @@ vim.keymap.set('n', '<Space>ss', ':<C-u>SSave<Space>', { noremap = true })
 vim.keymap.set('n', '<Space>sS', ':<cmd>SSave!<CR>', { silent = true, noremap = true })
 vim.keymap.set('n', '<Space>sd', ':<C-u>SDelete<Space>', { noremap = true })
 vim.keymap.set('n', '<Space>sc', ':<C-u>SClose<CR>:cd ~<CR>', {silent = true, noremap=true})
-
-        end,
-      lazy = false,
-    },
-    {
-      "stevearc/dressing.nvim",
-        commit = "1f2d1206a03bd3add8aedf6251e4534611de577f",
-        config = function()
-          require('dressing').setup({
-  input = {
-    prefer_width = 0.4,
-    max_width = { 140, 0.9 },
-    min_width = { 40, 0.4 },
-    mappings = {
-      n = {
-        ["<Esc>"] = "Close",
-        ["q"] = "Close",
-        ["<CR>"] = "Confirm",
-      },
-      i = {
-        ["<C-c>"] = "Close",
-        ["<CR>"] = "Confirm",
-        ["<Up>"] = "HistoryPrev",
-        ["<Down>"] = "HistoryNext",
-        ["<C-k>"] = "HistoryPrev",
-        ["<C-j>"] = "HistoryNext",
-      },
-    },
-  },
-})
 
         end,
       lazy = false,
@@ -1860,6 +1841,9 @@ require('telescope').setup {
   },
   extensions = {
     file_browser = {
+      select_buffer = true,
+      follow_symlinks = true,
+      prompt_path = true,
       respect_gitignore = false,
       no_ignore = true,
       mappings = {

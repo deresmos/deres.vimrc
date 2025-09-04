@@ -297,6 +297,9 @@ require('telescope').setup {
   },
   extensions = {
     file_browser = {
+      select_buffer = true,
+      follow_symlinks = true,
+      prompt_path = true,
       respect_gitignore = false,
       no_ignore = true,
       mappings = {

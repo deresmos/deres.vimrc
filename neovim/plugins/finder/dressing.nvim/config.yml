@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/stevearc/dressing.nvim"
-  rev: "1f2d1206a03bd3add8aedf6251e4534611de577f"
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: true
