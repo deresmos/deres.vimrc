@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/debugloop/telescope-undo.nvim"
+  url: "https://github.com/esmuellert/codediff.nvim"
   rev: ~
   filetypes: ~
   commands: ~

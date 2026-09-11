@@ -15,93 +15,116 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
     {
-      "hrsh7th/cmp-buffer",
-      lazy = false,
-    },
-    {
-      "hrsh7th/cmp-calc",
-      lazy = false,
-    },
-    {
-      "hrsh7th/cmp-cmdline",
-      lazy = false,
-    },
-    {
-      "saadparwaiz1/cmp_luasnip",
-      lazy = false,
-    },
-    {
-      "hrsh7th/cmp-nvim-lsp",
-      lazy = false,
-    },
-    {
-      "hrsh7th/cmp-nvim-lua",
-      lazy = false,
-    },
-    {
-      "hrsh7th/cmp-path",
-      lazy = false,
-    },
-    {
-      "lukas-reineke/cmp-under-comparator",
-      lazy = false,
-    },
-    {
-      "zbirenbaum/copilot-cmp",
+      "saghen/blink.cmp",
+        branch = "v1",
         config = function()
-          require("copilot_cmp").setup()
+          local luasnip = require('luasnip')
 
-        end,
-      lazy = false,
+require('blink.cmp').setup({
+  enabled = function()
+    return vim.bo.buftype ~= 'prompt'
+  end,
+  keymap = {
+    preset = 'none',
+    ['<C-j>'] = { 'select_next', 'show', 'fallback' },
+    ['<C-k>'] = { 'select_prev', 'show', 'fallback' },
+    ['<C-d>'] = { 'scroll_documentation_up', 'fallback' },
+    ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+    ['<C-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+    ['<CR>'] = { 'select_and_accept', 'fallback' },
+    ['<C-i>'] = {
+      function()
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+          return true
+        end
+      end,
+      'fallback',
     },
-    {
-      "zbirenbaum/copilot.lua",
-        config = function()
-          require("copilot").setup({
-  suggestion = {
-    enabled = true,
-    auto_trigger = true,
-    debounce = 75,
-    keymap = {
-      accept = "<M-p>",
-      accept_word = false,
-      accept_line = false,
-      next = "<M-]>",
-      prev = "<M-[>",
-      dismiss = "<C-]>",
+    ['<C-n>'] = {
+      function()
+        if luasnip.jumpable(1) then
+          luasnip.jump(1)
+          return true
+        end
+      end,
+      'select_next',
+      'show',
+      'fallback',
+    },
+    ['<C-p>'] = {
+      function()
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+          return true
+        end
+      end,
+      'select_prev',
+      'show',
+      'fallback',
     },
   },
-  panel = {
-    enabled = true,
-    auto_refresh = false,
-    keymap = {
-      jump_prev = "[[",
-      jump_next = "]]",
-      accept = "<CR>",
-      refresh = "gr",
-      open = "<M-CR>"
+  snippets = {
+    preset = 'luasnip',
+  },
+  completion = {
+    list = {
+      selection = {
+        preselect = false,
+        auto_insert = false,
+      },
     },
-    layout = {
-      position = "bottom", -- | top | left | right
-      ratio = 0.4
+    menu = {
+      border = 'rounded',
+    },
+    documentation = {
+      auto_show = true,
+      window = {
+        border = 'rounded',
+      },
+    },
+    ghost_text = {
+      enabled = false,
     },
   },
-  filetypes = {
-    yaml = true,
-    markdown = false,
-    help = false,
-    gitcommit = true,
-    gitrebase = false,
-    hgcommit = false,
-    svn = false,
-    cvs = false,
-    ["."] = false,
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'buffer' },
+  },
+  cmdline = {
+    keymap = {
+      preset = 'none',
+      ['<C-j>'] = { 'select_next', 'show', 'fallback' },
+      ['<C-k>'] = { 'select_prev', 'show', 'fallback' },
+      ['<Tab>'] = { 'select_next', 'show', 'fallback' },
+      ['<S-Tab>'] = { 'select_prev', 'show', 'fallback' },
+      ['<C-Space>'] = { 'show', 'fallback' },
+      ['<CR>'] = { 'select_accept_and_enter', 'fallback' },
+      ['<C-e>'] = { 'cancel', 'fallback' },
+      ['<C-y>'] = { 'select_and_accept', 'fallback' },
+    },
+    sources = { 'path', 'cmdline' },
+    completion = {
+      list = {
+        selection = {
+          preselect = false,
+          auto_insert = false,
+        },
+      },
+      menu = {
+        auto_show = true,
+      },
+    },
+  },
+  fuzzy = {
+    implementation = 'prefer_rust_with_warning',
   },
 })
 
-vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", { silent = true, noremap = true })
-
         end,
+        dependencies = {
+          "L3MON4D3/LuaSnip",
+          "saghen/blink.lib",
+        },
       lazy = false,
     },
     {
@@ -113,193 +136,9 @@ vim.keymap.set("i", "<M-.>", "<cmd>Copilot panel<CR>", { silent = true, noremap 
       lazy = false,
     },
     {
-      "onsails/lspkind-nvim",
-        config = function()
-          require('lspkind').init({
-    preset = 'default',
-    symbol_map = {},
-})
-
-        end,
-      lazy = false,
-    },
-    {
       "windwp/nvim-autopairs",
         config = function()
-          require('nvim-autopairs').setup({
-  disable_filetype = {"TelescopePrompt"},
-})
-
-        end,
-      lazy = false,
-    },
-    {
-      "hrsh7th/nvim-cmp",
-        config = function()
-          local types = require('cmp.types')
-local cmp = require('cmp')
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      require 'luasnip'.lsp_expand(args.body)
-    end
-  },
-  completion = {
-    autocomplete = {
-      types.cmp.TriggerEvent.TextChanged,
-    },
-    completeopt = 'menuone,noinsert,noselect',
-    keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
-    keyword_length = 1,
-  },
-  experimental = {
-    ghost_text = false,
-  },
-  enabled = function()
-    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-    --or require("cmp_dap").is_dap_buffer()
-  end,
-  window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.SelectBehavior.Replace }),
-    ['<C-i>'] = cmp.mapping(function(fallback)
-      if require 'luasnip'.expand_or_jumpable() then
-        require 'luasnip'.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<C-n>'] = cmp.mapping(function(fallback)
-      if require 'luasnip'.jumpable(1) then
-        require 'luasnip'.jump(1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<C-p>'] = cmp.mapping(function(fallback)
-      if require 'luasnip'.jumpable(-1) then
-        require 'luasnip'.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' })
-  }),
-  sources = cmp.config.sources({
-    { name = 'dap' },
-  }, {
-    { name = "copilot", keyword_length = 0 },
-    { name = "luasnip" },
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'nvim_lua' },
-    {
-      name = "dictionary",
-      keyword_length = 2,
-    },
-  }, {
-    { name = 'path' },
-  }, {
-    { name = 'calc' },
-    -- { name = 'nvim_lsp_signature_help' },
-  }),
-  sorting = {
-    comparators = {
-      require("copilot_cmp.comparators").prioritize,
-      cmp.config.compare.offset,
-      cmp.config.compare.exact,
-      cmp.config.compare.score,
-      require "cmp-under-comparator".under,
-      cmp.config.compare.kind,
-      cmp.config.compare.sort_text,
-      cmp.config.compare.length,
-      cmp.config.compare.order,
-    },
-  },
-})
-
-local function select_next_item()
-  if cmp.visible() then
-    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-  else
-    cmp.complete()
-  end
-end
-
-local function select_prev_item()
-  if cmp.visible() then
-    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-  else
-    cmp.complete()
-  end
-end
-
-local cmdline_mapping = {
-  ['<C-j>'] = {
-    c = select_next_item
-  },
-  ['<C-k>'] = {
-    c = select_prev_item
-  },
-  ['<Tab>'] = {
-    c = select_next_item
-  },
-  ['<S-Tab>'] = {
-    c = select_prev_item
-  },
-  ['<C-Space>'] = {
-    c = cmp.mapping.complete(),
-  },
-  ['<CR>'] = {
-    c = cmp.mapping.confirm({ select = true, behavior = cmp.SelectBehavior.Replace }),
-  },
-  ['<C-e>'] = {
-    c = cmp.mapping.abort(),
-  },
-  ['<C-y>'] = {
-    c = cmp.mapping.confirm({ select = false }),
-  },
-}
--- cmp.setup.cmdline('/', {
---   mapping = cmdline_mapping,
---   sources = {
---     { name = 'buffer' }
---   }
--- })
-cmp.setup.cmdline(':', {
-  mapping = cmdline_mapping,
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    {
-      name = 'cmdline',
-      option = {
-        ignore_cmds = { 'Man', '!' }
-      }
-    }
-  })
-})
-
-cmp.setup.cmdline('q:', {
-  mapping = cmdline_mapping,
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    {
-      name = 'cmdline',
-      option = {
-        ignore_cmds = { 'Man', '!' }
-      }
-    }
-  })
-})
+          require('nvim-autopairs').setup({})
 
         end,
       lazy = false,
@@ -553,43 +392,6 @@ vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'GitGutterAdd', linehl
       lazy = false,
     },
     {
-      "jackMort/ChatGPT.nvim",
-        init = function()
-        local function open()
-end
-
-vim.keymap.set("n", "<Space>ch", open, {noremap = true, silent=true})
-
-        end,
-        config = function()
-          require("chatgpt").setup({
-  popup_input = {
-    submit = "<C-s>",
-  },
-})
-
-        end,
-      lazy = true,
-    },
-    {
-      "numToStr/FTerm.nvim",
-        config = function()
-          local fterm = require('FTerm')
-fterm.setup({
-  border     = 'double',
-  dimensions = {
-    height = 0.9,
-    width = 0.9,
-  },
-})
-
-vim.api.nvim_create_user_command('FTermToggle', fterm.toggle, { bang = true })
--- require('FTerm').scratch({ cmd = 'yarn build' })
-
-        end,
-      lazy = false,
-    },
-    {
       "notomo/cmdbuf.nvim",
         config = function()
           vim.keymap.set("n", "<Space>q:", function()
@@ -754,56 +556,6 @@ local translate_hydra = Hydra({
     hl = { underline = true },
   }
 }
-
-        end,
-      lazy = false,
-    },
-    {
-      "AckslD/nvim-neoclip.lua",
-        config = function()
-          require('neoclip').setup({
-  history = 100,
-  enable_persistent_history = true,
-  length_limit = 1048576,
-  continuous_sync = true,
-  db_path = vim.fn.stdpath("data") .. "/neoclip.sqlite3",
-  filter = nil,
-  preview = true,
-  default_register = '"',
-  default_register_macros = 'q',
-  enable_macro_history = true,
-  content_spec_column = false,
-  on_paste = {
-    set_reg = false,
-  },
-  on_replay = {
-    set_reg = false,
-  },
-  keys = {
-    telescope = {
-      i = {
-        select = '<cr>',
-        paste = '<c-p>',
-        paste_behind = '<c-k>',
-        replay = '<c-q>', -- replay a macro
-        delete = '<c-d>', -- delete an entry
-        custom = {},
-      },
-      n = {
-        select = '<cr>',
-        paste = 'p',
-        --- It is possible to map to more than one key.
-        -- paste = { 'p', '<c-p>' },
-        paste_behind = 'P',
-        replay = '@',
-        delete = 'D',
-        custom = {},
-      },
-    },
-  },
-})
-
-vim.keymap.set("n", "<Space>nc", "<cmd>Telescope neoclip<CR>", { silent = true, noremap = true })
 
         end,
       lazy = false,
@@ -1110,55 +862,99 @@ vim.api.nvim_create_autocmd("FileType", {
   input = { enabled = true },
   picker = {
     enabled = true,
-    -- telescopeのlayout_strategy = "vertical"相当: input/list/previewを
-    -- 縦に並べ、previewを下部に表示する
+    actions = {
+      -- Grep の選択項目（未選択なら絞り込み結果全件）を quickfix に送り、
+      -- そのまま qfreplace の編集バッファを開く。
+      qfreplace = function(picker)
+        require('snacks.picker.actions').qflist(picker)
+        vim.schedule(function()
+          vim.cmd('Qfreplace tabnew')
+        end)
+      end,
+    },
+    -- input/list/preview を縦に並べ、preview を下部に表示する
     layout = {
       preset = "vertical",
       layout = { width = 0.8 },
+    },
+    -- 全 Picker 共通の Normal mode 操作。
+    -- file browser は h だけ個別に親ディレクトリへの移動へ上書きする。
+    win = {
+      input = {
+        keys = {
+          ['l'] = { 'confirm', mode = 'n' },
+          ['h'] = { 'cancel', mode = 'n' },
+          ['<C-l>'] = { 'confirm', mode = { 'i', 'n' } },
+          ['<C-h>'] = { 'cancel', mode = { 'i', 'n' } },
+        },
+      },
+      list = {
+        keys = {
+          ['<Space>r'] = 'qfreplace',
+          ['l'] = 'confirm',
+          ['h'] = 'cancel',
+          ['<C-l>'] = 'confirm',
+          ['<C-h>'] = 'cancel',
+        },
+      },
+      preview = {
+        keys = {
+          ['l'] = 'confirm',
+          ['h'] = 'cancel',
+          ['<C-l>'] = 'confirm',
+          ['<C-h>'] = 'cancel',
+        },
+      },
     },
   },
 })
 
         end,
         config = function()
-          -- Test keymaps for comparing snacks.nvim's picker against the telescope
--- pickers wired up in neovim/plugins/finder/telescope.nvim/start.lua.
---
--- These are deliberately kept on a separate <Space>z prefix so they don't
--- collide with (or replace) the existing telescope <Space>f/b/d.../mappings.
--- Once snacks.nvim is confirmed to cover what we need, these can be merged
--- into lua/my/finder.lua and the telescope mappings removed.
+          -- Finder keymaps backed by Snacks.picker.
 
 local finder = require('my.finder_snacks')
 SnacksFinder = finder
 
-vim.keymap.set('n', '<Space>zf', finder.files, { silent = true, noremap = true, desc = 'snacks: files' })
-vim.keymap.set('n', '<Space>zF', finder.files_from_buffer, { silent = true, noremap = true, desc = 'snacks: files from buffer' })
-vim.keymap.set('n', '<Space>zp', finder.files_from_project, { silent = true, noremap = true, desc = 'snacks: files from project' })
-vim.keymap.set('n', '<Space>zr', finder.oldfiles, { silent = true, noremap = true, desc = 'snacks: recent files' })
+vim.keymap.set('n', '<Space>ff', finder.files, { silent = true, noremap = true, desc = 'files' })
+vim.keymap.set('n', '<Space>bf', finder.files_from_buffer, { silent = true, noremap = true, desc = 'files from buffer' })
+vim.keymap.set('n', '<Space>pf', finder.files_from_project, { silent = true, noremap = true, desc = 'files from project' })
+vim.keymap.set('n', '<Space>fr', finder.oldfiles, { silent = true, noremap = true, desc = 'recent files' })
 
-vim.keymap.set('n', '<Space>zb', finder.buffers, { silent = true, noremap = true, desc = 'snacks: buffers' })
+vim.keymap.set('n', '<Space>bb', finder.buffers, { silent = true, noremap = true, desc = 'buffers' })
 
-vim.keymap.set('n', '<Space>zg', finder.grep, { silent = true, noremap = true, desc = 'snacks: grep' })
-vim.keymap.set('n', '<Space>zG', finder.grep_from_buffer, { silent = true, noremap = true, desc = 'snacks: grep from buffer' })
-vim.keymap.set('n', '<Space>zw', finder.grep_word, { silent = true, noremap = true, desc = 'snacks: grep word under cursor' })
-vim.keymap.set('n', '<Space>zl', finder.resume, { silent = true, noremap = true, desc = 'snacks: resume last picker' })
+vim.keymap.set('n', '<Space>fg', finder.grep, { silent = true, noremap = true, desc = 'grep' })
+vim.keymap.set('n', '<Space>fG', finder.grep_word, { silent = true, noremap = true, desc = 'grep word' })
+vim.keymap.set('n', '<Space>bg', finder.grep_from_buffer, { silent = true, noremap = true, desc = 'grep from buffer' })
+vim.keymap.set('n', '<Space>bG', finder.grep_word_from_buffer, { silent = true, noremap = true, desc = 'grep word from buffer' })
+vim.keymap.set('n', '<Space>pg', finder.grep_from_project, { silent = true, noremap = true, desc = 'grep from project' })
+vim.keymap.set('n', '<Space>pG', finder.grep_word_from_project, { silent = true, noremap = true, desc = 'grep word from project' })
+vim.keymap.set('n', '<Space>fl', finder.resume, { silent = true, noremap = true, desc = 'resume last picker' })
+vim.keymap.set('n', '<Space>fh', finder.history, { silent = true, noremap = true, desc = 'picker history' })
 
-vim.keymap.set('n', '<Space>ze', finder.file_browser, { silent = true, noremap = true, desc = 'snacks: file browser (flat, non-tree)' })
-vim.keymap.set('n', '<Space>zE', finder.file_browser_from_buffer, { silent = true, noremap = true, desc = 'snacks: file browser from buffer dir' })
-vim.keymap.set('n', '<Space>zP', finder.file_browser_from_project, { silent = true, noremap = true, desc = 'snacks: file browser from project root' })
+vim.keymap.set('n', '<Space>fb', finder.file_browser, { silent = true, noremap = true, desc = 'file browser' })
+vim.keymap.set('n', '<Space>fB', finder.file_browser_from_buffer, { silent = true, noremap = true, desc = 'file browser from buffer dir' })
+vim.keymap.set('n', '<Space>pb', finder.file_browser_from_project, { silent = true, noremap = true, desc = 'file browser from project root' })
 
-vim.keymap.set('n', '<Space>zsl', finder.sessions, { silent = true, noremap = true, desc = 'snacks: sessions' })
+vim.keymap.set('n', '<Space>sl', finder.sessions, { silent = true, noremap = true, desc = 'sessions' })
+vim.keymap.set('n', '<Space>hlo', finder.memos, { silent = true, noremap = true, desc = 'memos' })
+vim.keymap.set('n', '<Space>nc', finder.registers, { silent = true, noremap = true, desc = 'registers' })
 
-vim.keymap.set('n', '<Space>zdgs', finder.git_status, { silent = true, noremap = true, desc = 'snacks: git status' })
-vim.keymap.set('n', '<Space>zdgc', finder.git_log, { silent = true, noremap = true, desc = 'snacks: git log' })
-vim.keymap.set('n', '<Space>zdgb', finder.git_branches, { silent = true, noremap = true, desc = 'snacks: git branches' })
+vim.keymap.set('n', '<Space>dgs', finder.git_status, { silent = true, noremap = true, desc = 'git status' })
+vim.keymap.set('n', '<Space>dgc', finder.git_log, { silent = true, noremap = true, desc = 'git log' })
+vim.keymap.set('n', '<Space>dgC', finder.git_bcommits, { silent = true, noremap = true, desc = 'git log for current file' })
+vim.keymap.set('n', '<Space>dgb', finder.git_branches, { silent = true, noremap = true, desc = 'git branches' })
 
-vim.keymap.set('n', '<Space>zmgd', finder.lsp_definitions, { silent = true, noremap = true, desc = 'snacks: lsp definitions' })
-vim.keymap.set('n', '<Space>zmfr', finder.lsp_references, { silent = true, noremap = true, desc = 'snacks: lsp references' })
-vim.keymap.set('n', '<Space>zmgi', finder.lsp_implementations, { silent = true, noremap = true, desc = 'snacks: lsp implementations' })
-vim.keymap.set('n', '<Space>zmfs', finder.lsp_document_symbols, { silent = true, noremap = true, desc = 'snacks: lsp document symbols' })
-vim.keymap.set('n', '<Space>zmdl', finder.diagnostics, { silent = true, noremap = true, desc = 'snacks: diagnostics' })
+vim.keymap.set('n', '<Space>mgd', finder.lsp_definitions, { silent = true, noremap = true, desc = 'lsp definitions' })
+vim.keymap.set('n', '<Space>mgt', finder.lsp_type_definitions, { silent = true, noremap = true, desc = 'lsp type definitions' })
+vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true, desc = 'lsp references' })
+vim.keymap.set('n', '<Space>mgi', finder.lsp_implementations, { silent = true, noremap = true, desc = 'lsp implementations' })
+vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true, desc = 'lsp incoming calls' })
+vim.keymap.set('n', '<Space>moc', finder.lsp_outgoing_calls, { silent = true, noremap = true, desc = 'lsp outgoing calls' })
+vim.keymap.set('n', '<Space>mfs', finder.lsp_document_symbols, { silent = true, noremap = true, desc = 'lsp document symbols' })
+vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true, desc = 'diagnostics' })
+vim.keymap.set('n', '<Space>mdB', finder.diagnostics_buffer, { silent = true, noremap = true, desc = 'buffer diagnostics' })
+vim.keymap.set('n', '<Space>mdL', finder.diagnostics_error, { silent = true, noremap = true, desc = 'errors and warnings' })
 
         end,
       lazy = false,
@@ -1228,7 +1024,7 @@ todo.setup {
 vim.keymap.set('n', '<Space>hdC', require('my.hydra').set_hydra('Todo comment', {
   { 'j', todo.jump_next,                          { desc = 'Next' } },
   { 'k', todo.jump_prev,                          { desc = 'Prev' } },
-  { 'l', '<cmd>Telescope todo-comments todo<CR>', { desc = 'clean', exit = true, sep = '' } },
+  { 'l', function() Snacks.picker.todo_comments() end, { desc = 'clean', exit = true, sep = '' } },
   { 'q', nil,                                     { exit = true, nowait = true, desc = 'exit', sep = '' } },
 }), { silent = true, noremap = true })
 
@@ -1373,27 +1169,6 @@ vim.keymap.set('n', '<Space>bp', '<cmd>BufMRUNext<CR>', {silent=true, noremap=tr
       lazy = false,
     },
     {
-      "diepm/vim-rest-console",
-        ft = {
-          "rest",
-        },
-        init = function()
-        vim.g.vrc_set_default_mapping = 0
-vim.g.vrc_auto_format_uhex    = 1
-
-vim.g.vrc_curl_opts           = {
-  ['--connect-timeout'] = 15,
-  ['-L'] = '',
-  ['-i'] = '',
-  ['-s'] = '',
-  ['--max-time'] = 60,
-  ['--ipv4'] = '',
-}
-
-        end,
-      lazy = false,
-    },
-    {
       "mhinz/vim-startify",
         init = function()
         vim.g.startify_disable_at_vimenter = 1
@@ -1478,8 +1253,9 @@ local function grep_directory(node)
 
   if node.fs_stat.type == "directory" then
     -- view.close()
-    require('my.finder').set_cwd(node.absolute_path)
-    Finder.grep()
+    local finder = require('my.finder_snacks')
+    finder.set_cwd(node.absolute_path)
+    finder.grep()
   end
 end
 
@@ -1490,8 +1266,9 @@ local function find_files(node)
   end
 
   if node.fs_stat.type == "directory" then
-    require('my.finder').set_cwd(node.absolute_path)
-    Finder.files()
+    local finder = require('my.finder_snacks')
+    finder.set_cwd(node.absolute_path)
+    finder.files()
   end
 end
 
@@ -1585,31 +1362,6 @@ require("nvim-tree").setup({
       lazy = true,
     },
     {
-      "kelly-lin/ranger.nvim",
-        config = function()
-          local ranger_nvim = require("ranger-nvim")
-ranger_nvim.setup({
-  replace_netrw = false,
-  keybinds = {
-    ["<C-v>"] = ranger_nvim.OPEN_MODE.vsplit,
-    ["<C-s>"] = ranger_nvim.OPEN_MODE.split,
-  },
-})
-
-        end,
-      lazy = false,
-    },
-    {
-      "francoiscabrol/ranger.vim",
-        init = function()
-        vim.g.ranger_replace_netrw = 0
--- vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RangerCurrentFile<CR>', {noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<Space>rA', '<cmd>RangerWorkingDirectory<CR>', {noremap = true, silent = true})
-
-        end,
-      lazy = false,
-    },
-    {
       "kevinhwang91/rnvimr",
         init = function()
         vim.g.rnvimr_presets = {
@@ -1623,461 +1375,40 @@ vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RnvimrToggle<CR>', {noremap = tr
       lazy = false,
     },
     {
-      "fcying/telescope-ctags-outline.nvim",
-      lazy = false,
-    },
-    {
-      "nvim-telescope/telescope-file-browser.nvim",
-        dependencies = {
-          "nvim-telescope/telescope.nvim",
-          "nvim-lua/plenary.nvim",
-        },
-      lazy = false,
-    },
-    {
-      "tsakirist/telescope-lazy.nvim",
-        dependencies = {
-          "tsakirist/telescope-lazy.nvim",
-        },
-      lazy = false,
-    },
-    {
-      "da-moon/telescope-toggleterm.nvim",
-      lazy = false,
-    },
-    {
-      "debugloop/telescope-undo.nvim",
-      lazy = false,
-    },
-    {
-      "nvim-telescope/telescope.nvim",
+      "esmuellert/codediff.nvim",
         config = function()
-          local actions = require("telescope.actions")
-local action_state = require('telescope.actions.state')
-local fb_actions = require("telescope").extensions.file_browser.actions
-local Layout = require "telescope.pickers.layout"
-
-function TestStatus()
-  local opts = {
-    attach_mappings = function(_, map)
-      return true
-    end,
-  }
-
-  require("telescope.builtin").git_status(opts)
-end
-
-local finder = require('my.finder')
-Finder = finder
-
-local function grep_dir(_)
-  local selection = action_state.get_selected_entry()
-  local path = selection.path
-  if selection.Path:is_file() then
-    path = selection.path:match(".*/")
-  end
-
-  require('my.finder').set_cwd(path)
-  Finder.grep()
-end
-
-local function find_files(_)
-  local selection = action_state.get_selected_entry()
-  local path = selection.path
-  if selection.Path:is_file() then
-    path = selection.path:match(".*/")
-  end
-
-  require('my.finder').set_cwd(path)
-  Finder.files()
-end
-
-local function open_diffview_head_to_commit(prompt_bufnr)
-  local selected_entry = action_state.get_selected_entry()
-  local value = selected_entry.value
-  actions.close(prompt_bufnr)
-  vim.schedule(function()
-    vim.cmd(("DiffviewOpen %s^"):format(value))
-  end)
-end
-
-local function open_diffview_commit(prompt_bufnr)
-  local selected_entry = action_state.get_selected_entry()
-  local value = selected_entry.value
-  actions.close(prompt_bufnr)
-  vim.schedule(function()
-    vim.cmd(("DiffviewOpen %s^!"):format(value))
-  end)
-end
-
-
-
--- vim.keymap.set('n', '<Space>hdf', require('my.hydra').set_hydra('Git', {
---   { 'ff', finder.files, { desc = 'files' } },
---   { 'fb', finder.files_from_buffer, { desc = 'files from buffer' } },
---   { 'fp', finder.files_from_project, { desc = 'files from project' } },
---   { 'fr', finder.oldfiles, { desc = 'files from recentry' } },
---   { 'b', finder.buffers, { desc = 'buffers' } },
---   { 'q', nil,                { exit = true, nowait = true, desc = 'exit' } },
--- }), { silent = true, noremap = true })
-
-
-vim.keymap.set('n', '<SPACE>ff', finder.files, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>bf', finder.files_from_buffer, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>pf', finder.files_from_project, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>fr', finder.oldfiles, { silent = true, noremap = true })
-
-vim.keymap.set('n', '<SPACE>bb', finder.buffers, { silent = true, noremap = true })
-
-vim.keymap.set('n', '<SPACE>fg', finder.grep, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>fG', finder.grep_visual, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>bg', finder.grep_from_buffer, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>bG', finder.grep_visual_from_buffer, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>pg', finder.grep_from_project, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>pG', finder.grep_visual_from_project, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>fl', finder.resume, { silent = true, noremap = true })
-
-vim.keymap.set('n', '<SPACE>fb', finder.file_browser, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>fB', finder.file_browser_from_buffer, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>pb', finder.file_browser_from_project, { silent = true, noremap = true })
-
-vim.keymap.set('n', '<SPACE>dgs', finder.git_status, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>dgc', finder.git_commits, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>dgC', finder.git_bcommits, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>dgb', finder.git_branches, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>sl', finder.sessions, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>hlo', finder.memos, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>fh', finder.history, { silent = true, noremap = true })
-
-vim.keymap.set('n', '<SPACE>mgi', finder.lsp_implementations, { silent = true, noremap = true })
-vim.keymap.set('n', '<SPACE>mfs', finder.lsp_document_symbols, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mic', finder.lsp_incoming_calls, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mdl', finder.diagnostics, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mdL', finder.diagnostics_error, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mfr', finder.lsp_references, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mgd', finder.lsp_definitions, { silent = true, noremap = true })
-vim.keymap.set('n', '<Space>mgt', finder.lsp_type_definitions, { silent = true, noremap = true })
-
-
---nnoremap <silent> <SPACE>nc <cmd>lua require('telescope').extensions.neoclip.default()<CR>
---nnoremap <silent> <SPACE>ms <cmd>lua require('telescope').extensions.macroscope.default()<CR>
-
-local function qfreplace(prompt_bufnr)
-  actions.send_to_qflist(prompt_bufnr)
-  vim.cmd("Qfreplace")
-end
-
-local function selected_qfreplace(prompt_bufnr)
-  actions.send_selected_to_qflist(prompt_bufnr)
-  vim.cmd("Qfreplace")
-end
-
-local function create_layout(picker)
-  local offset = 2
-  local position = {
-    prompt = {
-      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
-      height = 1,
-      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
-    },
-    results = {
-      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
-      height = math.floor(vim.api.nvim_get_option("lines") * 0.4),
-      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
-    },
-    preview = {
-      width = math.floor(vim.api.nvim_get_option("columns") * 0.9),
-      height = math.floor(vim.api.nvim_get_option("lines") * 0.4),
-      col = math.floor(vim.api.nvim_get_option("columns") * 0.1 * 0.5),
-    },
-  }
-  local start_row = math.floor(vim.api.nvim_get_option("lines") * 0.1 * 0.5)
-
-  local function create_window(enter, width, height, row, col, title)
-    local bufnr = vim.api.nvim_create_buf(false, true)
-    local winid = vim.api.nvim_open_win(bufnr, enter, {
-      style = "minimal",
-      relative = "editor",
-      width = width,
-      height = height,
-      row = row,
-      col = col,
-      border = "single",
-      title = title,
-    })
-
-    vim.wo[winid].winhighlight = "Normal:Normal"
-
-    return Layout.Window {
-      bufnr = bufnr,
-      winid = winid,
-    }
-  end
-
-  local function destory_window(window)
-    if window then
-      if vim.api.nvim_win_is_valid(window.winid) then
-        vim.api.nvim_win_close(window.winid, true)
-      end
-      if vim.api.nvim_buf_is_valid(window.bufnr) then
-        vim.api.nvim_buf_delete(window.bufnr, { force = true })
-      end
-    end
-  end
-
-  local creater = {
-    horizontal = {
-      prompt = function()
-        return create_window(true, position.prompt.width, position.prompt.height, start_row, position.prompt.col,
-          "Prompt")
-      end,
-      results = function()
-        return create_window(false, position.results.width, position.results.height,
-          start_row + position.prompt.height + offset, position.prompt.col, "Results")
-      end,
-      preview = function()
-        return create_window(false, position.preview.width, position.preview.height,
-          start_row + position.prompt.height + offset + position.results.height + offset, position.prompt.col, "Preview")
-      end
-    }
-  }
-
-  local layout = Layout {
-    picker = picker,
-    mount = function(self)
-      self.prompt = creater.horizontal.prompt()
-      self.results = creater.horizontal.results()
-      self.preview = creater.horizontal.preview()
-    end,
-    unmount = function(self)
-      destory_window(self.results)
-      destory_window(self.preview)
-      destory_window(self.prompt)
-    end,
-    update = function(self)
-      -- TODO: fix preview toggle
-      local line_count = vim.o.lines - vim.o.cmdheight
-      if vim.o.laststatus ~= 0 then
-        line_count = line_count - 1
-      end
-
-      local popup_opts = picker:get_window_options(vim.o.columns, line_count)
-      if popup_opts.preview and self.preview == nil then
-        self.preview = creater.horizontal.preview()
-      elseif popup_opts.preview == false and self.preview then
-        destory_window(self.preview)
-        self.preview = nil
-      end
-    end,
-  }
-
-  return layout
-end
-
-require('telescope').setup {
-  defaults = {
-    cache_picker = {
-      num_pickers = 10,
-    },
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case'
-    },
-    prompt_prefix = "> ",
-    selection_caret = "> ",
-    entry_prefix = "  ",
-    initial_mode = "insert",
-    selection_strategy = "reset",
-    scroll_strategy = "limit",
-    sorting_strategy = "ascending",
-    layout_strategy = "vertical",
-    layout_config = {
-      horizontal = {
-        mirror = false,
-        prompt_position = "top",
-      },
-      vertical = {
-        mirror = true,
-        width = 0.8,
-        height = 0.9,
-        prompt_position = "top",
-      },
-    },
-    file_sorter = require 'telescope.sorters'.get_fzy_sorter,
-    file_ignore_patterns = {},
-    generic_sorter = require 'telescope.sorters'.get_fzy_sorter,
-    winblend = 0,
-    border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-    color_devicons = true,
-    use_less = true,
-    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    file_previewer = require 'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require 'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require 'telescope.previewers'.vim_buffer_qflist.new,
-    buffer_previewer_maker = require 'telescope.previewers'.buffer_previewer_maker,
-    mappings = {
-      i = {
-        ["<C-Up>"] = actions.cycle_history_prev,
-        ["<C-Down>"] = actions.cycle_history_next,
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-        ["<C-n>"] = actions.preview_scrolling_up,
-        ["<C-p>"] = actions.preview_scrolling_down,
-        ["<C-u>"] = false,
-      },
-      n = {
-        ["l"] = actions.select_default,
-        ["q"] = actions.close,
-        ["v"] = actions.select_vertical,
-        ["s"] = actions.select_horizontal,
-        ["t"] = actions.select_tab,
-        ["<C-n>"] = actions.preview_scrolling_up,
-        ["<C-p>"] = actions.preview_scrolling_down,
-        ["<C-d>"] = actions.results_scrolling_down,
-        ["<C-u>"] = actions.results_scrolling_up,
-        ["<Space>rp"] = qfreplace,
-        ["<Space>rP"] = selected_qfreplace,
-        ["P"] = require 'telescope.actions.layout'.toggle_preview,
-        ["<Space>dv"] = open_diffview_commit,
-        ["<Space>dV"] = open_diffview_head_to_commit,
-      },
+          require('codediff').setup({
+  highlights = {
+    -- GitHub Dark Dimmed に馴染ませつつ、行全体は穏やかに、
+    -- 実際に変更された文字だけを明確に強調する。
+    line_insert = '#143d2b',
+    line_delete = '#451f29',
+    char_insert = '#1a5030',
+    char_delete = '#642a37',
+  },
+  diff = {
+    layout = 'side-by-side',
+    filler_text = '╱',
+    disable_inlay_hints = true,
+    compact_context_lines = 5,
+    compact = true,
+  },
+  explorer = {
+    position = 'bottom',
+    height = 15,
+    view_mode = 'list',
+    line_stats = {
+      enabled = true,
     },
   },
-  extensions = {
-    file_browser = {
-      select_buffer = true,
-      follow_symlinks = true,
-      prompt_path = true,
-      respect_gitignore = false,
-      no_ignore = true,
-      mappings = {
-        i = {
-          ["<C-l>"] = actions.select_default,
-          ["<C-h>"] = fb_actions.goto_parent_dir,
-        },
-        n = {
-          ["l"] = actions.select_default,
-          ["h"] = fb_actions.goto_parent_dir,
-          ["."] = fb_actions.toggle_hidden,
-          ["<Space>fg"] = grep_dir,
-          ["<Space>ff"] = find_files,
-        },
-      },
-    },
-    undo = {
-      use_delta = true,
-      side_by_side = false,
-      mappings = {
-        i = {
-          ["<cr>"] = require 'telescope-undo.actions'.yank_additions,
-          ["<S-cr>"] = require 'telescope-undo.actions'.yank_deletions,
-          ["<C-cr>"] = require 'telescope-undo.actions'.restore,
-        },
-        n = {
-          ["Y"] = require 'telescope-undo.actions'.yank_additions,
-          ["D"] = require 'telescope-undo.actions'.yank_deletions,
-          ["U"] = require 'telescope-undo.actions'.restore,
-        },
-      },
-    },
-    advanced_git_search = {
-      diff_plugin = "diffview",
-      git_flags = {},
-      git_diff_flags = {},
-    },
-    ctags_outline = {
-      ctags = { 'ctags' },
-      ft_opt = {
-        sql = '--sql-kinds=t',
-      },
+  keymaps = {
+    view = {
+      next_hunk = '<Space>gj',
+      prev_hunk = '<Space>gk',
+      next_file = '<Space>gn',
+      prev_file = '<Space>gp',
     },
   },
-}
-
-require("telescope").load_extension("file_browser")
-require("telescope").load_extension("undo")
-require("telescope").load_extension("toggleterm")
-require("telescope").load_extension("advanced_git_search")
-require('telescope').load_extension('ctags_outline')
-require('telescope').load_extension('bookmarks')
-require("telescope").load_extension('lazy')
-
-local pickers = require "telescope.pickers"
-local finders = require "telescope.finders"
-local conf = require("telescope.config").values
-
-local function list_hydra()
-  pickers.new({}, {
-    prompt_title = "Hydra List",
-    finder = finders.new_table {
-      results = require('my.hydra').get_setted_hydra_names(),
-    },
-    sorter = conf.generic_sorter(opts),
-    attach_mappings = function(prompt_bufnr, map)
-      actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local selection = action_state.get_selected_entry()
-        require('my.hydra').open(selection.value)
-      end)
-      return true
-    end,
-  }):find()
-end
-
-vim.keymap.set('n', '<Space>hdl', list_hydra, { silent = true, noremap = true })
-
-        end,
-      lazy = true,
-    },
-    {
-      "aaronhallaert/advanced-git-search.nvim",
-      lazy = false,
-    },
-    {
-      "sindrets/diffview.nvim",
-        config = function()
-          require 'diffview'.setup({
-  file_panel = {
-    listing_style = "list",
-    tree_options = {
-      flatten_dirs = true,
-      folder_statuses = "only_folded"
-    },
-    win_config = {
-      position = "bottom",
-      height = 15,
-      win_opts = {}
-    },
-  },
-  hooks = {
-    diff_buf_read = function(bufnr)
-      -- if vim.fn.winnr() == 1 then
-      --   -- local winhighlight = vim.api.nvim_win_get_option(vim.api.nvim_get_current_win(), "winhighlight")
-      --   vim.api.nvim_set_option_value("winhighlight", "DiffChange:DiffLeftChange,DiffText:DiffLeftText,DiffAdd:DiffLeftAdd,DiffDelete:DiffLeftDelete", {win = vim.api.nvim_get_current_win()})
-      -- end
-      --
-      -- if vim.fn.winnr() == 2 then
-      --   -- local winhighlight = vim.api.nvim_win_get_option(vim.api.nvim_get_current_win(), "winhighlight")
-      --   vim.api.nvim_set_option_value("winhighlight", "DiffChange:DiffRightChange,DiffText:DiffRightText,DiffAdd:DiffRightAdd,DiffDelete:DiffRightDelete", {win = vim.api.nvim_get_current_win()})
-      -- end
-      -- Change local options in diff buffers
-      vim.opt_local.wrap = false
-      vim.opt_local.list = false
-      vim.opt_local.colorcolumn = { 80 }
-    end,
-    view_opened = function(view)
-      print(
-        ("A new %s was opened on tab page %d!")
-        :format(view.class:name(), view.tabpage)
-      )
-    end,
-  }
 })
 
         end,
@@ -2282,8 +1613,9 @@ neogit.setup {
   disable_context_highlighting = true,
   kind = 'split',
   integrations = {
-    diffview = true,
+    codediff = true,
   },
+  diff_viewer = 'codediff',
   sections = {
     untracked = {
       folded = true,
@@ -2323,6 +1655,7 @@ neogit.setup {
       "pwntester/octo.nvim",
         config = function()
           require("octo").setup({
+  picker = "snacks",
   ssh_aliases = {
     ["github-deresmos"] = "github.com",
   },
@@ -2666,7 +1999,7 @@ require("statuscol").setup({
   diff = {
     ctxlen = 3,
   },
-  backend = { "telescope", "nui" },
+  backend = { "nui" },
 }
 
 vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_actions()<CR>', {silent =true, noremap=true})
@@ -3186,156 +2519,71 @@ end, {silent = true})
       lazy = false,
     },
     {
-      "dense-analysis/ale",
+      "stevearc/conform.nvim",
         config = function()
-          -- vim.api.nvim_create_autocmd("FileType", {
---   group = vim.api.nvim_create_augroup("my-ale", {}),
---   pattern = { "go" },
---   callback = function()
---     vim.b.ale_enabled = 1
---     vim.b.ale_fix_on_save = 1
---   end,
--- })
-vim.g.ale_disable_lsp = 1
+          local conform = require('conform')
+local util = require('conform.util')
 
-vim.g.ale_use_neovim_diagnostics_api = 1
-vim.g.ale_go_golangci_lint_package = 1
-vim.g.ale_go_staticcheck_lint_package = 1
+conform.setup({
+  formatters_by_ft = {
+    html = { 'tidy' },
+    xhtml = { 'tidy' },
+    javascript = { 'eslint' },
+    javascriptreact = { 'eslint' },
+    typescript = { 'eslint' },
+    typescriptreact = { 'eslint' },
+    css = { 'stylelint', 'csscomb' },
+    php = { 'phpcbf' },
+    python = { 'isort', 'black' },
+    kotlin = { 'ktlint' },
+    markdown = { 'textlint' },
+    sql = { 'sqlformat' },
+    go = { 'goimports', 'gofmt' },
+    svelte = { 'prettier' },
+    json = { 'jq' },
+  },
+  formatters = {
+    tidy = {
+      command = 'tidy',
+      args = { '-config', vim.fn.expand('~/.tidy_fix') },
+      stdin = true,
+      exit_codes = { 0, 1, 2 },
+    },
+    eslint = {
+      command = util.from_node_modules('eslint'),
+      args = { '--config', '.eslintrc.js', '--fix', '$FILENAME' },
+      stdin = false,
+    },
+    stylelint = {
+      prepend_args = { '--config', 'stylelint', '--fix' },
+    },
+    phpcbf = {
+      prepend_args = { '--standard=PSR2' },
+    },
+    csscomb = {
+      command = 'csscomb',
+      args = { '-c', vim.fn.expand('~/.csscomb.json'), '$FILENAME' },
+      stdin = false,
+    },
+    textlint = {
+      command = 'textlint',
+      args = { '--config', vim.fn.expand('~/.config/textlintrc'), '--fix', '--no-color', '--quiet', '$FILENAME' },
+      stdin = false,
+    },
+    sqlformat = {
+      command = 'sqlformat',
+      args = { '--reindent', '--keywords', 'upper', '-s' },
+      stdin = true,
+    },
+  },
+})
 
-vim.cmd [[
-
-nnoremap <silent> <SPACE>af :<C-u>silent! ALEFix<CR>
-
-let g:ale_sign_column_always   = 1
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_enabled              = 1
-let g:ale_virtualtext_cursor   = 1
-let g:ale_virtualtext_prefix   = ' >> '
-
-let g:ale_sign_error           = '>>'
-let g:ale_sign_warning         = '>>'
-let g:ale_echo_msg_error_str   = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-
-let g:ale_echo_msg_format   = '[%severity%] %code%: %s | %linter%'
-
-function! AleStatus()
-  if !get(b:, 'ale_enabled', 0) && !g:ale_enabled
-    return ''
-  endif
-
-  let counts = ale#statusline#Count(bufnr(''))
-
-  if !counts['total']
-    return 'OK'
-  endif
-
-  return printf('E%d W%d', counts[0], counts[1])
-endfunction
-
-" function! s:parseCfnLint(line) abort
-"   let words = split(a:line, ":")
-"   return {"text": words[6], "lnum": words[1], "col": words[2], "type": "W"}
-" endfunction
-"
-" call ale#linter#Define('yaml', {
-"   \ 'name': 'cfn-lint',
-"   \ 'executable': 'cfn-lint',
-"   \ 'command': 'cfn-lint -f parseable %t',
-"   \ 'callback': {buffer, lines -> map(lines, 's:parseCfnLint(v:val)')},
-"   \ })
-
-let g:ale_linters = {
-  \ 'python': ['flake8', 'mypy', 'bandit'],
-  \ 'javascript': ['eslint'],
-  \ 'php': ['phpcs'],
-  \ 'css': ['stylelint'],
-  \ 'xhtml': ['tidy'],
-  \ 'cs': ['OmniSharp'],
-  \ 'swift': ['swiftlint'],
-  \ 'kotlin': ['ktlint'],
-  \ 'go': ['staticcheck'],
-  \ 'yaml': ['yamllint', 'cfn-lint'],
-  \ }
-
-
-augroup TestALE
-    autocmd!
-    autocmd User ALELintPre    echomsg 1
-    autocmd User ALELintPost   echomsg 2
-
-    " autocmd User ALEJobStarted call YourFunction()
-    "
-    " autocmd User ALEFixPre     call YourFunction()
-    " autocmd User ALEFixPost    call YourFunction()
-augroup END
-
-let g:ale_type_map = {'flake8': {'ES': 'WS'}}
-let g:ale_css_stylelint_options='-c stylelint'
-let g:ale_python_mypy_options='--ignore-missing-imports'
-let g:ale_python_flake8_options='--ignore=E501'
-" let g:ale_go_golangci_lint_options='--fast'
-
-let g:ale_html_tidy_options='-config ~/.tidy_linter -e'
-let g:ale_php_phpcs_standard='PSR2'
-let g:ale_linter_aliases = {'xhtml': 'html'}
-
-let g:ale_fixers = {
-  \ 'html': [
-  \   {buffer, lines -> {
-  \   'command': 'tidy -config ~/.tidy_fix %s'}}
-  \ ],
-  \ 'xhtml': [
-  \   {buffer, lines -> {
-  \   'command': 'tidy -config ~/.tidy_fix %s'}}
-  \ ],
-  \ 'javascript': [
-  \   {buffer, lines -> {
-  \   'command': 'eslint --config ~/.eslintrc.js --fix %t',
-  \   'read_temporary_file': 1}}
-  \ ],
-  \ 'css': [
-  \   {buffer, lines -> {
-  \   'command': 'stylelint -c stylelint --fix %t',
-  \   'read_temporary_file': 1}},
-  \   {buffer, lines -> {
-  \   'command': 'csscomb -c ~/.csscomb.json %s'}}
-  \ ],
-  \ 'php': [
-  \   {buffer, lines -> {
-  \   'command': 'phpcbf --standard=PSR2 %t',
-  \   'read_temporary_file': 1}}
-  \ ],
-  \ 'python': [
-  \   'isort',
-  \   {buffer, lines -> {
-  \   'command': 'black %t',
-  \   'read_temporary_file': 1}}
-  \ ],
-  \ 'kotlin': [
-  \   {buffer, lines -> {
-  \   'command': 'ktlint -F %t',
-  \   'read_temporary_file': 1}}
-  \ ],
-  \ 'markdown': [
-  \   {buffer, lines -> {
-  \   'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t',
-  \   'read_temporary_file': 1}}
-  \ ],
-  \ 'sql': [
-  \   {buffer, lines -> {
-  \   'command': 'sqlformat --reindent --keywords upper -s %t | sql-formatter-cli -o %t',
-  \   'read_temporary_file': 1}}
-  \ ],
-  \ 'go': ['gofmt', 'goimports'],
-  \ 'svelte': ['prettier'],
-  \ 'json': ['jq'],
-  \ }
-" let g:ale_fix_on_save = 1
-
-highlight link ALEWarningSign SpellCap
-]]
+vim.keymap.set({ 'n', 'v' }, '<Space>af', function()
+  conform.format({
+    async = false,
+    lsp_format = 'fallback',
+  })
+end, { silent = true, noremap = true, desc = 'format buffer or selection' })
 
         end,
       lazy = false,
@@ -3346,16 +2594,23 @@ highlight link ALEWarningSign SpellCap
           "dart",
         },
         config = function()
-          require("flutter-tools").setup {}
+          require("flutter-tools").setup {
+}
 require('flutter-tools').setup_project({
   {
-    name = 'Development', -- an arbitrary name that you provide so you can recognise this config
+    name = 'Development',                     -- an arbitrary name that you provide so you can recognise this config
     dart_define_from_file = 'flavor/dev.json' -- the path to a JSON configuration file
   },
   {
     name = 'Profile',
     flutter_mode = 'profile',
-  }
+  },
+  {
+    name = 'WidgetBook',
+    target = 'lib/widgetbook/main.dart',
+    device = 'chrome',
+    dart_define_from_file = 'flavor/dev.json'
+  },
 })
 
         end,
@@ -3365,14 +2620,6 @@ require('flutter-tools').setup_project({
       "iamcco/markdown-preview.nvim",
         ft = {
           "markdown",
-        },
-      lazy = false,
-    },
-    {
-      "delphinus/md-render.nvim",
-        dependencies = {
-          "nvim-tree/nvim-web-devicons",
-          "delphinus/budoux.lua",
         },
       lazy = false,
     },
@@ -3411,6 +2658,48 @@ vim.keymap.set('n', '<Space>hdc', require('my.hydra').set_hydra('Coverage', {
    { 's', coverage.summary, { desc = 'summary', exit = true } },
    { 'q', nil,              { exit = true, nowait = true, desc = 'exit', sep = '' } },
 }), { silent = true, noremap = true })
+
+        end,
+      lazy = false,
+    },
+    {
+      "mfussenegger/nvim-lint",
+        config = function()
+          local lint = require('lint')
+
+lint.linters_by_ft = {
+  python = { 'flake8', 'mypy', 'bandit' },
+  javascript = { 'eslint' },
+  javascriptreact = { 'eslint' },
+  typescript = { 'eslint' },
+  typescriptreact = { 'eslint' },
+  php = { 'phpcs' },
+  css = { 'stylelint' },
+  html = { 'tidy' },
+  xhtml = { 'tidy' },
+  swift = { 'swiftlint' },
+  kotlin = { 'ktlint' },
+  go = { 'staticcheck' },
+  yaml = { 'yamllint', 'cfn_lint' },
+}
+
+local function prepend_args(name, args)
+  local linter = lint.linters[name]
+  if type(linter) == 'table' then
+    linter.args = vim.list_extend(args, vim.deepcopy(linter.args or {}))
+  end
+end
+
+prepend_args('flake8', { '--ignore=E501' })
+prepend_args('mypy', { '--ignore-missing-imports' })
+prepend_args('phpcs', { '--standard=PSR2' })
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  group = vim.api.nvim_create_augroup('nvim-lint', { clear = true }),
+  callback = function()
+    lint.try_lint()
+  end,
+})
 
         end,
       lazy = false,
@@ -3524,35 +2813,6 @@ vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
       lazy = false,
     },
     {
-      "sorafujitani/path-yank.nvim",
-        init = function()
-        vim.keymap.set({ 'n', 'v' }, '<SPACE>cp', function()
-  require('copy-path').copy_relative_path()
-end, { desc = 'Copy relative path' })
-
-        end,
-        config = function()
-          require('copy-path').setup({
-  register = '*', -- Clipboard register (* or +)
-  notify = true,  -- Show notification on copy
-  commands = {
-    fullPath = 'CopyFullPath',
-    relativePath = 'CopyRelativePath',
-    fileName = 'CopyFileName',
-  },
-  lineFormat = {
-    single = '#L%d',    -- Single line: #L10
-    range = '#L%d-L%d', -- Range: #L10-L20
-  },
-})
-
-        end,
-        dependencies = {
-          "vim-denops/denops.vim",
-        },
-      lazy = false,
-    },
-    {
       "michaelb/sniprun",
         config = function()
           
@@ -3566,15 +2826,6 @@ end, { desc = 'Copy relative path' })
     },
     {
       "kristijanhusak/vim-dadbod-ui",
-      lazy = false,
-    },
-    {
-      "sheerun/vim-polyglot",
-        build = "./scripts/build",
-        init = function()
-        vim.g.polyglot_disabled = {'csv', 'tsv', 'mdx'}
-
-        end,
       lazy = false,
     },
     {
@@ -3667,6 +2918,7 @@ vim.api.nvim_set_var("test#custom_strategies", {
 
 vim.api.nvim_set_var("test#go#gotest#options", "-v -coverprofile=cover.out")
 vim.api.nvim_set_var("test#strategy", "overseer")
+vim.api.nvim_set_var("test#dart#fluttertest#options", "--update-goldens")
 
 local test = require('my.test')
 vim.keymap.set('n', '<Space>hdt', require('my.hydra').set_hydra('Test', {
@@ -3679,15 +2931,6 @@ vim.keymap.set('n', '<Space>hdt', require('my.hydra').set_hydra('Test', {
    { 'O', test.overseer_mode, { desc = 'overseer mode' } },
    { 'q', nil,                { exit = true, nowait = true, desc = 'exit' } },
 }), { silent = true, noremap = true })
-
-        end,
-      lazy = false,
-    },
-    {
-      "liuchengxu/vista.vim",
-        init = function()
-        vim.g.vista_echo_cursor = 0
-vim.g.vista_sidebar_width = 40
 
         end,
       lazy = false,
@@ -3773,32 +3016,37 @@ require("aerial").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         config = function()
-          require 'nvim-treesitter.configs'.setup {
-  ensure_installed = {
-    "lua",
-    "vim",
-    "vimdoc",
-    "query",
-    "go",
-    "make",
-    "bash",
-    "c",
-    "markdown",
-    "markdown_inline",
-    "yaml",
-    "rust",
-    "python",
-    "dockerfile",
-    "terraform",
-    "json",
-  },
-  sync_install = false,
-  auto_install = true,
-  highlight = {
-    enable = true,
-  },
+          local languages = {
+  "lua",
+  "vim",
+  "vimdoc",
+  "query",
+  "go",
+  "make",
+  "bash",
+  "c",
+  "markdown",
+  "markdown_inline",
+  "yaml",
+  "rust",
+  "python",
+  "dockerfile",
+  "terraform",
+  "json",
 }
+
+-- nvim-treesitter main (Neovim 0.12+) removed nvim-treesitter.configs.
+-- Install missing parsers asynchronously, then let Neovim provide highlighting.
+require("nvim-treesitter").install(languages)
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("nvim-treesitter-highlight", { clear = true }),
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
 
         end,
       lazy = false,

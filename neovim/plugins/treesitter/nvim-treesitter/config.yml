@@ -1,6 +1,8 @@
 ---
 config:
   url: "https://github.com/nvim-treesitter/nvim-treesitter"
+  # Neovim 0.12 対応は master ではなく main で提供されている。
+  branch: "main"
   rev: ~
   filetypes: ~
   commands: ~

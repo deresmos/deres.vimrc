@@ -18,6 +18,9 @@ local plugins = {
     {{#if plugin.enable}}
     {
       "{{{plugin.repo}}}",
+      {{#if plugin.branch}}
+        branch = "{{{plugin.branch}}}",
+      {{/if}}
       {{#if plugin.tag}}
         tag = "{{{plugin.tag}}}",
       {{/if}}

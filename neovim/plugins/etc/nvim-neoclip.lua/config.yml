@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/AckslD/nvim-neoclip.lua"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: true

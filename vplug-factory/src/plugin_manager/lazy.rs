@@ -34,6 +34,7 @@ pub struct LazyPlugin {
     lazy: bool,
     priority: Option<u16>,
     dependencies: Option<Vec<String>>,
+    branch: Option<String>,
     commit: Option<String>,
 
     setup: Option<String>,
@@ -90,6 +91,7 @@ impl LazyPlugin {
         plugin.lazy = yml.config.lazy.unwrap_or(false);
         plugin.priority = yml.config.priority;
         plugin.dependencies = yml.config.dependencies;
+        plugin.branch = yml.config.branch;
         plugin.commit = yml.config.rev;
 
         let fm = FileManager::new(&path);

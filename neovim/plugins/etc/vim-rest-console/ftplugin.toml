@@ -1,3 +1,0 @@
-rest = '''
-  nnoremap <silent><buffer> <CR> :<C-u>call VrcQuery()<CR>
-'''

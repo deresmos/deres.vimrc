@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/kristijanhusak/vim-dadbod-completion"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: false

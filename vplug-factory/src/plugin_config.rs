@@ -12,6 +12,7 @@ pub struct PluginConfig {
 #[derive(Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct Config {
     pub url: String,
+    pub branch: Option<String>,
     pub rev: Option<String>,
     pub tag: Option<String>,
     pub filetypes: Option<Vec<String>>,

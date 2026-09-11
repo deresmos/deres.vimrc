@@ -81,6 +81,7 @@ vim.api.nvim_set_var("test#custom_strategies", {
 
 vim.api.nvim_set_var("test#go#gotest#options", "-v -coverprofile=cover.out")
 vim.api.nvim_set_var("test#strategy", "overseer")
+vim.api.nvim_set_var("test#dart#fluttertest#options", "--update-goldens")
 
 local test = require('my.test')
 vim.keymap.set('n', '<Space>hdt', require('my.hydra').set_hydra('Test', {

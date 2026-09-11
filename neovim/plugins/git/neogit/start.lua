@@ -4,8 +4,9 @@ neogit.setup {
   disable_context_highlighting = true,
   kind = 'split',
   integrations = {
-    diffview = true,
+    codediff = true,
   },
+  diff_viewer = 'codediff',
   sections = {
     untracked = {
       folded = true,

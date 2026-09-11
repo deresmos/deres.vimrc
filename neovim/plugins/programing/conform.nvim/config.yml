@@ -1,6 +1,6 @@
 ---
 config:
-  url: "https://github.com/sindrets/diffview.nvim"
+  url: "https://github.com/stevearc/conform.nvim"
   rev: ~
   filetypes: ~
   commands: ~

@@ -6,4 +6,4 @@ config:
   commands: ~
   maps: ~
   do: ~
-  enable: true
+  enable: false

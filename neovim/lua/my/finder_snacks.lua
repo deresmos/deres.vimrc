@@ -1,9 +1,4 @@
--- Snacks.picker equivalents of lua/my/finder.lua (telescope based).
---
--- This module exists only to check, side by side, whether snacks.nvim's
--- picker can cover what we currently do with telescope. It intentionally
--- mirrors the function names in lua/my/finder.lua so the two can be
--- compared 1:1. Nothing here replaces the telescope keymaps yet.
+-- Finder mappings implemented with Snacks.picker.
 
 local function project_root()
   local workspace_path, _ = require("project_nvim.project").get_project_root()
@@ -11,10 +6,30 @@ local function project_root()
 end
 
 local M = {}
+local config = {}
+
+local function with_cwd(opts)
+  if config.cwd then
+    opts.cwd = config.cwd
+  end
+  return opts
+end
+
+function M.set_cwd(cwd)
+  config.cwd = cwd
+end
+
+function M.get_cwd()
+  return config.cwd
+end
+
+function M.clear_cwd()
+  config.cwd = nil
+end
 
 -- Find files
 function M.files()
-  Snacks.picker.files()
+  Snacks.picker.files(with_cwd({}))
 end
 
 function M.files_from_buffer()
@@ -27,7 +42,7 @@ end
 
 -- Grep files
 function M.grep()
-  Snacks.picker.grep()
+  Snacks.picker.grep(with_cwd({}))
 end
 
 function M.grep_from_buffer()
@@ -39,7 +54,15 @@ function M.grep_from_project()
 end
 
 function M.grep_word()
-  Snacks.picker.grep_word()
+  Snacks.picker.grep_word(with_cwd({}))
+end
+
+function M.grep_word_from_buffer()
+  Snacks.picker.grep_word({ cwd = vim.fn.expand('%:p:h') })
+end
+
+function M.grep_word_from_project()
+  Snacks.picker.grep_word({ cwd = project_root() })
 end
 
 -- ETC
@@ -55,6 +78,52 @@ function M.resume()
   Snacks.picker.resume()
 end
 
+function M.registers()
+  Snacks.picker.registers()
+end
+
+function M.history()
+  local resume = require('snacks.picker.resume')
+  local items = {}
+
+  for source, state in pairs(resume.state) do
+    table.insert(items, {
+      text = state.opts.title or source,
+      source = source,
+      state = state,
+      added = state.added,
+    })
+  end
+
+  table.sort(items, function(a, b)
+    return a.added > b.added
+  end)
+
+  Snacks.picker.pick({
+    title = 'Picker History',
+    format = 'text',
+    items = items,
+    confirm = function(picker, item)
+      picker:close()
+      if item then
+        vim.schedule(function()
+          resume._resume(item.state)
+        end)
+      end
+    end,
+  })
+end
+
+function M.memos()
+  Snacks.picker.files({
+    title = 'Memos',
+    cwd = vim.g.howm_dir .. '/memo',
+    cmd = 'rg',
+    args = { '--sortr=modified' },
+    sort = { fields = { 'idx' } },
+  })
+end
+
 -- Git
 function M.git_status()
   Snacks.picker.git_status()
@@ -62,6 +131,10 @@ end
 
 function M.git_log()
   Snacks.picker.git_log()
+end
+
+function M.git_bcommits()
+  Snacks.picker.git_log_file()
 end
 
 function M.git_branches()
@@ -73,12 +146,24 @@ function M.lsp_definitions()
   Snacks.picker.lsp_definitions()
 end
 
+function M.lsp_type_definitions()
+  Snacks.picker.lsp_type_definitions()
+end
+
 function M.lsp_references()
   Snacks.picker.lsp_references()
 end
 
 function M.lsp_implementations()
   Snacks.picker.lsp_implementations()
+end
+
+function M.lsp_incoming_calls()
+  Snacks.picker.lsp_incoming_calls()
+end
+
+function M.lsp_outgoing_calls()
+  Snacks.picker.lsp_outgoing_calls()
 end
 
 function M.lsp_document_symbols()
@@ -89,12 +174,19 @@ function M.diagnostics()
   Snacks.picker.diagnostics()
 end
 
+function M.diagnostics_buffer()
+  Snacks.picker.diagnostics_buffer()
+end
+
+function M.diagnostics_error()
+  -- ERROR と WARN だけを表示する。
+  Snacks.picker.diagnostics({ severity = { min = vim.diagnostic.severity.WARN } })
+end
+
 -- Extensions
 --
--- telescopeのfile_browserは「今いるディレクトリの中身だけをフラットに一覧
--- 表示し、Enterで潜る/戻る」形式。Snacks.picker.explorer()はnvim-tree系の
--- 常時ツリー表示(枝線付き)で、これをオフにするオプションは無いため、
--- 同じ挙動を自前のフラットなpickerとして実装する。
+-- 現在のディレクトリをフラットに一覧表示し、Enter で潜る/戻るための
+-- file browser。Snacks.picker.explorer() は常時ツリー表示のため使わない。
 local function scan_dir(dir)
   local entries = {}
   local fs = vim.loop.fs_scandir(dir)
@@ -164,9 +256,7 @@ end
 -- a picker for the same source is already open.
 local browser = { picker = nil }
 
--- telescopeのfile_browserにあった`<Space>fg`/`<Space>ff`(選択中の項目が
--- ディレクトリならそこを、ファイルならその親ディレクトリをcwdにして
--- grep/findする)相当の挙動。
+-- 選択中のディレクトリ（ファイルならその親）を起点に grep/find する。
 local function browser_grep()
   local p = browser.picker
   if not p then
@@ -210,7 +300,7 @@ local function browser_goto(cwd)
     if item.dir then
       browser_goto(item.file)
     else
-      Snacks.picker.actions.jump(picker, item)
+      picker:action('jump')
       browser.picker = nil
     end
   end
@@ -229,25 +319,22 @@ local function browser_goto(cwd)
     format = format_item,
     confirm = confirm,
     win = {
-      -- telescopeのfile_browserは通常モードのl/hに加えて、入力欄が
-      -- insertモードのままでも潜る/戻るができるよう<C-l>/<C-h>も
-      -- 割り当てていた。それに合わせてinput側にも同じキーを追加する。
+      -- 入力欄にフォーカスしたままでも潜る/戻るできるよう、
+      -- input 側にも同じキーを追加する。
       input = {
         keys = {
+          -- 共通の h=cancel を、file browser では親ディレクトリ移動に上書きする。
+          ['h'] = { go_up, mode = 'n' },
           ['<C-l>'] = { 'confirm', mode = { 'i', 'n' } },
           ['<C-h>'] = { go_up, mode = { 'i', 'n' } },
-          -- pickerのデフォルトfocusは"input"側で、normal modeでの操作も
-          -- (jやkのようなlist操作キーと同様)入力欄のバッファ上で行われる。
-          -- list.keysだけに割り当てるとフォーカスが移っていない限り
-          -- 発火せず、`<Space>fg`/`<Space>ff`はグローバルなtelescopeの
-          -- 同名マッピングに奪われてしまうため、input側にも追加する。
+          -- デフォルト focus は input 側なので、normal mode の操作も
+          -- input 側で受け取れるようにする。
           ['<Space>fg'] = { browser_grep, mode = 'n' },
           ['<Space>ff'] = { browser_files, mode = 'n' },
         },
       },
       list = {
         keys = {
-          ['l'] = 'confirm',
           ['h'] = go_up,
           ['<C-l>'] = 'confirm',
           ['<C-h>'] = go_up,
@@ -271,9 +358,8 @@ function M.file_browser_from_project()
   browser_goto(project_root())
 end
 
--- Sessions (vim-startify's :SSave/:SLoad/:SDelete). Mirrors finder.lua's
--- telescope-based M.sessions(): confirm runs :SLoad on the selected file,
--- 'D' deletes it and refreshes the list.
+-- Sessions (vim-startify's :SSave/:SLoad/:SDelete): 選択したファイルを
+-- :SLoad し、D で削除して一覧を更新する。
 local function session_items()
   local dir = vim.g.startify_session_dir
   local items = {}

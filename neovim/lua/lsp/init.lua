@@ -54,7 +54,7 @@ vim.diagnostic.config({
 })
 
 vim.lsp.config('*', {
-  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
 })
 
 vim.api.nvim_create_user_command(

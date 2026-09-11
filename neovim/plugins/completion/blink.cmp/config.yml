@@ -1,0 +1,13 @@
+---
+config:
+  url: "https://github.com/saghen/blink.cmp"
+  branch: "v1"
+  rev: ~
+  filetypes: ~
+  commands: ~
+  maps: ~
+  do: ~
+  enable: true
+  dependencies:
+    - L3MON4D3/LuaSnip
+    - saghen/blink.lib

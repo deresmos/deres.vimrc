@@ -1,4 +1,5 @@
 require("octo").setup({
+  picker = "snacks",
   ssh_aliases = {
     ["github-deresmos"] = "github.com",
   },

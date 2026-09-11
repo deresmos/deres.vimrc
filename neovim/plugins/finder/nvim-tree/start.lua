@@ -13,8 +13,9 @@ local function grep_directory(node)
 
   if node.fs_stat.type == "directory" then
     -- view.close()
-    require('my.finder').set_cwd(node.absolute_path)
-    Finder.grep()
+    local finder = require('my.finder_snacks')
+    finder.set_cwd(node.absolute_path)
+    finder.grep()
   end
 end
 
@@ -25,8 +26,9 @@ local function find_files(node)
   end
 
   if node.fs_stat.type == "directory" then
-    require('my.finder').set_cwd(node.absolute_path)
-    Finder.files()
+    local finder = require('my.finder_snacks')
+    finder.set_cwd(node.absolute_path)
+    finder.files()
   end
 end
 
