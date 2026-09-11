@@ -48,12 +48,10 @@ vim.keymap.set('n', '<Space>ej', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts
 
 vim.keymap.set('n', '<Space>m=', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 2000 })<CR>', opts)
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = false,
-  }
-)
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = false,
+})
 
 vim.lsp.config('*', {
   capabilities = require('cmp_nvim_lsp').default_capabilities(),

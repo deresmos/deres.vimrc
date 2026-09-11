@@ -111,6 +111,7 @@ augroup foldmethod
 augroup END
 
 nnoremap <expr>l foldclosed('.') != -1 ? 'zo' : 'l'
+nnoremap <expr>L foldclosed('.') != -1 ? 'zO' : '$'
 
 function! s:printFoldMarker(auto_mode, last, v_mode) range "{{{
   let l:count = v:count

@@ -17,7 +17,7 @@ return {
       gofumpt = true,
       semanticTokens = true,
       buildFlags = {
-        '-tags=wireinject',
+        '-tags=wireinject,localonly',
       },
     },
   }

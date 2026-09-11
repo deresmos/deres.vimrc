@@ -1043,12 +1043,122 @@ vim.g.qfixmemo_folding_pattern = '^=[^=]'
       lazy = false,
     },
     {
+      "rest-nvim/rest.nvim",
+        config = function()
+          require("rest-nvim").setup({
+  result_split_horizontal = false,
+  result_split_in_place = false,
+  stay_in_current_window_after_split = false,
+  skip_ssl_verification = false,
+  encode_url = true,
+  highlight = {
+    enabled = true,
+    timeout = 150,
+  },
+  result = {
+    show_url = true,
+    show_curl_command = true,
+    show_http_info = true,
+    show_headers = true,
+    show_statistics = false,
+    formatters = {
+      json = "jq",
+      html = function(body)
+        return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
+      end
+    },
+  },
+  -- Jump to request line on run
+  jump_to_request = false,
+  env_file = '.env',
+  custom_dynamic_variables = {},
+  yank_dry_run = true,
+  search_back = true,
+})
+
+local M = {}
+function M.run()
+  require('rest-nvim').run()
+end
+
+function M.preview()
+  require('rest-nvim').run(true)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("self.rest.nvim", {}),
+  pattern = { "http", "rest" },
+  callback = function()
+    vim.keymap.set('n', '<Space>hdr', require('my.hydra').set_hydra('Rest Client', {
+      { 'r', M.run,     { desc = 'Run', exit = true } },
+      { 'p', M.preview, { desc = 'Preview', exit = true } },
+      { 'q', nil,       { exit = true, nowait = true, desc = 'exit' } },
+    }, { color = 'blue' }), { silent = true, noremap = true, buffer = true })
+  end,
+})
+
+        end,
+        dependencies = {
+          "nvim-treesitter/nvim-treesitter",
+        },
+      lazy = false,
+    },
+    {
       "folke/snacks.nvim",
         init = function()
         require 'snacks'.setup({
   input = { enabled = true },
-  picker = { enabled = true },
+  picker = {
+    enabled = true,
+    -- telescopeのlayout_strategy = "vertical"相当: input/list/previewを
+    -- 縦に並べ、previewを下部に表示する
+    layout = {
+      preset = "vertical",
+      layout = { width = 0.8 },
+    },
+  },
 })
+
+        end,
+        config = function()
+          -- Test keymaps for comparing snacks.nvim's picker against the telescope
+-- pickers wired up in neovim/plugins/finder/telescope.nvim/start.lua.
+--
+-- These are deliberately kept on a separate <Space>z prefix so they don't
+-- collide with (or replace) the existing telescope <Space>f/b/d.../mappings.
+-- Once snacks.nvim is confirmed to cover what we need, these can be merged
+-- into lua/my/finder.lua and the telescope mappings removed.
+
+local finder = require('my.finder_snacks')
+SnacksFinder = finder
+
+vim.keymap.set('n', '<Space>zf', finder.files, { silent = true, noremap = true, desc = 'snacks: files' })
+vim.keymap.set('n', '<Space>zF', finder.files_from_buffer, { silent = true, noremap = true, desc = 'snacks: files from buffer' })
+vim.keymap.set('n', '<Space>zp', finder.files_from_project, { silent = true, noremap = true, desc = 'snacks: files from project' })
+vim.keymap.set('n', '<Space>zr', finder.oldfiles, { silent = true, noremap = true, desc = 'snacks: recent files' })
+
+vim.keymap.set('n', '<Space>zb', finder.buffers, { silent = true, noremap = true, desc = 'snacks: buffers' })
+
+vim.keymap.set('n', '<Space>zg', finder.grep, { silent = true, noremap = true, desc = 'snacks: grep' })
+vim.keymap.set('n', '<Space>zG', finder.grep_from_buffer, { silent = true, noremap = true, desc = 'snacks: grep from buffer' })
+vim.keymap.set('n', '<Space>zw', finder.grep_word, { silent = true, noremap = true, desc = 'snacks: grep word under cursor' })
+vim.keymap.set('n', '<Space>zl', finder.resume, { silent = true, noremap = true, desc = 'snacks: resume last picker' })
+
+vim.keymap.set('n', '<Space>ze', finder.file_browser, { silent = true, noremap = true, desc = 'snacks: file browser (flat, non-tree)' })
+vim.keymap.set('n', '<Space>zE', finder.file_browser_from_buffer, { silent = true, noremap = true, desc = 'snacks: file browser from buffer dir' })
+vim.keymap.set('n', '<Space>zP', finder.file_browser_from_project, { silent = true, noremap = true, desc = 'snacks: file browser from project root' })
+
+vim.keymap.set('n', '<Space>zsl', finder.sessions, { silent = true, noremap = true, desc = 'snacks: sessions' })
+
+vim.keymap.set('n', '<Space>zdgs', finder.git_status, { silent = true, noremap = true, desc = 'snacks: git status' })
+vim.keymap.set('n', '<Space>zdgc', finder.git_log, { silent = true, noremap = true, desc = 'snacks: git log' })
+vim.keymap.set('n', '<Space>zdgb', finder.git_branches, { silent = true, noremap = true, desc = 'snacks: git branches' })
+
+vim.keymap.set('n', '<Space>zmgd', finder.lsp_definitions, { silent = true, noremap = true, desc = 'snacks: lsp definitions' })
+vim.keymap.set('n', '<Space>zmfr', finder.lsp_references, { silent = true, noremap = true, desc = 'snacks: lsp references' })
+vim.keymap.set('n', '<Space>zmgi', finder.lsp_implementations, { silent = true, noremap = true, desc = 'snacks: lsp implementations' })
+vim.keymap.set('n', '<Space>zmfs', finder.lsp_document_symbols, { silent = true, noremap = true, desc = 'snacks: lsp document symbols' })
+vim.keymap.set('n', '<Space>zmdl', finder.diagnostics, { silent = true, noremap = true, desc = 'snacks: diagnostics' })
 
         end,
       lazy = false,
@@ -2709,136 +2819,6 @@ vim.keymap.set('n', '<Space>lq', open_quickfix, { noremap = true, silent = true 
       lazy = true,
     },
     {
-      "ggandor/flit.nvim",
-        config = function()
-          require('flit').setup {
-  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
-  -- A string like "nv", "nvo", "o", etc.
-  labeled_modes = "v",
-  multiline = false,
-  -- Like `leap`s similar argument (call-specific overrides).
-  -- E.g.: opts = { equivalence_classes = {} }
-  opts = {}
-}
-
-        end,
-      lazy = false,
-    },
-    {
-      "ggandor/leap.nvim",
-        init = function()
-        local function leap_win()
-  require('leap').leap { target_windows = { vim.fn.win_getid() } }
-end
-
-local function leap_win_all()
-  require('leap').leap { target_windows = vim.tbl_filter(
-    function(win) return vim.api.nvim_win_get_config(win).focusable end,
-    vim.api.nvim_tabpage_list_wins(0)
-  ) }
-end
-
-local function get_line_starts(winid)
-  local wininfo = vim.fn.getwininfo(winid)[1]
-  local cur_line = vim.fn.line('.')
-
-  -- Get targets.
-  local targets = {}
-  local lnum = wininfo.topline
-  while lnum <= wininfo.botline do
-    local fold_end = vim.fn.foldclosedend(lnum)
-    -- Skip folded ranges.
-    if fold_end ~= -1 then
-      lnum = fold_end + 1
-    else
-      if lnum ~= cur_line then table.insert(targets, { pos = { lnum, 1 } }) end
-      lnum = lnum + 1
-    end
-  end
-  -- Sort them by vertical screen distance from cursor.
-  local cur_screen_row = vim.fn.screenpos(winid, cur_line, 1)['row']
-  local function screen_rows_from_cur(t)
-    local t_screen_row = vim.fn.screenpos(winid, t.pos[1], t.pos[2])['row']
-    return math.abs(cur_screen_row - t_screen_row)
-  end
-  table.sort(targets, function(t1, t2)
-    return screen_rows_from_cur(t1) < screen_rows_from_cur(t2)
-  end)
-
-  if #targets >= 1 then
-    return targets
-  end
-end
-
-local function leap_to_line()
-  local winid = vim.api.nvim_get_current_win()
-  require('leap').leap {
-    target_windows = { winid },
-    targets = get_line_starts(winid),
-  }
-end
-
-local function leap_to_window()
-  local target_windows = require('leap.util').get_enterable_windows()
-  local targets = {}
-  for _, win in ipairs(target_windows) do
-    local wininfo = vim.fn.getwininfo(win)[1]
-    local pos = { wininfo.topline, 1 } -- top/left corner
-    table.insert(targets, { pos = pos, wininfo = wininfo })
-  end
-
-  require('leap').leap {
-    target_windows = target_windows,
-    targets = targets,
-    action = function(target)
-      vim.api.nvim_set_current_win(target.wininfo.winid)
-    end
-  }
-end
-
-vim.keymap.set({ 'n', 'x' }, '<Space>jj', leap_win, { silent = true, noremap = true })
-vim.keymap.set({ 'n', 'x' }, '<Space>jJ', leap_win_all, { silent = true, noremap = true })
-vim.keymap.set({ 'n', 'x' }, '<Space>jl', leap_to_line, { silent = true, noremap = true })
-vim.keymap.set({ 'n', 'x' }, '<Space>jw', leap_to_window, { silent = true, noremap = true })
-
-        end,
-        config = function()
-          require('leap').opts.special_keys = {
-  repeat_search = '<enter>',
-  next_phase_one_target = '<enter>',
-  next_target = { '<enter>', ';' },
-  prev_target = { '<tab>', ',' },
-  next_group = '<space>',
-  prev_group = '<tab>',
-  multi_accept = '<enter>',
-  multi_revert = '<backspace>',
-}
-require('leap').opts.highlight_unlabeled_phase_one_targets = true
-require('leap').opts.safe_labels = ''
-
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  group = vim.api.nvim_create_augroup("my-leap-highlights", {}),
-  callback = function()
-    vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
-    vim.api.nvim_set_hl(0, 'LeapMatch', {
-      fg = 'white',
-      bold = true,
-      nocombine = true,
-    })
-    vim.api.nvim_set_hl(0, 'LeapLabelPrimary', {
-      fg = 'red', bold = true, nocombine = true,
-    })
-    vim.api.nvim_set_hl(0, 'LeapLabelSecondary', {
-      fg = 'blue', bold = true, nocombine = true,
-    })
-  end
-})
-
-        end,
-      lazy = false,
-    },
-    {
       "haya14busa/vim-asterisk",
         init = function()
         vim.cmd[[
@@ -3117,10 +3097,10 @@ require("CopilotChat").setup {
     show_diff = {
       normal = 'gd'
     },
-    show_system_prompt = {
+    show_info = {
       normal = 'gp'
     },
-    show_user_selection = {
+    show_context = {
       normal = 'gs'
     },
   },
@@ -3389,119 +3369,11 @@ require('flutter-tools').setup_project({
       lazy = false,
     },
     {
-      "MeanderingProgrammer/markdown.nvim",
-        config = function()
-          require('render-markdown').setup({
-    -- Configure whether Markdown should be rendered by default or not
-    start_enabled = true,
-    -- Capture groups that get pulled from markdown
-    markdown_query = [[
-        (atx_heading [
-            (atx_h1_marker)
-            (atx_h2_marker)
-            (atx_h3_marker)
-            (atx_h4_marker)
-            (atx_h5_marker)
-            (atx_h6_marker)
-        ] @heading)
-
-        (thematic_break) @dash
-
-        (fenced_code_block) @code
-
-        [
-            (list_marker_plus)
-            (list_marker_minus)
-            (list_marker_star)
-        ] @list_marker
-
-        (task_list_marker_unchecked) @checkbox_unchecked
-        (task_list_marker_checked) @checkbox_checked
-
-        (block_quote (block_quote_marker) @quote_marker)
-        (block_quote (paragraph (inline (block_continuation) @quote_marker)))
-
-        (pipe_table) @table
-        (pipe_table_header) @table_head
-        (pipe_table_delimiter_row) @table_delim
-        (pipe_table_row) @table_row
-    ]],
-    -- Capture groups that get pulled from inline markdown
-    inline_query = [[
-        (code_span) @code
-    ]],
-    -- The level of logs to write to file: vim.fn.stdpath('state') .. '/render-markdown.log'
-    -- Only intended to be used for plugin development / debugging
-    log_level = 'error',
-    -- Filetypes this plugin will run on
-    file_types = { 'markdown' },
-    -- Vim modes that will show a rendered view of the markdown file
-    -- All other modes will be uneffected by this plugin
-    render_modes = { 'n', 'c' },
-    -- Characters that will replace the # at the start of headings
-    headings = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
-    -- Character to use for the horizontal break
-    dash = '—',
-    -- Character to use for the bullet points in lists
-    bullets = { '●', '○', '◆', '◇' },
-    checkbox = {
-        -- Character that will replace the [ ] in unchecked checkboxes
-        unchecked = '󰄱 ',
-        -- Character that will replace the [x] in checked checkboxes
-        checked = ' ',
-    },
-    -- Character that will replace the > at the start of block quotes
-    quote = '┃',
-    -- See :h 'conceallevel' for more information about meaning of values
-    conceal = {
-        -- conceallevel used for buffer when not being rendered, get user setting
-        default = vim.opt.conceallevel:get(),
-        -- conceallevel used for buffer when being rendered
-        rendered = 3,
-    },
-    -- Add a line above and below tables to complete look, ends up like a window
-    fat_tables = true,
-    -- Define the highlight groups to use when rendering various components
-    highlights = {
-        heading = {
-            -- Background of heading line
-            backgrounds = { 'DiffAdd', 'DiffChange', 'DiffDelete' },
-            -- Foreground of heading character only
-            foregrounds = {
-                'markdownH1',
-                'markdownH2',
-                'markdownH3',
-                'markdownH4',
-                'markdownH5',
-                'markdownH6',
-            },
+      "delphinus/md-render.nvim",
+        dependencies = {
+          "nvim-tree/nvim-web-devicons",
+          "delphinus/budoux.lua",
         },
-        -- Horizontal break
-        dash = 'LineNr',
-        -- Code blocks
-        code = 'ColorColumn',
-        -- Bullet points in list
-        bullet = 'Normal',
-        checkbox = {
-            -- Unchecked checkboxes
-            unchecked = '@markup.list.unchecked',
-            -- Checked checkboxes
-            checked = '@markup.heading',
-        },
-        table = {
-            -- Header of a markdown table
-            head = '@markup.heading',
-            -- Non header rows in a markdown table
-            row = 'Normal',
-        },
-        -- LaTeX blocks
-        latex = '@markup.math',
-        -- Quote character in a block quote
-        quote = '@markup.quote',
-    },
-})
-
-        end,
       lazy = false,
     },
     {
@@ -3649,6 +3521,35 @@ vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
 })
 
         end,
+      lazy = false,
+    },
+    {
+      "sorafujitani/path-yank.nvim",
+        init = function()
+        vim.keymap.set({ 'n', 'v' }, '<SPACE>cp', function()
+  require('copy-path').copy_relative_path()
+end, { desc = 'Copy relative path' })
+
+        end,
+        config = function()
+          require('copy-path').setup({
+  register = '*', -- Clipboard register (* or +)
+  notify = true,  -- Show notification on copy
+  commands = {
+    fullPath = 'CopyFullPath',
+    relativePath = 'CopyRelativePath',
+    fileName = 'CopyFileName',
+  },
+  lineFormat = {
+    single = '#L%d',    -- Single line: #L10
+    range = '#L%d-L%d', -- Range: #L10-L20
+  },
+})
+
+        end,
+        dependencies = {
+          "vim-denops/denops.vim",
+        },
       lazy = false,
     },
     {
