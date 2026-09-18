@@ -29,6 +29,12 @@ require("github-theme").setup({
       WinBarFileName = { fg = 'None', bg = spec.diff.add },
       diffAdded = { fg = 'None', bg = spec.diff.add },
       Folded = { bg = '#384049' },
+      -- github-nvim-theme はデフォルトで @function 系グループが未定義のため、
+      -- Go のメソッド呼び出し等に色がつかない。Function にリンクして補う。
+      ['@function'] = { link = 'Function' },
+      ['@function.call'] = { link = 'Function' },
+      ['@function.method'] = { link = 'Function' },
+      ['@function.method.call'] = { link = 'Function' },
     },
   },
   -- colors = {hint = "orange", error = "#ff0000"},

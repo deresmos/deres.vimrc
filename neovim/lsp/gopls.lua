@@ -15,7 +15,7 @@ return {
       usePlaceholders = true,
       completeUnimported = true,
       gofumpt = true,
-      semanticTokens = true,
+      semanticTokens = false,
       buildFlags = {
         '-tags=wireinject,localonly',
       },

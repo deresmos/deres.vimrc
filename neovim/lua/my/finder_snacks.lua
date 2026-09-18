@@ -209,25 +209,136 @@ local function scan_dir(dir)
   return entries
 end
 
+-- cwd直下のエントリ名 -> "M "/"??" 等のgit statusコード(xy)のマップを作る。
+-- porcelainの出力パスはリポジトリルート基準なので、cwdの相対パスで絞り込み、
+-- 直下の名前(サブディレクトリ配下は先頭ディレクトリ名に集約)をキーにする。
+-- 第2戻り値は、そのディレクトリ配下にignored以外のエントリも混在しているかのマップ
+-- (混在している場合、ディレクトリ名自体はignored色にしないため)。
+local function git_status_map(cwd)
+  local root = vim.fn.systemlist({ 'git', '-C', cwd, 'rev-parse', '--show-toplevel' })[1]
+  if vim.v.shell_error ~= 0 or not root or root == '' then
+    return nil, nil
+  end
+  local out = vim.fn.systemlist({ 'git', '-C', root, 'status', '--porcelain=v1', '--ignored=matching' })
+  if vim.v.shell_error ~= 0 then
+    return nil, nil
+  end
+
+  local rel_cwd = cwd:sub(#root + 2)
+
+  -- pathをrel_cwd基準に絞り込み、直下の名前(先頭ディレクトリ名)を返す。
+  -- cwd配下でなければnilを返す。
+  local function to_top(path)
+    if rel_cwd == '' then
+      return path:match('^([^/]+)')
+    end
+    if path:sub(1, #rel_cwd + 1) == rel_cwd .. '/' then
+      return path:sub(#rel_cwd + 2):match('^([^/]+)')
+    end
+    return nil
+  end
+
+  local map = {}
+  local mixed = {}
+  for _, line in ipairs(out) do
+    local xy, path = line:sub(1, 2), line:sub(4)
+    local arrow = path:find(' %-> ')
+    if arrow then
+      path = path:sub(arrow + 4)
+    end
+    path = path:gsub('^"(.*)"$', '%1')
+
+    local top = to_top(path)
+    if top then
+      if not map[top] then
+        map[top] = xy
+      end
+      if xy ~= '!!' then
+        mixed[top] = true
+      end
+    end
+  end
+
+  -- git statusは変更のないtrackedファイルを一切出力しないため、上のループだけでは
+  -- 「ignoredファイルと、変更のないtrackedファイルが混在するディレクトリ」を
+  -- 混在(mixed)と判定できない。ls-filesで追跡中ファイル一覧を補って判定を補完する。
+  local tracked = vim.fn.systemlist({
+    'git', '-C', root, 'ls-files', '--', rel_cwd == '' and '.' or rel_cwd,
+  })
+  if vim.v.shell_error == 0 then
+    for _, path in ipairs(tracked) do
+      local top = to_top(path)
+      if top then
+        mixed[top] = true
+      end
+    end
+  end
+
+  return map, mixed
+end
+
 local function browser_items(cwd)
   local parent = vim.fn.fnamemodify(cwd, ':h')
   local items = {}
   if parent ~= cwd then
     table.insert(items, { text = '..', file = parent, dir = true, up = true })
   end
+  local status_map, mixed_map = git_status_map(cwd)
   for _, entry in ipairs(scan_dir(cwd)) do
-    table.insert(items, { text = entry.name, file = cwd .. '/' .. entry.name, dir = entry.dir })
+    local status = status_map and status_map[entry.name]
+    local status_mixed = mixed_map and mixed_map[entry.name]
+    table.insert(
+      items,
+      { text = entry.name, file = cwd .. '/' .. entry.name, dir = entry.dir, status = status, status_mixed = status_mixed }
+    )
   end
   return items
 end
 
+-- git statusのxyコード("M "/" M"/"??"等)から表示用ハイライトを決める。
+local git_status_hls = {
+  ['A'] = 'SnacksPickerGitStatusAdded',
+  ['M'] = 'SnacksPickerGitStatusModified',
+  ['D'] = 'SnacksPickerGitStatusDeleted',
+  ['R'] = 'SnacksPickerGitStatusRenamed',
+  ['C'] = 'SnacksPickerGitStatusCopied',
+  ['?'] = 'SnacksPickerGitStatusUntracked',
+  ['!'] = 'SnacksPickerGitStatusIgnored',
+}
+
 -- デフォルトのformatはitem.fileをcwd基準で相対パス化して表示するため、
 -- 親ディレクトリへの行もフルパスで出てしまう。ここだけ"../"固定表示にする。
+-- 加えて、各行の先頭にgit statusコードを色付きで表示する。
 local function format_item(item, picker)
   if item.up then
     return { { '../', 'SnacksPickerDirectory' } }
   end
-  return Snacks.picker.format.file(item, picker)
+
+  local ret = {}
+  if item.status then
+    local s = vim.trim(item.status):sub(1, 1)
+    local hl = git_status_hls[s] or 'SnacksPickerGitStatus'
+    table.insert(ret, { Snacks.picker.util.align(item.status, 2, { align = 'right' }), hl })
+    table.insert(ret, { ' ' })
+  else
+    table.insert(ret, { '   ' })
+  end
+
+  -- ディレクトリ配下にignored以外のもの(git管理対象)も含まれる場合、
+  -- "!!"の表示はそのままに、ディレクトリ名自体はignored色にしない。
+  -- Snacks.picker.format.fileはitem.statusを見て自動でfilename_hlを
+  -- ignored色に上書きする(しかもpickerがitemsを取り込む時点で一度呼ばれ、
+  -- item.filename_hlに結果がキャッシュされてしまう)ため、その間だけ
+  -- statusとキャッシュ済みfilename_hlの両方を外して呼び出す。
+  local status = item.status
+  if item.dir and item.status_mixed then
+    item.status = nil
+    item.filename_hl = nil
+  end
+  vim.list_extend(ret, Snacks.picker.format.file(item, picker))
+  item.status = status
+
+  return ret
 end
 
 -- タイトルに出す表示用パス: gitのリポジトリ内なら「リポジトリ名/相対パス」、
@@ -280,7 +391,96 @@ local function browser_files()
   Snacks.picker.files({ cwd = dir, title = 'Files (' .. display_path(dir) .. ')' })
 end
 
-local function browser_goto(cwd)
+-- カーソル下のファイル/ディレクトリを確認の上で削除し、一覧を更新する。
+local function browser_delete()
+  local p = browser.picker
+  if not p then
+    return
+  end
+  local item = p:current()
+  if not item or item.up then
+    return
+  end
+  local kind = item.dir and 'ディレクトリ' or 'ファイル'
+  local answer = vim.fn.confirm(('%sを削除しますか?\n%s'):format(kind, item.file), '&Yes\n&No', 2)
+  if answer ~= 1 then
+    return
+  end
+  if vim.fn.delete(item.file, item.dir and 'rf' or '') ~= 0 then
+    vim.notify('削除に失敗しました: ' .. item.file, vim.log.levels.ERROR)
+    return
+  end
+  local cwd = p:cwd()
+  p.opts.items = browser_items(cwd)
+  p:find()
+end
+
+-- 入力されたパスに新規ファイル/ディレクトリを作成し、一覧を更新する。
+-- 末尾に "/" を付けるとディレクトリ、それ以外はファイルとして作成する。
+local function browser_create()
+  local p = browser.picker
+  if not p then
+    return
+  end
+  local cwd = p:cwd()
+  local name = vim.fn.input('新規作成 (ディレクトリは末尾に / ): ')
+  if name == '' then
+    return
+  end
+  local is_dir = name:sub(-1) == '/'
+  local rel = is_dir and name:sub(1, -2) or name
+  local path = cwd .. '/' .. rel
+
+  if vim.fn.isdirectory(path) == 1 or vim.fn.filereadable(path) == 1 then
+    vim.notify('既に存在します: ' .. path, vim.log.levels.WARN)
+    return
+  end
+
+  if is_dir then
+    if vim.fn.mkdir(path, 'p') ~= 1 then
+      vim.notify('作成に失敗しました: ' .. path, vim.log.levels.ERROR)
+      return
+    end
+  else
+    local parent = vim.fn.fnamemodify(path, ':h')
+    if vim.fn.isdirectory(parent) == 0 and vim.fn.mkdir(parent, 'p') ~= 1 then
+      vim.notify('作成に失敗しました: ' .. path, vim.log.levels.ERROR)
+      return
+    end
+    local fd = io.open(path, 'w')
+    if not fd then
+      vim.notify('作成に失敗しました: ' .. path, vim.log.levels.ERROR)
+      return
+    end
+    fd:close()
+  end
+
+  p.opts.items = browser_items(cwd)
+  p:find()
+end
+
+-- 一覧の中からfileがitem.fileと一致する行にカーソルを合わせるon_doneコールバックを作る。
+-- fromが指定されていなければ何もしない(nil)。
+local function select_by_file(p, file)
+  if not file then
+    return nil
+  end
+  return function()
+    for idx, item in ipairs(p.list.items) do
+      if item.file == file then
+        p.list:move(idx, true)
+        break
+      end
+    end
+  end
+end
+
+-- opts.from: カーソルを合わせたいファイル/ディレクトリのフルパス。指定があれば、
+-- 移動後の一覧でそれに対応する行にカーソルを合わせる
+-- (親ディレクトリへ戻る際に潜っていた子ディレクトリの行を選択させる、
+-- または開いた時点のバッファのファイル行を選択させるため)。
+local function browser_goto(cwd, opts)
+  opts = opts or {}
   local p = browser.picker
   if p and not p.closed then
     p:set_cwd(cwd)
@@ -289,18 +489,21 @@ local function browser_goto(cwd)
     -- 前のディレクトリで打った絞り込み文字が新しい一覧にも残り続けると
     -- 意味が変わってしまうので、移動のたびに入力欄をクリアする
     p.input:set('', '')
-    p:find()
+    p:find({ on_done = select_by_file(p, opts.from) })
     return
   end
 
-  local function confirm(picker, item)
+  -- action (t/tab, <C-v>/vsplit, <C-s>/split 等) の cmd を渡さないと
+  -- 常に jump(現在ウィンドウ)扱いになってしまうため、
+  -- 呼び出し元の action をそのまま jump に引き継ぐ。
+  local function confirm(picker, item, action)
     if not item then
       return
     end
     if item.dir then
       browser_goto(item.file)
     else
-      picker:action('jump')
+      Snacks.picker.actions.jump(picker, item, action)
       browser.picker = nil
     end
   end
@@ -308,7 +511,8 @@ local function browser_goto(cwd)
   local function go_up()
     local cur = browser.picker
     if cur then
-      browser_goto(vim.fn.fnamemodify(cur:cwd(), ':h'))
+      local from = cur:cwd()
+      browser_goto(vim.fn.fnamemodify(from, ':h'), { from = from })
     end
   end
 
@@ -331,6 +535,8 @@ local function browser_goto(cwd)
           -- input 側で受け取れるようにする。
           ['<Space>fg'] = { browser_grep, mode = 'n' },
           ['<Space>ff'] = { browser_files, mode = 'n' },
+          ['d'] = { browser_delete, mode = 'n' },
+          ['c'] = { browser_create, mode = 'n' },
         },
       },
       list = {
@@ -340,10 +546,16 @@ local function browser_goto(cwd)
           ['<C-h>'] = go_up,
           ['<Space>fg'] = browser_grep,
           ['<Space>ff'] = browser_files,
+          ['d'] = browser_delete,
+          ['c'] = browser_create,
         },
       },
     },
   })
+
+  if opts.from then
+    browser.picker:find({ on_done = select_by_file(browser.picker, opts.from) })
+  end
 end
 
 function M.file_browser()
@@ -351,7 +563,8 @@ function M.file_browser()
 end
 
 function M.file_browser_from_buffer()
-  browser_goto(vim.fn.expand('%:p:h'))
+  local file = vim.fn.expand('%:p')
+  browser_goto(vim.fn.fnamemodify(file, ':h'), { from = file })
 end
 
 function M.file_browser_from_project()

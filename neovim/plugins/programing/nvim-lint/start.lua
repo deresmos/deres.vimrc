@@ -13,7 +13,6 @@ lint.linters_by_ft = {
   swift = { 'swiftlint' },
   kotlin = { 'ktlint' },
   go = { 'staticcheck' },
-  yaml = { 'yamllint', 'cfn_lint' },
 }
 
 local function prepend_args(name, args)

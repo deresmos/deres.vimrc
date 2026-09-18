@@ -31,3 +31,27 @@ require('codediff').setup({
     },
   },
 })
+
+-- ディレクトリツリーでファイルを選択したら、差分ビューではなく
+-- 対象ファイルをそのまま通常バッファとして開く専用コマンド。
+vim.api.nvim_create_user_command('CodeDiffTree', function(opts)
+  local config = require('codediff.config')
+  local saved_view_mode = config.options.explorer.view_mode
+  config.options.explorer.view_mode = 'tree'
+
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'CodeDiffFileSelect',
+    once = true,
+    callback = function(event)
+      config.options.explorer.view_mode = saved_view_mode
+      local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+      local path = git_root .. '/' .. event.data.path
+      vim.schedule(function()
+        vim.cmd('tabclose')
+        vim.cmd('edit ' .. vim.fn.fnameescape(path))
+      end)
+    end,
+  })
+
+  vim.cmd('CodeDiff' .. (opts.args ~= '' and (' ' .. opts.args) or ''))
+end, { nargs = '*', desc = 'Open CodeDiff explorer in tree view; selecting a file opens it as a normal buffer' })

@@ -182,6 +182,14 @@ function! s:is_huge_file() abort
     return v:true
   endif
 
+  " Files with too many lines are also treated as huge, since
+  " foldexpr=nvim_treesitter#foldexpr() with foldlevel=99 evaluates
+  " every line synchronously on open, which gets slow well before
+  " a file reaches 10M (e.g. deeply nested YAML).
+  if line('$') >= 5000
+    return v:true
+  endif
+
   return v:false
 endfunction
 

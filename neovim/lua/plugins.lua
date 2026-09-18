@@ -458,6 +458,12 @@ require("github-theme").setup({
       WinBarFileName = { fg = 'None', bg = spec.diff.add },
       diffAdded = { fg = 'None', bg = spec.diff.add },
       Folded = { bg = '#384049' },
+      -- github-nvim-theme はデフォルトで @function 系グループが未定義のため、
+      -- Go のメソッド呼び出し等に色がつかない。Function にリンクして補う。
+      ['@function'] = { link = 'Function' },
+      ['@function.call'] = { link = 'Function' },
+      ['@function.method'] = { link = 'Function' },
+      ['@function.method.call'] = { link = 'Function' },
     },
   },
   -- colors = {hint = "orange", error = "#ff0000"},
@@ -873,9 +879,11 @@ vim.api.nvim_create_autocmd("FileType", {
       end,
     },
     -- input/list/preview を縦に並べ、preview を下部に表示する
+    -- cycle = false: リストの最下部/最上部で反対側に折り返さないようにする
     layout = {
       preset = "vertical",
       layout = { width = 0.8 },
+      cycle = false,
     },
     -- 全 Picker 共通の Normal mode 操作。
     -- file browser は h だけ個別に親ディレクトリへの移動へ上書きする。
@@ -886,6 +894,10 @@ vim.api.nvim_create_autocmd("FileType", {
           ['h'] = { 'cancel', mode = 'n' },
           ['<C-l>'] = { 'confirm', mode = { 'i', 'n' } },
           ['<C-h>'] = { 'cancel', mode = { 'i', 'n' } },
+          ['t'] = { 'tab', mode = 'n' },
+          ['<C-t>'] = { 'tab', mode = { 'i', 'n' } },
+          ['<C-v>'] = { 'vsplit', mode = { 'i', 'n' } },
+          ['<C-s>'] = { 'split', mode = { 'i', 'n' } },
         },
       },
       list = {
@@ -895,6 +907,10 @@ vim.api.nvim_create_autocmd("FileType", {
           ['h'] = 'cancel',
           ['<C-l>'] = 'confirm',
           ['<C-h>'] = 'cancel',
+          ['t'] = 'tab',
+          ['<C-t>'] = 'tab',
+          ['<C-v>'] = 'vsplit',
+          ['<C-s>'] = 'split',
         },
       },
       preview = {
@@ -903,6 +919,9 @@ vim.api.nvim_create_autocmd("FileType", {
           ['h'] = 'cancel',
           ['<C-l>'] = 'confirm',
           ['<C-h>'] = 'cancel',
+          ['<C-t>'] = 'tab',
+          ['<C-v>'] = 'vsplit',
+          ['<C-s>'] = 'split',
         },
       },
     },
@@ -1410,6 +1429,30 @@ vim.api.nvim_set_keymap('n', '<Space>ra', '<cmd>RnvimrToggle<CR>', {noremap = tr
     },
   },
 })
+
+-- ディレクトリツリーでファイルを選択したら、差分ビューではなく
+-- 対象ファイルをそのまま通常バッファとして開く専用コマンド。
+vim.api.nvim_create_user_command('CodeDiffTree', function(opts)
+  local config = require('codediff.config')
+  local saved_view_mode = config.options.explorer.view_mode
+  config.options.explorer.view_mode = 'tree'
+
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'CodeDiffFileSelect',
+    once = true,
+    callback = function(event)
+      config.options.explorer.view_mode = saved_view_mode
+      local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+      local path = git_root .. '/' .. event.data.path
+      vim.schedule(function()
+        vim.cmd('tabclose')
+        vim.cmd('edit ' .. vim.fn.fnameescape(path))
+      end)
+    end,
+  })
+
+  vim.cmd('CodeDiff' .. (opts.args ~= '' and (' ' .. opts.args) or ''))
+end, { nargs = '*', desc = 'Open CodeDiff explorer in tree view; selecting a file opens it as a normal buffer' })
 
         end,
       lazy = false,
@@ -2624,6 +2667,14 @@ require('flutter-tools').setup_project({
       lazy = false,
     },
     {
+      "delphinus/md-render.nvim",
+        dependencies = {
+          "nvim-tree/nvim-web-devicons",
+          "delphinus/budoux.lua",
+        },
+      lazy = false,
+    },
+    {
       "andythigpen/nvim-coverage",
         config = function()
           require("coverage").setup({
@@ -2680,7 +2731,6 @@ lint.linters_by_ft = {
   swift = { 'swiftlint' },
   kotlin = { 'ktlint' },
   go = { 'staticcheck' },
-  yaml = { 'yamllint', 'cfn_lint' },
 }
 
 local function prepend_args(name, args)
@@ -2810,6 +2860,35 @@ vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
 })
 
         end,
+      lazy = false,
+    },
+    {
+      "sorafujitani/path-yank.nvim",
+        init = function()
+        vim.keymap.set({ 'n', 'v' }, '<SPACE>cp', function()
+  require('copy-path').copy_relative_path()
+end, { desc = 'Copy relative path' })
+
+        end,
+        config = function()
+          require('copy-path').setup({
+  register = '*', -- Clipboard register (* or +)
+  notify = true,  -- Show notification on copy
+  commands = {
+    fullPath = 'CopyFullPath',
+    relativePath = 'CopyRelativePath',
+    fileName = 'CopyFileName',
+  },
+  lineFormat = {
+    single = '#L%d',    -- Single line: #L10
+    range = '#L%d-L%d', -- Range: #L10-L20
+  },
+})
+
+        end,
+        dependencies = {
+          "vim-denops/denops.vim",
+        },
       lazy = false,
     },
     {

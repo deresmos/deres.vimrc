@@ -13,9 +13,11 @@ require 'snacks'.setup({
       end,
     },
     -- input/list/preview を縦に並べ、preview を下部に表示する
+    -- cycle = false: リストの最下部/最上部で反対側に折り返さないようにする
     layout = {
       preset = "vertical",
       layout = { width = 0.8 },
+      cycle = false,
     },
     -- 全 Picker 共通の Normal mode 操作。
     -- file browser は h だけ個別に親ディレクトリへの移動へ上書きする。
@@ -26,6 +28,10 @@ require 'snacks'.setup({
           ['h'] = { 'cancel', mode = 'n' },
           ['<C-l>'] = { 'confirm', mode = { 'i', 'n' } },
           ['<C-h>'] = { 'cancel', mode = { 'i', 'n' } },
+          ['t'] = { 'tab', mode = 'n' },
+          ['<C-t>'] = { 'tab', mode = { 'i', 'n' } },
+          ['<C-v>'] = { 'vsplit', mode = { 'i', 'n' } },
+          ['<C-s>'] = { 'split', mode = { 'i', 'n' } },
         },
       },
       list = {
@@ -35,6 +41,10 @@ require 'snacks'.setup({
           ['h'] = 'cancel',
           ['<C-l>'] = 'confirm',
           ['<C-h>'] = 'cancel',
+          ['t'] = 'tab',
+          ['<C-t>'] = 'tab',
+          ['<C-v>'] = 'vsplit',
+          ['<C-s>'] = 'split',
         },
       },
       preview = {
@@ -43,6 +53,9 @@ require 'snacks'.setup({
           ['h'] = 'cancel',
           ['<C-l>'] = 'confirm',
           ['<C-h>'] = 'cancel',
+          ['<C-t>'] = 'tab',
+          ['<C-v>'] = 'vsplit',
+          ['<C-s>'] = 'split',
         },
       },
     },
