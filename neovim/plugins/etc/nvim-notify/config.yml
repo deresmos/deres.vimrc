@@ -1,9 +1,0 @@
----
-config:
-  url: "https://github.com/rcarriga/nvim-notify"
-  rev: ~
-  filetypes: ~
-  commands: ~
-  maps: ~
-  do: ~
-  enable: true

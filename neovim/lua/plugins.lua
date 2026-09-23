@@ -567,22 +567,6 @@ local translate_hydra = Hydra({
       lazy = false,
     },
     {
-      "rcarriga/nvim-notify",
-        config = function()
-          require("notify").setup({
-  timeout = 4000,
-  max_width = 100,
-  minimum_width = 50,
-  top_down = false,
-  render = 'wrapped-compact',
-})
-
-vim.notify = require("notify")
-
-        end,
-      lazy = false,
-    },
-    {
       "nvim-pack/nvim-spectre",
         init = function()
         vim.keymap.set('n', '<Space>bp', '<cmd>BufMRUPrev<CR>', {silent=true, noremap=true})
@@ -864,10 +848,106 @@ vim.api.nvim_create_autocmd("FileType", {
     {
       "folke/snacks.nvim",
         init = function()
-        require 'snacks'.setup({
+        -- 全 Picker 共通の案内 ({ キー表記, 説明 })。
+local common_shortcuts = {
+  { 'l / <C-l>', '決定・開く' },
+  { 'h / <C-h>', '閉じる' },
+  { 't / <C-t>', 'タブで開く' },
+  { '<C-v>', '縦分割で開く' },
+  { '<C-s>', '横分割で開く' },
+  { '<Space>r', '結果を quickfix 編集' },
+}
+
+-- 共通の案内に、Picker 呼び出し時に opts.shortcuts で渡された固有の案内を足した表示行を作る。
+-- キー表記が共通と同じ固有の案内は、共通側を置き換える（例: file browser の h）。
+local function build_shortcut_lines(picker)
+  local entries = vim.deepcopy(common_shortcuts)
+  local index = {}
+  for i, entry in ipairs(entries) do
+    index[entry[1]] = i
+  end
+
+  for _, entry in ipairs(picker.opts.shortcuts or {}) do
+    local i = index[entry[1]]
+    if i then
+      entries[i] = entry
+    else
+      table.insert(entries, entry)
+      index[entry[1]] = #entries
+    end
+  end
+
+  local key_width = 0
+  for _, entry in ipairs(entries) do
+    key_width = math.max(key_width, vim.fn.strdisplaywidth(entry[1]))
+  end
+
+  local lines = {}
+  for _, entry in ipairs(entries) do
+    local pad = string.rep(' ', key_width - vim.fn.strdisplaywidth(entry[1]) + 3)
+    table.insert(lines, entry[1] .. pad .. entry[2])
+  end
+  return lines
+end
+
+local function show_picker_shortcuts(picker)
+  -- config フックが複数回走っても案内は1つだけにする。
+  if picker.shortcuts_win then
+    return
+  end
+
+  local lines = build_shortcut_lines(picker)
+  local width = 0
+  for _, line in ipairs(lines) do
+    width = math.max(width, vim.fn.strdisplaywidth(line))
+  end
+
+  local shortcuts = Snacks.win({
+    relative = 'editor',
+    row = -1,
+    col = -1,
+    width = math.max(30, width + 2),
+    height = #lines,
+    border = 'rounded',
+    title = ' Picker 操作 ',
+    title_pos = 'left',
+    focusable = false,
+    -- backdrop は全画面を覆って Picker 本体を隠してしまうため無効にする。
+    backdrop = false,
+    zindex = 60,
+    text = lines,
+  })
+
+  picker.shortcuts_win = shortcuts
+
+  -- Picker の終了時に input window も閉じるため、案内もそこで確実に閉じる。
+  picker.input.win:on('WinClosed', function()
+    shortcuts:close()
+  end, { win = true })
+end
+
+require 'snacks'.setup({
+  notifier = {
+    enabled = true,
+    timeout = 4000,
+    width = { min = 50, max = 100 },
+    top_down = false,
+    style = 'fancy',
+  },
   input = { enabled = true },
   picker = {
     enabled = true,
+    -- source ごとの on_show も維持したまま、すべての Picker に案内を付ける。
+    config = function(opts)
+      local on_show = opts.on_show
+      opts.on_show = function(picker)
+        if on_show then
+          on_show(picker)
+        end
+        show_picker_shortcuts(picker)
+      end
+      return opts
+    end,
     actions = {
       -- Grep の選択項目（未選択なら絞り込み結果全件）を quickfix に送り、
       -- そのまま qfreplace の編集バッファを開く。
@@ -927,6 +1007,8 @@ vim.api.nvim_create_autocmd("FileType", {
     },
   },
 })
+
+vim.notify = Snacks.notifier.notify
 
         end,
         config = function()
@@ -2061,13 +2143,6 @@ vim.keymap.set('n', '<Space>mca', '<cmd>lua require("actions-preview").code_acti
     override_vim_notify = false,  -- Automatically override vim.notify() with Fidget
     configs =                     -- How to configure notification groups when instantiated
     { default = require("fidget.notification").default_config },
-    redirect =                    -- Conditionally redirect notifications to another backend
-        function(msg, level, opts)
-          if opts and opts.on_open then
-            return require("fidget.integration.nvim-notify").delegate(msg, level, opts)
-          end
-        end,
-
     -- Options related to how notifications are rendered as text
     view = {
       stack_upwards = false,   -- Display notification items from bottom to top
@@ -2667,14 +2742,6 @@ require('flutter-tools').setup_project({
       lazy = false,
     },
     {
-      "delphinus/md-render.nvim",
-        dependencies = {
-          "nvim-tree/nvim-web-devicons",
-          "delphinus/budoux.lua",
-        },
-      lazy = false,
-    },
-    {
       "andythigpen/nvim-coverage",
         config = function()
           require("coverage").setup({
@@ -2860,35 +2927,6 @@ vim.keymap.set('n', '<Space>rr', runner.run, { silent = true, noremap = true })
 })
 
         end,
-      lazy = false,
-    },
-    {
-      "sorafujitani/path-yank.nvim",
-        init = function()
-        vim.keymap.set({ 'n', 'v' }, '<SPACE>cp', function()
-  require('copy-path').copy_relative_path()
-end, { desc = 'Copy relative path' })
-
-        end,
-        config = function()
-          require('copy-path').setup({
-  register = '*', -- Clipboard register (* or +)
-  notify = true,  -- Show notification on copy
-  commands = {
-    fullPath = 'CopyFullPath',
-    relativePath = 'CopyRelativePath',
-    fileName = 'CopyFileName',
-  },
-  lineFormat = {
-    single = '#L%d',    -- Single line: #L10
-    range = '#L%d-L%d', -- Range: #L10-L20
-  },
-})
-
-        end,
-        dependencies = {
-          "vim-denops/denops.vim",
-        },
       lazy = false,
     },
     {

@@ -459,6 +459,41 @@ local function browser_create()
   p:find()
 end
 
+-- カーソル下のファイル/ディレクトリをリネームし、一覧を更新する。
+local function browser_rename()
+  local p = browser.picker
+  if not p then
+    return
+  end
+  local item = p:current()
+  if not item or item.up then
+    return
+  end
+
+  local name = vim.fn.input('リネーム: ', vim.fn.fnamemodify(item.file, ':t'))
+  if name == '' or name == vim.fn.fnamemodify(item.file, ':t') then
+    return
+  end
+  if name:find('/') then
+    vim.notify('リネームには名前のみを指定してください', vim.log.levels.WARN)
+    return
+  end
+
+  local target = vim.fn.fnamemodify(item.file, ':h') .. '/' .. name
+  if vim.loop.fs_stat(target) then
+    vim.notify('既に存在します: ' .. target, vim.log.levels.WARN)
+    return
+  end
+  if not vim.loop.fs_rename(item.file, target) then
+    vim.notify('リネームに失敗しました: ' .. item.file, vim.log.levels.ERROR)
+    return
+  end
+
+  local cwd = p:cwd()
+  p.opts.items = browser_items(cwd)
+  p:find()
+end
+
 -- 一覧の中からfileがitem.fileと一致する行にカーソルを合わせるon_doneコールバックを作る。
 -- fromが指定されていなければ何もしない(nil)。
 local function select_by_file(p, file)
@@ -522,6 +557,16 @@ local function browser_goto(cwd, opts)
     items = browser_items(cwd),
     format = format_item,
     confirm = confirm,
+    -- 共通の案内に加えて表示する、file browser 固有の操作。
+    shortcuts = {
+      { 'l / <C-l>', '開く・ディレクトリへ移動' },
+      { 'h / <C-h>', '親ディレクトリへ移動' },
+      { '<Space>fg', 'このディレクトリで grep' },
+      { '<Space>ff', 'このディレクトリでファイル検索' },
+      { 'd', '削除' },
+      { 'c', '作成' },
+      { 'r', 'リネーム' },
+    },
     win = {
       -- 入力欄にフォーカスしたままでも潜る/戻るできるよう、
       -- input 側にも同じキーを追加する。
@@ -537,6 +582,7 @@ local function browser_goto(cwd, opts)
           ['<Space>ff'] = { browser_files, mode = 'n' },
           ['d'] = { browser_delete, mode = 'n' },
           ['c'] = { browser_create, mode = 'n' },
+          ['r'] = { browser_rename, mode = 'n' },
         },
       },
       list = {
@@ -548,6 +594,7 @@ local function browser_goto(cwd, opts)
           ['<Space>ff'] = browser_files,
           ['d'] = browser_delete,
           ['c'] = browser_create,
+          ['r'] = browser_rename,
         },
       },
     },
@@ -620,6 +667,9 @@ function M.sessions()
     cwd = vim.g.startify_session_dir,
     items = session_items(),
     confirm = session_confirm,
+    shortcuts = {
+      { 'D', 'セッションを削除' },
+    },
     win = {
       input = { keys = { ['D'] = { session_delete, mode = { 'i', 'n' } } } },
       list = { keys = { ['D'] = session_delete } },

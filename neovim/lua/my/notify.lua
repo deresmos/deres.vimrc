@@ -1,5 +1,7 @@
--- local notify = require("fidget.notification").notify
-local notify = require("notify")
+-- snacks.nvim が vim.notify を差し替えるため、呼び出し時点の vim.notify を使う。
+local function notify(...)
+  return vim.notify(...)
+end
 local M = {}
 
 
@@ -47,10 +49,11 @@ local function update_spinner(progress)
   local new_spinner = (progress.spinner + 1) % #spinner_frames
   progress.spinner = new_spinner
 
+  -- snacks は replace ではなく id 指定でないと既存ウィンドウを引き継がず、古いウィンドウが残り続ける。
   progress.notification = vim.notify(progress.message, nil, {
     hide_from_history = true,
     icon = spinner_frames[new_spinner],
-    replace = progress.notification,
+    id = progress.notification,
   })
 
   vim.defer_fn(function()
@@ -83,14 +86,29 @@ end
 
 function M.finish_progress(progress, opts)
   -- opts: message, percentage, level
+  if not progress then
+    return
+  end
+  -- 先にスピナーを止めて、完了通知が更新タイマーに上書きされないようにする。
+  progress.spinner = nil
   progress.notification =
       vim.notify(opts.message, opts.level, {
         icon = "",
-        replace = progress.notification,
+        id = progress.notification,
         timeout = 5000,
       })
+end
 
+-- 完了通知を出さずにスピナー通知だけ消す（キャンセル時など）。
+function M.dismiss_progress(progress)
+  if not progress then
+    return
+  end
   progress.spinner = nil
+  local ok, snacks = pcall(require, "snacks")
+  if ok and progress.notification then
+    snacks.notifier.hide(progress.notification)
+  end
 end
 
 return M

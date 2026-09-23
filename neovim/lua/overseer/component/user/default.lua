@@ -47,17 +47,29 @@ return {
         })
       end,
       on_complete = function(self, task, status)
+        local notify = require 'my.notify'
+        local progress = params.progress
+        params.progress = nil
         if lookup[status] then
           if params.on_change then
             if status == self.last_status then
+              notify.dismiss_progress(progress)
               return
             end
             self.last_status = status
           end
           local level = util.status_to_log_level(status)
           local message = string.format("%s %s", status, task.name)
-          require 'my.notify'.finish_progress(params.progress, { message = message, level = level })
+          notify.finish_progress(progress, { message = message, level = level })
+        else
+          -- 通知対象外の状態(CANCELED等)でも、開始時のスピナーは必ず消す。
+          notify.dismiss_progress(progress)
         end
+      end,
+      on_dispose = function(self, task)
+        -- 完了前に破棄された場合もスピナーを残さない。
+        require 'my.notify'.dismiss_progress(params.progress)
+        params.progress = nil
       end,
     }
   end,
